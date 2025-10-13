@@ -8,3 +8,4 @@ export const deleteProject = (id) => axios.delete(`/project/${id}`);
 export const inviteMember = (id, data) =>
   axios.post(`/project/${id}/invite`, data);
 export const getProjectMembers = (id) => axios.get(`/project/${id}/members`);
+export const getProjectFiles = (id) => axios.get(`/project/${id}/files`);
