@@ -14,3 +14,4 @@ export const uploadTaskAttachment = (id, formData) =>
   axios.post(`/tasks/${id}/attachments`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
+export const getTaskFiles = (id) => axios.get(`/task/${id}/files`);
