@@ -1,89 +1,72 @@
-import React from "react";
-import Li from "./Li.jsx";
+import React, { useEffect, useState } from "react";
+import PublicList from "./PublicList.jsx";
 import projectName from "../../../utils/getProjectName.js";
+import PrivateList from "./PrivateList.jsx";
+import PrivateBtn from "./PrivateBtn.jsx";
+import PublicBtn from "./PublicBtn.jsx";
 
-const navbar = () => {
+const Navbar = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    setLoggedIn(true);
+  }, []);
+
   return (
-    <div className="navbar bg-base-100 shadow-sm px-3">
+    <div className="navbar bg-[#2979FF] text-[#FAFAFA] shadow-sm px-3">
       <div className="navbar-start">
         <div className="dropdown md:hidden">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+            {/* prettier-ignore */}
+            <svg  xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"  stroke="currentColor" >
               {" "}
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h7"
-              />{" "}
+            {/* prettier-ignore */}
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" />
+              {" "}
             </svg>
           </div>
           <ul
             tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm body-font bg-[#2979FF] dropdown-content rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
-            <Li />
+            {loggedIn ? <PrivateList /> : <PublicList />}
           </ul>
         </div>
-        <div className="hidden md:flex">
+        <div className="hidden md:flex w-full">
           <ul
             tabIndex="1"
-            className="menu menu-sm bg-base-100 rounded-box z-1 w-auto p-2 flex flex-row gap-4"
+            className="menu menu-sm body-font w-full rounded-box z-1 p-2 flex flex-row items-center gap-4"
           >
-            <Li />
+            {loggedIn ? <PrivateList /> : <PublicList />}
           </ul>
         </div>
       </div>
       <div className="navbar-center">
-        <a className="text-2xl">{projectName()}</a>
+        <a className="text-2xl font-bold logo-font">{projectName()}</a>
       </div>
-      <div className="navbar-end">
-        <button className="btn btn-ghost btn-circle">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            {" "}
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />{" "}
-          </svg>
-        </button>
-        <button className="btn btn-ghost btn-circle">
-          <div className="indicator">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {" "}
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-              />{" "}
-            </svg>
-            <span className="badge badge-xs badge-primary indicator-item"></span>
-          </div>
-        </button>
+      <div className="navbar-end body-font pl-2">
+        {loggedIn ? <PrivateBtn /> : <PublicBtn />}
       </div>
     </div>
   );
 };
 
-export default navbar;
+export default Navbar;
+
+// [ Collab Space ]    Home | Features | About     [ Login ] [ Signup ]
+// +--------------------------------------------------------------------------------------------------+
+// | 🪶 Collab Space     🔍 [Search Bar]          🔔 💬 ➕  👤 (Profile Dropdown)   🌞/🌙               |
+// +--------------------------------------------------------------------------------------------------+
+// +----------------------------------+
+// | 👤 Dipto Bagchi (Admin)          |
+// |----------------------------------|
+// | 🏠 Dashboard                     |
+// | 📁 Projects                      |
+// | ✅ Tasks                         |
+// | 💬 Chat                          |
+// | 📎 Files                         |
+// | 👥 Team Members                  |
+// | 📊 Analytics                     |
+// | ⚙️ Settings                      |
+// |----------------------------------|
+// | ⬅️ Collapse | 🚪 Logout          |
+// +----------------------------------+

@@ -1,2 +1,14 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+.logo-font {
+  font-family: "Poppins", sans-serif;
+}
+/* Headings */
+.heading-font {
+  font-family: "Montserrat", sans-serif;
+}
+/* Body Text */
+.body-font {
+  font-family: "Inter", sans-serif;
+}
