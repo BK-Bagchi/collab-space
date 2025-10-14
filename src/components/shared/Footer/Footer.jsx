@@ -23,7 +23,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/dashboard"
-                    className="hover:text-electricBlue transition"
+                    className="hover:text-[#2972FF] transition"
                   >
                     Dashboard
                   </a>
@@ -31,24 +31,18 @@ const Footer = () => {
                 <li>
                   <a
                     href="/projects"
-                    className="hover:text-electricBlue transition"
+                    className="hover:text-[#2972FF] transition"
                   >
                     Projects
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/tasks"
-                    className="hover:text-electricBlue transition"
-                  >
+                  <a href="/tasks" className="hover:text-[#2972FF] transition">
                     Tasks
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/chat"
-                    className="hover:text-electricBlue transition"
-                  >
+                  <a href="/chat" className="hover:text-[#2972FF] transition">
                     Chat
                   </a>
                 </li>
@@ -56,7 +50,7 @@ const Footer = () => {
             ) : (
               <>
                 <li>
-                  <a href="/" className="hover:text-electricBlue transition">
+                  <a href="/" className="hover:text#2972FF] transition">
                     Homepage
                   </a>
                 </li>
