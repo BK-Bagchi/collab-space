@@ -5,6 +5,7 @@ import Sidebar from "./components/shared/Sidebar/Sidebar";
 import NotFound from "./components/shared/404/404";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
+import SeeProfile from "./pages/UserProfile/SeeProfile";
 
 function Layout() {
   return (
@@ -20,6 +21,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<div>Home</div>} />
+        <Route path="/profile" element={<SeeProfile />} />
         <Route path="/dashboard" element={<Sidebar />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

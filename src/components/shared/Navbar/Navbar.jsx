@@ -8,7 +8,7 @@ import PublicBtn from "./PublicBtn.jsx";
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
-    setLoggedIn(false);
+    setLoggedIn(true);
   }, []);
 
   return (
@@ -51,22 +51,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-// [ Collab Space ]    Home | Features | About     [ Login ] [ Signup ]
-// +--------------------------------------------------------------------------------------------------+
-// | 🪶 Collab Space     🔍 [Search Bar]          🔔 💬 ➕  👤 (Profile Dropdown)   🌞/🌙               |
-// +--------------------------------------------------------------------------------------------------+
-// +----------------------------------+
-// | 👤 Dipto Bagchi (Admin)          |
-// |----------------------------------|
-// | 🏠 Dashboard                     |
-// | 📁 Projects                      |
-// | ✅ Tasks                         |
-// | 💬 Chat                          |
-// | 📎 Files                         |
-// | 👥 Team Members                  |
-// | 📊 Analytics                     |
-// | ⚙️ Settings                      |
-// |----------------------------------|
-// | ⬅️ Collapse | 🚪 Logout          |
-// +----------------------------------+

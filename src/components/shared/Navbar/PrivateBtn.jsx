@@ -8,6 +8,7 @@ import {
   User,
   UserRound,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const PrivateBtn = () => {
   return (
@@ -33,16 +34,16 @@ const PrivateBtn = () => {
           className="dropdown-content menu p-2 shadow bg-[#2972FF] rounded-box w-40"
         >
           <li>
-            <a>
+            <Link to="/profile">
               <User />
               Profile
-            </a>
+            </Link>
           </li>
           <li>
-            <a>
+            <Link to="/profile">
               <Settings />
               Settings
-            </a>
+            </Link>
           </li>
           <li>
             <a>
