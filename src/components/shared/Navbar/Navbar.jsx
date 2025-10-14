@@ -8,7 +8,7 @@ import PublicBtn from "./PublicBtn.jsx";
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
-    setLoggedIn(true);
+    setLoggedIn(false);
   }, []);
 
   return (

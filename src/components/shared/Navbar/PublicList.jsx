@@ -1,11 +1,24 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const li = () => {
   return (
     <>
-      <li className="text-[15px] cursor-pointer">Home</li>
-      <li className="text-[15px] cursor-pointer">Features</li>
-      <li className="text-[15px] cursor-pointer">About</li>
+      <li>
+        <Link className="text-[15px]" to="/">
+          Home
+        </Link>
+      </li>
+      <li>
+        <Link className="text-[15px]" to="/features">
+          Features
+        </Link>
+      </li>
+      <li>
+        <Link className="text-[15px]" to="/about">
+          About
+        </Link>
+      </li>
     </>
   );
 };
