@@ -12,3 +12,37 @@
 .body-font {
   font-family: "Inter", sans-serif;
 }
+/* primary colors */
+.text-electricBlue {
+  color: #2979ff;
+}
+.bg-electricBlue {
+  background-color: #2979ff;
+}
+.text-vibrantPurple {
+  color: #8e24aa;
+}
+.bg-vibrantPurple {
+  background-color: #8e24aa;
+}
+/* primary colors */
+/* secondary colors */
+.text-telGreen {
+  color: #26a69a;
+}
+.bg-telGreen {
+  background-color: #26a69a;
+}
+.text-softWhite {
+  color: #fafafa;
+}
+.bg-softWhite {
+  background-color: #fafafa;
+}
+.text-charcoalGray {
+  color: #263238;
+}
+.bg-charcoalGray {
+  background-color: #263238;
+}
+/* secondary colors */

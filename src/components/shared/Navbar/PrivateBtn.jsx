@@ -12,19 +12,19 @@ import {
 const PrivateBtn = () => {
   return (
     <div className="flex items-center gap-x-0 md:gap-x-5">
-      <button className="btn btn-ghost btn-sm px-2 text-charcoalGray hover:bg-[#FAFAFA] hover:text-[#2979FF]">
+      <button className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray">
         <Bell />
       </button>
-      <button className="btn btn-ghost btn-sm px-2 text-charcoalGray hover:bg-[#FAFAFA] hover:text-[#2979FF]">
+      <button className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray">
         <MessageCircle />
       </button>
-      <button className="btn btn-ghost btn-sm px-2 text-charcoalGray hover:bg-[#FAFAFA] hover:text-[#2979FF]">
+      <button className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray">
         <Plus />
       </button>
       <div className="dropdown dropdown-end">
         <label
           tabIndex={0}
-          className="btn btn-ghost btn-sm px-2 rounded-full text-charcoalGray hover:bg-[#FAFAFA] hover:text-[#2979FF]"
+          className="btn btn-sm px-2 rounded-full border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
         >
           <UserRound />
         </label>
