@@ -1,10 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const PrivateList = () => {
   return (
     <>
-      <li className="text-[15px] cursor-pointer">Projects</li>
-      <li className="text-[15px] cursor-pointer">Dashboard</li>
+      <li>
+        <Link to="/projects" className="text-[15px] cursor-pointer">
+          Projects
+        </Link>
+      </li>
+      <li>
+        <Link to="/dashboard" className="text-[15px] cursor-pointer">
+          Dashboard
+        </Link>
+      </li>
       <li className="text-[15px] cursor-pointer">Create</li>
       <li className="hidden lg:inline">
         <label className="input input-bordered flex items-center gap-2 max-w-md shadow-md bg-[#FAFAFA] text-[#263234]">

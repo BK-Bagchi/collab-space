@@ -4,6 +4,7 @@ import projectName from "../../../utils/getProjectName.js";
 import PrivateList from "./PrivateList.jsx";
 import PrivateBtn from "./PrivateBtn.jsx";
 import PublicBtn from "./PublicBtn.jsx";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -41,7 +42,9 @@ const Navbar = () => {
         </div>
       </div>
       <div className="navbar-center">
-        <a className="text-2xl font-bold logo-font">{projectName()}</a>
+        <Link to="/" className="text-2xl font-bold logo-font cursor-pointer">
+          {projectName()}
+        </Link>
       </div>
       <div className="navbar-end body-font pl-2">
         {loggedIn ? <PrivateBtn /> : <PublicBtn />}
