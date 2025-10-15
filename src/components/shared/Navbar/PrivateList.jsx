@@ -6,13 +6,13 @@ const PrivateList = () => {
   return (
     <>
       <li>
-        <Link to="/projects" className="text-[15px] cursor-pointer">
-          Projects
+        <Link to="/dashboard" className="text-[15px] cursor-pointer">
+          Dashboard
         </Link>
       </li>
       <li>
-        <Link to="/dashboard" className="text-[15px] cursor-pointer">
-          Dashboard
+        <Link to="/dashboard/projects" className="text-[15px] cursor-pointer">
+          Projects
         </Link>
       </li>
       {/* Trigger */}
