@@ -2,7 +2,9 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import GoogleIcon from "../../assets/Google-Icon.png";
+import { GoogleLogin } from "@react-oauth/google";
 import { loginSchema } from "../../validations/auth.validation";
+import googleLogin from "../../utils/googleLogin";
 
 const LoginPage = () => {
   //prettier-ignore
@@ -75,10 +77,10 @@ const LoginPage = () => {
           <span className="px-2 text-sm">OR</span>
           <span className="border-t w-1/4"></span>
         </div>
-        <button className="w-full py-2 rounded-lg flex items-center justify-center gap-2 border border-[#E0E0E0] text-charcoalGray hover:bg-[#F5F5F5] transition">
-          <img src={GoogleIcon} alt="Google" className="w-5 h-5" />
-          <span className="font-medium">Login with Google</span>
-        </button>
+        <GoogleLogin
+          onSuccess={googleLogin}
+          onError={() => console.log("Login Failed")}
+        />
         <p className="text-center mt-6 text-sm text-[#455A64] body-font">
           Don’t have an account?{" "}
           <Link

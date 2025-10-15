@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { GoogleLogin } from "@react-oauth/google";
 import { registrationSchema } from "../../validations/auth.validation";
-import GoogleIcon from "../../assets/Google-Icon.png";
+import googleLogin from "../../utils/googleLogin";
 
 const Register = () => {
   // prettier-ignore
@@ -82,10 +83,10 @@ const Register = () => {
           <span className="px-2 text-sm">OR</span>
           <span className="border-t w-1/4"></span>
         </div>
-        <button className="w-full py-2 rounded-lg flex items-center justify-center gap-2 border border-gray-400 text-charcoalGray transition">
-          <img src={GoogleIcon} alt="Google" className="w-5 h-5" />
-          <span>Sign up with Google</span>
-        </button>
+        <GoogleLogin
+          onSuccess={googleLogin}
+          onError={() => console.log("Login Failed")}
+        />
         <p className="text-center mt-6 text-sm body-font text-[#455A64]">
           Already have an account?{" "}
           <Link
