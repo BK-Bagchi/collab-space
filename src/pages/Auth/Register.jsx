@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import GoogleIcon from "../../assets/Google-Icon.png";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ const Register = () => {
             type="text"
             name="name"
             placeholder="Full Name"
-            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-[#FAFAFA] text-[#263238] focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
+            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
             onChange={handleChange}
             required
           />
@@ -39,7 +40,7 @@ const Register = () => {
             type="email"
             name="email"
             placeholder="Email Address"
-            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-[#FAFAFA] text-[#263238] focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
+            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
             onChange={handleChange}
             required
           />
@@ -47,7 +48,7 @@ const Register = () => {
             type="password"
             name="password"
             placeholder="Password"
-            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-[#FAFAFA] text-[#263238] focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
+            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
             onChange={handleChange}
             required
           />
@@ -55,7 +56,7 @@ const Register = () => {
             type="password"
             name="confirmPassword"
             placeholder="Confirm Password"
-            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-[#FAFAFA] text-[#263238] focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
+            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
             onChange={handleChange}
             required
           />
@@ -72,7 +73,7 @@ const Register = () => {
           <span className="border-t w-1/4"></span>
         </div>
         <button className="w-full py-2 rounded-lg flex items-center justify-center gap-2 border border-gray-400 text-charcoalGray transition">
-          <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
+          <img src={GoogleIcon} alt="Google" className="w-5 h-5" />
           <span>Sign up with Google</span>
         </button>
         <p className="text-center mt-6 text-sm body-font text-[#455A64]">

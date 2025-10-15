@@ -53,6 +53,7 @@ const Sidebar = () => {
                     ? "bg-vibrantPurple text-white"
                     : ""
                 }`}
+                onClick={() => setActiveRoute(link.route)}
               >
                 {link.icon}
                 <span>{link.name}</span>
@@ -68,6 +69,7 @@ const Sidebar = () => {
             key={link.name}
             to={link.route}
             className="flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-[#26A69A] hover:text-white transition"
+            onClick={() => setActiveRoute(link.route)}
           >
             {link.icon}
             <span>{link.name}</span>

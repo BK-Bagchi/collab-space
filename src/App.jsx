@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import Footer from "./components/shared/Footer/Footer";
 import Navbar from "./components/shared/Navbar/navbar";
@@ -11,19 +12,24 @@ import DashboardHome from "./pages/Dashboard/Home";
 import Projects from "./pages/Dashboard/projects";
 import Tasks from "./pages/Dashboard/tasks";
 
-function Layout() {
+function Layout({ loggedIn }) {
   return (
     <>
-      <Navbar />
+      <Navbar loggedIn={loggedIn} />
       <Outlet />
       <Footer />
     </>
   );
 }
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    setLoggedIn(false);
+  }, []);
+
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path="/" element={<Layout loggedIn={loggedIn} />}>
         <Route index element={<Home />} />
         <Route path="profile" element={<SeeProfile />} />
         <Route path="dashboard" element={<Dashboard />}>

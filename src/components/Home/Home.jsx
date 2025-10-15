@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Users, MessageSquare, FolderKanban } from "lucide-react";
 import projectName, { projectSlogan } from "../../utils/getProjectName";
+import CollabCover from "../../assets/Collab_Space_cover_large.png";
 
 export default function Home() {
   return (
@@ -34,9 +35,9 @@ export default function Home() {
 
         <div className="md:w-1/2 mt-10 md:mt-0 flex justify-center">
           <img
-            src="/hero-collab.svg"
+            src={CollabCover}
             alt="Collaboration Illustration"
-            className="w-[85%] max-w-md drop-shadow-xl"
+            className="w-[85%] max-w-md drop-shadow-xl rounded-2xl"
           />
         </div>
       </section>

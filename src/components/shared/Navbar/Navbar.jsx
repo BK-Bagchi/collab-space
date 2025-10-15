@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import PublicList from "./PublicList.jsx";
 import projectName from "../../../utils/getProjectName.js";
 import PrivateList from "./PrivateList.jsx";
@@ -6,12 +5,7 @@ import PrivateBtn from "./PrivateBtn.jsx";
 import PublicBtn from "./PublicBtn.jsx";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  useEffect(() => {
-    setLoggedIn(true);
-  }, []);
-
+const Navbar = ({ loggedIn }) => {
   return (
     <div className="navbar bg-[#2979FF] text-[#FAFAFA] shadow-sm px-3">
       <div className="navbar-start">

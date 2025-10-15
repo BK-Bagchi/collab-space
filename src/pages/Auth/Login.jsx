@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import GoogleIcon from "../../assets/Google-Icon.png";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -28,7 +29,7 @@ export default function LoginPage() {
             placeholder="Email Address"
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-[#FAFAFA] text-[#263238] focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
+            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
           />
           <input
             type="password"
@@ -36,7 +37,7 @@ export default function LoginPage() {
             placeholder="Password"
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-[#FAFAFA] text-[#263238] focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
+            className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
           />
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2 cursor-pointer select-none">
@@ -65,8 +66,8 @@ export default function LoginPage() {
           <span className="px-2 text-sm">OR</span>
           <span className="border-t w-1/4"></span>
         </div>
-        <button className="w-full py-2 rounded-lg flex items-center justify-center gap-2 border border-[#E0E0E0] text-[#263238] hover:bg-[#F5F5F5] transition">
-          <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
+        <button className="w-full py-2 rounded-lg flex items-center justify-center gap-2 border border-[#E0E0E0] text-charcoalGray hover:bg-[#F5F5F5] transition">
+          <img src={GoogleIcon} alt="Google" className="w-5 h-5" />
           <span className="font-medium">Login with Google</span>
         </button>
         <p className="text-center mt-6 text-sm text-[#455A64] body-font">
