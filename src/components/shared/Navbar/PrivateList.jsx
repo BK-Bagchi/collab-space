@@ -18,7 +18,7 @@ const PrivateList = () => {
       </li>
       {/* Trigger */}
       <li
-        className="text-[15px] cursor-pointer px-3 py-1 rounded hover:bg-[#EDE7F6] transition"
+        className="text-[15px] cursor-pointer px-3 py-1 rounded hover:bg-[#3D86FF] transition"
         onClick={() => setOpen(!open)}
       >
         Create

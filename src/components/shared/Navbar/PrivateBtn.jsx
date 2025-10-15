@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Bell,
   LogOut,
@@ -9,11 +9,18 @@ import {
   UserRound,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import Dropdown from "../../DropDown/DropDown";
+import Notification from "../../Toggle/Notification";
 
 const PrivateBtn = () => {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="flex items-center gap-x-0 md:gap-x-5">
-      <button className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray">
+      <button
+        className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
+        onClick={() => setOpen(!open)}
+      >
         <Bell />
       </button>
       <button className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray">
@@ -53,6 +60,13 @@ const PrivateBtn = () => {
           </li>
         </ul>
       </div>
+      {/* Notification Dropdown (must be OUTSIDE the flex flow) */}
+      {open && (
+        <Dropdown
+          open={open}
+          render={<Notification open={open} setOpen={setOpen} />}
+        />
+      )}
     </div>
   );
 };
