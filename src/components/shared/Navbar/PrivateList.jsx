@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Dropdown from "../../../hooks/Dropdown/useDropdown";
 
 const PrivateList = () => {
+  const [open, setOpen] = useState(false);
   return (
     <>
       <li>
@@ -14,7 +16,32 @@ const PrivateList = () => {
           Dashboard
         </Link>
       </li>
-      <li className="text-[15px] cursor-pointer">Create</li>
+      {/* Trigger */}
+      <li
+        className="text-[15px] cursor-pointer px-3 py-1 rounded hover:bg-[#EDE7F6] transition"
+        onClick={() => setOpen(!open)}
+      >
+        Create
+      </li>
+      {open && (
+        <Dropdown
+          open={open}
+          render={
+            <div className="absolute mt-1 right-0 w-40 bg-[#FAFAFA] border border-gray-200 rounded-md shadow-lg z-20">
+              <ul className="py-1">
+                <li
+                  className="px-4 py-2 text-sm text-[#263238] hover:bg-[#EDE7F6] cursor-pointer transition"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
+                  New Project
+                </li>
+              </ul>
+            </div>
+          }
+        />
+      )}
       <li className="hidden lg:inline">
         <label className="input input-bordered flex items-center gap-2 max-w-md shadow-md bg-[#FAFAFA] text-[#263234]">
           {/* prettier-ignore */}
