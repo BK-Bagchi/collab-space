@@ -15,6 +15,7 @@ import Chat from "../../Toggle/Chat";
 const PrivateBtn = () => {
   const [openNotification, setOpenNotification] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
+  const [openPlus, setOpenPlus] = useState(false);
 
   return (
     <div className="flex items-center gap-x-0 md:gap-x-5">
@@ -36,7 +37,10 @@ const PrivateBtn = () => {
       >
         <MessageCircle />
       </button>
-      <button className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray">
+      <button
+        className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
+        onClick={() => setOpenPlus(!openPlus)}
+      >
         <Plus />
       </button>
       <div className="dropdown dropdown-end">
@@ -76,6 +80,20 @@ const PrivateBtn = () => {
           <Notification open={openNotification} setOpen={setOpenNotification} />
         )}
         {openMessage && <Chat open={openMessage} setOpen={setOpenMessage} />}
+        {openPlus && (
+          <div className="absolute mt-1 right-0 w-40 bg-[#FAFAFA] border border-gray-200 rounded-md shadow-lg z-20">
+            <ul className="py-1">
+              <li
+                className="px-4 py-2 text-sm text-[#263238] hover:bg-[#EDE7F6] cursor-pointer transition"
+                onClick={() => {
+                  setOpenPlus(false);
+                }}
+              >
+                New Project
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
