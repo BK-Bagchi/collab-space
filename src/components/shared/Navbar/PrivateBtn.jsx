@@ -21,13 +21,19 @@ const PrivateBtn = () => {
     <div className="flex items-center gap-x-0 md:gap-x-5">
       <button
         className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
-        onClick={() => setOpenNotification(!openNotification)}
+        onClick={() => {
+          setOpenNotification(!openNotification);
+          setOpenMessage(false);
+        }}
       >
         <Bell />
       </button>
       <button
         className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
-        onClick={() => setOpenMessage(!openMessage)}
+        onClick={() => {
+          setOpenMessage(!openMessage);
+          setOpenNotification(false);
+        }}
       >
         <MessageCircle />
       </button>
@@ -65,19 +71,13 @@ const PrivateBtn = () => {
           </li>
         </ul>
       </div>
-
-      {openNotification && (
-        <Dropdown
-          open={openNotification}
-          render={<Notification open={open} setOpen={setOpenNotification} />}
-        />
-      )}
-      {openMessage && (
-        <Dropdown
-          open={openMessage}
-          render={<Chat open={openMessage} setOpen={setOpenMessage} />}
-        />
-      )}
+      <div className="relative inline-block text-left mt-10">
+        {/* Dropdown */}
+        {openNotification && (
+          <Notification open={openNotification} setOpen={setOpenNotification} />
+        )}
+        {openMessage && <Chat open={openMessage} setOpen={setOpenMessage} />}
+      </div>
     </div>
   );
 };
