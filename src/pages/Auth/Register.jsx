@@ -1,23 +1,17 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registrationSchema } from "../../validations/auth.validation";
 import GoogleIcon from "../../assets/Google-Icon.png";
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  // prettier-ignore
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(registrationSchema),
+  })
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, email, password, confirmPassword } = formData;
-    if (password !== confirmPassword) alert("Passwords do not match");
-    else console.log(name, email, password);
+  const onSubmit = (data) => {
+    console.log(data);
     // TODO: Call /api/auth/signup with formData
   };
 
@@ -27,39 +21,55 @@ const Register = () => {
         <h2 className="text-3xl text-center mb-6 font-bold text-electricBlue logo-font">
           Create an Account
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <input
             type="text"
-            name="name"
+            {...register("name")}
             placeholder="Full Name"
             className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
-            onChange={handleChange}
             required
           />
+          {/* prettier-ignore */}
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+          )}
           <input
             type="email"
-            name="email"
+            {...register("email")}
             placeholder="Email Address"
             className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
-            onChange={handleChange}
             required
           />
+          {/* prettier-ignore */}
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+          )}
           <input
             type="password"
-            name="password"
+            {...register("password")}
             placeholder="Password"
             className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
-            onChange={handleChange}
             required
           />
+          {/* prettier-ignore */}
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
           <input
             type="password"
-            name="confirmPassword"
+            {...register("confirmPassword")}
             placeholder="Confirm Password"
             className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
-            onChange={handleChange}
             required
           />
+          {/* prettier-ignore */}
+          {errors.confirmPassword && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.confirmPassword.message}
+            </p>
+          )}
           <button
             type="submit"
             className="w-full py-2 rounded-lg bg-electricBlue text-softWhite font-semibold transition"
