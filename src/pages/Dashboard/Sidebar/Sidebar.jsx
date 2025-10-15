@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { adminLinks, bottomLinks, commonLinks } from "./sidebarLinks";
 
 const Sidebar = () => {
-  const activeRoute = "/dashboard";
+  const [activeRoute, setActiveRoute] = useState("/dashboard");
   const role = "Admin"; // "Admin", "PM", "Member"
 
   return (
@@ -32,6 +33,7 @@ const Sidebar = () => {
               className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-[#2979FF] hover:text-white transition ${
                 activeRoute === link.route ? "bg-electricBlue text-white" : ""
               }`}
+              onClick={() => setActiveRoute(link.route)}
             >
               {link.icon}
               <span>{link.name}</span>
