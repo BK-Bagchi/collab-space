@@ -9,7 +9,6 @@ import {
   UserRound,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import Dropdown from "../../DropDown/DropDown";
 import Notification from "../../Toggle/Notification";
 import Chat from "../../Toggle/Chat";
 
