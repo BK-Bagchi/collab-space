@@ -24,7 +24,8 @@ function Layout({ loggedIn }) {
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
-    setLoggedIn(false);
+    if (localStorage.getItem("token")) setLoggedIn(true);
+    else setLoggedIn(false);
   }, []);
 
   return (
@@ -38,8 +39,11 @@ function App() {
           <Route path="tasks" element={<Tasks />} />
           <Route path="*" element={<NotFound />} />
         </Route>
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
+        <Route path="login" element={<Login setLoggedIn={setLoggedIn} />} />
+        <Route
+          path="register"
+          element={<Register setLoggedIn={setLoggedIn} />}
+        />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

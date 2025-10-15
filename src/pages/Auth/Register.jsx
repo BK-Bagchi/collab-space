@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleLogin } from "@react-oauth/google";
 import { registrationSchema } from "../../validations/auth.validation";
 import googleLogin from "../../utils/googleLogin";
 
-const Register = () => {
+const Register = ({ setLoggedIn }) => {
+  const navigate = useNavigate();
   // prettier-ignore
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(registrationSchema),
@@ -14,6 +15,16 @@ const Register = () => {
   const onSubmit = (data) => {
     console.log(data);
     // TODO: Call /api/auth/signup with formData
+  };
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      await googleLogin(credentialResponse);
+      if (localStorage.getItem("token")) setLoggedIn(true);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -84,7 +95,7 @@ const Register = () => {
           <span className="border-t w-1/4"></span>
         </div>
         <GoogleLogin
-          onSuccess={googleLogin}
+          onSuccess={handleGoogleLogin}
           onError={() => console.log("Login Failed")}
         />
         <p className="text-center mt-6 text-sm body-font text-[#455A64]">

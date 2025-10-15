@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import GoogleIcon from "../../assets/Google-Icon.png";
 import { GoogleLogin } from "@react-oauth/google";
 import { loginSchema } from "../../validations/auth.validation";
 import googleLogin from "../../utils/googleLogin";
 
-const LoginPage = () => {
+const LoginPage = ({ setLoggedIn }) => {
+  const navigate = useNavigate();
   //prettier-ignore
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
@@ -14,6 +14,16 @@ const LoginPage = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
+  };
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      await googleLogin(credentialResponse);
+      if (localStorage.getItem("token")) setLoggedIn(true);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -78,7 +88,7 @@ const LoginPage = () => {
           <span className="border-t w-1/4"></span>
         </div>
         <GoogleLogin
-          onSuccess={googleLogin}
+          onSuccess={handleGoogleLogin}
           onError={() => console.log("Login Failed")}
         />
         <p className="text-center mt-6 text-sm text-[#455A64] body-font">

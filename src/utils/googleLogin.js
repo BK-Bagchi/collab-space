@@ -1,4 +1,4 @@
-// import axios from "axios";
+import { AuthAPI } from "../api";
 
 const googleLogin = async (credentialResponse) => {
   try {
@@ -6,17 +6,12 @@ const googleLogin = async (credentialResponse) => {
       throw new Error("Google login failed: No credential returned");
 
     const token = credentialResponse.credential;
-    console.log("Google token:", token);
+    const res = await AuthAPI.oauthLogin({ token });
 
-    // // Send token to backend
-    // const res = await axios.post("/api/auth/oauth", { token });
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
 
-    // // res.data should have { message, user, token }
-    // localStorage.setItem("token", res.data.token);
-    // console.log("Logged in user:", res.data.user);
-
-    // // Optionally redirect user
-    // window.location.href = "/dashboard";
+    return res.data;
   } catch (error) {
     console.error("Google login error:", error.response?.data || error.message);
   }
