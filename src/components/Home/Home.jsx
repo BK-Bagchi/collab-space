@@ -3,7 +3,7 @@ import { Users, MessageSquare, FolderKanban } from "lucide-react";
 import projectName, { projectSlogan } from "../../utils/getProjectName";
 import CollabCover from "../../assets/Collab_Space_cover_large.png";
 
-export default function Home() {
+export default function Home({ loggedIn }) {
   return (
     <div className="min-h-screen flex flex-col bg-softWhite text-charcoalGray">
       {/* ===== HERO SECTION ===== */}
@@ -19,17 +19,19 @@ export default function Home() {
           </p>
           <div className="flex gap-4 body-font">
             <Link
-              to="/register"
+              to={loggedIn ? "/dashboard" : "/register"}
               className="px-6 py-3 bg-white text-electricBlue font-semibold rounded-lg hover:bg-[#E3F2FD] transition"
             >
               Get Started
             </Link>
-            <Link
-              to="/login"
-              className="px-6 py-3 border border-white font-semibold rounded-lg hover:bg-white hover:text-[#263238] transition"
-            >
-              Login
-            </Link>
+            {!loggedIn && (
+              <Link
+                to="/login"
+                className="px-6 py-3 border border-white font-semibold rounded-lg hover:bg-white hover:text-[#263238] transition"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
 
@@ -90,7 +92,7 @@ export default function Home() {
           — {projectName()} keeps everyone connected and productive.
         </p>
         <Link
-          to="/register"
+          to={loggedIn ? "/dashboard" : "/register"}
           className="px-8 py-3 bg-[#2979FF] font-semibold rounded-lg hover:bg-[#1E63D0] transition"
         >
           Start Free Today
