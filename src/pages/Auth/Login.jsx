@@ -1,16 +1,17 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import GoogleIcon from "../../assets/Google-Icon.png";
+import { loginSchema } from "../../validations/auth.validation";
 
-export default function LoginPage() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+const LoginPage = () => {
+  //prettier-ignore
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
+    console.log(data);
   };
 
   return (
@@ -22,23 +23,31 @@ export default function LoginPage() {
         <p className="text-center mb-8 text-sm text-[#607D8B] body-font">
           Login to continue your collaboration
         </p>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <input
             type="email"
-            name="email"
             placeholder="Email Address"
-            onChange={handleChange}
+            {...register("email")}
             required
             className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
           />
+          {/* prettier-ignore */}
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+          )}
           <input
             type="password"
-            name="password"
             placeholder="Password"
-            onChange={handleChange}
+            {...register("password")}
             required
             className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
           />
+          {/* prettier-ignore */}
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2 cursor-pointer select-none">
               <input
@@ -82,4 +91,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;
