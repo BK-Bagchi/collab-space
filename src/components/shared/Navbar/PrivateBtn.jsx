@@ -11,19 +11,24 @@ import {
 import { Link } from "react-router-dom";
 import Dropdown from "../../DropDown/DropDown";
 import Notification from "../../Toggle/Notification";
+import Chat from "../../Toggle/Chat";
 
 const PrivateBtn = () => {
-  const [open, setOpen] = useState(false);
+  const [openNotification, setOpenNotification] = useState(false);
+  const [openMessage, setOpenMessage] = useState(false);
 
   return (
     <div className="flex items-center gap-x-0 md:gap-x-5">
       <button
         className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpenNotification(!openNotification)}
       >
         <Bell />
       </button>
-      <button className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray">
+      <button
+        className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
+        onClick={() => setOpenMessage(!openMessage)}
+      >
         <MessageCircle />
       </button>
       <button className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray">
@@ -60,11 +65,17 @@ const PrivateBtn = () => {
           </li>
         </ul>
       </div>
-      {/* Notification Dropdown (must be OUTSIDE the flex flow) */}
-      {open && (
+
+      {openNotification && (
         <Dropdown
-          open={open}
-          render={<Notification open={open} setOpen={setOpen} />}
+          open={openNotification}
+          render={<Notification open={open} setOpen={setOpenNotification} />}
+        />
+      )}
+      {openMessage && (
+        <Dropdown
+          open={openMessage}
+          render={<Chat open={openMessage} setOpen={setOpenMessage} />}
         />
       )}
     </div>
