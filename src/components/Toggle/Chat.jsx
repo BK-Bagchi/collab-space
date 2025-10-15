@@ -3,9 +3,9 @@ import { X, MessageSquare } from "lucide-react";
 const Chat = ({ open, setOpen }) => {
   return (
     open && (
-      <div className="absolute right-0 mt-2 w-80 h-[100vh] bg-[#FAFAFA] border border-gray-200 shadow-lg rounded-tl-xl rounded-bl-xl z-50 overflow-y-auto transition-all duration-300">
+      <div className="absolute right-0 mt-2 w-80 h-[100vh] bg-softWhite border border-gray-200 shadow-lg rounded-tl-xl rounded-bl-xl z-50 overflow-y-auto transition-all duration-300">
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-[#8E24AA] text-white rounded-tl-xl">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-vibrantPurple text-white rounded-tl-xl">
           <h3 className="font-semibold text-base flex items-center gap-2">
             <MessageSquare size={18} />
             Messages
@@ -19,7 +19,7 @@ const Chat = ({ open, setOpen }) => {
         </div>
 
         {/* Message List */}
-        <div className="p-4 space-y-4 text-[#263238]">
+        <div className="p-4 space-y-4 text-charcoalGray">
           {/* Example message */}
           <div className="flex items-start gap-3 p-3 bg-[#EDE7F6] rounded-lg hover:bg-[#D1C4E9] transition cursor-pointer">
             <img
