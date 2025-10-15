@@ -26,6 +26,11 @@ const Navbar = ({ loggedIn }) => {
             {loggedIn ? <PrivateList /> : <PublicList />}
           </ul>
         </div>
+        <Link to="/" className="text-2xl font-bold logo-font cursor-pointer">
+          {projectName()}
+        </Link>
+      </div>
+      <div className="navbar-center">
         <div className="hidden md:flex w-full">
           <ul
             tabIndex="1"
@@ -34,11 +39,6 @@ const Navbar = ({ loggedIn }) => {
             {loggedIn ? <PrivateList /> : <PublicList />}
           </ul>
         </div>
-      </div>
-      <div className="navbar-center">
-        <Link to="/" className="text-2xl font-bold logo-font cursor-pointer">
-          {projectName()}
-        </Link>
       </div>
       <div className="navbar-end body-font pl-2">
         {loggedIn ? <PrivateBtn /> : <PublicBtn />}
