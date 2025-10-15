@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Dropdown from "../../../hooks/Dropdown/useDropdown";
+import Dropdown from "../../DropDown/DropDown";
 
 const PrivateList = () => {
   const [open, setOpen] = useState(false);

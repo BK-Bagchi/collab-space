@@ -1,6 +1,6 @@
 import { useState } from "react";
 import selectTab from "./SeeProfileTab";
-import Modal from "../../hooks/Modal/useModal";
+import Modal from "../../components/Modal/Modal";
 
 export default function SeeProfile() {
   const [activeTab, setActiveTab] = useState("overview");
