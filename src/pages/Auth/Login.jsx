@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +8,11 @@ import googleLogin from "../../utils/googleLogin";
 
 const LoginPage = ({ setLoggedIn }) => {
   const navigate = useNavigate();
+  const [error, setError] = useState({
+    status: false,
+    message: "",
+  });
+
   //prettier-ignore
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
@@ -18,7 +24,17 @@ const LoginPage = ({ setLoggedIn }) => {
 
   const handleGoogleLogin = async (credentialResponse) => {
     try {
-      await googleLogin(credentialResponse);
+      const res = await googleLogin(credentialResponse);
+      const { data, status } = res;
+      const { message } = data;
+      if (status !== 200) {
+        setError({
+          status: true,
+          message,
+        });
+        return;
+      }
+
       if (localStorage.getItem("token")) setLoggedIn(true);
       navigate("/dashboard");
     } catch (error) {
@@ -54,11 +70,17 @@ const LoginPage = ({ setLoggedIn }) => {
             required
             className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
           />
+          {/* shows form validation errors */}
           {/* prettier-ignore */}
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">
               {errors.password.message}
             </p>
+          )}
+          {/* shows login errors */}
+          {/* prettier-ignore */}
+          {error.status && (
+            <p className="text-red-500 text-sm mt-1">{error.message}</p>
           )}
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2 cursor-pointer select-none">

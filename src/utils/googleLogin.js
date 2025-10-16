@@ -11,9 +11,10 @@ const googleLogin = async (credentialResponse) => {
     localStorage.setItem("token", res.data.token);
     localStorage.setItem("user", JSON.stringify(res.data.user));
 
-    return res.data;
+    return res;
   } catch (error) {
     console.error("Google login error:", error.response?.data || error.message);
+    return error.response;
   }
 };
 

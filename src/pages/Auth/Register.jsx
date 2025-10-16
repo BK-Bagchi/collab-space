@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +8,11 @@ import googleLogin from "../../utils/googleLogin";
 
 const Register = ({ setLoggedIn }) => {
   const navigate = useNavigate();
+  const [error, setError] = useState({
+    status: false,
+    message: "",
+  });
+
   // prettier-ignore
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(registrationSchema),
@@ -19,7 +25,17 @@ const Register = ({ setLoggedIn }) => {
 
   const handleGoogleLogin = async (credentialResponse) => {
     try {
-      await googleLogin(credentialResponse);
+      const res = await googleLogin(credentialResponse);
+      const { data, status } = res;
+      const { message } = data;
+      if (status !== 200) {
+        setError({
+          status: true,
+          message,
+        });
+        return;
+      }
+
       if (localStorage.getItem("token")) setLoggedIn(true);
       navigate("/dashboard");
     } catch (error) {
@@ -76,11 +92,17 @@ const Register = ({ setLoggedIn }) => {
             className="w-full px-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
             required
           />
+          {/* shows form validation errors */}
           {/* prettier-ignore */}
           {errors.confirmPassword && (
             <p className="text-red-500 text-sm mt-1">
               {errors.confirmPassword.message}
             </p>
+          )}
+          {/* shows login errors */}
+          {/* prettier-ignore */}
+          {error.status && (
+            <p className="text-red-500 text-sm mt-1">{error.message}</p>
           )}
           <button
             type="submit"
