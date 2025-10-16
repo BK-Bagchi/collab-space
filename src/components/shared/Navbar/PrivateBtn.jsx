@@ -1,23 +1,19 @@
 import React, { useState } from "react";
-import {
-  Bell,
-  LogOut,
-  MessageCircle,
-  Plus,
-  Settings,
-  User,
-  UserRound,
-} from "lucide-react";
+// prettier-ignore
+import { Bell, LogOut, MessageCircle, Plus, Settings, User, UserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 import Notification from "../../Toggle/Notification";
 import Chat from "../../Toggle/Chat";
 import { useAuth } from "../../../hooks/useAuth";
+import Modal from "../../Modal/Modal";
+import CreateProject from "../../../pages/CreateProject/CreateProject";
 
 const PrivateBtn = () => {
   const { logout } = useAuth();
   const [openNotification, setOpenNotification] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
   const [openPlus, setOpenPlus] = useState(false);
+  const [activeModal, setActiveModal] = useState(false);
 
   return (
     <div className="flex items-center gap-x-0 md:gap-x-5">
@@ -88,6 +84,7 @@ const PrivateBtn = () => {
               <li
                 className="px-4 py-2 text-sm text-[#263238] hover:bg-[#EDE7F6] cursor-pointer transition"
                 onClick={() => {
+                  setActiveModal(true);
                   setOpenPlus(false);
                 }}
               >
@@ -97,6 +94,15 @@ const PrivateBtn = () => {
           </div>
         )}
       </div>
+      {
+        // active create project list on modal
+        activeModal && (
+          <Modal
+            render={<CreateProject setActiveModal={setActiveModal} />}
+            setActiveModal={setActiveModal}
+          />
+        )
+      }
     </div>
   );
 };

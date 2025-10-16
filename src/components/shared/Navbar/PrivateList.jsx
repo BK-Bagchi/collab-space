@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Modal from "../../Modal/Modal";
+import CreateProject from "../../../pages/CreateProject/CreateProject";
 
 const PrivateList = () => {
   const [open, setOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState(false);
   return (
     <>
       <li>
@@ -31,6 +34,7 @@ const PrivateList = () => {
                 className="px-4 py-2 text-sm text-[#263238] hover:bg-[#EDE7F6] cursor-pointer transition"
                 onClick={() => {
                   setOpen(false);
+                  setActiveModal(true);
                 }}
               >
                 New Project
@@ -53,6 +57,15 @@ const PrivateList = () => {
           />
         </label>
       </li>
+      {
+        // active create project list on modal
+        activeModal && (
+          <Modal
+            render={<CreateProject setActiveModal={setActiveModal} />}
+            setActiveModal={setActiveModal}
+          />
+        )
+      }
     </>
   );
 };
