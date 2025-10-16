@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardHome from "./pages/Dashboard/Home";
 import Projects from "./pages/Dashboard/projects";
 import Tasks from "./pages/Dashboard/tasks";
+import LoginProtectedRoute from "./routes/LoginProtectedRoute";
 
 function Layout({ loggedIn }) {
   return (
@@ -32,13 +33,18 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout loggedIn={loggedIn} />}>
         <Route index element={<Home loggedIn={loggedIn} />} />
-        <Route path="profile" element={<SeeProfile />} />
-        <Route path="dashboard" element={<Dashboard />}>
-          <Route index element={<DashboardHome />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="tasks" element={<Tasks />} />
-          <Route path="*" element={<NotFound />} />
+
+        {/* login protected routes */}
+        <Route element={<LoginProtectedRoute />}>
+          <Route path="profile" element={<SeeProfile />} />
+          <Route path="dashboard" element={<Dashboard />}>
+            <Route index element={<DashboardHome />} />
+            <Route path="projects" element={<Projects />} />
+            <Route path="tasks" element={<Tasks />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Route>
+
         <Route path="login" element={<Login setLoggedIn={setLoggedIn} />} />
         <Route
           path="register"
