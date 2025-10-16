@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const selectTab = ({ activeTab, user, projects }) => {
+const selectTab = ({ activeTab, user, projects, logout }) => {
   switch (activeTab) {
     case "overview":
       return (
@@ -74,7 +74,10 @@ const selectTab = ({ activeTab, user, projects }) => {
           <button className="w-full border border-[#2979FF] text-[#2979FF] py-2 rounded-lg hover:bg-[#2979FF] hover:text-white transition">
             Change Password
           </button>
-          <button className="w-full border border-[#26A69A] text-[#26A69A] py-2 rounded-lg hover:bg-[#26A69A] hover:text-white transition">
+          <button
+            className="w-full border border-[#26A69A] text-[#26A69A] py-2 rounded-lg hover:bg-[#26A69A] hover:text-white transition"
+            onClick={logout}
+          >
             Logout
           </button>
           <button className="w-full border border-red-500 text-red-500 py-2 rounded-lg hover:bg-red-500 hover:text-white transition">

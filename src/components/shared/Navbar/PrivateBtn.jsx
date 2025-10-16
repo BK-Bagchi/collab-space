@@ -11,8 +11,10 @@ import {
 import { Link } from "react-router-dom";
 import Notification from "../../Toggle/Notification";
 import Chat from "../../Toggle/Chat";
+import { useAuth } from "../../../hooks/useAuth";
 
 const PrivateBtn = () => {
+  const { logout } = useAuth();
   const [openNotification, setOpenNotification] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
   const [openPlus, setOpenPlus] = useState(false);
@@ -66,7 +68,7 @@ const PrivateBtn = () => {
               Settings
             </Link>
           </li>
-          <li>
+          <li onClick={logout}>
             <a>
               <LogOut />
               Logout

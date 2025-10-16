@@ -1,8 +1,10 @@
 import { useState } from "react";
 import selectTab from "./SeeProfileTab";
 import Modal from "../../components/Modal/Modal";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function SeeProfile() {
+  const { logout } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
   const [activeModal, setActiveModal] = useState(false);
 
@@ -65,7 +67,7 @@ export default function SeeProfile() {
         </div>
 
         {/* Dynamic Tab Content */}
-        {selectTab({ activeTab, user, projects })}
+        {selectTab({ activeTab, user, projects, logout })}
 
         {/* Edit Profile Modal */}
         {activeModal && (

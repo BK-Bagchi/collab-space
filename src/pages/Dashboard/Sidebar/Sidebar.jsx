@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { adminLinks, bottomLinks, commonLinks } from "./sidebarLinks";
+import { useAuth } from "../../../hooks/useAuth";
 
 const Sidebar = () => {
+  const { logout } = useAuth();
   const [activeRoute, setActiveRoute] = useState("/dashboard");
   const role = "Admin"; // "Admin", "PM", "Member"
 
@@ -64,17 +66,23 @@ const Sidebar = () => {
 
       {/* Bottom Links */}
       <div className="flex flex-col gap-2">
-        {bottomLinks.map((link) => (
-          <Link
-            key={link.name}
-            to={link.route}
-            className="flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-[#26A69A] hover:text-white transition"
-            onClick={() => setActiveRoute(link.route)}
-          >
-            {link.icon}
-            <span>{link.name}</span>
-          </Link>
-        ))}
+        {bottomLinks.map((link) => {
+          const handelClick = () => {
+            if (link.name === "Logout") logout();
+            else setActiveRoute(link.route);
+          };
+          return (
+            <Link
+              key={link.name}
+              to={link.route}
+              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-[#26A69A] hover:text-white transition"
+              onClick={handelClick}
+            >
+              {link.icon}
+              <span>{link.name}</span>
+            </Link>
+          );
+        })}
       </div>
     </aside>
   );
