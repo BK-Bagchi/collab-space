@@ -12,6 +12,7 @@ import DashboardHome from "./pages/Dashboard/Home";
 import Projects from "./pages/Dashboard/projects";
 import Tasks from "./pages/Dashboard/tasks";
 import LoginProtectedRoute from "./routes/LoginProtectedRoute";
+import { AuthProvider } from "./context/authContext";
 
 function Layout({ loggedIn }) {
   return (
@@ -30,29 +31,31 @@ function App() {
   }, []);
 
   return (
-    <Routes>
-      <Route path="/" element={<Layout loggedIn={loggedIn} />}>
-        <Route index element={<Home loggedIn={loggedIn} />} />
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={<Layout loggedIn={loggedIn} />}>
+          <Route index element={<Home loggedIn={loggedIn} />} />
 
-        {/* login protected routes */}
-        <Route element={<LoginProtectedRoute />}>
-          <Route path="profile" element={<SeeProfile />} />
-          <Route path="dashboard" element={<Dashboard />}>
-            <Route index element={<DashboardHome />} />
-            <Route path="projects" element={<Projects />} />
-            <Route path="tasks" element={<Tasks />} />
-            <Route path="*" element={<NotFound />} />
+          {/* login protected routes */}
+          <Route element={<LoginProtectedRoute />}>
+            <Route path="profile" element={<SeeProfile />} />
+            <Route path="dashboard" element={<Dashboard />}>
+              <Route index element={<DashboardHome />} />
+              <Route path="projects" element={<Projects />} />
+              <Route path="tasks" element={<Tasks />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
           </Route>
-        </Route>
 
-        <Route path="login" element={<Login setLoggedIn={setLoggedIn} />} />
-        <Route
-          path="register"
-          element={<Register setLoggedIn={setLoggedIn} />}
-        />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+          <Route path="login" element={<Login setLoggedIn={setLoggedIn} />} />
+          <Route
+            path="register"
+            element={<Register setLoggedIn={setLoggedIn} />}
+          />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </AuthProvider>
   );
 }
 

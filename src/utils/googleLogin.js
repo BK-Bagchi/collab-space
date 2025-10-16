@@ -8,9 +8,6 @@ const googleLogin = async (credentialResponse) => {
     const token = credentialResponse.credential;
     const res = await AuthAPI.oauthLogin({ token });
 
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("user", JSON.stringify(res.data.user));
-
     return res;
   } catch (error) {
     console.error("Google login error:", error.response?.data || error.message);
