@@ -5,6 +5,8 @@ import Modal from "../../components/Modal/Modal";
 import { useAuth } from "../../hooks/useAuth";
 import { ProjectAPI, UserAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
+import EditProfile from "./editProfile";
+import formatText from "../../utils/textFormater";
 
 const SeeProfile = () => {
   const { logout } = useAuth();
@@ -50,7 +52,12 @@ const SeeProfile = () => {
             />
             <div className="flex-1 text-center md:text-left">
               <h2 className="text-2xl font-semibold">{user.name}</h2>
-              <p className="text-sm text-gray-500">{user.email}</p>
+              <p className="text-sm text-gray-500">
+                {user.email} || {formatText(user.role)}
+              </p>
+              <p className="text-xs text-gray-400 mt-1">
+                Bio: {user.bio || "I love Collab Space"}
+              </p>
               <p className="text-xs text-gray-400 mt-1">
                 Member since: {formatDate(user.createdAt)}
               </p>
@@ -91,43 +98,11 @@ const SeeProfile = () => {
             <Modal
               setActiveModal={setActiveModal}
               render={
-                <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
-                  <h3 className="text-lg font-semibold text-vibrantPurple mb-4">
-                    Edit Profile
-                  </h3>
-                  <form className="space-y-3">
-                    <input
-                      type="text"
-                      defaultValue={user.name}
-                      placeholder="Full Name"
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
-                    />
-                    <textarea
-                      defaultValue={user.bio || "Unworthy for Mjolnir."}
-                      placeholder="Bio"
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
-                    />
-                    <input
-                      type="file"
-                      className="w-full file:mr-3 file:py-2 file:px-3 file:rounded-md file:border-0 file:bg-[#2979FF] file:text-white hover:file:bg-[#1E63D0]"
-                    />
-                    <div className="flex justify-end gap-3 pt-3">
-                      <button
-                        type="button"
-                        onClick={() => setActiveModal(false)}
-                        className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        className="px-4 py-2 bg-[#8E24AA] text-softWhite rounded-lg hover:bg-[#751C8E] transition"
-                      >
-                        Save Changes
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                <EditProfile
+                  user={user}
+                  setUser={setUser}
+                  setActiveModal={setActiveModal}
+                />
               }
             />
           )}
