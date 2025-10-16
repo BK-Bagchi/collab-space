@@ -4,8 +4,10 @@ import PrivateList from "./PrivateList.jsx";
 import PrivateBtn from "./PrivateBtn.jsx";
 import PublicBtn from "./PublicBtn.jsx";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/authContext.jsx";
 
-const Navbar = ({ loggedIn }) => {
+const Navbar = () => {
+  const { loggedIn } = useAuth();
   return (
     <div className="navbar bg-[#2979FF] text-[#FAFAFA] shadow-sm px-3">
       <div className="navbar-start">

@@ -5,8 +5,8 @@ import { GoogleLogin } from "@react-oauth/google";
 import { loginSchema } from "../../validations/auth.validation";
 import useGoogleAuth from "../../hooks/useGoogleAuth";
 
-const LoginPage = ({ setLoggedIn }) => {
-  const { handleGoogleLogin, error } = useGoogleAuth(setLoggedIn);
+const LoginPage = () => {
+  const { handleGoogleLogin, error } = useGoogleAuth();
 
   //prettier-ignore
   const { register, handleSubmit, formState: { errors } } = useForm({

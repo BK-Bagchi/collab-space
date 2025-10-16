@@ -4,7 +4,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // Load user info from localStorage on mount
   useEffect(() => {
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
 
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
-      setIsLoggedIn(true);
+      setLoggedIn(true);
     }
   }, []);
 
@@ -22,18 +22,18 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(userData));
     localStorage.setItem("token", token);
     setUser(userData);
-    setIsLoggedIn(true);
+    setLoggedIn(true);
   };
   // Logout method
   const logout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     setUser(null);
-    setIsLoggedIn(false);
+    setLoggedIn(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ user, loggedIn, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

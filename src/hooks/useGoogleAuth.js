@@ -3,7 +3,7 @@ import { useState } from "react";
 import googleLogin from "../utils/googleLogin";
 import { useAuth } from "../context/authContext";
 
-const useGoogleAuth = (setLoggedIn) => {
+const useGoogleAuth = () => {
   const { login } = useAuth();
   const [error, setError] = useState({ status: false, message: "" });
   const navigate = useNavigate();
@@ -19,7 +19,6 @@ const useGoogleAuth = (setLoggedIn) => {
         return;
       }
 
-      setLoggedIn(true);
       login(user, token);
       navigate("/dashboard");
     } catch (err) {

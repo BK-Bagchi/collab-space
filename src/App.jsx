@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import Footer from "./components/shared/Footer/Footer";
 import Navbar from "./components/shared/Navbar/navbar";
@@ -14,27 +13,21 @@ import Tasks from "./pages/Dashboard/tasks";
 import LoginProtectedRoute from "./routes/LoginProtectedRoute";
 import { AuthProvider } from "./context/authContext";
 
-function Layout({ loggedIn }) {
+function Layout() {
   return (
     <>
-      <Navbar loggedIn={loggedIn} />
+      <Navbar />
       <Outlet />
       <Footer />
     </>
   );
 }
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  useEffect(() => {
-    if (localStorage.getItem("token")) setLoggedIn(true);
-    else setLoggedIn(false);
-  }, []);
-
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/" element={<Layout loggedIn={loggedIn} />}>
-          <Route index element={<Home loggedIn={loggedIn} />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
 
           {/* login protected routes */}
           <Route element={<LoginProtectedRoute />}>
@@ -47,11 +40,8 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="login" element={<Login setLoggedIn={setLoggedIn} />} />
-          <Route
-            path="register"
-            element={<Register setLoggedIn={setLoggedIn} />}
-          />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

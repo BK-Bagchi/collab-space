@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import { Users, MessageSquare, FolderKanban } from "lucide-react";
 import projectName, { projectSlogan } from "../../utils/getProjectName";
 import CollabCover from "../../assets/Collab_Space_cover_large.png";
+import { useAuth } from "../../context/authContext";
 
-export default function Home({ loggedIn }) {
+export default function Home() {
+  const { loggedIn } = useAuth();
   return (
     <div className="min-h-screen flex flex-col bg-softWhite text-charcoalGray">
       {/* ===== HERO SECTION ===== */}
