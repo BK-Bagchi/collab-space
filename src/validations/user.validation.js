@@ -9,15 +9,21 @@ export const editProfileSchema = z.object({
     .optional(),
 });
 
-// export const changePasswordSchema = z
-//   .object({
-//     oldPassword: z.string().min(8, "Password must be at least 8 characters"),
-//     newPassword: z.string().min(8, "Password must be at least 8 characters"),
-//     confirmPassword: z
-//       .string()
-//       .min(8, "Password must be at least 8 characters"),
-//   })
-//   .refine((data) => data.newPassword === data.confirmPassword, {
-//     message: "Password and Confirm Password do not match",
-//     path: ["confirmPassword"], // shows error under confirmPassword input
-//   });
+export const passwordSchema = z
+  .object({
+    currentPassword: z
+      .string()
+      .min(8, "Current password must be at least 8 characters"),
+    newPassword: z
+      .string()
+      .min(8, "New password must be at least 8 characters"),
+    confirmPassword: z.string().min(8, "New and Confirm Password do not match"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    path: ["confirmPassword"], // shows error under confirmPassword input
+    message: "Password and Confirm Password do not match",
+  })
+  .refine((data) => data.newPassword !== data.currentPassword, {
+    path: ["newPassword"], // shows error under newPassword input
+    message: "New password cannot be the same as current password",
+  });

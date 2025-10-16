@@ -1,10 +1,13 @@
 import React from "react";
 
-const Security = ({ logout }) => {
+const Security = ({ logout, setPasswordModal }) => {
   return (
     <div className="mt-6 space-y-4 animate-fadeIn">
       <h3 className="text-lg font-semibold text-charcoalGray">Security</h3>
-      <button className="w-full border border-[#2979FF] text-[#2979FF] py-2 rounded-lg hover:bg-[#2979FF] hover:text-white transition">
+      <button
+        className="w-full border border-[#2979FF] text-[#2979FF] py-2 rounded-lg hover:bg-[#2979FF] hover:text-white transition"
+        onClick={() => setPasswordModal(true)}
+      >
         Change Password
       </button>
       <button

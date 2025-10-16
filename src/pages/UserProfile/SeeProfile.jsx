@@ -1,17 +1,22 @@
 import { Suspense, useEffect, useState } from "react";
 import Avatar from "../../assets/Default_Avatar.jpg";
-import selectTab from "./SeeProfileTab";
 import Modal from "../../components/Modal/Modal";
 import { useAuth } from "../../hooks/useAuth";
 import { ProjectAPI, UserAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
 import EditProfile from "./editProfile";
 import formatText from "../../utils/textFormater";
+import Overview from "./ProfileTabs/Overview";
+import Settings from "./ProfileTabs/Settings";
+import Security from "./ProfileTabs/Security";
+import Projects from "./ProfileTabs/Projects";
+import ChangePassword from "./ChangePassword";
 
 const SeeProfile = () => {
   const { logout } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
-  const [activeModal, setActiveModal] = useState(false);
+  const [activeModal, setActiveModal] = useState(false); // Edit Profile
+  const [passwordModal, setPasswordModal] = useState(false); // Change Password
 
   const [user, setUser] = useState({});
   const [projects, setProjects] = useState([]);
@@ -37,6 +42,29 @@ const SeeProfile = () => {
     fetchProfile();
   }, []);
   // console.log(user, projects, totalCreatedProjects, totalJoinedProjects);
+
+  const selectTab = (
+    // prettier-ignore
+    { activeTab, user, projects, totalCreatedProjects, totalJoinedProjects, logout }
+  ) => {
+    switch (activeTab) {
+      case "overview":
+        // prettier-ignore
+        return <Overview user={user} totalCreatedProjects={totalCreatedProjects} totalJoinedProjects={totalJoinedProjects} />
+
+      case "projects":
+        return <Projects projects={projects} />;
+
+      case "settings":
+        return <Settings />;
+
+      case "security":
+        return <Security logout={logout} setPasswordModal={setPasswordModal} />;
+
+      default:
+        return null;
+    }
+  };
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -104,6 +132,14 @@ const SeeProfile = () => {
                   setActiveModal={setActiveModal}
                 />
               }
+            />
+          )}
+
+          {/* Change Password Modal */}
+          {passwordModal && (
+            <Modal
+              setActiveModal={setPasswordModal}
+              render={<ChangePassword setActiveModal={setPasswordModal} />}
             />
           )}
         </div>
