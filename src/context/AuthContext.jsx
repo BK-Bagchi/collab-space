@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -39,5 +39,7 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook for easy use
-export const useAuth = () => useContext(AuthContext);
+export default AuthContext;
+
+// Custom hook for easy use. Moved to hooks.
+// export const useAuth = () => useContext(AuthContext);

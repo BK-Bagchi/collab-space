@@ -4,7 +4,7 @@ import PrivateList from "./PrivateList.jsx";
 import PrivateBtn from "./PrivateBtn.jsx";
 import PublicBtn from "./PublicBtn.jsx";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../../context/authContext.jsx";
+import { useAuth } from "../../../hooks/useAuth.js";
 
 const Navbar = () => {
   const { loggedIn } = useAuth();

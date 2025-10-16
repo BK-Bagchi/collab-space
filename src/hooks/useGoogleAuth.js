@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import googleLogin from "../utils/googleLogin";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../hooks/useAuth";
 
 const useGoogleAuth = () => {
   const { login } = useAuth();
