@@ -1,11 +1,17 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleLogin } from "@react-oauth/google";
 import { loginSchema } from "../../validations/auth.validation";
 import useGoogleAuth from "../../hooks/useGoogleAuth";
+import { AuthAPI } from "../../api";
+import { useAuth } from "../../hooks/useAuth";
 
 const LoginPage = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [loginError, setLoginError] = useState({ status: false, message: "" });
   const { handleGoogleLogin, error } = useGoogleAuth();
 
   //prettier-ignore
@@ -14,7 +20,16 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      const res = await AuthAPI.login(data);
+      const { token, user } = res.data;
+
+      login(user, token);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login error:", error.response);
+      setLoginError({ status: true, message: error.response.data.message });
+    }
   };
 
   return (
@@ -56,6 +71,10 @@ const LoginPage = () => {
           {/* prettier-ignore */}
           {error.status && (
             <p className="text-red-500 text-sm mt-1">{error.message}</p>
+          )}
+          {/* prettier-ignore */}
+          {loginError.status && (
+            <p className="text-red-500 text-sm mt-1">{loginError.message}</p>
           )}
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2 cursor-pointer select-none">
