@@ -3,7 +3,7 @@ import selectTab from "./SeeProfileTab";
 import Modal from "../../components/Modal/Modal";
 import { useAuth } from "../../hooks/useAuth";
 
-export default function SeeProfile() {
+const SeeProfile = () => {
   const { logout } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
   const [activeModal, setActiveModal] = useState(false);
@@ -117,4 +117,6 @@ export default function SeeProfile() {
       </div>
     </div>
   );
-}
+};
+
+export default SeeProfile;

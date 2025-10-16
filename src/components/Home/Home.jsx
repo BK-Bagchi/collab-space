@@ -4,7 +4,7 @@ import projectName, { projectSlogan } from "../../utils/getProjectName";
 import CollabCover from "../../assets/Collab_Space_cover_large.png";
 import { useAuth } from "../../hooks/useAuth";
 
-export default function Home() {
+const Home = () => {
   const { loggedIn } = useAuth();
   return (
     <div className="min-h-screen flex flex-col bg-softWhite text-charcoalGray">
@@ -103,4 +103,6 @@ export default function Home() {
       <p className="h-px">.</p>
     </div>
   );
-}
+};
+
+export default Home;
