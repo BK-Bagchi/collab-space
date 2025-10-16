@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 
-const selectTab = ({ activeTab, user, projects, logout }) => {
+const selectTab = ({
+  activeTab,
+  user,
+  projects,
+  totalCreatedProjects,
+  totalJoinedProjects,
+  logout,
+}) => {
   switch (activeTab) {
     case "overview":
       return (
@@ -14,13 +21,13 @@ const selectTab = ({ activeTab, user, projects, logout }) => {
             <div className="rounded-xl bg-softWhite border border-gray-200 p-4 shadow-sm">
               <p className="text-sm text-gray-500">Projects Created</p>
               <p className="text-2xl font-semibold text-electricBlue">
-                {user.stats.created}
+                {totalCreatedProjects}
               </p>
             </div>
             <div className="rounded-xl bg-softWhite border border-gray-200 p-4 shadow-sm">
               <p className="text-sm text-gray-500">Projects Joined</p>
               <p className="text-2xl font-semibold text-vibrantPurple">
-                {user.stats.joined}
+                {totalJoinedProjects}
               </p>
             </div>
           </div>
@@ -36,8 +43,8 @@ const selectTab = ({ activeTab, user, projects, logout }) => {
               className="bg-softWhite border border-gray-200 rounded-xl p-4 shadow-sm flex justify-between items-center hover:shadow-md transition"
             >
               <div>
-                <h3 className="font-medium text-charcoalGray">{p.name}</h3>
-                <p className="text-xs text-gray-500">{p.type}</p>
+                <h3 className="font-medium text-charcoalGray">{p.title}</h3>
+                <p className="text-xs text-gray-500">{p.description}</p>
               </div>
               <Link
                 to={`/projects/${p._id}`}
