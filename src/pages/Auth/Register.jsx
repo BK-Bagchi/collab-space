@@ -1,17 +1,12 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleLogin } from "@react-oauth/google";
 import { registrationSchema } from "../../validations/auth.validation";
-import googleLogin from "../../utils/googleLogin";
+import useGoogleAuth from "../../hooks/useGoogleAuth";
 
 const Register = ({ setLoggedIn }) => {
-  const navigate = useNavigate();
-  const [error, setError] = useState({
-    status: false,
-    message: "",
-  });
+  const { handleGoogleLogin, error } = useGoogleAuth(setLoggedIn);
 
   // prettier-ignore
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -21,26 +16,6 @@ const Register = ({ setLoggedIn }) => {
   const onSubmit = (data) => {
     console.log(data);
     // TODO: Call /api/auth/signup with formData
-  };
-
-  const handleGoogleLogin = async (credentialResponse) => {
-    try {
-      const res = await googleLogin(credentialResponse);
-      const { data, status } = res;
-      const { message } = data;
-      if (status !== 200) {
-        setError({
-          status: true,
-          message,
-        });
-        return;
-      }
-
-      if (localStorage.getItem("token")) setLoggedIn(true);
-      navigate("/dashboard");
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (
