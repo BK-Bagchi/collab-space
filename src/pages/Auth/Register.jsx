@@ -1,11 +1,18 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleLogin } from "@react-oauth/google";
 import { registrationSchema } from "../../validations/auth.validation";
 import useGoogleAuth from "../../hooks/useGoogleAuth";
+import { AuthAPI } from "../../api";
 
 const Register = () => {
+  const [registerError, setRegisterError] = useState({
+    status: false,
+    message: "",
+  });
+  const navigate = useNavigate();
   const { handleGoogleLogin, error } = useGoogleAuth();
 
   // prettier-ignore
@@ -13,9 +20,16 @@ const Register = () => {
     resolver: zodResolver(registrationSchema),
   })
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // TODO: Call /api/auth/signup with formData
+  const onSubmit = async (data) => {
+    try {
+      const res = await AuthAPI.signup(data);
+      const { message } = res.data;
+      alert(message);
+      navigate("/login");
+    } catch (error) {
+      console.error("Registration error:", error);
+      setRegisterError({ status: true, message: error.response.data.message });
+    }
   };
 
   return (
@@ -74,10 +88,14 @@ const Register = () => {
               {errors.confirmPassword.message}
             </p>
           )}
-          {/* shows login errors */}
+          {/* shows register errors */}
           {/* prettier-ignore */}
           {error.status && (
             <p className="text-red-500 text-sm mt-1">{error.message}</p>
+          )}
+          {/* prettier-ignore */}
+          {registerError.status && (
+            <p className="text-red-500 text-sm mt-1">{registerError.message}</p>
           )}
           <button
             type="submit"
