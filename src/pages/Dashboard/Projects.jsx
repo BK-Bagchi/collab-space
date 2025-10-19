@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { Plus, Users, Calendar, MessageSquare } from "lucide-react";
+// prettier-ignore
+import { Plus, Users, Calendar, MessageSquare, Edit3, UserPlus} from "lucide-react";
 import Modal from "../../components/Modal/Modal";
 import InviteMembers from "../../components/Forms/InviteMembers";
 import CreateProject from "../../components/Forms/CreateProject";
+import { ProjectAPI } from "../../api";
+import formatDate from "../../utils/dateFormater";
 
 const Projects = () => {
   const projectId = useOutletContext();
@@ -11,38 +14,21 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [createModal, setCreateModal] = useState(false);
   const [inviteModal, setInviteModal] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
 
-  // Fetch projects
   useEffect(() => {
-    // Replace with real API call
     const fetchProjects = async () => {
-      const res = [
-        {
-          _id: "p1",
-          title: "Team Alpha",
-          description: "Marketing website redesign",
-          deadline: "2025-11-10",
-          members: ["dipto@example.com", "bk@example.com"],
-        },
-        {
-          _id: "p2",
-          title: "Mobile App",
-          description: "Cross-platform React Native app",
-          deadline: "2025-12-01",
-          members: ["golu@example.com"],
-        },
-        {
-          _id: "p3",
-          title: "Mobile App",
-          description: "Cross-platform React Native app",
-          deadline: "2025-12-01",
-          members: ["golu@example.com"],
-        },
-      ];
-      setProjects(res);
+      try {
+        const res = await ProjectAPI.getUserProjects();
+        const { projects } = res.data;
+        setProjects(projects);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
     };
     fetchProjects();
   }, [projectId]);
+  // console.log(projects);
 
   return (
     <div className="space-y-6">
@@ -74,7 +60,7 @@ const Projects = () => {
             <div className="flex justify-between items-center mt-4 text-sm text-gray-500">
               <div className="flex items-center gap-1">
                 <Calendar size={15} />
-                <span>{project.deadline}</span>
+                <span>{formatDate(project.deadline)}</span>
               </div>
               <div className="flex items-center gap-1">
                 <Users size={15} />
@@ -100,21 +86,35 @@ const Projects = () => {
               <div className="mt-4">
                 <h4 className="font-semibold text-charcoalGray">Members</h4>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {selectedProject.members.map((m, i) => (
-                    <span
-                      key={i}
-                      className="px-3 py-1 bg-electricBlue text-softWhite text-xs rounded-full"
-                    >
-                      {m}
-                    </span>
-                  ))}
+                  {selectedProject.members.map((member) => {
+                    const { _id, name } = member;
+                    return (
+                      <span
+                        key={_id}
+                        className="px-3 py-1 bg-electricBlue text-softWhite text-xs rounded-full"
+                      >
+                        {name}
+                      </span>
+                    );
+                  })}
                 </div>
-                <button
-                  onClick={() => setInviteModal(true)}
-                  className="mt-4 text-sm text-electricBlue hover:underline"
-                >
-                  + Invite Members
-                </button>
+                <div className="flex items-center gap-3 mt-4">
+                  <button
+                    onClick={() => setUpdateModal(true)}
+                    className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
+                  >
+                    <Edit3 size={16} />
+                    <span>Update Project</span>
+                  </button>
+
+                  <button
+                    onClick={() => setInviteModal(true)}
+                    className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
+                  >
+                    <UserPlus size={16} />
+                    <span>Invite Members</span>
+                  </button>
+                </div>
               </div>
 
               <div className="mt-6">
