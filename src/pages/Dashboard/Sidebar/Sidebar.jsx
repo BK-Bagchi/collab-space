@@ -1,12 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { adminLinks, bottomLinks, commonLinks } from "./sidebarLinks";
 import { useAuth } from "../../../hooks/useAuth";
+import { ProjectAPI } from "../../../api";
 
-const Sidebar = () => {
+const Sidebar = ({ projectId }) => {
   const { logout } = useAuth();
   const [activeRoute, setActiveRoute] = useState("/dashboard");
   const role = "Admin"; // "Admin", "PM", "Member"
+
+  const [projectDetails, setProjectDetails] = useState({});
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchProjectDetails = async () => {
+      try {
+        const res = await ProjectAPI.getProjectById(projectId);
+        const { project } = res.data;
+        setProjectDetails(project);
+        setLoading(false);
+      } catch (error) {
+        console.error(
+          "Error fetching project details at Sidebar:",
+          error.response
+        );
+      }
+    };
+
+    fetchProjectDetails();
+  }, [projectId]);
+  // console.log(projectDetails);
 
   return (
     <aside className="flex flex-col justify-between h-screen px-3 py-6 bg-charcoalGray text-softWhite w-[250px]">
@@ -19,12 +41,20 @@ const Sidebar = () => {
           </div>
 
           {/* Project Details */}
-          <div className="flex flex-col">
+          {loading ? (
             <span className="text-sm font-semibold text-softWhite">
-              Project Name
+              Loading...
             </span>
-            <span className="text-xs text-gray-400">Project Type</span>
-          </div>
+          ) : (
+            <div className="flex flex-col">
+              <span className="text-sm font-semibold text-softWhite">
+                {projectDetails.title}
+              </span>
+              <span className="text-xs text-gray-400">
+                {projectDetails.category || "Project Type"}
+              </span>
+            </div>
+          )}
         </div>
         {/* Top Links */}
         <div className="flex flex-col gap-2">
