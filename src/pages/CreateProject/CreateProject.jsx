@@ -1,10 +1,21 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { projectSchema } from "../../validations/project.validation";
 import { useAuth } from "../../hooks/useAuth";
+import { ProjectAPI, UserAPI } from "../../api";
 
 const CreateProject = ({ setActiveModal }) => {
   const { user } = useAuth();
+  const [fetchedMembers, setFetchedMembers] = useState([]);
+  const [searchedMembers, setSearchedMembers] = useState([]);
+  const [selectedMembers, setSelectedMembers] = useState([]);
+
+  const [creatingProjectError, setCreatingProjectError] = useState({
+    status: false,
+    message: "",
+  });
+  let debounceTimer;
 
   // prettier-ignore
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
@@ -18,13 +29,52 @@ const CreateProject = ({ setActiveModal }) => {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const res = await UserAPI.getAllUsers();
+        setFetchedMembers(res.data);
+        // console.log(res.data);
+      } catch (error) {
+        console.error("Error fetching members:", error);
+      }
+    };
+
+    fetchMembers();
+  }, []);
+  // console.log(fetchedMembers);
+  // console.log(selectedMembers);
+
+  const handleMembersChange = (e) => {
+    const email = e.target.value;
+    if (email === "") {
+      setSearchedMembers([]);
+      clearTimeout(debounceTimer);
+      return;
+    }
+
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const foundMember = fetchedMembers.find((member) =>
+        member.email.toLowerCase().includes(email.toLowerCase())
+      );
+      // check if this member is not already selected
+      if (foundMember) {
+        const alreadySelected = searchedMembers.some(
+          (member) => member.email === foundMember.email
+        );
+        if (!alreadySelected)
+          setSearchedMembers((prev) => [...prev, foundMember]);
+      }
+    }, 500);
+  };
+
+  const onSubmit = async (data) => {
     const payload = {
       ...data,
       createdBy: user._id,
+      members: selectedMembers.map((member) => member._id),
     };
-    console.log(payload);
   };
 
   return (
@@ -104,7 +154,64 @@ const CreateProject = ({ setActiveModal }) => {
             {...register("members")}
             placeholder="e.g. dipto@example.com, bk@example.com"
             className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+            onChange={handleMembersChange}
           />
+          {/* 👤 Selected Avatars */}
+          {selectedMembers &&
+            selectedMembers.map((member) => {
+              const { _id, name } = member;
+              return (
+                <p key={_id} className="badge bg-electricBlue border-none m-1">
+                  {name}
+                  <span
+                    className="cursor-pointer"
+                    onClick={() =>
+                      setSelectedMembers(
+                        selectedMembers.filter((m) => m.email !== member.email)
+                      )
+                    }
+                  >
+                    &times;
+                  </span>
+                </p>
+              );
+            })}
+          {/* 👤 Dynamic Avatars */}
+          <div className="flex flex-wrap gap-4 mt-3">
+            {searchedMembers &&
+              searchedMembers.map((member) => {
+                const { _id, name, email, avatar } = member;
+                const initials = email.charAt(0).toUpperCase();
+                return (
+                  <div
+                    key={_id}
+                    className="flex flex-col items-center text-center"
+                    onClick={() =>
+                      //include this member in list
+                      setSelectedMembers((prev) => [...prev, member])
+                    }
+                  >
+                    {
+                      // Avatar
+                      avatar ? (
+                        <img
+                          src={avatar}
+                          alt={name}
+                          className="w-12 h-12 rounded-full cursor-pointer shadow-sm"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full cursor-pointer bg-electricBlue text-softWhite flex items-center justify-center text-lg font-semibold shadow-sm">
+                          {initials}
+                        </div>
+                      )
+                    }
+                    <p className="text-xs text-gray-600 mt-1 truncate max-w-[80px]">
+                      {name}
+                    </p>
+                  </div>
+                );
+              })}
+          </div>
           {errors.members && (
             <p className="text-red-500 text-sm mt-1">
               {errors.members.message}
@@ -127,6 +234,12 @@ const CreateProject = ({ setActiveModal }) => {
           >
             {isSubmitting ? "Creating..." : "Create Project"}
           </button>
+          {/* Error while creating project */}
+          {creatingProjectError.status && (
+            <p className="text-red-500 text-sm mt-1">
+              {creatingProjectError.message}
+            </p>
+          )}
         </div>
       </form>
     </div>
