@@ -75,6 +75,18 @@ const CreateProject = ({ setActiveModal }) => {
       createdBy: user._id,
       members: selectedMembers.map((member) => member._id),
     };
+    try {
+      const res = await ProjectAPI.createProject(payload);
+      alert(res.data.message);
+      // console.log(res);
+      setActiveModal(false);
+    } catch (error) {
+      console.error("Error creating project:", error.response);
+      setCreatingProjectError({
+        status: true,
+        message: error.response.data.message,
+      });
+    }
   };
 
   return (
