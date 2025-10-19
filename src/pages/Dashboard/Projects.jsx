@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Plus, Users, Calendar, MessageSquare } from "lucide-react";
 import Modal from "../../components/Modal/Modal";
+import InviteMembers from "../../components/Forms/InviteMembers";
+import CreateProject from "../../components/Forms/CreateProject";
 
 const Projects = () => {
   const projectId = useOutletContext();
@@ -10,7 +12,6 @@ const Projects = () => {
   const [createModal, setCreateModal] = useState(false);
   const [inviteModal, setInviteModal] = useState(false);
 
-  console.log("Projects", projectId);
   // Fetch projects
   useEffect(() => {
     // Replace with real API call
@@ -128,11 +129,21 @@ const Projects = () => {
       )}
 
       {/* Modals */}
-      {createModal && <CreateProjectModal setCreateModal={setCreateModal} />}
+      {createModal && (
+        <Modal
+          render={<CreateProject setActiveModal={setCreateModal} />}
+          setActiveModal={setCreateModal}
+        />
+      )}
       {inviteModal && (
-        <InviteMembersModal
-          setInviteModal={setInviteModal}
-          projectId={selectedProject?._id}
+        <Modal
+          render={
+            <InviteMembers
+              setInviteModal={setInviteModal}
+              projectId={selectedProject?._id}
+            />
+          }
+          setActiveModal={setInviteModal}
         />
       )}
     </div>
