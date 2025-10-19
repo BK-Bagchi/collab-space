@@ -111,7 +111,7 @@ const Projects = () => {
                 </div>
                 <button
                   onClick={() => setInviteModal(true)}
-                  className="mt-4 text-sm text-[#2979FF] hover:underline"
+                  className="mt-4 text-sm text-electricBlue hover:underline"
                 >
                   + Invite Members
                 </button>

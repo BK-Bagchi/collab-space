@@ -23,7 +23,7 @@ const InviteMembers = ({ setInviteModal, projectId }) => {
       />
       <button
         onClick={handleInvite}
-        className="w-full mt-4 py-2 bg-electricBlue text-softWhite rounded-lg hover:bg-[#1E63D0]"
+        className="w-full mt-4 py-2 bg-[#2979FF] text-softWhite rounded-lg hover:bg-[#1E63D0]"
       >
         Send Invites
       </button>
