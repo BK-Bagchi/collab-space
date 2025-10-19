@@ -77,8 +77,12 @@ const CreateProject = ({ setActiveModal }) => {
     };
     try {
       const res = await ProjectAPI.createProject(payload);
+
+      if (user?.role === "MEMBER")
+        // migrate user role to manager unless already manager or an admin
+        await UserAPI.updateUserRole(user._id, "MANAGER");
+
       alert(res.data.message);
-      // console.log(res);
       setActiveModal(false);
     } catch (error) {
       console.error("Error creating project:", error.response);
