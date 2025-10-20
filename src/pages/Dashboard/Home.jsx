@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // prettier-ignore
 import { CalendarDays, ClipboardList, MessageSquare, FolderKanban } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
@@ -6,6 +7,7 @@ import { ProjectAPI, TaskAPI } from "../../api";
 
 const DashboardHome = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const [projects, setProjects] = useState({ totalCreated: 0, totalMember: 0 });
   const [projectMessages, setProjectMessages] = useState(null);
@@ -126,17 +128,26 @@ const DashboardHome = () => {
 
       {/* Quick Access */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-        <div className="flex flex-col items-center justify-center bg-[#E3F2FD] p-6 rounded-xl cursor-pointer hover:bg-[#D0E4FF] transition">
+        <div
+          className="flex flex-col items-center justify-center bg-[#E3F2FD] p-6 rounded-xl cursor-pointer hover:bg-[#D0E4FF] transition"
+          onClick={() => navigate("/dashboard/projects")}
+        >
           <FolderKanban size={36} className="text-electricBlue" />
           <p className="mt-2 font-medium text-charcoalGray">Projects</p>
         </div>
 
-        <div className="flex flex-col items-center justify-center bg-[#F3E5F5] p-6 rounded-xl cursor-pointer hover:bg-[#E3CCE9] transition">
+        <div
+          className="flex flex-col items-center justify-center bg-[#F3E5F5] p-6 rounded-xl cursor-pointer hover:bg-[#E3CCE9] transition"
+          onClick={() => navigate("/dashboard/tasks")}
+        >
           <ClipboardList size={36} className="text-vibrantPurple" />
           <p className="mt-2 font-medium text-charcoalGray">Tasks</p>
         </div>
 
-        <div className="flex flex-col items-center justify-center bg-[#E0F2F1] p-6 rounded-xl cursor-pointer hover:bg-[#CDE6E4] transition">
+        <div
+          className="flex flex-col items-center justify-center bg-[#E0F2F1] p-6 rounded-xl cursor-pointer hover:bg-[#CDE6E4] transition"
+          onClick={() => navigate("/dashboard/chat")}
+        >
           <MessageSquare size={36} className="text-tealGreen" />
           <p className="mt-2 font-medium text-charcoalGray">Chat</p>
         </div>
