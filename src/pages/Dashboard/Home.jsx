@@ -10,9 +10,7 @@ const DashboardHome = () => {
   const navigate = useNavigate();
 
   const [projects, setProjects] = useState({ totalCreated: 0, totalMember: 0 });
-  const [projectMessages, setProjectMessages] = useState(null);
   const [tasks, setTasks] = useState([]);
-  const [taskMessages, setTaskMessages] = useState(null);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -23,16 +21,14 @@ const DashboardHome = () => {
           totalMember: projectRes.data.totalMember,
         });
       } catch (error) {
-        console.error("Error fetching project details:", error);
-        setProjectMessages(error.response.data.message);
+        console.error("Error fetching project details:", error.response);
       }
 
       try {
         const taskRes = await TaskAPI.assignedTaskToUser();
         setTasks(taskRes.data.tasks);
       } catch (error) {
-        console.error("Error fetching task details:", error);
-        setTaskMessages(error.response.data.message);
+        console.error("Error fetching task details:", error.response);
       }
     };
     fetchDetails();
@@ -43,22 +39,22 @@ const DashboardHome = () => {
   const stats = [
     {
       label: "Total Created Projects",
-      value: projectMessages ? projectMessages : projects.totalCreated,
+      value: projects.totalCreated,
       color: "#2979FF",
     },
     {
       label: "Total Assigned Projects",
-      value: projectMessages ? projectMessages : projects.totalMember,
+      value: projects.totalMember,
       color: "#26A69A",
     },
     {
       label: "Total Tasks",
-      value: taskMessages ? taskMessages : tasks.length,
+      value: tasks.length,
       color: "#8E24AA",
     },
     {
       label: "Completed Tasks",
-      value: taskMessages ? taskMessages : tasks.length,
+      value: tasks.length,
       color: "#26A69A",
     },
   ];
@@ -90,18 +86,12 @@ const DashboardHome = () => {
             className="rounded-xl shadow-md bg-white p-5 border border-gray-100 hover:shadow-lg transition"
           >
             <h3 className="text-sm text-gray-500">{item.label}</h3>
-            {projectMessages ? (
-              <p className="text-xs font-semibold mt-2 text-charcoalGray">
-                {item.value}
-              </p>
-            ) : (
-              <p
-                className="text-3xl font-semibold mt-2"
-                style={{ color: item.color }}
-              >
-                {item.value}
-              </p>
-            )}
+            <p
+              className="text-3xl font-semibold mt-2"
+              style={{ color: item.color }}
+            >
+              {item.value}
+            </p>
           </div>
         ))}
         {stats.slice(2, 4).map((item, i) => (
@@ -110,18 +100,12 @@ const DashboardHome = () => {
             className="rounded-xl shadow-md bg-white p-5 border border-gray-100 hover:shadow-lg transition"
           >
             <h3 className="text-sm text-gray-500">{item.label}</h3>
-            {taskMessages ? (
-              <p className="text-xs font-semibold mt-2 text-charcoalGray">
-                {item.value}
-              </p>
-            ) : (
-              <p
-                className="text-3xl font-semibold mt-2"
-                style={{ color: item.color }}
-              >
-                {item.value}
-              </p>
-            )}
+            <p
+              className="text-3xl font-semibold mt-2"
+              style={{ color: item.color }}
+            >
+              {item.value}
+            </p>
           </div>
         ))}
       </div>

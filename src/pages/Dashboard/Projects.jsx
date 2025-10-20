@@ -60,13 +60,15 @@ const Projects = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-charcoalGray">Your Projects</h2>
-        <button
-          onClick={() => setCreateModal(true)}
-          className="flex items-center gap-2 bg-vibrantPurple text-softWhite px-4 py-2 rounded-lg hover:bg-[#751C8E] transition"
-        >
-          <Plus size={18} />
-          New Project
-        </button>
+        {user.role !== "MEMBER" && (
+          <button
+            onClick={() => setCreateModal(true)}
+            className="flex items-center gap-2 bg-vibrantPurple text-softWhite px-4 py-2 rounded-lg hover:bg-[#751C8E] transition"
+          >
+            <Plus size={18} />
+            New Project
+          </button>
+        )}
       </div>
 
       {/* Projects Section */}
