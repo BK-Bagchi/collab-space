@@ -26,7 +26,7 @@ const Projects = () => {
       }
     };
     fetchProjects();
-  }, []);
+  }, [inviteModal, createModal, updateModal]);
   // console.log(projects);
 
   return (
