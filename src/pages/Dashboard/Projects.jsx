@@ -5,10 +5,14 @@ import Modal from "../../components/Modal/Modal";
 import InviteMembers from "../../components/Forms/InviteMembers";
 import CreateProject from "../../components/Forms/CreateProject";
 import { ProjectAPI } from "../../api";
-import formatDate from "../../utils/dateFormater";
 import UpdateProject from "../../components/Forms/UpdateProject";
+import { useAuth } from "../../hooks/useAuth";
+import CreatedProjects from "./Components/CreatedProjects";
+import JoinedProjects from "./Components/JoinedProjects";
+import ProjectDetails from "./Components/ProjectDetails";
 
 const Projects = () => {
+  const { user } = useAuth();
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [createModal, setCreateModal] = useState(false);
@@ -28,6 +32,14 @@ const Projects = () => {
     fetchProjects();
   }, [inviteModal, createModal, updateModal]);
   // console.log(projects);
+
+  const createdProjects = projects.filter(
+    (project) => project.createdBy._id === user._id
+  );
+
+  const joinedProjects = projects.filter(
+    (project) => project.createdBy._id !== user._id
+  );
 
   const handleDeleteProject = async (projectId) => {
     console.log(projectId);
@@ -57,95 +69,28 @@ const Projects = () => {
         </button>
       </div>
 
-      {/* Project Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project) => (
-          <div
-            key={project._id}
-            className="p-5 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition"
-          >
-            <div className="flex justify-between items-center">
-              <h3
-                className="text-lg font-semibold text-vibrantPurple cursor-pointer hover:underline"
-                onClick={() => setSelectedProject(project)}
-              >
-                {project.title}
-              </h3>
-              <span
-                className="cursor-pointer"
-                onClick={() => handleDeleteProject(project._id)}
-              >
-                <Trash2 size={15} />
-              </span>
-            </div>
-            <p className="text-sm text-gray-600 mt-1">{project.description}</p>
+      {/* Projects Section */}
+      <div className="grid lg:grid-cols-2 gap-8">
+        {/* Created Projects */}
+        <CreatedProjects
+          createdProjects={createdProjects}
+          setSelectedProject={setSelectedProject}
+          handleDeleteProject={handleDeleteProject}
+        />
 
-            <div className="flex justify-between items-center mt-4 text-sm text-gray-500">
-              <div className="flex items-center gap-1">
-                <Calendar size={15} />
-                <span>{formatDate(project.deadline)}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Users size={15} />
-                <span>{project.members.length} members</span>
-              </div>
-            </div>
-          </div>
-        ))}
+        {/* Joined Projects */}
+        <JoinedProjects joinedProjects={joinedProjects} />
       </div>
 
       {/* Project Details (when selected) */}
       {selectedProject && (
         <Modal
           render={
-            <div className="bg-softWhite w-full max-w-2xl rounded-xl shadow-lg p-6 relative">
-              <h3 className="text-xl font-bold text-vibrantPurple">
-                {selectedProject.title}
-              </h3>
-              <p className="text-gray-700 mt-1">
-                {selectedProject.description}
-              </p>
-
-              <div className="mt-4">
-                <h4 className="font-semibold text-charcoalGray">Members</h4>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {selectedProject.members.map((member) => {
-                    const { _id, name } = member;
-                    return (
-                      <span
-                        key={_id}
-                        className="px-3 py-1 bg-electricBlue text-softWhite text-xs rounded-full"
-                      >
-                        {name}
-                      </span>
-                    );
-                  })}
-                </div>
-                <div className="flex items-center gap-3 mt-4">
-                  <button
-                    onClick={() => setUpdateModal(true)}
-                    className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
-                  >
-                    <Edit3 size={16} />
-                    <span>Update Project</span>
-                  </button>
-
-                  <button
-                    onClick={() => setInviteModal(true)}
-                    className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
-                  >
-                    <UserPlus size={16} />
-                    <span>Invite Members</span>
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-6">
-                <h4 className="font-semibold text-charcoalGray flex items-center gap-2">
-                  <MessageSquare size={16} /> Chat / Tasks coming soon...
-                </h4>
-              </div>
-            </div>
+            <ProjectDetails
+              selectedProject={selectedProject}
+              setInviteModal={setInviteModal}
+              setUpdateModal={setUpdateModal}
+            />
           }
           setActiveModal={setSelectedProject}
         />
