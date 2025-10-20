@@ -8,8 +8,8 @@ import SeeProfile from "./pages/UserProfile/SeeProfile";
 import Home from "./components/Home/Home";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardHome from "./pages/Dashboard/Home";
-import Projects from "./pages/Dashboard/projects";
-import Tasks from "./pages/Dashboard/tasks";
+import Projects from "./pages/Dashboard/Projects";
+import Tasks from "./pages/Dashboard/Tasks";
 import LoginProtectedRoute from "./routes/LoginProtectedRoute";
 import { AuthProvider } from "./context/authContext";
 

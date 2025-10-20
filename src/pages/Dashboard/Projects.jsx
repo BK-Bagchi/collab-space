@@ -15,6 +15,7 @@ const Projects = () => {
   const [createModal, setCreateModal] = useState(false);
   const [inviteModal, setInviteModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
+  console.log(updateModal);
 
   useEffect(() => {
     const fetchProjects = async () => {
