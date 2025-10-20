@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // prettier-ignore
-import { CalendarDays, ClipboardList, MessageSquare, FolderKanban, Clock } from "lucide-react";
+import { CalendarDays, ClipboardList, MessageSquare, FolderKanban, Clock, AlertTriangle, CircleCheckBig } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
-import { ProjectAPI, TaskAPI } from "../../api";
+import { DashboardAPI, ProjectAPI, TaskAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
 
 const DashboardHome = () => {
@@ -13,6 +13,7 @@ const DashboardHome = () => {
   const [projectList, setProjectList] = useState([]);
   const [projects, setProjects] = useState({ totalCreated: 0, totalMember: 0 });
   const [tasks, setTasks] = useState([]);
+  const [overdueTasks, setOverdueTasks] = useState([]);
   const [selectedRange, setSelectedRange] = useState(15);
 
   useEffect(() => {
@@ -33,6 +34,14 @@ const DashboardHome = () => {
         setTasks(taskRes.data.tasks);
       } catch (error) {
         console.error("Error fetching task details:", error.response);
+      }
+
+      try {
+        const overdueTaskRes = await DashboardAPI.getOverdueTasks();
+        console.log(overdueTaskRes);
+        setOverdueTasks(overdueTaskRes.data.tasks);
+      } catch (error) {
+        console.error("Error fetching overdue task details:", error.response);
       }
     };
     fetchDetails();
@@ -201,6 +210,55 @@ const DashboardHome = () => {
               </div>
             )}
           </ul>
+        </div>
+
+        {/* Overdue tasks */}
+        <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+          {/* Header */}
+          <div className="flex items-center gap-2 mb-4">
+            <AlertTriangle className="text-electricBlue" />
+            <h3 className="text-lg font-semibold text-charcoalGray">
+              Overdue Tasks
+            </h3>
+          </div>
+
+          {/* Task List */}
+          {overdueTasks.length > 0 ? (
+            <ul className="space-y-3">
+              {overdueTasks.map((task) => {
+                const { _id, title, status, dueDate } = task;
+                return (
+                  <li
+                    key={_id}
+                    className="bg-[#FAFAFA] p-3 rounded-lg border border-gray-100 hover:bg-[#FFF0F0] transition"
+                  >
+                    <div className="flex justify-between items-center">
+                      <p className="text-sm font-medium text-charcoalGray">
+                        {title}
+                      </p>
+                      <p className="text-sm font-medium text-charcoalGray">
+                        {status}
+                      </p>
+                      <span className="text-xs text-red-500 font-medium">
+                        Due {formatDate(dueDate)}
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {task.project.title || "Dummy project"}
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <div className="flex flex-col items-center justify-center text-center py-10 text-gray-500">
+              <CircleCheckBig className="w-10 h-10 text-electricBlue mb-2" />
+              <p className="text-sm font-medium">No overdue tasks!</p>
+              <p className="text-xs text-gray-400 mt-1">
+                You’re all caught up — stay consistent to keep it that way.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Recent Activity */}
