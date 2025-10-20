@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // prettier-ignore
-import { Plus, Users, Calendar, MessageSquare, Edit3, UserPlus} from "lucide-react";
+import { Plus, Users, Calendar, MessageSquare, Edit3, UserPlus, Trash2} from "lucide-react";
 import Modal from "../../components/Modal/Modal";
 import InviteMembers from "../../components/Forms/InviteMembers";
 import CreateProject from "../../components/Forms/CreateProject";
@@ -29,6 +29,20 @@ const Projects = () => {
   }, [inviteModal, createModal, updateModal]);
   // console.log(projects);
 
+  const handleDeleteProject = async (projectId) => {
+    console.log(projectId);
+    try {
+      const res = await ProjectAPI.deleteProject(projectId);
+      alert(res.data.message);
+      setProjects((prevProjects) =>
+        prevProjects.filter((project) => project._id !== projectId)
+      );
+    } catch (error) {
+      console.error("Error deleting project:", error);
+      alert(error.response.data.message);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -48,12 +62,22 @@ const Projects = () => {
         {projects.map((project) => (
           <div
             key={project._id}
-            onClick={() => setSelectedProject(project)}
-            className="p-5 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition cursor-pointer"
+            className="p-5 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition"
           >
-            <h3 className="text-lg font-semibold text-vibrantPurple">
-              {project.title}
-            </h3>
+            <div className="flex justify-between items-center">
+              <h3
+                className="text-lg font-semibold text-vibrantPurple cursor-pointer hover:underline"
+                onClick={() => setSelectedProject(project)}
+              >
+                {project.title}
+              </h3>
+              <span
+                className="cursor-pointer"
+                onClick={() => handleDeleteProject(project._id)}
+              >
+                <Trash2 size={15} />
+              </span>
+            </div>
             <p className="text-sm text-gray-600 mt-1">{project.description}</p>
 
             <div className="flex justify-between items-center mt-4 text-sm text-gray-500">
