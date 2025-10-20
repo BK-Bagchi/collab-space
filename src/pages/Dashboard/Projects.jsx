@@ -130,7 +130,7 @@ const Projects = () => {
       {/* Modals */}
       {createModal && (
         <Modal
-          render={<CreateProject setActiveModal={setCreateModal} />}
+          render={<CreateProject setCreateModal={setCreateModal} />}
           setActiveModal={setCreateModal}
         />
       )}
@@ -139,7 +139,8 @@ const Projects = () => {
           render={
             <UpdateProject
               project={selectedProject}
-              setActiveModal={setUpdateModal}
+              setUpdateModal={setUpdateModal}
+              setSelectedProject={setSelectedProject}
             />
           }
           setActiveModal={setUpdateModal}

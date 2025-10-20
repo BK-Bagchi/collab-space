@@ -5,7 +5,7 @@ import { projectSchema } from "../../validations/project.validation";
 import { ProjectAPI, UserAPI } from "../../api";
 import { formatISODate } from "../../utils/dateFormater";
 
-const UpdateProject = ({ project, setActiveModal }) => {
+const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
   const [fetchedMembers, setFetchedMembers] = useState([]);
   const [searchedMembers, setSearchedMembers] = useState([]);
   const [selectedMembers, setSelectedMembers] = useState(project.members);
@@ -77,7 +77,8 @@ const UpdateProject = ({ project, setActiveModal }) => {
       const res = await ProjectAPI.updateProject(project._id, payload);
 
       alert(res.data.message);
-      setActiveModal(false);
+      setUpdateModal(false);
+      setSelectedProject(null);
     } catch (error) {
       console.error("Error updating project:", error.response);
       setUpdatingProjectError({
@@ -234,7 +235,7 @@ const UpdateProject = ({ project, setActiveModal }) => {
           <button
             type="reset"
             className="px-4 py-2 border border-gray-300 text-charcoalGray rounded-lg hover:bg-gray-100 transition"
-            onClick={() => setActiveModal(false)}
+            onClick={() => setUpdateModal(false)}
           >
             Cancel
           </button>

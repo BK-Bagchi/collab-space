@@ -5,7 +5,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { projectSchema } from "../../validations/project.validation";
 import { ProjectAPI, UserAPI } from "../../api";
 
-const CreateProject = ({ setActiveModal }) => {
+const CreateProject = ({ setCreateModal }) => {
   const { user } = useAuth();
   const [fetchedMembers, setFetchedMembers] = useState([]);
   const [searchedMembers, setSearchedMembers] = useState([]);
@@ -83,7 +83,7 @@ const CreateProject = ({ setActiveModal }) => {
         await UserAPI.updateUserRole(user._id, "MANAGER");
 
       alert(res.data.message);
-      setActiveModal(false);
+      setCreateModal(false);
     } catch (error) {
       console.error("Error creating project:", error.response);
       setCreatingProjectError({
@@ -240,7 +240,7 @@ const CreateProject = ({ setActiveModal }) => {
           <button
             type="reset"
             className="px-4 py-2 border border-gray-300 text-charcoalGray rounded-lg hover:bg-gray-100 transition"
-            onClick={() => setActiveModal(false)}
+            onClick={() => setCreateModal(false)}
           >
             Cancel
           </button>
