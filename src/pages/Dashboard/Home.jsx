@@ -1,14 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // prettier-ignore
 import { CalendarDays, ClipboardList, MessageSquare, FolderKanban } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
+import { ProjectAPI, TaskAPI } from "../../api";
 
 const DashboardHome = () => {
   const { user } = useAuth();
+
+  const [projects, setProjects] = useState({ totalCreated: 0, totalMember: 0 });
+  const [projectMessages, setProjectMessages] = useState(null);
+  const [tasks, setTasks] = useState([]);
+  const [taskMessages, setTaskMessages] = useState(null);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const projectRes = await ProjectAPI.getUserProjects();
+        setProjects({
+          totalCreated: projectRes.data.totalCreated,
+          totalMember: projectRes.data.totalMember,
+        });
+      } catch (error) {
+        console.error("Error fetching project details:", error);
+        setProjectMessages(error.response.data.message);
+      }
+
+      try {
+        const taskRes = await TaskAPI.assignedTaskToUser();
+        setTasks(taskRes.data.tasks);
+      } catch (error) {
+        console.error("Error fetching task details:", error);
+        setTaskMessages(error.response.data.message);
+      }
+    };
+    fetchDetails();
+  }, []);
+  // console.log(projects, projectMessages);
+  // console.log(tasks, taskMessages);
+
   const stats = [
-    { label: "Total Projects", value: 8, color: "#2979FF" },
-    { label: "Total Tasks", value: 42, color: "#8E24AA" },
-    { label: "Completed Tasks", value: 27, color: "#26A69A" },
+    {
+      label: "Total Created Projects",
+      value: projectMessages ? projectMessages : projects.totalCreated,
+      color: "#2979FF",
+    },
+    {
+      label: "Total Assigned Projects",
+      value: projectMessages ? projectMessages : projects.totalMember,
+      color: "#26A69A",
+    },
+    {
+      label: "Total Tasks",
+      value: taskMessages ? taskMessages : tasks.length,
+      color: "#8E24AA",
+    },
+    {
+      label: "Completed Tasks",
+      value: taskMessages ? taskMessages : tasks.length,
+      color: "#26A69A",
+    },
   ];
 
   const upcomingDeadlines = [
@@ -31,19 +81,45 @@ const DashboardHome = () => {
       </h1>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-        {stats.map((item, i) => (
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8">
+        {stats.slice(0, 2).map((item, i) => (
           <div
             key={i}
             className="rounded-xl shadow-md bg-white p-5 border border-gray-100 hover:shadow-lg transition"
           >
             <h3 className="text-sm text-gray-500">{item.label}</h3>
-            <p
-              className="text-3xl font-semibold mt-2"
-              style={{ color: item.color }}
-            >
-              {item.value}
-            </p>
+            {projectMessages ? (
+              <p className="text-xs font-semibold mt-2 text-charcoalGray">
+                {item.value}
+              </p>
+            ) : (
+              <p
+                className="text-3xl font-semibold mt-2"
+                style={{ color: item.color }}
+              >
+                {item.value}
+              </p>
+            )}
+          </div>
+        ))}
+        {stats.slice(2, 4).map((item, i) => (
+          <div
+            key={i}
+            className="rounded-xl shadow-md bg-white p-5 border border-gray-100 hover:shadow-lg transition"
+          >
+            <h3 className="text-sm text-gray-500">{item.label}</h3>
+            {taskMessages ? (
+              <p className="text-xs font-semibold mt-2 text-charcoalGray">
+                {item.value}
+              </p>
+            ) : (
+              <p
+                className="text-3xl font-semibold mt-2"
+                style={{ color: item.color }}
+              >
+                {item.value}
+              </p>
+            )}
           </div>
         ))}
       </div>
