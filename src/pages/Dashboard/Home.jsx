@@ -1,11 +1,10 @@
 import React from "react";
-import { useOutletContext } from "react-router-dom";
 // prettier-ignore
 import { CalendarDays, ClipboardList, MessageSquare, FolderKanban } from "lucide-react";
+import { useAuth } from "../../hooks/useAuth";
 
 const DashboardHome = () => {
-  const projectId = useOutletContext();
-  console.log("Dashboard Home", projectId);
+  const { user } = useAuth();
   const stats = [
     { label: "Total Projects", value: 8, color: "#2979FF" },
     { label: "Total Tasks", value: 42, color: "#8E24AA" },
@@ -28,7 +27,7 @@ const DashboardHome = () => {
     <div className="p-6 md:p-10 bg-softWhite text-charcoalGray">
       {/* Header */}
       <h1 className="text-2xl font-semibold mb-6 text-charcoalGray">
-        Welcome back, <span className="text-electricBlue">Dipto 👋</span>
+        Welcome back, <span className="text-electricBlue">{user.name} 👋</span>
       </h1>
 
       {/* Stats Overview */}

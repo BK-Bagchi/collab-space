@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
 // prettier-ignore
 import { Plus, Users, Calendar, MessageSquare, Edit3, UserPlus} from "lucide-react";
 import Modal from "../../components/Modal/Modal";
@@ -9,7 +8,6 @@ import { ProjectAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
 
 const Projects = () => {
-  const projectId = useOutletContext();
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [createModal, setCreateModal] = useState(false);
@@ -28,7 +26,7 @@ const Projects = () => {
       }
     };
     fetchProjects();
-  }, [projectId]);
+  }, []);
   // console.log(projects);
 
   return (

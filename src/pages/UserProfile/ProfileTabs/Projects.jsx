@@ -13,9 +13,8 @@ const Projects = ({ projects }) => {
             <p className="text-xs text-gray-500">{p.description}</p>
           </div>
           <Link
-            to={`/dashboard/${p._id}`}
+            to={`/dashboard/projects`}
             className="bg-[#2979FF] hover:bg-[#1E63D0] text-white px-4 py-1.5 rounded-lg text-sm transition"
-            onClick={() => localStorage.setItem("projectId", p._id)}
           >
             View
           </Link>
