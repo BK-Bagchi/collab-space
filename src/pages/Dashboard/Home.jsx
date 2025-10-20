@@ -75,7 +75,7 @@ const DashboardHome = () => {
     <div className="p-6 md:p-10 bg-softWhite text-charcoalGray">
       {/* Header */}
       <h1 className="text-2xl font-semibold mb-6 text-charcoalGray">
-        Welcome back, <span className="text-electricBlue">{user.name} 👋</span>
+        Welcome back, <span className="text-electricBlue">{user?.name} 👋</span>
       </h1>
 
       {/* Stats Overview */}

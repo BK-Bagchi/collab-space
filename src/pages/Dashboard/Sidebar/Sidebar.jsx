@@ -7,7 +7,7 @@ import formatText from "../../../utils/textFormater";
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
-  const { name: userName, role: userRole, avatar: userAvatar } = user;
+  const { name: userName, role: userRole, avatar: userAvatar } = user || {};
   const [activeRoute, setActiveRoute] = useState("/dashboard");
   const role = "Admin"; // "Admin", "PM", "Member"
 

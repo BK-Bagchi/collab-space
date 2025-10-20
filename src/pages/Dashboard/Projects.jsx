@@ -60,7 +60,7 @@ const Projects = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-charcoalGray">Your Projects</h2>
-        {user.role !== "MEMBER" && (
+        {user?.role !== "MEMBER" && (
           <button
             onClick={() => setCreateModal(true)}
             className="flex items-center gap-2 bg-vibrantPurple text-softWhite px-4 py-2 rounded-lg hover:bg-[#751C8E] transition"
