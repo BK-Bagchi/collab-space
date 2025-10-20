@@ -6,6 +6,7 @@ import InviteMembers from "../../components/Forms/InviteMembers";
 import CreateProject from "../../components/Forms/CreateProject";
 import { ProjectAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
+import UpdateProject from "../../components/Forms/UpdateProject";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -13,7 +14,6 @@ const Projects = () => {
   const [createModal, setCreateModal] = useState(false);
   const [inviteModal, setInviteModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
-  console.log(updateModal);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -132,6 +132,17 @@ const Projects = () => {
         <Modal
           render={<CreateProject setActiveModal={setCreateModal} />}
           setActiveModal={setCreateModal}
+        />
+      )}
+      {updateModal && (
+        <Modal
+          render={
+            <UpdateProject
+              project={selectedProject}
+              setActiveModal={setUpdateModal}
+            />
+          }
+          setActiveModal={setUpdateModal}
         />
       )}
       {inviteModal && (
