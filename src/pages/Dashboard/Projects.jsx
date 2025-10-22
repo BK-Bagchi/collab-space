@@ -10,6 +10,7 @@ import { useAuth } from "../../hooks/useAuth";
 import CreatedProjects from "./Components/CreatedProjects";
 import JoinedProjects from "./Components/JoinedProjects";
 import ProjectDetails from "./Components/ProjectDetails";
+import AssignedTasks from "./Components/AssignedTasks";
 
 const Projects = () => {
   const { user } = useAuth();
@@ -18,6 +19,7 @@ const Projects = () => {
   const [createModal, setCreateModal] = useState(false);
   const [inviteModal, setInviteModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
+  const [assignedTaskModal, setAssignedTaskModal] = useState(false);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -32,6 +34,7 @@ const Projects = () => {
     fetchProjects();
   }, [inviteModal, createModal, updateModal]);
   // console.log(projects);
+  // console.log(selectedProject);
 
   const createdProjects = projects.filter(
     (project) => project.createdBy._id === user._id
@@ -41,6 +44,10 @@ const Projects = () => {
     (project) => project.createdBy._id !== user._id
   );
 
+  const handleAssign = (data) => {
+    console.log("Assigned Task:", data);
+    // call API here — TaskAPI.createTask(data)
+  };
   const handleDeleteProject = async (projectId) => {
     console.log(projectId);
     try {
@@ -92,6 +99,7 @@ const Projects = () => {
               selectedProject={selectedProject}
               setInviteModal={setInviteModal}
               setUpdateModal={setUpdateModal}
+              setAssignedTaskModal={setAssignedTaskModal}
             />
           }
           setActiveModal={setSelectedProject}
@@ -126,6 +134,18 @@ const Projects = () => {
             />
           }
           setActiveModal={setInviteModal}
+        />
+      )}
+      {assignedTaskModal && (
+        <Modal
+          render={
+            <AssignedTasks
+              project={selectedProject}
+              setAssignedTaskModal={setAssignedTaskModal}
+              onAssign={handleAssign}
+            />
+          }
+          setActiveModal={setAssignedTaskModal}
         />
       )}
     </div>

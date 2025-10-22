@@ -1,9 +1,10 @@
-import { Edit3, MessageSquare, UserPlus } from "lucide-react";
+import { ClipboardList, Edit3, MessageSquare, UserPlus } from "lucide-react";
 
 const ProjectDetails = ({
   selectedProject,
   setInviteModal,
   setUpdateModal,
+  setAssignedTaskModal,
 }) => {
   return (
     <div className="bg-softWhite w-full max-w-2xl rounded-xl shadow-lg p-6 relative">
@@ -42,6 +43,14 @@ const ProjectDetails = ({
           >
             <UserPlus size={16} />
             <span>Invite Members</span>
+          </button>
+
+          <button
+            onClick={() => setAssignedTaskModal(true)}
+            className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
+          >
+            <ClipboardList size={16} />
+            <span>Assign Tasks</span>
           </button>
         </div>
       </div>
