@@ -8,7 +8,7 @@ export const deleteTask = (id) => axios.delete(`/task/${id}`);
 export const getProjectTasks = (id, params = {}) =>
   axios.get(`/projects/${id}/tasks`, { params });
 export const updateSubtasks = (id, data) =>
-  axios.patch(`/task/${id}/subtasks`, data);
+  axios.patch(`/task/${id}/subtask`, data);
 export const updateTaskStatus = (id, data) =>
   axios.patch(`/task/${id}/status`, data);
 export const uploadTaskAttachment = (id, formData) =>

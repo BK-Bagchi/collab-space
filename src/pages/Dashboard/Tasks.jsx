@@ -16,9 +16,9 @@ const Tasks = () => {
   const [visibleColumns, setVisibleColumns] = useState(
     columns.map((col) => col.id)
   );
-  const [openSubtask, setOpenSubtask] = useState(false);
-  const [checked, setChecked] = useState({});
-  console.log(checked);
+  const [openSubtasks, setOpenSubtasks] = useState({});
+  const [updating, setUpdating] = useState(null);
+  // console.log(openSubtasks);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -38,7 +38,7 @@ const Tasks = () => {
   columns[0].tasks = task?.filter((t) => t.status === "TODO");
   columns[1].tasks = task?.filter((t) => t.status === "IN_PROGRESS");
   columns[2].tasks = task?.filter((t) => t.status === "DONE");
-  console.log(columns);
+  // console.log(columns);
 
   const toggleColumn = (id) => {
     setVisibleColumns((prev) =>
@@ -58,11 +58,45 @@ const Tasks = () => {
     }
   };
 
-  const toggleCheck = (id) => {
-    setChecked((prev) => ({
+  const toggleSubtaskView = (taskId) => {
+    setOpenSubtasks((prev) => ({
       ...prev,
-      [id]: !prev[id],
+      [taskId]: !prev[taskId],
     }));
+  };
+
+  const toggleSubtaskStatus = async (taskId, subtask) => {
+    const newStatus = !subtask.done;
+    setUpdating(subtask._id);
+    const id = taskId;
+    const data = {
+      action: "update",
+      subtasks: { ...subtask, done: newStatus },
+      subTaskId: subtask._id,
+    };
+    // console.log(data, id);
+
+    try {
+      const res = await TaskAPI.updateSubtasks(id, data);
+      alert(res.data.message);
+
+      // Updating UI state instead of full refresh
+      setTask((prev) =>
+        prev.map((t) =>
+          t._id === taskId
+            ? {
+                ...t,
+                subtasks: t.subtasks.map((s) =>
+                  s._id === subtask._id ? { ...s, done: newStatus } : s
+                ),
+              }
+            : t
+        )
+      );
+      setUpdating(null);
+    } catch (err) {
+      console.error("Failed updating subtask:", err.response);
+    }
   };
 
   return (
@@ -151,58 +185,66 @@ const Tasks = () => {
                           </span>
                         </div>
 
-                        {/* Subtasks */}
-                        <div className="mt-2">
-                          {/* Toggle Button */}
-                          <button
-                            onClick={() => setOpenSubtask(!openSubtask)}
-                            className="flex items-center gap-1 text-xs text-gray-600 hover:text-gray-800 transition"
-                          >
-                            {openSubtask ? (
-                              <ChevronUp className="w-3 h-3" />
-                            ) : (
-                              <ChevronDown className="w-3 h-3" />
-                            )}
-                            <span className="cursor-pointer hover:underline my-3">
-                              {openSubtask
-                                ? "Hide Subtasks"
-                                : `View Subtasks (${task.subtasks.length})`}
-                            </span>
-                          </button>
+                        {/* Subtasks Section */}
+                        {task.subtasks.length > 0 && (
+                          <div className="mt-2">
+                            {/* Toggle Open */}
+                            <button
+                              onClick={() => toggleSubtaskView(task._id)}
+                              className="flex items-center gap-1 text-xs text-gray-600 hover:text-gray-800 transition"
+                            >
+                              {openSubtasks[task._id] ? (
+                                <ChevronUp className="w-3 h-3" />
+                              ) : (
+                                <ChevronDown className="w-3 h-3" />
+                              )}
+                              <span className="cursor-pointer hover:underline my-3">
+                                {openSubtasks[task._id]
+                                  ? "Hide Subtasks"
+                                  : `View Subtasks (${task.subtasks.length})`}
+                              </span>
+                            </button>
 
-                          {/* Collapsible Content */}
-                          {openSubtask && (
-                            <ul className="mt-2 pl-3 border-l border-gray-200 space-y-1">
-                              {task.subtasks.map((subtask) => (
-                                <li
-                                  key={subtask._id}
-                                  className="flex justify-between items-center text-xs text-gray-700"
-                                >
-                                  <div className="flex items-center gap-2">
-                                    <input
-                                      type="checkbox"
-                                      checked={checked[subtask._id] || false}
-                                      onChange={() => toggleCheck(subtask._id)}
-                                      className="w-3 h-3 accent-electricBlue cursor-pointer"
-                                    />
-                                    <span
-                                      className={`${
-                                        checked[subtask._id]
-                                          ? "line-through text-gray-400"
-                                          : "text-gray-700"
-                                      }`}
-                                    >
-                                      {subtask.title}
+                            {/* Collapsible List */}
+                            {openSubtasks[task._id] && (
+                              <ul className="mt-2 pl-3 border-l border-gray-200 space-y-1">
+                                {task.subtasks.map((subtask) => (
+                                  <li
+                                    key={subtask._id}
+                                    className="flex justify-between items-center text-xs text-gray-700"
+                                    onClick={() =>
+                                      toggleSubtaskStatus(task._id, subtask)
+                                    }
+                                  >
+                                    <div className="flex items-center gap-2">
+                                      <input
+                                        type="checkbox"
+                                        checked={subtask.done === true}
+                                        disabled={updating === subtask._id}
+                                        onChange={() =>
+                                          toggleSubtaskStatus(task._id, subtask)
+                                        }
+                                        className="w-3 h-3 accent-electricBlue cursor-pointer"
+                                      />
+                                      <span
+                                        className={`transition ${
+                                          subtask.done === true
+                                            ? "line-through text-gray-400"
+                                            : "text-gray-700"
+                                        } cursor-pointer`}
+                                      >
+                                        {subtask.title}
+                                      </span>
+                                    </div>
+                                    <span className="text-gray-400">
+                                      {subtask.done === true ? "Done" : "To Do"}
                                     </span>
-                                  </div>
-                                  <span className="text-gray-400">
-                                    {subtask.status}
-                                  </span>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        )}
 
                         <div className="w-full py-2">
                           <StatusSlider
