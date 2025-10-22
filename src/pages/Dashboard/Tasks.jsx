@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 // prettier-ignore
-import { CalendarDays, User, Flag, ChevronRight, ChevronLeft } from "lucide-react";
+import { CalendarDays, User, Flag, ChevronRight, ChevronLeft, ChevronUp, ChevronDown } from "lucide-react";
 import { TaskAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
 import formatText from "../../utils/textFormater";
@@ -16,6 +16,9 @@ const Tasks = () => {
   const [visibleColumns, setVisibleColumns] = useState(
     columns.map((col) => col.id)
   );
+  const [openSubtask, setOpenSubtask] = useState(false);
+  const [checked, setChecked] = useState({});
+  console.log(checked);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -35,7 +38,7 @@ const Tasks = () => {
   columns[0].tasks = task?.filter((t) => t.status === "TODO");
   columns[1].tasks = task?.filter((t) => t.status === "IN_PROGRESS");
   columns[2].tasks = task?.filter((t) => t.status === "DONE");
-  // console.log(columns);
+  console.log(columns);
 
   const toggleColumn = (id) => {
     setVisibleColumns((prev) =>
@@ -53,6 +56,13 @@ const Tasks = () => {
     } catch (err) {
       console.error("Error updating status:", err.response);
     }
+  };
+
+  const toggleCheck = (id) => {
+    setChecked((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
   };
 
   return (
@@ -140,6 +150,60 @@ const Tasks = () => {
                             {formatText(task.priority)} Priority
                           </span>
                         </div>
+
+                        {/* Subtasks */}
+                        <div className="mt-2">
+                          {/* Toggle Button */}
+                          <button
+                            onClick={() => setOpenSubtask(!openSubtask)}
+                            className="flex items-center gap-1 text-xs text-gray-600 hover:text-gray-800 transition"
+                          >
+                            {openSubtask ? (
+                              <ChevronUp className="w-3 h-3" />
+                            ) : (
+                              <ChevronDown className="w-3 h-3" />
+                            )}
+                            <span className="cursor-pointer hover:underline my-3">
+                              {openSubtask
+                                ? "Hide Subtasks"
+                                : `View Subtasks (${task.subtasks.length})`}
+                            </span>
+                          </button>
+
+                          {/* Collapsible Content */}
+                          {openSubtask && (
+                            <ul className="mt-2 pl-3 border-l border-gray-200 space-y-1">
+                              {task.subtasks.map((subtask) => (
+                                <li
+                                  key={subtask._id}
+                                  className="flex justify-between items-center text-xs text-gray-700"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <input
+                                      type="checkbox"
+                                      checked={checked[subtask._id] || false}
+                                      onChange={() => toggleCheck(subtask._id)}
+                                      className="w-3 h-3 accent-electricBlue cursor-pointer"
+                                    />
+                                    <span
+                                      className={`${
+                                        checked[subtask._id]
+                                          ? "line-through text-gray-400"
+                                          : "text-gray-700"
+                                      }`}
+                                    >
+                                      {subtask.title}
+                                    </span>
+                                  </div>
+                                  <span className="text-gray-400">
+                                    {subtask.status}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+
                         <div className="w-full py-2">
                           <StatusSlider
                             value={task.status}
