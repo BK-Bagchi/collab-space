@@ -3,7 +3,7 @@ import { Plus } from "lucide-react";
 import Modal from "../../components/Modal/Modal";
 import InviteMembers from "../../components/Forms/InviteMembers";
 import CreateProject from "../../components/Forms/CreateProject";
-import { ProjectAPI } from "../../api";
+import { ProjectAPI, TaskAPI } from "../../api";
 import UpdateProject from "../../components/Forms/UpdateProject";
 import { useAuth } from "../../hooks/useAuth";
 import CreatedProjects from "./Components/CreatedProjects";
@@ -43,9 +43,13 @@ const Projects = () => {
     (project) => project.createdBy._id !== user._id
   );
 
-  const handleAssign = (data) => {
-    console.log("Assigned Task:", data);
-    // call API here — TaskAPI.createTask(data)
+  const handleAssign = async (data) => {
+    try {
+      const res = await TaskAPI.createTask(data);
+      alert(res.data.message);
+    } catch (error) {
+      console.error("Error assigning task:", error.response);
+    }
   };
   const handleDeleteProject = async (projectId) => {
     console.log(projectId);
