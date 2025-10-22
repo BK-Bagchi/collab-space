@@ -4,7 +4,7 @@ import { CalendarDays, User, Flag, ChevronRight, ChevronLeft } from "lucide-reac
 import { TaskAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
 import formatText from "../../utils/textFormater";
-import StatusSlider from "../../components/StatusSlider/StatusSlider";
+import StatusSlider from "./Components/StatusSlider";
 
 const Tasks = () => {
   const columns = [
@@ -34,7 +34,7 @@ const Tasks = () => {
   // include tasks in each column
   columns[0].tasks = task?.filter((t) => t.status === "TODO");
   columns[1].tasks = task?.filter((t) => t.status === "IN_PROGRESS");
-  columns[2].tasks = task?.filter((t) => t.status === "COMPLETED");
+  columns[2].tasks = task?.filter((t) => t.status === "DONE");
   // console.log(columns);
 
   const toggleColumn = (id) => {
@@ -44,16 +44,15 @@ const Tasks = () => {
   };
 
   const handleStatusChange = async (taskId, newStatus) => {
-    setTask((prev) =>
-      prev.map((t) => (t._id === taskId ? { ...t, status: newStatus } : t))
-    );
-
-    // optional backend update
-    // try {
-    //   await TaskAPI.updateTaskStatus(taskId, { status: newStatus });
-    // } catch (err) {
-    //   console.error("Error updating status:", err);
-    // }
+    try {
+      const res = await TaskAPI.updateTaskStatus(taskId, { status: newStatus });
+      setTask((prev) =>
+        prev.map((t) => (t._id === taskId ? { ...t, status: newStatus } : t))
+      );
+      alert(res.data.message);
+    } catch (err) {
+      console.error("Error updating status:", err.response);
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const statuses = ["TODO", "IN_PROGRESS", "COMPLETED"];
+const statuses = ["TODO", "IN_PROGRESS", "DONE"];
 const labels = ["To Do", "In Progress", "Completed"];
 
 const StatusSlider = ({ value, onChange }) => {
@@ -14,7 +14,6 @@ const StatusSlider = ({ value, onChange }) => {
     setPosition(newIndex);
     onChange(statuses[newIndex]);
   };
-  console.log(status);
 
   const segmentWidth = 100 / statuses.length;
   const leftPercent = position * segmentWidth + segmentWidth / 2;
@@ -29,15 +28,18 @@ const StatusSlider = ({ value, onChange }) => {
           }`}
           onClick={() => handleSlide(index)}
         >
-          {status === "TODO" && "To Do"}
-          {status === "IN_PROGRESS" && "In Progress"}
-          {status === "COMPLETED" && "Completed"}
+          {status === "TODO"
+            ? "To Do"
+            : status === "IN_PROGRESS"
+            ? "In Progress"
+            : "Completed"}
         </div>
       ))}
 
       {/* Slider */}
       <div
-        className="absolute top-1 bottom-1 w-1/3 flex items-center justify-center bg-[#2979FF] rounded-full transition-all duration-300 text-black"
+        className="absolute top-1 bottom-1 w-1/3 bg-[#2979FF] rounded-full flex items-center justify-center text-xs
+        transition-[left] duration-500 ease-in-out"
         style={{
           left: `calc(${leftPercent}% - 16.6%)`,
         }}
