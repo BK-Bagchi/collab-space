@@ -39,10 +39,14 @@ const AssignedTasks = ({ project, setAssignedTaskModal, onAssign }) => {
       });
       return;
     }
+    console.log(selectedMembers);
     const taskData = {
-      projectId: project._id,
       title: data.title,
-      assignees: selectedMembers,
+      status: data.status,
+      project: project._id,
+      assignees: selectedMembers.map((member) => member._id),
+      dueDate: data.dueDate,
+      priority: data.priority,
       subtasks: data.subtasks.map((s) => ({
         title: s.title,
       })),
@@ -74,6 +78,59 @@ const AssignedTasks = ({ project, setAssignedTaskModal, onAssign }) => {
           />
           {errors.title && (
             <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>
+          )}
+        </div>
+
+        {/* Status Section */}
+        <div className="mb-4">
+          <label className="block text-sm text-gray-600 mb-1">
+            Task Status
+          </label>
+          <select
+            {...register("status")}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+          >
+            <option value="">Select status</option>
+            <option value="TODO">To Do</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="DONE">Completed</option>
+          </select>
+          {errors.status && (
+            <p className="text-red-500 text-xs mt-1">{errors.status.message}</p>
+          )}
+        </div>
+
+        {/* Due Date Section */}
+        <div className="mb-4">
+          <label className="block text-sm text-gray-600 mb-1">Due Date</label>
+          <input
+            type="date"
+            {...register("dueDate")}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+          />
+          {errors.dueDate && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.dueDate.message}
+            </p>
+          )}
+        </div>
+
+        {/* Priority Section */}
+        <div className="mb-4">
+          <label className="block text-sm text-gray-600 mb-1">Priority</label>
+          <select
+            {...register("priority")}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+          >
+            <option value="">Select priority</option>
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+          </select>
+          {errors.priority && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.priority.message}
+            </p>
           )}
         </div>
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-// prettier-ignore
-import { Plus, Users, Calendar, MessageSquare, Edit3, UserPlus, Trash2} from "lucide-react";
+import { Plus } from "lucide-react";
 import Modal from "../../components/Modal/Modal";
 import InviteMembers from "../../components/Forms/InviteMembers";
 import CreateProject from "../../components/Forms/CreateProject";
