@@ -4,6 +4,7 @@ import { CalendarDays, User, Flag, ChevronRight, ChevronLeft } from "lucide-reac
 import { TaskAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
 import formatText from "../../utils/textFormater";
+import StatusSlider from "../../components/StatusSlider/StatusSlider";
 
 const Tasks = () => {
   const columns = [
@@ -40,6 +41,19 @@ const Tasks = () => {
     setVisibleColumns((prev) =>
       prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
     );
+  };
+
+  const handleStatusChange = async (taskId, newStatus) => {
+    setTask((prev) =>
+      prev.map((t) => (t._id === taskId ? { ...t, status: newStatus } : t))
+    );
+
+    // optional backend update
+    // try {
+    //   await TaskAPI.updateTaskStatus(taskId, { status: newStatus });
+    // } catch (err) {
+    //   console.error("Error updating status:", err);
+    // }
   };
 
   return (
@@ -126,6 +140,14 @@ const Tasks = () => {
                           <span className="text-xs font-medium">
                             {formatText(task.priority)} Priority
                           </span>
+                        </div>
+                        <div className="w-full py-2">
+                          <StatusSlider
+                            value={task.status}
+                            onChange={(newStatus) =>
+                              handleStatusChange(task._id, newStatus)
+                            }
+                          />
                         </div>
                       </div>
                     ))
