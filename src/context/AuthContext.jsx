@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { AuthAPI } from "../api";
 
 const AuthContext = createContext();
 
@@ -11,10 +12,23 @@ export const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem("user");
     const storedToken = localStorage.getItem("token");
 
-    if (storedUser && storedToken) {
-      setUser(JSON.parse(storedUser));
-      setLoggedIn(true);
-    }
+    const verifyToken = async () => {
+      try {
+        if (storedUser && storedToken) {
+          const res = await AuthAPI.verifyToken();
+          console.log(res);
+          if (res.status === 200) {
+            setUser(JSON.parse(storedUser));
+            setLoggedIn(true);
+          } else logout();
+        } else logout();
+      } catch (error) {
+        console.error("Error verifying token:", error);
+        logout();
+      }
+    };
+
+    verifyToken();
   }, []);
 
   // Login method
