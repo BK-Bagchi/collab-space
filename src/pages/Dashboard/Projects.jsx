@@ -132,8 +132,9 @@ const Projects = () => {
         <Modal
           render={
             <InviteMembers
+              project={selectedProject}
               setInviteModal={setInviteModal}
-              projectId={selectedProject?._id}
+              setSelectedProject={setSelectedProject}
             />
           }
           setActiveModal={setInviteModal}
