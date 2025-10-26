@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 // prettier-ignore
-import { CalendarDays, User, Flag, ChevronRight, ChevronLeft, FolderKanban } from "lucide-react";
+import { CalendarDays, User, Flag, ChevronRight, ChevronLeft, FolderKanban, AlertCircle } from "lucide-react";
 import { TaskAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
 import formatText from "../../utils/textFormater";
@@ -33,7 +33,7 @@ const Tasks = () => {
 
     fetchTasks();
   }, []);
-  console.log(task);
+  // console.log(task);
 
   // include tasks in each column
   columns[0].tasks = task?.filter((t) => t.status === "TODO");
@@ -150,7 +150,11 @@ const Tasks = () => {
                     col.tasks.map((task) => (
                       <div
                         key={task._id}
-                        className="bg-[#F9FAFB] p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition"
+                        className={`bg-[#F9FAFB] p-4 rounded-lg shadow-sm border ${
+                          new Date(task.dueDate) < new Date()
+                            ? "border-red-600"
+                            : "border-gray-100"
+                        } hover:shadow-md transition`}
                       >
                         <h4 className="font-medium text-lg text-charcoalGray">
                           {task.title}
@@ -166,8 +170,19 @@ const Tasks = () => {
                             ))}
                           </div>
                           <div className="flex items-center gap-1">
-                            <CalendarDays className="w-4 h-4 text-vibrantPurple" />
-                            <span>{formatDate(task.dueDate)}</span>
+                            {new Date(task.dueDate) < new Date() ? (
+                              <>
+                                <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+                                <span className="text-red-600">
+                                  {formatDate(task.dueDate)}
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                <CalendarDays className="w-4 h-4 text-vibrantPurple" />{" "}
+                                <span>{formatDate(task.dueDate)}</span>
+                              </>
+                            )}
                           </div>
                         </div>
 
