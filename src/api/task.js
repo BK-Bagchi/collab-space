@@ -6,7 +6,7 @@ export const getTaskById = (id) => axios.get(`/task/${id}`);
 export const updateTask = (id, data) => axios.put(`/task/${id}`, data);
 export const deleteTask = (id) => axios.delete(`/task/${id}`);
 export const getProjectTasks = (id, params = {}) =>
-  axios.get(`/projects/${id}/tasks`, { params });
+  axios.get(`/project/${id}/tasks`, { params });
 export const updateSubtasks = (id, data) =>
   axios.patch(`/task/${id}/subtask`, data);
 export const updateTaskStatus = (id, data) =>

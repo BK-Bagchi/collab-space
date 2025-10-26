@@ -1,4 +1,9 @@
-import { ClipboardList, Edit3, MessageSquare, UserPlus } from "lucide-react";
+import { useEffect, useState } from "react";
+//prettier-ignore
+import { ClipboardList, Edit3, UserPlus, CalendarDays, User, Flag, Loader, CheckCircle2, AlertCircle, CircleCheck } from "lucide-react";
+import { TaskAPI } from "../../../api";
+import formatText from "../../../utils/textFormater";
+import formatDate from "../../../utils/dateFormater";
 
 const ProjectDetails = ({
   selectedProject,
@@ -6,6 +11,20 @@ const ProjectDetails = ({
   setUpdateModal,
   setAssignedTaskModal,
 }) => {
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const res = await TaskAPI.getProjectTasks(selectedProject._id);
+        setTasks(res.data.tasks);
+      } catch (error) {
+        console.error("Error fetching tasks:", error.response);
+      }
+    };
+    fetchTasks();
+  }, [selectedProject]);
+
   return (
     <div className="bg-softWhite w-full max-w-2xl rounded-xl shadow-lg p-6 relative">
       <h3 className="text-xl font-bold text-vibrantPurple">
@@ -55,10 +74,98 @@ const ProjectDetails = ({
         </div>
       </div>
 
-      <div className="mt-6">
-        <h4 className="font-semibold text-charcoalGray flex items-center gap-2">
-          <MessageSquare size={16} /> Chat / Tasks coming soon...
+      {/* Tasks */}
+      <div className="mt-6 bg-white rounded-xl shadow-md border border-gray-100 p-5">
+        <h4 className="font-semibold text-charcoalGray flex items-center gap-2 mb-4">
+          Tasks
         </h4>
+
+        {tasks && tasks.length > 0 ? (
+          <ul className="space-y-3">
+            {tasks.map((task) => (
+              <li
+                key={task._id}
+                className={`bg-[#F9FAFB] p-4 rounded-lg shadow-sm border ${
+                  new Date(task.dueDate) < new Date()
+                    ? "border-red-600"
+                    : "border-gray-100"
+                }  hover:shadow-md transition`}
+              >
+                <h5 className="font-medium text-lg text-charcoalGray">
+                  {task.title}
+                </h5>
+
+                <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
+                  <div className="flex items-center gap-1">
+                    {task.assignees.length > 0 && (
+                      <User className="w-4 h-4 text-electricBlue" />
+                    )}
+                    {task.assignees.map((a, i) => (
+                      <span key={i}>{a.name}</span>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {new Date(task.dueDate) < new Date() ? (
+                      <>
+                        <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+                        <span className="text-red-600">
+                          {formatDate(task.dueDate)}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <CalendarDays className="w-4 h-4 text-vibrantPurple" />{" "}
+                        <span>{formatDate(task.dueDate)}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
+                  <div className="flex items-center gap-1">
+                    {task.status && task.status === "TODO" && (
+                      <CircleCheck className="w-4 h-4 text-electricBlue" />
+                    )}
+                    {task.status && task.status === "IN_PROGRESS" && (
+                      <Loader className="w-4 h-4 text-electricBlue" />
+                    )}
+                    {task.status && task.status === "DONE" && (
+                      <CheckCircle2 className="w-4 h-4 text-tealGreen" />
+                    )}
+
+                    <span>{formatText(task.status)}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Flag
+                      className={`w-4 h-4 ${
+                        task.priority === "HIGH"
+                          ? "text-red-500"
+                          : task.priority === "MEDIUM"
+                          ? "text-yellow-500"
+                          : "text-tealGreen"
+                      }`}
+                    />
+                    <span className="font-medium">
+                      {formatText(task.priority)} Priority
+                    </span>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="flex flex-col items-center justify-center text-center py-10 text-gray-400">
+            <p className="text-sm font-medium">No tasks yet!</p>
+            <p className="text-xs mt-1">
+              Tasks assigned to this project will appear here.
+            </p>
+          </div>
+        )}
+
+        {/* Chat Placeholder */}
+        <div className="mt-6 p-4 border-t border-gray-200 text-gray-400 italic text-sm text-center">
+          <span>💬 Chat coming soon...</span>
+        </div>
       </div>
     </div>
   );

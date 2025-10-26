@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
       try {
         if (storedUser && storedToken) {
           const res = await AuthAPI.verifyToken();
-          console.log(res);
           if (res.status === 200) {
             setUser(JSON.parse(storedUser));
             setLoggedIn(true);
