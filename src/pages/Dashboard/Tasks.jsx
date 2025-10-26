@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 // prettier-ignore
-import { CalendarDays, User, Flag, ChevronRight, ChevronLeft } from "lucide-react";
+import { CalendarDays, User, Flag, ChevronRight, ChevronLeft, FolderKanban } from "lucide-react";
 import { TaskAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
 import formatText from "../../utils/textFormater";
@@ -33,7 +33,7 @@ const Tasks = () => {
 
     fetchTasks();
   }, []);
-  // console.log(task);
+  console.log(task);
 
   // include tasks in each column
   columns[0].tasks = task?.filter((t) => t.status === "TODO");
@@ -152,38 +152,44 @@ const Tasks = () => {
                         key={task._id}
                         className="bg-[#F9FAFB] p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition"
                       >
-                        <h4 className="font-medium text-sm text-charcoalGray">
+                        <h4 className="font-medium text-lg text-charcoalGray">
                           {task.title}
                         </h4>
 
-                        <div className="flex justify-between items-center mt-3 text-xs text-gray-600">
+                        <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
                           <div className="flex items-center gap-1">
                             {task.assignees.length > 0 && (
-                              <User className="w-3 h-3 text-electricBlue" />
+                              <User className="w-4 h-4 text-electricBlue" />
                             )}
                             {task.assignees.map((a, i) => (
                               <span key={i}>{a.name}</span>
                             ))}
                           </div>
                           <div className="flex items-center gap-1">
-                            <CalendarDays className="w-3 h-3 text-vibrantPurple" />
+                            <CalendarDays className="w-4 h-4 text-vibrantPurple" />
                             <span>{formatDate(task.dueDate)}</span>
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-1 mt-2">
-                          <Flag
-                            className={`w-3 h-3 ${
-                              task.priority === "HIGH"
-                                ? "text-red-500"
-                                : task.priority === "MEDIUM"
-                                ? "text-yellow-500"
-                                : "text-tealGreen"
-                            }`}
-                          />
-                          <span className="text-xs font-medium">
-                            {formatText(task.priority)} Priority
-                          </span>
+                        <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
+                          <div className="flex items-center gap-1">
+                            <FolderKanban className="w-4 h-4 text-vibrantPurple" />
+                            <span>{task.project.title}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Flag
+                              className={`w-4 h-4 ${
+                                task.priority === "HIGH"
+                                  ? "text-red-500"
+                                  : task.priority === "MEDIUM"
+                                  ? "text-yellow-500"
+                                  : "text-tealGreen"
+                              }`}
+                            />
+                            <span className="font-medium">
+                              {formatText(task.priority)} Priority
+                            </span>
+                          </div>
                         </div>
 
                         {/* Subtasks Section */}
