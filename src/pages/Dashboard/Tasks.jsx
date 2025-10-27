@@ -115,7 +115,7 @@ const Tasks = () => {
             style={{
               borderTopColor: col.color,
               width: isVisible ? "calc(33.333% - 1.5rem)" : "2.5rem",
-              maxHeight: isVisible ? "auto" : "200px",
+              maxHeight: !isVisible && "200px",
             }}
           >
             {/* Collapse / Expand Button */}
