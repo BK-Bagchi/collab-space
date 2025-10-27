@@ -43,15 +43,6 @@ const Projects = () => {
     (project) => project.createdBy._id !== user._id
   );
 
-  const handleTaskAssign = async (data) => {
-    try {
-      const res = await TaskAPI.createTask(data);
-      alert(res.data.message);
-    } catch (error) {
-      console.error("Error assigning task:", error.response);
-    }
-  };
-
   const handleDeleteProject = async (projectId) => {
     console.log(projectId);
     try {
@@ -148,7 +139,6 @@ const Projects = () => {
             <AssignedTasks
               project={selectedProject}
               setAssignedTaskModal={setAssignedTaskModal}
-              onTaskAssign={handleTaskAssign}
               setSelectedProject={setSelectedProject}
             />
           }
