@@ -51,6 +51,7 @@ const Projects = () => {
       console.error("Error assigning task:", error.response);
     }
   };
+
   const handleDeleteProject = async (projectId) => {
     console.log(projectId);
     try {
@@ -102,6 +103,7 @@ const Projects = () => {
               selectedProject={selectedProject}
               setInviteModal={setInviteModal}
               setUpdateModal={setUpdateModal}
+              setSelectedProject={setSelectedProject}
               setAssignedTaskModal={setAssignedTaskModal}
             />
           }

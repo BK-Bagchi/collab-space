@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 //prettier-ignore
-import { ClipboardList, Edit3, UserPlus, CalendarDays, User, Flag, Loader, CheckCircle2, AlertCircle, CircleCheck } from "lucide-react";
+import { ClipboardList, Edit3, UserPlus, CalendarDays, User, Flag, Loader, CheckCircle2, AlertCircle, CircleCheck, Trash2 } from "lucide-react";
 import { TaskAPI } from "../../../api";
 import formatText from "../../../utils/textFormater";
 import formatDate from "../../../utils/dateFormater";
+import Modal from "../../../components/Modal/Modal";
+import UpdateTask from "../../../components/Forms/UpdateTask";
 
 const ProjectDetails = ({
   selectedProject,
   setInviteModal,
   setUpdateModal,
+  setSelectedProject,
   setAssignedTaskModal,
 }) => {
   const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [updateTaskModal, setUpdateTaskModal] = useState(false);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -91,9 +96,31 @@ const ProjectDetails = ({
                     : "border-gray-100"
                 }  hover:shadow-md transition`}
               >
-                <h5 className="font-medium text-lg text-charcoalGray">
-                  {task.title}
-                </h5>
+                <div className="flex justify-between">
+                  <h5 className="font-medium text-lg text-charcoalGray">
+                    {task.title}
+                  </h5>
+                  <div className="flex items-center mb-4">
+                    <button
+                      onClick={() => {
+                        setSelectedTask(task);
+                        setUpdateTaskModal(true);
+                      }}
+                      className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
+                    >
+                      {/* update task */}
+                      <Edit3 size={16} />
+                    </button>
+
+                    <button
+                      onClick={() => console.log(selectedProject)}
+                      className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
+                    >
+                      {/* delete task */}
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
 
                 <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
                   <div className="flex items-center gap-1">
@@ -167,6 +194,21 @@ const ProjectDetails = ({
           <span>💬 Chat coming soon...</span>
         </div>
       </div>
+
+      {/* Update Task Modal */}
+      {updateTaskModal && (
+        <Modal
+          render={
+            <UpdateTask
+              task={selectedTask}
+              project={selectedProject}
+              setUpdateTaskModal={setUpdateTaskModal}
+              setSelectedProject={setSelectedProject}
+            />
+          }
+          setActiveModal={setUpdateTaskModal}
+        />
+      )}
     </div>
   );
 };
