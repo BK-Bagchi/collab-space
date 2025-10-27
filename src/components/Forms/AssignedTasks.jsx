@@ -2,9 +2,14 @@ import { useState } from "react";
 import { UserPlus, CheckCircle2, PlusCircle, Trash2 } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { assignTaskSchema } from "../../../validations/task.validation";
+import { assignTaskSchema } from "../../validations/task.validation";
 
-const AssignedTasks = ({ project, setAssignedTaskModal, onAssign }) => {
+const AssignedTasks = ({
+  project,
+  setAssignedTaskModal,
+  onTaskAssign,
+  setSelectedProject,
+}) => {
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [selectedMembersError, setSelectedMembersError] = useState({
     status: false,
@@ -39,7 +44,7 @@ const AssignedTasks = ({ project, setAssignedTaskModal, onAssign }) => {
       });
       return;
     }
-    console.log(selectedMembers);
+    // console.log(selectedMembers);
     const taskData = {
       title: data.title,
       status: data.status,
@@ -52,8 +57,9 @@ const AssignedTasks = ({ project, setAssignedTaskModal, onAssign }) => {
       })),
     };
 
-    onAssign(taskData);
+    onTaskAssign(taskData);
     setAssignedTaskModal(false);
+    setSelectedProject(null);
   };
 
   return (
@@ -90,7 +96,9 @@ const AssignedTasks = ({ project, setAssignedTaskModal, onAssign }) => {
             {...register("status")}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
           >
-            <option value="">Select status</option>
+            <option value="" className="hidden">
+              Select status
+            </option>
             <option value="TODO">To Do</option>
             <option value="IN_PROGRESS">In Progress</option>
             <option value="DONE">Completed</option>

@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/useAuth";
 import CreatedProjects from "./Components/CreatedProjects";
 import JoinedProjects from "./Components/JoinedProjects";
 import ProjectDetails from "./Components/ProjectDetails";
-import AssignedTasks from "./Components/AssignedTasks";
+import AssignedTasks from "../../components/Forms/AssignedTasks";
 
 const Projects = () => {
   const { user } = useAuth();
@@ -43,7 +43,7 @@ const Projects = () => {
     (project) => project.createdBy._id !== user._id
   );
 
-  const handleAssign = async (data) => {
+  const handleTaskAssign = async (data) => {
     try {
       const res = await TaskAPI.createTask(data);
       alert(res.data.message);
@@ -146,7 +146,8 @@ const Projects = () => {
             <AssignedTasks
               project={selectedProject}
               setAssignedTaskModal={setAssignedTaskModal}
-              onAssign={handleAssign}
+              onTaskAssign={handleTaskAssign}
+              setSelectedProject={setSelectedProject}
             />
           }
           setActiveModal={setAssignedTaskModal}
