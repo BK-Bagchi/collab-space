@@ -30,6 +30,18 @@ const ProjectDetails = ({
     fetchTasks();
   }, [selectedProject]);
 
+  const handleDeleteTask = async (taskId) => {
+    try {
+      const res = await TaskAPI.deleteTask(taskId);
+      alert(res.data.message);
+    } catch (error) {
+      console.error("Error deleting task:", error.response.data.message);
+    } finally {
+      const updatedTasks = tasks.filter((task) => task._id !== taskId);
+      setTasks(updatedTasks);
+    }
+  };
+
   return (
     <div className="bg-softWhite w-full max-w-2xl rounded-xl shadow-lg p-6 relative">
       <h3 className="text-xl font-bold text-vibrantPurple">
@@ -113,7 +125,7 @@ const ProjectDetails = ({
                     </button>
 
                     <button
-                      onClick={() => console.log(selectedProject)}
+                      onClick={() => handleDeleteTask(task._id)}
                       className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
                     >
                       {/* delete task */}
