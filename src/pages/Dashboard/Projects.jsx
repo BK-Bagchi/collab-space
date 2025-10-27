@@ -27,7 +27,7 @@ const Projects = () => {
         const { projects } = res.data;
         setProjects(projects);
       } catch (error) {
-        console.error("Error fetching projects:", error);
+        console.warn("Error fetching projects:", error.response.data.message);
       }
     };
     fetchProjects();

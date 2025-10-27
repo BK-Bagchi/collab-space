@@ -19,7 +19,7 @@ const ProjectDetails = ({
         const res = await TaskAPI.getProjectTasks(selectedProject._id);
         setTasks(res.data.tasks);
       } catch (error) {
-        console.error("Error fetching tasks:", error.response);
+        console.warn("Error fetching tasks:", error.response.data.message);
       }
     };
     fetchTasks();

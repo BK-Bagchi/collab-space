@@ -27,7 +27,7 @@ const Tasks = () => {
         const res = await TaskAPI.assignedTaskToUser();
         setTask(res.data.tasks);
       } catch (error) {
-        console.error("Error fetching tasks:", error.response);
+        console.warn("Error fetching tasks:", error.response.data.message);
       }
     };
 
