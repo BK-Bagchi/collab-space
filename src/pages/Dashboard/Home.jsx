@@ -28,22 +28,30 @@ const DashboardHome = () => {
           totalMember: projectRes.data.totalMember,
         });
       } catch (error) {
-        console.error("Error fetching project details:", error.response);
+        console.warn(
+          "Error fetching project details:",
+          error.response.data.message
+        );
       }
 
       try {
         const taskRes = await TaskAPI.assignedTaskToUser();
         setTasks(taskRes.data.tasks);
       } catch (error) {
-        console.error("Error fetching task details:", error.response);
+        console.warn(
+          "Error fetching task details:",
+          error.response.data.message
+        );
       }
 
       try {
         const overdueTaskRes = await DashboardAPI.getOverdueTasks();
-        console.log(overdueTaskRes);
         setOverdueTasks(overdueTaskRes.data.tasks);
       } catch (error) {
-        console.error("Error fetching overdue task details:", error.response);
+        console.warn(
+          "Error fetching overdue task details:",
+          error.response.data.message
+        );
       }
     };
     fetchDetails();
@@ -66,6 +74,8 @@ const DashboardHome = () => {
     }));
   // console.log(upcomingDeadline);
 
+  const completedTasks = tasks.filter((task) => task.status === "DONE");
+
   const stats = [
     {
       label: "Total Created Projects",
@@ -84,7 +94,7 @@ const DashboardHome = () => {
     },
     {
       label: "Completed Tasks",
-      value: tasks.length,
+      value: completedTasks.length,
       color: "#26A69A",
     },
   ];
@@ -116,6 +126,14 @@ const DashboardHome = () => {
             >
               {item.value}
             </p>
+            {item.value > 0 && (
+              <span
+                className="text-xs text-[#263238] hover:underline hover:text-[#2979ff] cursor-pointer"
+                onClick={() => navigate("/dashboard/projects")}
+              >
+                View All
+              </span>
+            )}
           </div>
         ))}
         {stats.slice(2, 4).map((item, i) => (
@@ -130,6 +148,14 @@ const DashboardHome = () => {
             >
               {item.value}
             </p>
+            {item.value > 0 && (
+              <span
+                className="text-xs text-[#263238] hover:underline hover:text-[#2979ff] cursor-pointer"
+                onClick={() => navigate("/dashboard/tasks")}
+              >
+                View All
+              </span>
+            )}
           </div>
         ))}
       </div>
@@ -161,7 +187,7 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      {/* Upcoming Deadlines + Overdue Tasks +Recent Activity */}
+      {/* Upcoming Deadlines + Overdue Tasks + Task Calendar + Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Upcoming Deadlines */}
         <UpcomingDeadlines

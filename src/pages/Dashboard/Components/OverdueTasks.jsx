@@ -11,6 +11,7 @@ const OverdueTasks = ({ overdueTasks }) => {
         <AlertTriangle className="text-electricBlue" />
         <h3 className="text-lg font-semibold text-charcoalGray">
           Overdue Tasks
+          {overdueTasks.length > 0 && ` : Found (${overdueTasks.length})`}
         </h3>
       </div>
 
