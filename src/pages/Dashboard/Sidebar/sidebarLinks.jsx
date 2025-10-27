@@ -36,9 +36,9 @@ export const commonLinks = [
 
 export const adminLinks = [
   {
-    name: "Manage Users",
+    name: "Manage Projects",
     icon: <Users size={20} />,
-    route: "/dashboard/manage-users",
+    route: "/dashboard/manage-projects",
   },
   {
     name: "Analytics",

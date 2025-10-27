@@ -16,4 +16,15 @@ export const formatISODate = (isoDate) => {
   return formattedDate;
 };
 
+export const formatDateWithTime = (isoString) => {
+  const date = new Date(isoString);
+  const options = { hour: "2-digit", minute: "2-digit", hour12: true };
+  const time = date.toLocaleTimeString("en-US", options);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${time} ${day}/${month}/${year}`;
+};
+
 export default formatDate;

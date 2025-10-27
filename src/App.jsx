@@ -13,6 +13,8 @@ import Tasks from "./pages/Dashboard/Tasks";
 import LoginProtectedRoute from "./routes/LoginProtectedRoute";
 import { AuthProvider } from "./context/authContext";
 import TaskCalendar from "./pages/Dashboard/TaskCalender";
+import ManageProjects from "./pages/Dashboard/ManageProjects";
+import ManageProjectsTaskList from "./pages/Dashboard/ManageProjectsTaskList";
 
 function Layout() {
   return (
@@ -38,6 +40,9 @@ function App() {
               <Route path="projects" element={<Projects />} />
               <Route path="tasks" element={<Tasks />} />
               <Route path="calendar" element={<TaskCalendar />} />
+              <Route path="manage-projects" element={<ManageProjects />} />
+              {/* prettier-ignore */}
+              <Route path="manage-projects/:projectId" element={<ManageProjectsTaskList />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Route>
