@@ -63,15 +63,9 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
     try {
       setSubmitting(true);
       // send invite to selected members
-      await Promise.all(
-        selectedMembers.map((member) =>
-          ProjectAPI.inviteMember(project._id, { id: member._id })
-        )
-      );
-      // update project with new members
-      await ProjectAPI.updateProject(project._id, payload);
+      const res = await ProjectAPI.inviteMember(project._id, payload);
 
-      alert("Members invited successfully!");
+      alert(res.data.message);
       setInviteModal(false);
       setSelectedProject(null);
     } catch (error) {
