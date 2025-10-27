@@ -12,6 +12,7 @@ import Projects from "./pages/Dashboard/Projects";
 import Tasks from "./pages/Dashboard/Tasks";
 import LoginProtectedRoute from "./routes/LoginProtectedRoute";
 import { AuthProvider } from "./context/authContext";
+import TaskCalendar from "./pages/Dashboard/TaskCalender";
 
 function Layout() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route index element={<DashboardHome />} />
               <Route path="projects" element={<Projects />} />
               <Route path="tasks" element={<Tasks />} />
+              <Route path="calendar" element={<TaskCalendar />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Route>

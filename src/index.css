@@ -46,3 +46,15 @@
   background-color: #263238;
 }
 /* secondary colors */
+
+.react-calendar__tile--active {
+  background: #2979ff !important;
+  color: white !important;
+  border-radius: 8px;
+}
+
+.react-calendar__tile:hover {
+  background: #e0f2ff !important;
+  color: #2979ff !important;
+  font-weight: 900;
+}
