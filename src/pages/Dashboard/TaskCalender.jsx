@@ -61,7 +61,7 @@ const TaskCalendar = () => {
           <CalendarIcon className="text-vibrantPurple w-5 h-5" />
         </div>
         <h2 className="text-lg font-semibold text-charcoalGray">
-          Upcoming Deadlines
+          Calendar View
         </h2>
       </div>
 

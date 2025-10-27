@@ -6,6 +6,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { DashboardAPI, ProjectAPI, TaskAPI } from "../../api";
 import UpcomingDeadlines from "./Components/UpcomingDeadlines";
 import OverdueTasks from "./Components/OverdueTasks";
+import TaskCalendar from "./TaskCalender";
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -169,6 +170,9 @@ const DashboardHome = () => {
 
         {/* Overdue tasks */}
         <OverdueTasks {...{ overdueTasks }} />
+
+        {/* Task Calendar */}
+        <TaskCalendar />
 
         {/* Recent Activity */}
         <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
