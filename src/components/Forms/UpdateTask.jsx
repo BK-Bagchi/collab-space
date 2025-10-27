@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { UserPlus, CheckCircle2, PlusCircle, Trash2 } from "lucide-react";
+import { UserPlus, CheckCircle2, PlusCircle, Trash2, X } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { assignTaskSchema } from "../../validations/task.validation";
+import { formatISODate } from "../../utils/dateFormater";
+import Avatar from "../../assets/Default_Avatar.jpg";
+import { TaskAPI } from "../../api";
 
 const UpdateTask = ({
   task,
@@ -10,8 +13,7 @@ const UpdateTask = ({
   setUpdateTaskModal,
   setSelectedProject,
 }) => {
-  console.log(task);
-  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [selectedMembers, setSelectedMembers] = useState(task.assignees);
   const [selectedMembersError, setSelectedMembersError] = useState({
     status: false,
     message: "",
@@ -20,8 +22,11 @@ const UpdateTask = ({
   const { register, handleSubmit, control,  formState: { errors, isSubmitting }, } = useForm({
     resolver: zodResolver(assignTaskSchema),
     defaultValues: {
-      title: "",
-      subtasks: [{ title: "" }],
+      title: task.title,
+      status: task.status,
+      dueDate: formatISODate(task.dueDate),
+      priority: task.priority,
+      subtasks: task.subtasks.map((s) => ({ title: s.title })),
     },
   });
   const { fields, append, remove } = useFieldArray({
@@ -30,6 +35,7 @@ const UpdateTask = ({
   });
 
   const toggleMember = (member) => {
+    setSelectedMembersError({ status: false, message: "" });
     setSelectedMembers((prev) =>
       prev.some((m) => m._id === member._id)
         ? prev.filter((m) => m._id !== member._id)
@@ -37,17 +43,7 @@ const UpdateTask = ({
     );
   };
 
-  //   const handleTaskUpdate = async () => {
-  //     console.log("Triggered handleTaskUpdate");
-  //     try {
-  //       const res = await TaskAPI.updateTask(data);
-  //       alert(res.data.message);
-  //     } catch (error) {
-  //       console.error("Error updating task:", error.response);
-  //     }
-  //   };
-
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (selectedMembers.length === 0) {
       setSelectedMembersError({
         status: true,
@@ -67,9 +63,17 @@ const UpdateTask = ({
         title: s.title,
       })),
     };
-    console.log(taskData);
-    setUpdateTaskModal(false);
-    setSelectedProject(null);
+    // console.log(taskData);
+
+    try {
+      const res = await TaskAPI.updateTask(task._id, taskData);
+      alert(res.data.message);
+    } catch (error) {
+      console.error("Error updating task:", error.response);
+    } finally {
+      setUpdateTaskModal(false);
+      setSelectedProject(null);
+    }
   };
 
   return (
@@ -78,7 +82,7 @@ const UpdateTask = ({
       <div className="flex items-center gap-2 mb-5">
         <UserPlus className="text-electricBlue" size={20} />
         <h2 className="text-lg font-semibold text-charcoalGray">
-          Assign Task — <span>{project.title}</span>
+          Update Task — <span>{project.title}</span>
         </h2>
       </div>
 
@@ -199,15 +203,29 @@ const UpdateTask = ({
 
         {/* Assigned Members Preview */}
         {selectedMembers.length > 0 && (
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-3 mb-4 flex-wrap">
             {selectedMembers.map((m) => (
-              <img
-                key={m._id}
-                src={m.avatar}
-                alt={m.name}
-                className="w-7 h-7 rounded-full border-2 border-[#2979FF] shadow-sm"
-                title={m.name}
-              />
+              <div key={m._id} className="relative">
+                <img
+                  src={m.avatar || Avatar}
+                  alt={m.name}
+                  className="w-8 h-8 rounded-full border-2 border-[#2979FF] shadow-sm"
+                  title={m.name}
+                />
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSelectedMembers((prev) =>
+                      prev.filter((mem) => mem._id !== m._id)
+                    )
+                  }
+                  className="absolute -top-1.5 -right-1.5 bg-white border border-gray-300 rounded-full p-[2px] hover:bg-red-100 hover:border-red-400 transition"
+                  title="Remove member"
+                >
+                  <X className="w-3 h-3 text-gray-500 hover:text-red-500" />
+                </button>
+              </div>
             ))}
           </div>
         )}
@@ -238,7 +256,7 @@ const UpdateTask = ({
                   >
                     <div className="relative">
                       <img
-                        src={member.avatar}
+                        src={member.avatar || Avatar}
                         alt={member.name}
                         className={`w-12 h-12 rounded-full border-2 ${
                           isSelected ? "border-[#2979FF]" : "border-transparent"
@@ -277,7 +295,7 @@ const UpdateTask = ({
             type="submit"
             className="px-4 py-2 text-sm rounded-md bg-electricBlue text-white hover:bg-blue-600 transition"
           >
-            {isSubmitting ? "Assigning..." : "Assign Task"}
+            {isSubmitting ? "Updating..." : "Update Task"}
           </button>
         </div>
       </form>
