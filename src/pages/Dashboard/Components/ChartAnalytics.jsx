@@ -33,7 +33,7 @@ const ChartAnalytics = ({ project }) => {
     },
   ];
 
-  console.log("project", project);
+  // console.log("project", project);
   // console.log("taskStats", taskStats);
 
   // Team performance — only members assigned to at least one task

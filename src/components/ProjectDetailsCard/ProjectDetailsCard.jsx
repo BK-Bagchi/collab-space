@@ -10,20 +10,8 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
   const navigate = useNavigate();
 
   const [openTasks, setOpenTasks] = useState({});
-  const [openSubtasks, setOpenSubtasks] = useState({});
-
   const toggleTask = (taskId) => {
     setOpenTasks((prev) => ({ ...prev, [taskId]: !prev[taskId] }));
-  };
-
-  const toggleSubtask = (taskId, subtaskId) => {
-    setOpenSubtasks((prev) => ({
-      ...prev,
-      [taskId]: {
-        ...prev[taskId],
-        [subtaskId]: !prev[taskId]?.[subtaskId],
-      },
-    }));
   };
 
   return (
@@ -113,11 +101,10 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
             <div className="space-y-2">
               {project.tasks && project.tasks.length > 0 ? (
                 project.tasks.map((task) => {
-                  const assignedTo = project.members.find((member) =>
-                    project.tasks.some((task) =>
-                      task.assignees?.some(
-                        (assignee) => assignee._id === member._id
-                      )
+                  // find which members are assigned to this task
+                  const assignedMembers = project.members?.filter((member) =>
+                    task.assignees?.some(
+                      (assignee) => assignee._id === member._id
                     )
                   );
 
@@ -146,10 +133,27 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                           <span className="font-medium text-sm text-charcoalGray">
                             {task.title}
                           </span>
-                          <span className="font-medium text-xs text-charcoalGray">
-                            assigned to {assignedTo?.name}
-                          </span>
+
+                          {/* ✅ Assigned Members (avatars + hover name) */}
+                          <div className="flex -space-x-2 ml-2">
+                            {assignedMembers?.length > 0 ? (
+                              assignedMembers.map((member) => (
+                                <img
+                                  key={member._id}
+                                  src={member.avatar || Avatar}
+                                  title={member.name}
+                                  alt={member.name}
+                                  className="w-5 h-5 rounded-full border border-white hover:scale-110 transition-transform"
+                                />
+                              ))
+                            ) : (
+                              <span className="text-[10px] text-gray-400 ml-1">
+                                Unassigned
+                              </span>
+                            )}
+                          </div>
                         </div>
+
                         <span className="text-xs text-gray-500">
                           {task.subtasks?.length || 0} subtasks
                         </span>
@@ -162,22 +166,12 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                             <div
                               key={subtask._id}
                               className="flex justify-between items-center py-1 px-2 rounded-md hover:bg-gray-50 cursor-pointer transition"
-                              onClick={() =>
-                                toggleSubtask(task._id, subtask._id)
-                              }
                             >
                               <div className="flex items-center gap-2">
-                                {openSubtasks[task._id]?.[subtask._id] ? (
-                                  <CheckSquare
-                                    size={14}
-                                    className="text-tealGreen"
-                                  />
-                                ) : (
-                                  <ListChecks
-                                    size={14}
-                                    className="text-gray-400"
-                                  />
-                                )}
+                                <CheckSquare
+                                  size={14}
+                                  className="text-tealGreen"
+                                />
                                 <span
                                   className={`text-xs ${
                                     subtask.done
