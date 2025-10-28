@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // prettier-ignore
-import { Users, CalendarDays, BadgePlus, PenLine, CircleCheckBig } from "lucide-react";
+import { Users, CalendarDays, BadgePlus, PenLine, CircleCheckBig, ChevronDown, ChevronRight, CheckSquare, ListChecks } from "lucide-react";
 import formatDate, { formatDateWithTime } from "../../utils/dateFormater";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import ChartAnalytics from "../../pages/Dashboard/Components/ChartAnalytics";
 
 const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
   const navigate = useNavigate();
+
+  const [openTasks, setOpenTasks] = useState({});
+  const [openSubtasks, setOpenSubtasks] = useState({});
+
+  const toggleTask = (taskId) => {
+    setOpenTasks((prev) => ({ ...prev, [taskId]: !prev[taskId] }));
+  };
+
+  const toggleSubtask = (taskId, subtaskId) => {
+    setOpenSubtasks((prev) => ({
+      ...prev,
+      [taskId]: {
+        ...prev[taskId],
+        [subtaskId]: !prev[taskId]?.[subtaskId],
+      },
+    }));
+  };
+
   return (
     <>
       {projects.map((project) => (
@@ -50,17 +68,139 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                 <span>{formatDate(project.deadline)}</span>
               </div>
               <div className="flex items-center gap-1">
-                <Users size={14} className="text-tealGreen" />
-                <span>{project.members?.length || 0} Members</span>
-              </div>
-            </div>
-
-            {/* Total Tasks */}
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-              <div className="flex items-center gap-1">
                 <CircleCheckBig size={14} className="text-electricBlue" />
                 <span>{project.tasks?.length || 0} Assigned Tasks</span>
               </div>
+            </div>
+
+            {/* Total Members */}
+            <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+              <div className="flex items-center gap-2">
+                <Users size={14} className="text-tealGreen" />
+                <span className="font-medium">
+                  {project.members?.length || 0} Members
+                </span>
+              </div>
+
+              {/* Member Avatars */}
+              <div className="flex -space-x-2">
+                {project.members && project.members.length > 0 ? (
+                  project.members
+                    .slice(0, 5)
+                    .map((member) => (
+                      <img
+                        key={member._id}
+                        src={member.avatar || Avatar}
+                        alt={member.name}
+                        title={member.name}
+                        className="w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 hover:z-10 transition-transform duration-200"
+                      />
+                    ))
+                ) : (
+                  <span className="text-gray-400 text-[10px]">No members</span>
+                )}
+
+                {/* If there are more than 5 members, show "+X" */}
+                {project.members?.length > 5 && (
+                  <span className="w-6 h-6 flex items-center justify-center text-[10px] font-medium text-white bg-gray-400 rounded-full border-2 border-white shadow-sm">
+                    +{project.members.length - 5}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Collapsible List of task with subtasks */}
+            <div className="space-y-2">
+              {project.tasks && project.tasks.length > 0 ? (
+                project.tasks.map((task) => {
+                  const assignedTo = project.members.find((member) =>
+                    project.tasks.some((task) =>
+                      task.assignees?.some(
+                        (assignee) => assignee._id === member._id
+                      )
+                    )
+                  );
+
+                  return (
+                    <div
+                      key={task._id}
+                      className="border border-gray-200 rounded-lg p-2 bg-white shadow-sm"
+                    >
+                      {/* Task Header */}
+                      <div
+                        onClick={() => toggleTask(task._id)}
+                        className="flex justify-between items-center cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-md transition"
+                      >
+                        <div className="flex items-center gap-2">
+                          {openTasks[task._id] ? (
+                            <ChevronDown
+                              size={16}
+                              className="text-electricBlue"
+                            />
+                          ) : (
+                            <ChevronRight
+                              size={16}
+                              className="text-electricBlue"
+                            />
+                          )}
+                          <span className="font-medium text-sm text-charcoalGray">
+                            {task.title}
+                          </span>
+                          <span className="font-medium text-xs text-charcoalGray">
+                            assigned to {assignedTo?.name}
+                          </span>
+                        </div>
+                        <span className="text-xs text-gray-500">
+                          {task.subtasks?.length || 0} subtasks
+                        </span>
+                      </div>
+
+                      {/* Subtasks */}
+                      {openTasks[task._id] && task.subtasks?.length > 0 && (
+                        <div className="ml-6 mt-2 border-l border-gray-200 pl-3 space-y-1">
+                          {task.subtasks.map((subtask) => (
+                            <div
+                              key={subtask._id}
+                              className="flex justify-between items-center py-1 px-2 rounded-md hover:bg-gray-50 cursor-pointer transition"
+                              onClick={() =>
+                                toggleSubtask(task._id, subtask._id)
+                              }
+                            >
+                              <div className="flex items-center gap-2">
+                                {openSubtasks[task._id]?.[subtask._id] ? (
+                                  <CheckSquare
+                                    size={14}
+                                    className="text-tealGreen"
+                                  />
+                                ) : (
+                                  <ListChecks
+                                    size={14}
+                                    className="text-gray-400"
+                                  />
+                                )}
+                                <span
+                                  className={`text-xs ${
+                                    subtask.done
+                                      ? "line-through text-gray-400"
+                                      : "text-gray-700"
+                                  }`}
+                                >
+                                  {subtask.title}
+                                </span>
+                              </div>
+                              <span className="text-[10px] text-gray-400">
+                                {subtask.status}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="text-xs text-gray-500">No tasks available.</p>
+              )}
             </div>
 
             {/* Project Meta Info */}
