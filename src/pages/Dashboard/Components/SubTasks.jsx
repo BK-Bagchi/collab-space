@@ -4,6 +4,7 @@ import React from "react";
 const SubTasks = ({
   task,
   updating,
+  transparentWall = false,
   openSubtasks,
   toggleSubtaskView,
   toggleSubtaskStatus,
@@ -30,7 +31,11 @@ const SubTasks = ({
 
       {/* Collapsible List */}
       {openSubtasks[task._id] && (
-        <ul className="mt-2 pl-3 border-l border-gray-200 space-y-1">
+        <ul
+          className={`mt-2 pl-3 border-l border-gray-200 space-y-1 ${
+            transparentWall && "relative"
+          }`}
+        >
           {task.subtasks.map((subtask) => (
             <li
               key={subtask._id}
@@ -60,6 +65,10 @@ const SubTasks = ({
               </span>
             </li>
           ))}
+          {transparentWall && (
+            //  Transparent overlay (blocks clicks)
+            <div className="absolute inset-0 bg-transparent pointer-events-auto"></div>
+          )}
         </ul>
       )}
     </div>

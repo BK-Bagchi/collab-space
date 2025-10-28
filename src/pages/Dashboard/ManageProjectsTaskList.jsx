@@ -20,7 +20,7 @@ const ManageUsersTaskList = () => {
     columns.map((col) => col.id)
   );
   const [openSubtasks, setOpenSubtasks] = useState({});
-  const [updating, setUpdating] = useState(null);
+  // const [updating, setUpdating] = useState(null);
   // console.log(openSubtasks);
 
   useEffect(() => {
@@ -49,57 +49,11 @@ const ManageUsersTaskList = () => {
     );
   };
 
-  const handleStatusChange = async (taskId, newStatus) => {
-    try {
-      const res = await TaskAPI.updateTaskStatus(taskId, { status: newStatus });
-      setTask((prev) =>
-        prev.map((t) => (t._id === taskId ? { ...t, status: newStatus } : t))
-      );
-      alert(res.data.message);
-    } catch (err) {
-      console.error("Error updating status:", err.response);
-    }
-  };
-
   const toggleSubtaskView = (taskId) => {
     setOpenSubtasks((prev) => ({
       ...prev,
       [taskId]: !prev[taskId],
     }));
-  };
-
-  const toggleSubtaskStatus = async (taskId, subtask) => {
-    const newStatus = !subtask.done;
-    setUpdating(subtask._id);
-    const id = taskId;
-    const data = {
-      action: "update",
-      subtasks: { ...subtask, done: newStatus },
-      subTaskId: subtask._id,
-    };
-    // console.log(data, id);
-
-    try {
-      const res = await TaskAPI.updateSubtasks(id, data);
-      alert(res.data.message);
-
-      // Updating UI state instead of full refresh
-      setTask((prev) =>
-        prev.map((t) =>
-          t._id === taskId
-            ? {
-                ...t,
-                subtasks: t.subtasks.map((s) =>
-                  s._id === subtask._id ? { ...s, done: newStatus } : s
-                ),
-              }
-            : t
-        )
-      );
-      setUpdating(null);
-    } catch (err) {
-      console.error("Failed updating subtask:", err.response);
-    }
   };
 
   return (
@@ -213,20 +167,18 @@ const ManageUsersTaskList = () => {
                         {task.subtasks.length > 0 && (
                           <SubTasks
                             task={task}
-                            updating={updating}
+                            updating={null}
+                            transparentWall={true}
                             openSubtasks={openSubtasks}
                             toggleSubtaskView={toggleSubtaskView}
-                            toggleSubtaskStatus={toggleSubtaskStatus}
+                            toggleSubtaskStatus={null}
                           />
                         )}
 
-                        <div className="w-full py-2">
-                          <StatusSlider
-                            value={task.status}
-                            onChange={(newStatus) =>
-                              handleStatusChange(task._id, newStatus)
-                            }
-                          />
+                        <div className="w-full py-2 relative">
+                          <StatusSlider value={task.status} />
+                          {/* Transparent overlay (blocks clicks) */}
+                          <div className="absolute inset-0 bg-transparent pointer-events-auto"></div>
                         </div>
                       </div>
                     ))
