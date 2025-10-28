@@ -26,7 +26,7 @@ const Analytics = () => {
         📊 Project Analytics
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         <ProjectDetailsCard projects={projects} />
       </div>
     </div>

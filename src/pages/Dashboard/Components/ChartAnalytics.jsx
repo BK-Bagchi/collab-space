@@ -1,42 +1,44 @@
 import React from "react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-} from "recharts";
+// prettier-ignore
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from "recharts";
 
-const COLORS = ["#2979FF", "#8E24AA", "#26A69A", "#FF7043"];
+//prettier-ignore
+const COLORS = ["#2979FF", "#8E24AA", "#26A69A", "#FF7043", "#F44336", "#263238"];
 
 const ChartAnalytics = ({ project }) => {
+  const now = new Date();
+
+  const overdueTasks = project.tasks.filter((t) => new Date(t.dueDate) < now);
+
+  const nonOverdueTasks = project.tasks.filter(
+    (t) => new Date(t.dueDate) >= now
+  );
+
   const taskStats = [
-    { name: "Total", value: project.tasks.length },
     {
       name: "To Do",
-      value: project.tasks.filter((t) => t.status === "TODO").length,
+      value: nonOverdueTasks.filter((t) => t.status === "TODO").length,
     },
     {
       name: "In Progress",
-      value: project.tasks.filter((t) => t.status === "IN_PROGRESS").length,
+      value: nonOverdueTasks.filter((t) => t.status === "IN_PROGRESS").length,
     },
     {
       name: "Completed",
-      value: project.tasks.filter((t) => t.status === "COMPLETED").length,
+      value: nonOverdueTasks.filter((t) => t.status === "DONE").length,
     },
     {
       name: "Overdue",
-      value: project.tasks.filter((t) => t.status === "OVERDUE").length,
+      value: overdueTasks.length,
     },
   ];
 
-  // Mock team performance (to be replaced by real data later)
-  const teamProgress = project.members.map((m, i) => ({
-    name: `Member ${i + 1}`,
+  // console.log("project", project.title);
+  // console.log("taskStats", taskStats);
+
+  // Team performance
+  const teamProgress = project.members.map((m) => ({
+    name: m.name.split(" ")[0],
     progress: Math.floor(Math.random() * 100),
   }));
 
@@ -44,8 +46,11 @@ const ChartAnalytics = ({ project }) => {
     <div className="flex flex-col gap-4">
       {/* Task Status Chart */}
       <div className="bg-gray-50 rounded-xl p-3 shadow-inner">
-        <h4 className="text-xs text-gray-600 mb-2 font-medium">
-          Task Status Overview
+        <h4 className="text-sm text-gray-600 mb-2 font-medium">
+          Task Status Overview:{" "}
+          <span className="text-xs text-gray-600 mb-2 font-medium">
+            Total {project.tasks.length} tasks
+          </span>
         </h4>
         <ResponsiveContainer width="100%" height={160}>
           <PieChart>
@@ -58,7 +63,10 @@ const ChartAnalytics = ({ project }) => {
               labelLine={false}
             >
               {taskStats.map((_, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
               ))}
             </Pie>
             <Tooltip />
@@ -68,9 +76,13 @@ const ChartAnalytics = ({ project }) => {
 
       {/* Team Progress Chart */}
       <div className="bg-gray-50 rounded-xl p-3 shadow-inner">
-        <h4 className="text-xs text-gray-600 mb-2 font-medium">
-          Team Progress
+        <h4 className="text-sm text-gray-600 mb-2 font-medium">
+          Team Progress:{" "}
+          <span className="text-xs text-gray-600 mb-2 font-medium">
+            Total {project.members.length} members
+          </span>
         </h4>
+
         <ResponsiveContainer width="100%" height={160}>
           <BarChart data={teamProgress}>
             <XAxis dataKey="name" />
