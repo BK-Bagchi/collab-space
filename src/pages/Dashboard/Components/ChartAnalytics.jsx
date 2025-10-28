@@ -33,14 +33,39 @@ const ChartAnalytics = ({ project }) => {
     },
   ];
 
-  // console.log("project", project.title);
+  console.log("project", project);
   // console.log("taskStats", taskStats);
 
-  // Team performance
-  const teamProgress = project.members.map((m) => ({
-    name: m.name.split(" ")[0],
-    progress: Math.floor(Math.random() * 100),
-  }));
+  // Team performance — only members assigned to at least one task
+  const teamProgress = project.members
+    .filter((m) =>
+      project.tasks.some((t) => t.assignees?.some((a) => a._id === m._id))
+    )
+    .map((m) => {
+      const assignedTasks = project.tasks.filter((t) =>
+        t.assignees?.some((a) => a._id === m._id)
+      );
+
+      const totalSubtasks = assignedTasks.reduce(
+        (acc, t) => acc + (t.subtasks?.length || 0),
+        0
+      );
+
+      const completedSubtasks = assignedTasks.reduce(
+        (acc, t) => acc + (t.subtasks?.filter((s) => s.done).length || 0),
+        0
+      );
+
+      const progress =
+        totalSubtasks > 0
+          ? Math.round((completedSubtasks / totalSubtasks) * 100)
+          : 0;
+
+      return {
+        name: m.name.split(" ")[0],
+        progress,
+      };
+    });
 
   return (
     <div className="flex flex-col gap-4">
@@ -52,6 +77,8 @@ const ChartAnalytics = ({ project }) => {
             Total {project.tasks.length} tasks
           </span>
         </h4>
+
+        {/* Pie Chart */}
         <ResponsiveContainer width="100%" height={160}>
           <PieChart>
             <Pie
@@ -72,6 +99,19 @@ const ChartAnalytics = ({ project }) => {
             <Tooltip />
           </PieChart>
         </ResponsiveContainer>
+
+        {/* Legend Section */}
+        <div className="flex flex-wrap justify-center gap-3 mt-3 text-xs">
+          {taskStats.map((item, index) => (
+            <div key={index} className="flex items-center gap-1">
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: COLORS[index % COLORS.length] }}
+              ></div>
+              <span className="text-gray-600">{item.name}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Team Progress Chart */}
@@ -83,10 +123,11 @@ const ChartAnalytics = ({ project }) => {
           </span>
         </h4>
 
+        {/* Bar Chart */}
         <ResponsiveContainer width="100%" height={160}>
           <BarChart data={teamProgress}>
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis domain={[0, 100]} />
             <Tooltip />
             <Bar dataKey="progress" fill="#2979FF" radius={[6, 6, 0, 0]} />
           </BarChart>
