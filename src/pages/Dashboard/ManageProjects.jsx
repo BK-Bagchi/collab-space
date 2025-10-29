@@ -31,15 +31,17 @@ const ManageUsers = () => {
   return (
     <div className="min-h-screen bg-softWhite p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-charcoalGray flex items-center gap-2">
-          <FolderKanban className="text-electricBlue" size={22} />
-          All Projects
-          <span className="text-sm text-gray-500 italic hover:text-[#2979FF] hover:underline cursor-pointer">
-            Click to see details
-          </span>
-        </h2>
-      </div>
+      {createdProject.length > 0 && (
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-semibold text-charcoalGray flex items-center gap-2">
+            <FolderKanban className="text-electricBlue" size={22} />
+            All Projects
+            <span className="text-sm text-gray-500 italic hover:text-[#2979FF] hover:underline cursor-pointer">
+              Click to see details
+            </span>
+          </h2>
+        </div>
+      )}
 
       {/* Project Grid */}
       {createdProject.length > 0 ? (
@@ -49,7 +51,7 @@ const ManageUsers = () => {
       ) : (
         <div className="flex flex-col items-center justify-center mt-20 text-gray-400">
           <FolderKanban size={40} className="mb-3 text-gray-300" />
-          <p className="text-sm">No projects available yet.</p>
+          <p className="text-sm">You have not created any projects yet.</p>
         </div>
       )}
     </div>
