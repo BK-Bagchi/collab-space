@@ -184,7 +184,7 @@ const DashboardHome = () => {
         />
 
         {/* Overdue tasks */}
-        <OverdueTasks />
+        <OverdueTasks tasks={tasks} />
 
         {/* Task Calendar */}
         <TaskCalendar />

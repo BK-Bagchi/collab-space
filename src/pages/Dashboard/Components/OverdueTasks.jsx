@@ -1,40 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AlertTriangle, CircleCheckBig, BarChart3, List } from "lucide-react";
 // prettier-ignore
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import formatDate from "../../../utils/dateFormater";
 import formatText from "../../../utils/textFormater";
-import { TaskAPI } from "../../../api";
 
 //prettier-ignore
 const COLORS = ["#2979FF", "#8E24AA", "#26A69A", "#FF7043", "#F44336", "#263238"];
 
-const OverdueTasks = () => {
-  const [tasks, setTasks] = useState({ taskList: [], message: "" });
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const res = await TaskAPI.assignedTaskToUser();
-        setTasks({ taskList: res.data.tasks, message: res.data.message });
-      } catch (error) {
-        console.warn("Error fetching tasks:", error.response.data.message);
-      }
-    };
-
-    fetchTasks();
-  }, []);
+const OverdueTasks = ({ tasks }) => {
   // console.log(tasks);
 
-  const totalTasks = tasks.taskList.length;
-  const todoCount = tasks.taskList.filter((t) => t.status === "TODO").length;
-  const inProgressCount = tasks.taskList.filter(
+  const totalTasks = tasks.length;
+  const todoCount = tasks.filter((t) => t.status === "TODO").length;
+  const inProgressCount = tasks.filter(
     (t) => t.status === "IN_PROGRESS"
   ).length;
-  const doneCount = tasks.taskList.filter((t) => t.status === "DONE").length;
+  const doneCount = tasks.filter((t) => t.status === "DONE").length;
 
   // Count overdue tasks
-  const overdueTasks = tasks.taskList.filter(
+  const overdueTasks = tasks.filter(
     (t) => t.status !== "DONE" && new Date(t.dueDate) < new Date()
   );
   const overdueCount = overdueTasks.length;
