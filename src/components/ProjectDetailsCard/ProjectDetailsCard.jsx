@@ -169,10 +169,17 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                                 className="flex justify-between items-center py-1 px-2 rounded-md hover:bg-gray-50 cursor-pointer transition"
                               >
                                 <div className="flex items-center gap-2">
-                                  <CheckSquare
-                                    size={14}
-                                    className="text-tealGreen"
-                                  />
+                                  {subtask.done ? (
+                                    <CheckSquare
+                                      size={14}
+                                      className="text-tealGreen"
+                                    />
+                                  ) : (
+                                    <ListChecks
+                                      size={14}
+                                      className="text-gray-400"
+                                    />
+                                  )}
                                   <span
                                     className={`text-xs ${
                                       subtask.done
