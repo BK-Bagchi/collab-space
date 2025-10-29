@@ -62,11 +62,11 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
             </div>
 
             {/* Total Members */}
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+            <div className="flex items-center text-xs text-gray-500 mb-3">
               <div className="flex items-center gap-2">
                 <Users size={14} className="text-tealGreen" />
                 <span className="font-medium">
-                  {project.members?.length || 0} Members
+                  {project.members?.length || 0} Members{" "}
                 </span>
               </div>
 
@@ -193,7 +193,7 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                   );
                 })
               ) : (
-                <p className="text-xs text-gray-500">No tasks available.</p>
+                <p className="text-xs text-gray-500">No assigned tasks.</p>
               )}
             </div>
 
