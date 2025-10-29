@@ -98,104 +98,106 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
             </div>
 
             {/* Collapsible List of task with subtasks */}
-            <div className="space-y-2">
-              {project.tasks && project.tasks.length > 0 ? (
-                project.tasks.map((task) => {
-                  // find which members are assigned to this task
-                  const assignedMembers = project.members?.filter((member) =>
-                    task.assignees?.some(
-                      (assignee) => assignee._id === member._id
-                    )
-                  );
+            {navigateURL && (
+              <div className="space-y-2">
+                {project.tasks && project.tasks.length > 0 ? (
+                  project.tasks.map((task) => {
+                    // find which members are assigned to this task
+                    const assignedMembers = project.members?.filter((member) =>
+                      task.assignees?.some(
+                        (assignee) => assignee._id === member._id
+                      )
+                    );
 
-                  return (
-                    <div
-                      key={task._id}
-                      className="border border-gray-200 rounded-lg p-2 bg-white shadow-sm"
-                    >
-                      {/* Task Header */}
+                    return (
                       <div
-                        onClick={() => toggleTask(task._id)}
-                        className="flex justify-between items-center cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-md transition"
+                        key={task._id}
+                        className="border border-gray-200 rounded-lg p-2 bg-white shadow-sm"
                       >
-                        <div className="flex items-center gap-2">
-                          {openTasks[task._id] ? (
-                            <ChevronDown
-                              size={16}
-                              className="text-electricBlue"
-                            />
-                          ) : (
-                            <ChevronRight
-                              size={16}
-                              className="text-electricBlue"
-                            />
-                          )}
-                          <span className="font-medium text-sm text-charcoalGray">
-                            {task.title}
-                          </span>
-
-                          {/* ✅ Assigned Members (avatars + hover name) */}
-                          <div className="flex -space-x-2 ml-2">
-                            {assignedMembers?.length > 0 ? (
-                              assignedMembers.map((member) => (
-                                <img
-                                  key={member._id}
-                                  src={member.avatar || Avatar}
-                                  title={member.name}
-                                  alt={member.name}
-                                  className="w-5 h-5 rounded-full border border-white hover:scale-110 transition-transform"
-                                />
-                              ))
+                        {/* Task Header */}
+                        <div
+                          onClick={() => toggleTask(task._id)}
+                          className="flex justify-between items-center cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-md transition"
+                        >
+                          <div className="flex items-center gap-2">
+                            {openTasks[task._id] ? (
+                              <ChevronDown
+                                size={16}
+                                className="text-electricBlue"
+                              />
                             ) : (
-                              <span className="text-[10px] text-gray-400 ml-1">
-                                Unassigned
-                              </span>
+                              <ChevronRight
+                                size={16}
+                                className="text-electricBlue"
+                              />
                             )}
+                            <span className="font-medium text-sm text-charcoalGray">
+                              {task.title}
+                            </span>
+
+                            {/* ✅ Assigned Members (avatars + hover name) */}
+                            <div className="flex -space-x-2 ml-2">
+                              {assignedMembers?.length > 0 ? (
+                                assignedMembers.map((member) => (
+                                  <img
+                                    key={member._id}
+                                    src={member.avatar || Avatar}
+                                    title={member.name}
+                                    alt={member.name}
+                                    className="w-5 h-5 rounded-full border border-white hover:scale-110 transition-transform"
+                                  />
+                                ))
+                              ) : (
+                                <span className="text-[10px] text-gray-400 ml-1">
+                                  Unassigned
+                                </span>
+                              )}
+                            </div>
                           </div>
+
+                          <span className="text-xs text-gray-500">
+                            {task.subtasks?.length || 0} subtasks
+                          </span>
                         </div>
 
-                        <span className="text-xs text-gray-500">
-                          {task.subtasks?.length || 0} subtasks
-                        </span>
-                      </div>
-
-                      {/* Subtasks */}
-                      {openTasks[task._id] && task.subtasks?.length > 0 && (
-                        <div className="ml-6 mt-2 border-l border-gray-200 pl-3 space-y-1">
-                          {task.subtasks.map((subtask) => (
-                            <div
-                              key={subtask._id}
-                              className="flex justify-between items-center py-1 px-2 rounded-md hover:bg-gray-50 cursor-pointer transition"
-                            >
-                              <div className="flex items-center gap-2">
-                                <CheckSquare
-                                  size={14}
-                                  className="text-tealGreen"
-                                />
-                                <span
-                                  className={`text-xs ${
-                                    subtask.done
-                                      ? "line-through text-gray-400"
-                                      : "text-gray-700"
-                                  }`}
-                                >
-                                  {subtask.title}
+                        {/* Subtasks */}
+                        {openTasks[task._id] && task.subtasks?.length > 0 && (
+                          <div className="ml-6 mt-2 border-l border-gray-200 pl-3 space-y-1">
+                            {task.subtasks.map((subtask) => (
+                              <div
+                                key={subtask._id}
+                                className="flex justify-between items-center py-1 px-2 rounded-md hover:bg-gray-50 cursor-pointer transition"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <CheckSquare
+                                    size={14}
+                                    className="text-tealGreen"
+                                  />
+                                  <span
+                                    className={`text-xs ${
+                                      subtask.done
+                                        ? "line-through text-gray-400"
+                                        : "text-gray-700"
+                                    }`}
+                                  >
+                                    {subtask.title}
+                                  </span>
+                                </div>
+                                <span className="text-[10px] text-gray-400">
+                                  {subtask.status}
                                 </span>
                               </div>
-                              <span className="text-[10px] text-gray-400">
-                                {subtask.status}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })
-              ) : (
-                <p className="text-xs text-gray-500">No assigned tasks.</p>
-              )}
-            </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  <p className="text-xs text-gray-500">No assigned tasks.</p>
+                )}
+              </div>
+            )}
 
             {/* Project Meta Info */}
             <div className="mt-4 space-y-3 bg-gray-50/60 rounded-xl p-3 border border-gray-100">
