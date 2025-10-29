@@ -1,12 +1,11 @@
 // prettier-ignore
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
 
-const ProgressChart = ({ projectProgressData }) => {
+const ProgressChart = ({ projectProgressData, title, colors }) => {
+  const [completed, remaining] = colors;
   return (
     <div className="grid grid-cols-1 gap-6 mb-8 p-4 rounded-xl bg-white shadow-sm">
-      <h3 className="text-lg font-semibold text-charcoalGray mb-4">
-        Task progress in assigned projects
-      </h3>
+      <h3 className="text-lg font-semibold text-charcoalGray mb-4">{title}</h3>
 
       <ResponsiveContainer width="100%" height={250}>
         <BarChart data={projectProgressData} barGap={10}>
@@ -29,7 +28,7 @@ const ProgressChart = ({ projectProgressData }) => {
           <Bar
             dataKey="completed"
             stackId="a"
-            fill="#2ECC71"
+            fill={completed}
             radius={[0, 0, 4, 4]}
           />
 
@@ -37,7 +36,7 @@ const ProgressChart = ({ projectProgressData }) => {
           <Bar
             dataKey="remaining"
             stackId="a"
-            fill="#2979ff"
+            fill={remaining}
             radius={[4, 4, 0, 0]}
           />
         </BarChart>

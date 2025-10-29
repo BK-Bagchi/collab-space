@@ -1,13 +1,10 @@
 import ProgressChart from "../../../components/ProgressChart/ProgressChart";
 
-const TaskProgressInProject = ({ projectList, tasks }) => {
-  const title = "Task progress in assigned projects";
-  const colors = ["#26A69A", "#8E24AA"]; //["Completed", "Remaining"];
+const ProjectProgress = ({ projectList }) => {
+  const title = "Project Progress";
+  const colors = ["#26A69A", "#2979FF"]; //["Completed", "Remaining"];
 
-  const assignedInProjects = projectList.filter((project) =>
-    tasks.some((task) => task.project._id === project._id)
-  );
-  const projectProgressData = assignedInProjects.map((project) => {
+  const projectProgressData = projectList.map((project) => {
     const allSubtasks = project.tasks.flatMap((t) => t.subtasks);
     const total = allSubtasks.length;
     const completed = allSubtasks.filter((s) => s.done).length;
@@ -23,4 +20,4 @@ const TaskProgressInProject = ({ projectList, tasks }) => {
   return <ProgressChart {...{ projectProgressData, title, colors }} />;
 };
 
-export default TaskProgressInProject;
+export default ProjectProgress;

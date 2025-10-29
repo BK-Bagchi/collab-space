@@ -8,6 +8,7 @@ import UpcomingDeadlines from "./Components/UpcomingDeadlines";
 import OverdueTasks from "./Components/OverdueTasks";
 import TaskCalendar from "./TaskCalender";
 import TaskProgressInProject from "./Components/TaskProgressInProject";
+import ProjectProgress from "./Components/ProjectProgress";
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -174,6 +175,8 @@ const DashboardHome = () => {
           <p className="mt-2 font-medium text-charcoalGray">Chat</p>
         </div>
       </div>
+      {/* Project progress chart in assigned or created projects */}
+      <ProjectProgress {...{ projectList }} />
       {/* Task progress chart in assigned projects */}
       <TaskProgressInProject {...{ projectList, tasks }} />;
       {/* Upcoming Deadlines + Overdue Tasks + Task Calendar + Recent Activity */}
