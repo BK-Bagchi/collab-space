@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 // prettier-ignore
 import { ClipboardList, MessageSquare, FolderKanban} from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
-import { DashboardAPI, ProjectAPI, TaskAPI } from "../../api";
+import { ProjectAPI, TaskAPI } from "../../api";
 import UpcomingDeadlines from "./Components/UpcomingDeadlines";
 import OverdueTasks from "./Components/OverdueTasks";
 import TaskCalendar from "./TaskCalender";
@@ -15,7 +15,6 @@ const DashboardHome = () => {
   const [projectList, setProjectList] = useState([]);
   const [projects, setProjects] = useState({ totalCreated: 0, totalMember: 0 });
   const [tasks, setTasks] = useState([]);
-  const [overdueTasks, setOverdueTasks] = useState([]);
   const [selectedRange, setSelectedRange] = useState(15);
 
   useEffect(() => {
@@ -40,16 +39,6 @@ const DashboardHome = () => {
       } catch (error) {
         console.warn(
           "Error fetching task details:",
-          error.response.data.message
-        );
-      }
-
-      try {
-        const overdueTaskRes = await DashboardAPI.getOverdueTasks();
-        setOverdueTasks(overdueTaskRes.data.tasks);
-      } catch (error) {
-        console.warn(
-          "Error fetching overdue task details:",
           error.response.data.message
         );
       }
@@ -195,7 +184,7 @@ const DashboardHome = () => {
         />
 
         {/* Overdue tasks */}
-        <OverdueTasks {...{ overdueTasks }} />
+        <OverdueTasks />
 
         {/* Task Calendar */}
         <TaskCalendar />
