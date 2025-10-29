@@ -1,23 +1,11 @@
-import {
-  Home,
-  Folder,
-  CheckCircle,
-  MessageCircle,
-  File,
-  Calendar,
-  Settings,
-  HelpCircle,
-  LogOut,
-  Users,
-  BarChart,
-  Sliders,
-} from "lucide-react";
+// prettier-ignore
+import { Home, CheckCircle, MessageCircle, File, Calendar, Settings, HelpCircle, LogOut, BarChart, Sliders, LayoutDashboard, FolderKanban } from "lucide-react";
 
 export const commonLinks = [
   { name: "Dashboard", icon: <Home size={20} />, route: "/dashboard" },
   {
     name: "My Projects",
-    icon: <Folder size={20} />,
+    icon: <FolderKanban size={20} />,
     route: "/dashboard/projects",
   },
   {
@@ -37,7 +25,7 @@ export const commonLinks = [
 export const adminLinks = [
   {
     name: "Manage Projects",
-    icon: <Users size={20} />,
+    icon: <LayoutDashboard size={20} />,
     route: "/dashboard/manage-projects",
   },
   {
