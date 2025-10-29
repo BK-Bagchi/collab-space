@@ -7,6 +7,7 @@ import { ProjectAPI, TaskAPI } from "../../api";
 import UpcomingDeadlines from "./Components/UpcomingDeadlines";
 import OverdueTasks from "./Components/OverdueTasks";
 import TaskCalendar from "./TaskCalender";
+import TaskProgressInProject from "./Components/TaskProgressInProject";
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -100,7 +101,6 @@ const DashboardHome = () => {
       <h1 className="text-2xl font-semibold mb-6 text-charcoalGray">
         Welcome back, <span className="text-electricBlue">{user?.name} 👋</span>
       </h1>
-
       {/* Stats Overview */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8">
         {stats.slice(0, 2).map((item, i) => (
@@ -148,7 +148,6 @@ const DashboardHome = () => {
           </div>
         ))}
       </div>
-
       {/* Quick Access */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
         <div
@@ -175,7 +174,8 @@ const DashboardHome = () => {
           <p className="mt-2 font-medium text-charcoalGray">Chat</p>
         </div>
       </div>
-
+      {/* Task progress chart in assigned projects */}
+      <TaskProgressInProject {...{ projectList, tasks }} />;
       {/* Upcoming Deadlines + Overdue Tasks + Task Calendar + Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Upcoming Deadlines */}
