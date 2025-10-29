@@ -71,10 +71,10 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
               </div>
 
               {/* Member Avatars */}
-              <div className="flex -space-x-2">
+              <div className="flex -space-x-2 ml-2">
                 {project.members && project.members.length > 0 ? (
                   project.members
-                    .slice(0, 5)
+                    .slice(0, 3)
                     .map((member) => (
                       <img
                         key={member._id}
@@ -88,10 +88,10 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                   <span className="text-gray-400 text-[10px]">No members</span>
                 )}
 
-                {/* If there are more than 5 members, show "+X" */}
-                {project.members?.length > 5 && (
-                  <span className="w-6 h-6 flex items-center justify-center text-[10px] font-medium text-white bg-gray-400 rounded-full border-2 border-white shadow-sm">
-                    +{project.members.length - 5}
+                {/* + More indicator */}
+                {project.members?.length > 3 && (
+                  <span className="w-6 h-6 flex items-center justify-center text-[10px] font-medium text-gray-700 bg-gray-200 rounded-full border-2 border-white shadow-sm">
+                    +{project.members.length - 3}
                   </span>
                 )}
               </div>
