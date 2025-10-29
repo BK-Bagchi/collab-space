@@ -1,23 +1,16 @@
 import { useEffect, useState } from "react";
 import { AlertTriangle, CircleCheckBig, BarChart3, List } from "lucide-react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+// prettier-ignore
+import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import formatDate from "../../../utils/dateFormater";
 import formatText from "../../../utils/textFormater";
-import { DashboardAPI, TaskAPI } from "../../../api";
+import { TaskAPI } from "../../../api";
 
 //prettier-ignore
 const COLORS = ["#2979FF", "#8E24AA", "#26A69A", "#FF7043", "#F44336", "#263238"];
 
 const OverdueTasks = () => {
   const [tasks, setTasks] = useState({ taskList: [], message: "" });
-  const [overdueTasks, setOverdueTasks] = useState([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -28,21 +21,10 @@ const OverdueTasks = () => {
         console.warn("Error fetching tasks:", error.response.data.message);
       }
     };
-    const fetchOverdueTasks = async () => {
-      try {
-        const overdueTaskRes = await DashboardAPI.getOverdueTasks();
-        setOverdueTasks(overdueTaskRes.data.tasks);
-      } catch (error) {
-        console.warn(
-          "Error fetching overdue task details:",
-          error.response.data.message
-        );
-      }
-    };
 
     fetchTasks();
-    fetchOverdueTasks();
   }, []);
+  // console.log(tasks);
 
   const totalTasks = tasks.taskList.length;
   const todoCount = tasks.taskList.filter((t) => t.status === "TODO").length;
@@ -50,6 +32,11 @@ const OverdueTasks = () => {
     (t) => t.status === "IN_PROGRESS"
   ).length;
   const doneCount = tasks.taskList.filter((t) => t.status === "DONE").length;
+
+  // Count overdue tasks
+  const overdueTasks = tasks.taskList.filter(
+    (t) => t.status !== "DONE" && new Date(t.dueDate) < new Date()
+  );
   const overdueCount = overdueTasks.length;
 
   const [activeTab, setActiveTab] = useState(
