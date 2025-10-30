@@ -16,7 +16,7 @@ const Sidebar = () => {
       <div>
         {/* Project Info Section */}
         <div className="flex items-center gap-3 px-3 py-2 my-4 rounded-md bg-[#37474F] hover:bg-[#455A64] transition cursor-pointer">
-          {/* Project Icon */}
+          {/* User Info */}
           <div className="flex items-center justify-center w-10 h-10 rounded-md text-softWhite">
             {userAvatar ? (
               <img className="rounded-full" src={userAvatar} alt="" />

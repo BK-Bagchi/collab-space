@@ -1,5 +1,5 @@
 // prettier-ignore
-import { Home, CheckCircle, MessageCircle, File, Calendar, Settings, HelpCircle, LogOut, BarChart, Sliders, LayoutDashboard, FolderKanban } from "lucide-react";
+import { Home, CheckCircle, MessageCircle, File, Calendar, Settings, HelpCircle, LogOut, BarChart, Sliders, LayoutDashboard, FolderKanban, Bell, ActivityIcon } from "lucide-react";
 
 export const commonLinks = [
   { name: "Dashboard", icon: <Home size={20} />, route: "/dashboard" },
@@ -14,6 +14,11 @@ export const commonLinks = [
     route: "/dashboard/tasks",
   },
   { name: "Chat", icon: <MessageCircle size={20} />, route: "/dashboard/chat" },
+  {
+    name: "Notifications",
+    icon: <Bell size={20} />,
+    route: "/dashboard/notifications",
+  },
   { name: "Files", icon: <File size={20} />, route: "/dashboard/files" },
   {
     name: "Calendar",
@@ -27,6 +32,11 @@ export const adminLinks = [
     name: "Manage Projects",
     icon: <LayoutDashboard size={20} />,
     route: "/dashboard/manage-projects",
+  },
+  {
+    name: "Team Activity",
+    icon: <ActivityIcon size={20} />,
+    route: "/dashboard/team-activity",
   },
   {
     name: "Analytics",
