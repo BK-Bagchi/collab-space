@@ -29,7 +29,7 @@ const ManageUsers = () => {
   );
 
   return (
-    <div className="min-h-screen bg-softWhite p-6">
+    <div className="bg-softWhite p-6">
       {/* Header */}
       {createdProject.length > 0 && (
         <div className="flex items-center justify-between mb-6">
