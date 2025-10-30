@@ -42,8 +42,8 @@ const TeamProgress = ({ project }) => {
 
   return (
     <div className="rounded-xl p-4 w-full">
-      <h4 className="text-sm font-medium text-gray-700 mb-3">
-        Team Progress —{" "}
+      <h4 className="text-lg text-charcoalGray mb-3">
+        <span className="font-semibold">Team Progress —</span>{" "}
         <span className="text-xs text-gray-500">{project.title}</span>
       </h4>
 

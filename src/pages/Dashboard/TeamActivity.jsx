@@ -54,7 +54,7 @@ const TeamActivity = () => {
                         navigate(`/dashboard/manage-projects/${project._id}`)
                       }
                     >
-                      <h3 className="font-semibold text-[#263238] text-base truncate hover:text-[#2979ff] hover:underline cursor-pointer">
+                      <h3 className="font-semibold text-[#263238] text-lg truncate hover:text-[#2979ff] hover:underline cursor-pointer">
                         {project.title}
                       </h3>
                       <span

@@ -29,8 +29,8 @@ const TaskStatus = ({ project }) => {
 
   return (
     <div className="rounded-xl p-4 w-full">
-      <h4 className="text-sm font-medium text-gray-700 mb-3">
-        Task Status —{" "}
+      <h4 className="text-lg text-charcoalGray mb-3">
+        <span className="font-semibold"> Task Status —</span>{" "}
         <span className="text-xs text-gray-500">{project.title} — </span>
         <span className="text-xs text-gray-500">
           Total Tasks: {project.tasks.length}
