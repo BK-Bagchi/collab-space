@@ -7,6 +7,14 @@ const TeamProgress = ({ project }) => {
       t.assignees?.some((a) => a._id === member._id)
     );
 
+    if (assignedTasks.length === 0) {
+      return {
+        name: member.name.split(" ")[0],
+        Completed: 0,
+        Remaining: 0,
+      };
+    }
+
     const totalSubtasks = assignedTasks.reduce(
       (acc, t) => acc + (t.subtasks?.length || 0),
       0
@@ -17,8 +25,12 @@ const TeamProgress = ({ project }) => {
       0
     );
 
+    // Handle edge case where totalSubtasks is 0 (tasks exist but have no subtasks)
     const completed =
-      Math.round((completedSubtasks / totalSubtasks) * 100) || 0;
+      totalSubtasks > 0
+        ? Math.round((completedSubtasks / totalSubtasks) * 100)
+        : 0;
+
     const remaining = 100 - completed;
 
     return {

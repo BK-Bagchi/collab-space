@@ -31,7 +31,10 @@ const TaskStatus = ({ project }) => {
     <div className="rounded-xl p-4 w-full">
       <h4 className="text-sm font-medium text-gray-700 mb-3">
         Task Status —{" "}
-        <span className="text-xs text-gray-500">{project.title}</span>
+        <span className="text-xs text-gray-500">{project.title} — </span>
+        <span className="text-xs text-gray-500">
+          Total Tasks: {project.tasks.length}
+        </span>
       </h4>
 
       <ResponsiveContainer width="100%" height={180}>
