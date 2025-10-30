@@ -16,6 +16,7 @@ import TaskCalendar from "./pages/Dashboard/TaskCalender";
 import ManageProjects from "./pages/Dashboard/ManageProjects";
 import ManageProjectsTaskList from "./pages/Dashboard/ManageProjectsTaskList";
 import Analytics from "./pages/Dashboard/Analytics";
+import TeamActivity from "./pages/Dashboard/TeamActivity";
 
 function Layout() {
   return (
@@ -44,6 +45,7 @@ function App() {
               <Route path="manage-projects" element={<ManageProjects />} />
               {/* prettier-ignore */}
               <Route path="manage-projects/:projectId" element={<ManageProjectsTaskList />} />
+              <Route path="team-activity" element={<TeamActivity />} />
               <Route path="analytics" element={<Analytics />} />
               <Route path="*" element={<NotFound />} />
             </Route>
