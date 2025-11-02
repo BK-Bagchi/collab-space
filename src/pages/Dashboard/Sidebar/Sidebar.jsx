@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { adminLinks, bottomLinks, commonLinks } from "./sidebarLinks";
 import { useAuth } from "../../../hooks/useAuth";
 import Avatar from "../../../assets/Default_Avatar.jpg";
 import formatText from "../../../utils/textFormater";
+import { UserAPI } from "../../../api";
 
 const Sidebar = () => {
-  const { user, logout } = useAuth();
-  const { name: userName, role: userRole, avatar: userAvatar } = user || {};
+  const { logout } = useAuth();
+  const [me, setMe] = useState({});
   const [activeRoute, setActiveRoute] = useState("/dashboard");
-  const role = "Admin"; // "Admin", "PM", "Member"
+
+  useEffect(() => {
+    const fetchMe = async () => {
+      try {
+        const res = await UserAPI.getLoggedInUser();
+        setMe(res.data);
+      } catch (error) {
+        console.error("Login error:", error.response);
+        alert(error.response.data.message);
+      }
+    };
+
+    fetchMe();
+  }, []);
+  // console.log(me);
+
+  const { name: userName, role: userRole, avatar: userAvatar } = me || {};
 
   return (
     <aside className="flex flex-col justify-between h-screen px-3 py-6 bg-charcoalGray text-softWhite w-[250px]">
@@ -17,11 +34,19 @@ const Sidebar = () => {
         {/* Project Info Section */}
         <div className="flex items-center gap-3 px-3 py-2 my-4 rounded-md bg-[#37474F] hover:bg-[#455A64] transition cursor-pointer">
           {/* User Info */}
-          <div className="flex items-center justify-center w-10 h-10 rounded-md text-softWhite">
+          <div className="flex items-center justify-center rounded-md text-softWhite">
             {userAvatar ? (
-              <img className="rounded-full" src={userAvatar} alt="" />
+              <img
+                className="rounded-full w-11 h-11"
+                src={userAvatar}
+                alt={userName}
+              />
             ) : (
-              <img className="rounded-full" src={Avatar} alt="" />
+              <img
+                className="rounded-full w-11 h-11"
+                src={Avatar}
+                alt={userName}
+              />
             )}
           </div>
 
@@ -54,7 +79,7 @@ const Sidebar = () => {
           <p className="text-charcoalGray bg-gray-400 h-px">.</p>
 
           {/* Admin/PM Extra Links */}
-          {(role === "Admin" || role === "PM") &&
+          {userRole != "MEMBER" &&
             adminLinks.map((link) => (
               <Link
                 key={link.name}
