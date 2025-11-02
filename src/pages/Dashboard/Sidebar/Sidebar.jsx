@@ -1,32 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { adminLinks, bottomLinks, commonLinks } from "./sidebarLinks";
 import { useAuth } from "../../../hooks/useAuth";
 import Avatar from "../../../assets/Default_Avatar.jpg";
 import formatText from "../../../utils/textFormater";
-import { UserAPI } from "../../../api";
 
 const Sidebar = () => {
-  const { logout } = useAuth();
-  const [me, setMe] = useState({});
+  const { user, logout } = useAuth();
+  const { name: userName, role: userRole, avatar: userAvatar } = user || {};
   const [activeRoute, setActiveRoute] = useState("/dashboard");
-
-  useEffect(() => {
-    const fetchMe = async () => {
-      try {
-        const res = await UserAPI.getLoggedInUser();
-        setMe(res.data);
-      } catch (error) {
-        console.error("Login error:", error.response);
-        alert(error.response.data.message);
-      }
-    };
-
-    fetchMe();
-  }, []);
-  // console.log(me);
-
-  const { name: userName, role: userRole, avatar: userAvatar } = me || {};
 
   return (
     <aside className="flex flex-col justify-between h-screen px-3 py-6 bg-charcoalGray text-softWhite w-[250px]">
@@ -37,13 +19,13 @@ const Sidebar = () => {
           <div className="flex items-center justify-center rounded-md text-softWhite">
             {userAvatar ? (
               <img
-                className="rounded-full w-11 h-11"
+                className="rounded-full w-10 h-10"
                 src={userAvatar}
                 alt={userName}
               />
             ) : (
               <img
-                className="rounded-full w-11 h-11"
+                className="rounded-full w-10 h-10"
                 src={Avatar}
                 alt={userName}
               />
@@ -76,7 +58,9 @@ const Sidebar = () => {
             </Link>
           ))}
 
-          <p className="text-charcoalGray bg-gray-400 h-px">.</p>
+          {userRole != "MEMBER" && (
+            <p className="text-charcoalGray bg-gray-400 h-px">.</p>
+          )}
 
           {/* Admin/PM Extra Links */}
           {userRole != "MEMBER" &&
