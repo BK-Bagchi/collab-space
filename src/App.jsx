@@ -17,6 +17,7 @@ import ManageProjects from "./pages/Dashboard/ManageProjects";
 import ManageProjectsTaskList from "./pages/Dashboard/ManageProjectsTaskList";
 import Analytics from "./pages/Dashboard/Analytics";
 import TeamActivity from "./pages/Dashboard/TeamActivity";
+import ManagerProtectedRoute from "./routes/ManagerProtectedRoute";
 
 function Layout() {
   return (
@@ -42,11 +43,16 @@ function App() {
               <Route path="projects" element={<Projects />} />
               <Route path="tasks" element={<Tasks />} />
               <Route path="calendar" element={<TaskCalendar />} />
-              <Route path="manage-projects" element={<ManageProjects />} />
-              {/* prettier-ignore */}
-              <Route path="manage-projects/:projectId" element={<ManageProjectsTaskList />} />
-              <Route path="team-activity" element={<TeamActivity />} />
-              <Route path="analytics" element={<Analytics />} />
+
+              {/* protected route from general members */}
+              <Route element={<ManagerProtectedRoute />}>
+                <Route path="manage-projects" element={<ManageProjects />} />
+                {/* prettier-ignore */}
+                <Route path="manage-projects/:projectId" element={<ManageProjectsTaskList />} />
+                <Route path="team-activity" element={<TeamActivity />} />
+                <Route path="analytics" element={<Analytics />} />
+              </Route>
+
               <Route path="*" element={<NotFound />} />
             </Route>
           </Route>
