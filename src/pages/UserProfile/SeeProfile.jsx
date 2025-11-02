@@ -13,7 +13,7 @@ import Projects from "./ProfileTabs/Projects";
 import ChangePassword from "./ChangePassword";
 
 const SeeProfile = () => {
-  const { logout } = useAuth();
+  const { setUser: setContextUser, logout } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
   const [activeModal, setActiveModal] = useState(false); // Edit Profile
   const [passwordModal, setPasswordModal] = useState(false); // Change Password
@@ -22,6 +22,7 @@ const SeeProfile = () => {
   const [projects, setProjects] = useState([]);
   const [totalCreatedProjects, setTotalCreatedProjects] = useState(0);
   const [totalJoinedProjects, setTotalJoinedProjects] = useState(0);
+  setContextUser(user);
 
   useEffect(() => {
     const fetchProfile = async () => {
