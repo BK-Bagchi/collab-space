@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // prettier-ignore
 import { Users, FolderKanban, CalendarDays, CircleCheckBig } from "lucide-react";
 import { ProjectAPI } from "../../api";
 import ProjectProgress from "./Components/ProjectProgress";
-import { useNavigate } from "react-router-dom";
 import formatDate from "../../utils/dateFormater";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import TaskStatus from "../../charts/TeamActivity/TaskStatus";

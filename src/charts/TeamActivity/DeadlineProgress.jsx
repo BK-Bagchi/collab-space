@@ -3,22 +3,28 @@ import React, { useMemo } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 const DeadlineProgress = ({ project }) => {
-  // normalize dates
-  const startDate = new Date(project.createdAt);
-  const deadlineDate = project.deadline ? new Date(project.deadline) : null;
+  // 🟢 Memoize static dates so they don't recreate every render
+  const startDate = useMemo(
+    () => new Date(project.createdAt),
+    [project.createdAt]
+  );
+  const deadlineDate = useMemo(
+    () => (project.deadline ? new Date(project.deadline) : null),
+    [project.deadline]
+  );
+
   const today = new Date();
   const endDate = deadlineDate && deadlineDate < today ? deadlineDate : today;
 
-  // collect all subtasks and attach a resolved completion timestamp (if done)
+  // 🟢 Collect all subtasks and attach completion timestamps
   const { allSubtasks, totalSubtasks } = useMemo(() => {
-    let subtasks = [];
+    const subtasks = [];
+
     (project.tasks || []).forEach((task) => {
       const taskCreated = task.createdAt ? new Date(task.createdAt) : null;
       const taskUpdated = task.updatedAt ? new Date(task.updatedAt) : null;
 
       (task.subtasks || []).forEach((s) => {
-        // resolve completion timestamp if available
-        // prefer explicit completedAt (common), then subtask.updatedAt, then task.updatedAt, then task.createdAt, then project.createdAt
         const completedAtRaw =
           s.completedAt ||
           s.updatedAt ||
@@ -30,8 +36,7 @@ const DeadlineProgress = ({ project }) => {
         subtasks.push({
           ...s,
           done: Boolean(s.done),
-          completedAt, // null if not done
-          taskTitle: task.title,
+          completedAt,
         });
       });
     });
@@ -39,7 +44,50 @@ const DeadlineProgress = ({ project }) => {
     return { allSubtasks: subtasks, totalSubtasks: subtasks.length };
   }, [project]);
 
-  // if no subtasks -> show small empty card (so caller can render fallback if needed)
+  // 🟢 Build weekly timeline (instead of daily)
+  const chartData = useMemo(() => {
+    if (!totalSubtasks) return [];
+
+    const s = startDate <= endDate ? startDate : endDate;
+    const daysBetween = Math.max(
+      1,
+      Math.ceil((endDate - s) / (1000 * 60 * 60 * 24))
+    );
+    const totalWeeks = Math.ceil(daysBetween / 7);
+
+    const weeks = [];
+    for (let i = 0; i <= totalWeeks; i++) {
+      const weekStart = new Date(s);
+      weekStart.setDate(s.getDate() + i * 7);
+      weekStart.setHours(0, 0, 0, 0);
+      weeks.push(weekStart);
+    }
+
+    const data = weeks.map((weekStart, index) => {
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+      weekEnd.setHours(23, 59, 59, 999);
+
+      const completedCount = allSubtasks.reduce((acc, sub) => {
+        if (sub.done && sub.completedAt && sub.completedAt <= weekEnd) {
+          return acc + 1;
+        }
+        return acc;
+      }, 0);
+
+      const percent = Math.round((completedCount / totalSubtasks) * 100);
+
+      return {
+        week: `Week ${index + 1}`,
+        completed: completedCount,
+        percent,
+      };
+    });
+
+    return data;
+  }, [allSubtasks, startDate, endDate, totalSubtasks]);
+
+  // 🟢 Early return safely (hooks are all above)
   if (totalSubtasks === 0) {
     return (
       <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
@@ -56,62 +104,6 @@ const DeadlineProgress = ({ project }) => {
     );
   }
 
-  // build daily timeline from startDate to endDate (inclusive)
-  const chartData = useMemo(() => {
-    // clamp start to not be after end
-    const s = startDate <= endDate ? startDate : endDate;
-    const days = Math.max(1, Math.ceil((endDate - s) / (1000 * 60 * 60 * 24)));
-
-    // create array of dates (as Date objects) for each day
-    const dates = [];
-    for (let i = 0; i <= days; i++) {
-      const d = new Date(s);
-      d.setDate(s.getDate() + i);
-      // normalize time to midnight for comparisons
-      d.setHours(0, 0, 0, 0);
-      dates.push(d);
-    }
-
-    // for each date, count completed subtasks whose completedAt <= dateEnd
-    const data = dates.map((date) => {
-      // dateEnd = end of day
-      const dateEnd = new Date(date);
-      dateEnd.setHours(23, 59, 59, 999);
-
-      const completedCount = allSubtasks.reduce((acc, sub) => {
-        if (sub.done && sub.completedAt) {
-          // compare completedAt <= dateEnd
-          if (sub.completedAt <= dateEnd) return acc + 1;
-          return acc;
-        }
-        return acc;
-      }, 0);
-
-      const pct = Math.round((completedCount / totalSubtasks) * 100);
-
-      // label: use short date like "08/13" or "Day 1" if many days
-      const dayDiff = Math.ceil((date - s) / (1000 * 60 * 60 * 24)) + 1;
-      const label =
-        dates.length <= 14
-          ? `${date.getDate().toString().padStart(2, "0")}/${(
-              date.getMonth() + 1
-            )
-              .toString()
-              .padStart(2, "0")}`
-          : `D${dayDiff}`;
-
-      return {
-        date: date.toISOString().slice(0, 10),
-        label,
-        completedCount,
-        percent: pct,
-      };
-    });
-
-    return data;
-  }, [allSubtasks, startDate, endDate, totalSubtasks]);
-
-  // last point percent
   const lastPoint = chartData[chartData.length - 1] || {};
   const finalPercent = lastPoint.percent ?? 0;
 
@@ -133,35 +125,18 @@ const DeadlineProgress = ({ project }) => {
       {/* Chart */}
       <div className="h-64">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            data={chartData}
-            margin={{ top: 6, right: 12, left: 0, bottom: 0 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="label" tick={{ fontSize: 11 }} />
-            <YAxis
-              domain={[0, 100]}
-              tickFormatter={(v) => `${v}%`}
-              tick={{ fontSize: 11 }}
-            />
+          <LineChart data={chartData}>
+            <XAxis dataKey="week" tick={{ fontSize: 12 }} />
+            <YAxis domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
             <Tooltip
-              formatter={(value, name) => {
-                if (name === "percent") return [`${value}%`, "Completed"];
-                if (name === "completedCount")
-                  return [value, "Completed subtasks"];
-                return [value, name];
-              }}
-              labelFormatter={(lab) => {
-                const point = chartData.find((d) => d.label === lab);
-                return point ? `${point.date}` : lab;
-              }}
-              contentStyle={{ borderRadius: 8 }}
+              formatter={(v) => `${v}% completed`}
+              labelStyle={{ color: "#263238" }}
             />
             <Line
               type="monotone"
               dataKey="percent"
-              stroke="#26A69A"
-              strokeWidth={2.2}
+              stroke="#2979FF"
+              strokeWidth={2.5}
               dot={{ r: 3 }}
               activeDot={{ r: 5 }}
             />

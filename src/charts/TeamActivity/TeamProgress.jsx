@@ -2,6 +2,8 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 const TeamProgress = ({ project }) => {
+  const colors = ["#26A69A", "#8E24AA"]; //["Completed", "Remaining"];
+
   const teamProgress = project.members.map((member) => {
     const assignedTasks = project.tasks.filter((t) =>
       t.assignees?.some((a) => a._id === member._id)
@@ -55,13 +57,13 @@ const TeamProgress = ({ project }) => {
           <Bar
             dataKey="Completed"
             stackId="a"
-            fill="#26A69A"
+            fill={colors[0]}
             radius={[0, 0, 0, 0]}
           />
           <Bar
             dataKey="Remaining"
             stackId="a"
-            fill="#F44336"
+            fill={colors[1]}
             radius={[6, 6, 0, 0]}
           />
         </BarChart>
@@ -69,10 +71,10 @@ const TeamProgress = ({ project }) => {
 
       <div className="flex justify-center gap-4 mt-2 text-xs text-gray-600">
         <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded-full bg-[#26A69A]" /> Completed
+          <div className={`w-3 h-3 rounded-full bg-[${colors[0]}]`} /> Completed
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded-full bg-[#F44336]" /> Remaining
+          <div className={`w-3 h-3 rounded-full bg-[${colors[1]}]`} /> Remaining
         </div>
       </div>
     </div>
