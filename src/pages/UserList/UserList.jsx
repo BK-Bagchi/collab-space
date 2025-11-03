@@ -9,7 +9,6 @@ import { useAuth } from "../../hooks/useAuth";
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [activeChatUser, setActiveChatUser] = useState(null); // user who we chat with
-  const [chats, setChats] = useState({}); // store messages per user
   const { user: sender } = useAuth();
 
   useEffect(() => {
@@ -23,21 +22,6 @@ const UserList = () => {
     };
     fetchUsers();
   }, [sender._id]);
-
-  const handleSendMessage = (receiverId, text) => {
-    if (!text.trim()) return;
-    const timestamp = new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    setChats((prev) => ({
-      ...prev,
-      [receiverId]: [
-        ...(prev[receiverId] || []),
-        { sender: "You", text, time: timestamp },
-      ],
-    }));
-  };
 
   return (
     <div className="p-6 bg-softWhite min-h-screen relative">
@@ -108,12 +92,8 @@ const UserList = () => {
       {/* ChatBox popup */}
       {activeChatUser && (
         <NewChatBox
-          activeChat={activeChatUser}
-          messages={chats[activeChatUser._id] || []}
-          setActiveChat={setActiveChatUser}
-          handleSendMessage={(text) =>
-            handleSendMessage(activeChatUser._id, text)
-          }
+          activeChatUser={activeChatUser}
+          setActiveChatUser={setActiveChatUser}
         />
       )}
     </div>
