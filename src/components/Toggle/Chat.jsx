@@ -1,59 +1,78 @@
 import { X, MessageSquare } from "lucide-react";
-import { useState } from "react";
-import ChatBox from "../Chat/ChatBox";
+import { useEffect, useState } from "react";
+import { ChatAPI } from "../../api";
+import { useAuth } from "../../hooks/useAuth";
+import formatDate from "../../utils/dateFormater";
+import NewChatBox from "../Chat/NewChatBox";
 
 const Chat = ({ open, setOpen }) => {
-  const [activeChat, setActiveChat] = useState(null);
-  const [message, setMessage] = useState("");
+  const { user } = useAuth();
+  const [activeChatUser, setActiveChatUser] = useState(null);
+  const [messages, setMessages] = useState([]);
 
-  const chats = [
-    {
-      id: 1,
-      name: "Debosree Bagchi",
-      avatar: "/default-avatar.png",
-      time: "2m ago",
-      preview: "Hey! Have you checked the latest update on Collab Space?",
-      messages: [
-        {
-          sender: "Debosree",
-          text: "Hey love! Have you checked Collab Space?",
-          time: "2:35 PM",
-        },
-        { sender: "You", text: "Not yet, doing it now 😄", time: "2:36 PM" },
-      ],
-    },
-    {
-      id: 2,
-      name: "Alex Turner",
-      avatar: "/default-avatar.png",
-      time: "10m ago",
-      preview: "Can we discuss the new design changes today?",
-      messages: [
-        {
-          sender: "Alex",
-          text: "Can we discuss the new design today?",
-          time: "12:10 PM",
-        },
-        { sender: "You", text: "Sure! Let’s do it at 3 PM.", time: "12:12 PM" },
-      ],
-    },
-    {
-      id: 3,
-      name: "Team Alpha",
-      avatar: "/default-avatar.png",
-      time: "1h ago",
-      preview: "Project status updated. Check your dashboard.",
-      messages: [
-        { sender: "Team", text: "Project status updated.", time: "10:00 AM" },
-        { sender: "You", text: "Nice! I'll check it out.", time: "10:05 AM" },
-      ],
-    },
-  ];
+  useEffect(() => {
+    const fetchChatMessages = async () => {
+      try {
+        const res = await ChatAPI.getAllChats();
+        setMessages(res.data.chats);
+      } catch (error) {
+        console.error("Error fetching chat messages:", error);
+      }
+    };
 
-  const handleSendMessage = () => {
-    if (message.trim() === "") return;
-    setMessage("");
-  };
+    fetchChatMessages();
+  }, []);
+  // console.log(messages);
+  const receivedMessages = messages.filter(
+    (msg) => msg.receiver._id === user._id
+  );
+
+  const latestMessagesMap = new Map();
+
+  receivedMessages.forEach((msg) => {
+    const senderId = msg.sender._id;
+    const existing = latestMessagesMap.get(senderId);
+
+    // If no message yet or current message is newer, replace it
+    if (!existing || new Date(msg.createdAt) > new Date(existing.createdAt)) {
+      latestMessagesMap.set(senderId, msg);
+    }
+  });
+
+  // ✅ Convert Map to array of chat objects
+  const chats = Array.from(latestMessagesMap.values()).map((msg) => ({
+    id: msg._id,
+    name: msg.sender.name,
+    avatar: msg.sender.avatar,
+    time: msg.createdAt,
+    preview: msg.content,
+    _id: msg.sender._id, // ChatBox requires this to connect via socket
+    messages: [
+      {
+        sender: msg.sender.name,
+        text: msg.content,
+        time: msg.createdAt,
+      },
+    ],
+  }));
+
+  // const chats = [
+  //   {
+  //     id: 1,
+  //     name: "Debosree Bagchi",
+  //     avatar: "/default-avatar.png",
+  //     time: "2m ago",
+  //     preview: "Hey! Have you checked the latest update on Collab Space?",
+  //     messages: [
+  //       {
+  //         sender: "Debosree",
+  //         text: "Hey love! Have you checked Collab Space?",
+  //         time: "2:35 PM",
+  //       },
+  //       { sender: "You", text: "Not yet, doing it now 😄", time: "2:36 PM" },
+  //     ],
+  //   },
+  // ];
 
   return (
     open && (
@@ -73,57 +92,77 @@ const Chat = ({ open, setOpen }) => {
               <X size={18} />
             </button>
           </div>
-
           {/* Chat List */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 text-charcoalGray">
-            {chats.map((chat) => (
-              <div
-                key={chat.id}
-                onClick={() => setActiveChat(chat)}
-                className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer transition ${
-                  activeChat?.id === chat.id
-                    ? "bg-[#EDE7F6]"
-                    : "bg-[#F9FAFB] hover:bg-[#EDE7F6]"
-                }`}
-              >
-                <img
-                  src={chat.avatar}
-                  alt="Avatar"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <div className="flex-1">
-                  <div className="flex justify-between items-center">
-                    <h4 className="font-medium text-sm">{chat.name}</h4>
-                    <span className="text-xs text-gray-500">{chat.time}</span>
+          {receivedMessages.length > 0 ? (
+            <>
+              <div className="space-y-2">
+                {chats.map((chat) => (
+                  <div
+                    key={chat.id}
+                    onClick={() => setActiveChatUser(chat)}
+                    className={`flex items-center gap-4 p-3 rounded-xl cursor-pointer transition-all duration-200 shadow-sm border border-transparent ${
+                      activeChatUser?.id === chat.id
+                        ? "bg-[#EEE4F8] border-vibrantPurple shadow-md"
+                        : "bg-white hover:bg-[#F4F1FA] hover:border-gray-200"
+                    }`}
+                  >
+                    {/* Avatar */}
+                    <div className="relative">
+                      <img
+                        src={chat.avatar}
+                        alt={chat.name}
+                        className="w-11 h-11 rounded-full object-cover border border-gray-200 shadow-sm"
+                      />
+                      {chat.online && (
+                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full" />
+                      )}
+                    </div>
+
+                    {/* Chat Info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-center mb-0.5">
+                        <h4 className="font-medium text-[15px] text-charcoalGray truncate">
+                          {chat.name}
+                        </h4>
+                        <span className="text-xs text-gray-400 whitespace-nowrap">
+                          {formatDate(chat.time)}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 truncate">
+                        {chat.preview}
+                      </p>
+                    </div>
+
+                    {/* Unread indicator */}
+                    {chat.unreadCount > 0 && (
+                      <span className="bg-electricBlue text-white text-xs px-2 py-[2px] rounded-full">
+                        {chat.unreadCount}
+                      </span>
+                    )}
                   </div>
-                  <p className="text-sm text-gray-600 truncate">
-                    {chat.preview}
-                  </p>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
 
-          {/* Footer */}
-          <div className="border-t border-gray-200 bg-softWhite px-4 py-3 text-center">
-            <button
-              onClick={() => setOpen(false)}
-              className="text-[#2979FF] font-medium hover:underline text-sm"
-            >
-              View All Messages
-            </button>
-          </div>
-
+              {/* Footer */}
+              <div className="border-t border-gray-200 bg-softWhite px-4 py-3 text-center">
+                <button
+                  onClick={() => setOpen(false)}
+                  className="text-[#2979FF] font-medium hover:underline text-sm"
+                >
+                  View All Messages
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-4 text-sm text-gray-500">
+              No Messages
+            </div>
+          )}
           {/* Active Chat Panel */}
-          {activeChat && (
-            <ChatBox
-              {...{
-                activeChat,
-                setActiveChat,
-                message,
-                setMessage,
-                handleSendMessage,
-              }}
+          {activeChatUser && (
+            <NewChatBox
+              activeChatUser={activeChatUser}
+              setActiveChatUser={setActiveChatUser}
             />
           )}
         </div>
