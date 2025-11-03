@@ -3,26 +3,44 @@ import { User, Mail, Briefcase, MessageSquare, UserPlus } from "lucide-react";
 import { UserAPI } from "../../api";
 import formatText from "../../utils/textFormater";
 import Avatar from "../../assets/Default_Avatar.jpg";
+import NewChatBox from "../../components/Chat/NewChatBox";
+import { useAuth } from "../../hooks/useAuth";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
+  const [activeChatUser, setActiveChatUser] = useState(null); // user who we chat with
+  const [chats, setChats] = useState({}); // store messages per user
+  const { user: sender } = useAuth();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const res = await UserAPI.getAllUsers();
-        setUsers(res.data);
+        setUsers(res.data.filter((u) => u._id !== sender._id));
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
-
     fetchUsers();
-  }, []);
-  //   console.log(users);
+  }, [sender._id]);
+
+  const handleSendMessage = (receiverId, text) => {
+    if (!text.trim()) return;
+    const timestamp = new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    setChats((prev) => ({
+      ...prev,
+      [receiverId]: [
+        ...(prev[receiverId] || []),
+        { sender: "You", text, time: timestamp },
+      ],
+    }));
+  };
 
   return (
-    <div className="p-6 bg-softWhite min-h-screen">
+    <div className="p-6 bg-softWhite min-h-screen relative">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-semibold text-charcoalGray flex items-center gap-2">
@@ -34,36 +52,30 @@ const UserList = () => {
         </span>
       </div>
 
-      {/* User Grid */}
+      {/* Users Grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {users.length > 0 ? (
+        {users.length ? (
           users.map((user) => (
             <div
               key={user._id}
-              className="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 group"
+              className="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition border border-gray-100 relative"
             >
-              {/* Avatar */}
+              {/* Avatar & Info */}
               <div className="flex items-center gap-4 mb-4">
                 <img
                   src={user.avatar || Avatar}
                   alt={user.name}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-electricBlue shadow-sm group-hover:scale-105 transition-transform duration-300"
+                  className="w-14 h-14 rounded-full object-cover border-2 border-electricBlue shadow-sm"
                 />
                 <div>
                   <h3 className="text-lg font-semibold text-charcoalGray">
                     {user.name}
                   </h3>
                   <p className="text-sm text-gray-500 flex items-center gap-1">
-                    <Mail size={14} />
-                    {user.email}
+                    <Mail size={14} /> {user.email}
                   </p>
                 </div>
               </div>
-
-              {/* Bio */}
-              <p className="text-sm text-gray-600 mb-3 line-clamp-2 italic">
-                {user.bio || "No bio available."}
-              </p>
 
               {/* Role */}
               <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
@@ -74,12 +86,13 @@ const UserList = () => {
               {/* Action Buttons */}
               <div className="flex justify-between gap-2">
                 <button className="flex-1 flex items-center justify-center gap-2 bg-electricBlue text-white text-sm py-2 rounded-lg hover:bg-[#1E63D1] transition">
-                  <UserPlus size={14} />
-                  Follow
+                  <UserPlus size={14} /> Follow
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 border border-vibrantPurple text-vibrantPurple text-sm py-2 rounded-lg hover:bg-vibrantPurple hover:text-white transition">
-                  <MessageSquare size={14} />
-                  Message
+                <button
+                  onClick={() => setActiveChatUser(user)}
+                  className="flex-1 flex items-center justify-center gap-2 border border-vibrantPurple text-vibrantPurple text-sm py-2 rounded-lg hover:bg-vibrantPurple hover:text-white transition"
+                >
+                  <MessageSquare size={14} /> Message
                 </button>
               </div>
             </div>
@@ -88,12 +101,21 @@ const UserList = () => {
           <div className="col-span-full text-center text-gray-400 mt-20">
             <User size={40} className="mx-auto mb-3 text-gray-300" />
             <p className="text-sm font-medium">No users found</p>
-            <p className="text-xs text-gray-400">
-              Registered users will appear here once added.
-            </p>
           </div>
         )}
       </div>
+
+      {/* ChatBox popup */}
+      {activeChatUser && (
+        <NewChatBox
+          activeChat={activeChatUser}
+          messages={chats[activeChatUser._id] || []}
+          setActiveChat={setActiveChatUser}
+          handleSendMessage={(text) =>
+            handleSendMessage(activeChatUser._id, text)
+          }
+        />
+      )}
     </div>
   );
 };

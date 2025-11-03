@@ -9,13 +9,13 @@ const Chat = ({ open, setOpen }) => {
   const chats = [
     {
       id: 1,
-      name: "Golu Bagchi",
+      name: "Debosree Bagchi",
       avatar: "/default-avatar.png",
       time: "2m ago",
       preview: "Hey! Have you checked the latest update on Collab Space?",
       messages: [
         {
-          sender: "Golu",
+          sender: "Debosree",
           text: "Hey love! Have you checked Collab Space?",
           time: "2:35 PM",
         },
