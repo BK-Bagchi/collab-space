@@ -18,6 +18,7 @@ import ManageProjectsTaskList from "./pages/Dashboard/ManageProjectsTaskList";
 import Analytics from "./pages/Dashboard/Analytics";
 import TeamActivity from "./pages/Dashboard/TeamActivity";
 import ManagerProtectedRoute from "./routes/ManagerProtectedRoute";
+import UserList from "./pages/UserList/UserList";
 
 function Layout() {
   return (
@@ -38,6 +39,8 @@ function App() {
           {/* login protected routes */}
           <Route element={<LoginProtectedRoute />}>
             <Route path="profile" element={<SeeProfile />} />
+            <Route path="users" element={<UserList />} />
+            <Route path="user/:id" element={<SeeProfile />} />
             <Route path="dashboard" element={<Dashboard />}>
               <Route index element={<DashboardHome />} />
               <Route path="projects" element={<Projects />} />

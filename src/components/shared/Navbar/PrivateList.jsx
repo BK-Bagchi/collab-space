@@ -1,11 +1,6 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Modal from "../../Modal/Modal";
-import CreateProject from "../../../pages/CreateProject/CreateProject";
 
 const PrivateList = () => {
-  const [open, setOpen] = useState(false);
-  const [activeModal, setActiveModal] = useState(false);
   return (
     <>
       <li>
@@ -19,30 +14,11 @@ const PrivateList = () => {
         </Link>
       </li>
       {/* Trigger */}
-      <li
-        className="text-[15px] cursor-pointer px-3 py-1 rounded hover:bg-[#3D86FF] transition"
-        onClick={() => setOpen(!open)}
-      >
-        Create
+      <li>
+        <Link to="/users" className="text-[15px] cursor-pointer">
+          Users
+        </Link>
       </li>
-      <div className="relative inline-block text-left mt-10">
-        {/* Dropdown */}
-        {open && (
-          <div className="absolute mt-1 right-0 w-40 bg-[#FAFAFA] border border-gray-200 rounded-md shadow-lg z-20">
-            <ul className="py-1">
-              <li
-                className="px-4 py-2 text-sm text-[#263238] hover:bg-[#EDE7F6] cursor-pointer transition"
-                onClick={() => {
-                  setOpen(false);
-                  setActiveModal(true);
-                }}
-              >
-                New Project
-              </li>
-            </ul>
-          </div>
-        )}
-      </div>
       <li className="hidden lg:inline">
         <label className="input input-bordered flex items-center gap-2 max-w-md shadow-md bg-[#FAFAFA] text-[#263234]">
           {/* prettier-ignore */}
@@ -57,15 +33,6 @@ const PrivateList = () => {
           />
         </label>
       </li>
-      {
-        // active create project list on modal
-        activeModal && (
-          <Modal
-            render={<CreateProject setActiveModal={setActiveModal} />}
-            setActiveModal={setActiveModal}
-          />
-        )
-      }
     </>
   );
 };
