@@ -6,6 +6,7 @@ import Avatar from "../../assets/Default_Avatar.jpg";
 import NewChatBox from "../../components/Chat/NewChatBox";
 import { useAuth } from "../../hooks/useAuth";
 import { useActive } from "../../hooks/useActive";
+import ActiveNow from "../../components/ActiveNow/ActiveNow";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -60,9 +61,7 @@ const UserList = () => {
                     </h3>
 
                     {/* Active Status Dot */}
-                    {activeUsers.includes(user._id) && (
-                      <span className="w-2 h-2 bg-electricBlue rounded-full shadow-sm" />
-                    )}
+                    {activeUsers.includes(user._id) && <ActiveNow />}
                   </div>
                   <p className="text-sm text-gray-500 flex items-center gap-1 mt-0.5">
                     <Mail size={14} /> {user.email}

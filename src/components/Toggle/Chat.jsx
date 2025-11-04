@@ -2,12 +2,15 @@ import { X, MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ChatAPI } from "../../api";
 import { useAuth } from "../../hooks/useAuth";
+import { useActive } from "../../hooks/useActive";
 import formatDate from "../../utils/dateFormater";
 import NewChatBox from "../Chat/NewChatBox";
 import Avatar from "../../assets/Default_Avatar.jpg";
+import ActiveNow from "../ActiveNow/ActiveNow";
 
 const Chat = ({ open, setOpen }) => {
   const { user } = useAuth();
+  const { activeUsers } = useActive();
   const [activeChatUser, setActiveChatUser] = useState(null);
   const [messages, setMessages] = useState([]);
 
@@ -101,9 +104,12 @@ const Chat = ({ open, setOpen }) => {
                     {/* Chat Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-center mb-0.5">
-                        <h4 className="font-medium text-[15px] text-charcoalGray truncate">
-                          {chat.name}
-                        </h4>
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-medium text-[15px] text-charcoalGray truncate">
+                            {chat.name}
+                          </h4>
+                          {activeUsers.includes(chat._id) && <ActiveNow />}
+                        </div>
                         <span className="text-xs text-gray-400 whitespace-nowrap">
                           {formatDate(chat.time)}
                         </span>

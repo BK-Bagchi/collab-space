@@ -3,10 +3,11 @@ import { Send, X } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useActive } from "../../hooks/useActive";
 import Avatar from "../../assets/Default_Avatar.jpg";
+import ActiveNow from "../ActiveNow/ActiveNow";
 
 const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
   const { user } = useAuth();
-  const { socket } = useActive();
+  const { socket, activeUsers } = useActive();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [sender, receiver] = [user._id, activeChatUser._id];
@@ -56,6 +57,7 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
             className="w-8 h-8 rounded-full"
           />
           <span className="font-medium">{activeChatUser?.name}</span>
+          {activeUsers.includes(activeChatUser._id) && <ActiveNow />}
         </div>
         <button onClick={() => setActiveChatUser(null)}>
           <X size={16} />
