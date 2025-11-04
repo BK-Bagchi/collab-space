@@ -25,27 +25,33 @@ const Chat = ({ open, setOpen }) => {
   // console.log(messages);
 
   const latestMessagesMap = new Map();
-
   messages.forEach((msg) => {
-    const senderId = msg.sender._id;
-    const existing = latestMessagesMap.get(senderId);
+    const key =
+      msg.sender._id < msg.receiver._id
+        ? `${msg.sender._id}-${msg.receiver._id}`
+        : `${msg.receiver._id}-${msg.sender._id}`;
 
-    // If no message yet or current message is newer, replace it
+    const existing = latestMessagesMap.get(key);
     if (!existing || new Date(msg.createdAt) > new Date(existing.createdAt)) {
-      latestMessagesMap.set(senderId, msg);
+      latestMessagesMap.set(key, msg);
     }
   });
-  // ✅ Convert Map to array of chat objects
-  const chats = Array.from(latestMessagesMap.values()).map((msg) => ({
-    id: msg._id,
-    name: msg.sender._id === user._id ? msg.receiver.name : msg.sender.name,
-    avatar:
-      msg.sender._id === user._id ? msg.receiver.avatar : msg.sender.avatar,
-    time: msg.createdAt,
-    preview: msg.content,
-    _id: msg.sender._id === user._id ? msg.receiver._id : msg.sender._id, // ChatBox requires this to connect via socket
-    role: msg.sender._id === user._id ? "sender" : "receiver",
-  }));
+
+  const chats = Array.from(latestMessagesMap.values()).map((msg) => {
+    const isSender = msg.sender._id === user._id;
+    const chatPartner = isSender ? msg.receiver : msg.sender;
+
+    return {
+      id: msg._id,
+      name: chatPartner.name,
+      avatar: chatPartner.avatar,
+      time: msg.createdAt,
+      preview: msg.content,
+      _id: chatPartner._id, // partner id — for socket/chatbox
+      role: isSender ? "sender" : "receiver",
+    };
+  });
+  chats.sort((a, b) => new Date(b.time) - new Date(a.time));
 
   return (
     open && (
