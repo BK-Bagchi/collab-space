@@ -2,6 +2,7 @@ import React, { useEffect, useEffectEvent, useState } from "react";
 import { io } from "socket.io-client";
 import { Send, X } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
+import Avatar from "../../assets/Default_Avatar.jpg";
 
 const socket = io(import.meta.env.VITE_BASE_URL, {
   transports: ["websocket"],
@@ -54,7 +55,7 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
       <div className="flex items-center justify-between bg-vibrantPurple text-white px-4 py-2 rounded-t-xl">
         <div className="flex items-center gap-2">
           <img
-            src={activeChatUser?.avatar}
+            src={activeChatUser?.avatar || Avatar}
             alt={activeChatUser?.name}
             className="w-8 h-8 rounded-full"
           />

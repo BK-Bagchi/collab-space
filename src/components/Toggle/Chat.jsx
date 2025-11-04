@@ -4,6 +4,7 @@ import { ChatAPI } from "../../api";
 import { useAuth } from "../../hooks/useAuth";
 import formatDate from "../../utils/dateFormater";
 import NewChatBox from "../Chat/NewChatBox";
+import Avatar from "../../assets/Default_Avatar.jpg";
 
 const Chat = ({ open, setOpen }) => {
   const { user } = useAuth();
@@ -88,7 +89,7 @@ const Chat = ({ open, setOpen }) => {
                     {/* Avatar */}
                     <div className="relative">
                       <img
-                        src={chat.avatar}
+                        src={chat.avatar || Avatar}
                         alt={chat.name}
                         className="w-11 h-11 rounded-full object-cover border border-gray-200 shadow-sm"
                       />
