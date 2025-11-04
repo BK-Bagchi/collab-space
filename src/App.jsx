@@ -19,6 +19,7 @@ import Analytics from "./pages/Dashboard/Analytics";
 import TeamActivity from "./pages/Dashboard/TeamActivity";
 import ManagerProtectedRoute from "./routes/ManagerProtectedRoute";
 import UserList from "./pages/UserList/UserList";
+import { ActiveProvider } from "./context/ActiveContext";
 
 function Layout() {
   return (
@@ -32,39 +33,41 @@ function Layout() {
 function App() {
   return (
     <AuthProvider>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+      <ActiveProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
 
-          {/* login protected routes */}
-          <Route element={<LoginProtectedRoute />}>
-            <Route path="profile" element={<SeeProfile />} />
-            <Route path="users" element={<UserList />} />
-            <Route path="user/:id" element={<SeeProfile />} />
-            <Route path="dashboard" element={<Dashboard />}>
-              <Route index element={<DashboardHome />} />
-              <Route path="projects" element={<Projects />} />
-              <Route path="tasks" element={<Tasks />} />
-              <Route path="calendar" element={<TaskCalendar />} />
+            {/* login protected routes */}
+            <Route element={<LoginProtectedRoute />}>
+              <Route path="profile" element={<SeeProfile />} />
+              <Route path="users" element={<UserList />} />
+              <Route path="user/:id" element={<SeeProfile />} />
+              <Route path="dashboard" element={<Dashboard />}>
+                <Route index element={<DashboardHome />} />
+                <Route path="projects" element={<Projects />} />
+                <Route path="tasks" element={<Tasks />} />
+                <Route path="calendar" element={<TaskCalendar />} />
 
-              {/* protected route from general members */}
-              <Route element={<ManagerProtectedRoute />}>
-                <Route path="manage-projects" element={<ManageProjects />} />
-                {/* prettier-ignore */}
-                <Route path="manage-projects/:projectId" element={<ManageProjectsTaskList />} />
-                <Route path="team-activity" element={<TeamActivity />} />
-                <Route path="analytics" element={<Analytics />} />
+                {/* protected route from general members */}
+                <Route element={<ManagerProtectedRoute />}>
+                  <Route path="manage-projects" element={<ManageProjects />} />
+                  {/* prettier-ignore */}
+                  <Route path="manage-projects/:projectId" element={<ManageProjectsTaskList />} />
+                  <Route path="team-activity" element={<TeamActivity />} />
+                  <Route path="analytics" element={<Analytics />} />
+                </Route>
+
+                <Route path="*" element={<NotFound />} />
               </Route>
-
-              <Route path="*" element={<NotFound />} />
             </Route>
-          </Route>
 
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </ActiveProvider>
     </AuthProvider>
   );
 }
