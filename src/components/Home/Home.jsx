@@ -3,9 +3,12 @@ import { Users, MessageSquare, FolderKanban } from "lucide-react";
 import projectName, { projectSlogan } from "../../utils/getProjectName";
 import CollabCover from "../../assets/Collab_Space_cover_large.png";
 import { useAuth } from "../../hooks/useAuth";
+import useUserActive from "../../hooks/useUserActive";
 
 const Home = () => {
   const { loggedIn } = useAuth();
+  useUserActive();
+
   return (
     <div className="min-h-screen flex flex-col bg-softWhite text-charcoalGray">
       {/* ===== HERO SECTION ===== */}
