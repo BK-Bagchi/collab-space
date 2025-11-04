@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PublicList from "./PublicList.jsx";
 import projectName from "../../../utils/getProjectName.js";
 import PrivateList from "./PrivateList.jsx";
@@ -5,9 +6,16 @@ import PrivateBtn from "./PrivateBtn.jsx";
 import PublicBtn from "./PublicBtn.jsx";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth.js";
+import { useActive } from "../../../hooks/useActive.js";
 
 const Navbar = () => {
-  const { loggedIn } = useAuth();
+  const { user, loggedIn } = useAuth();
+  const { socket } = useActive();
+
+  useEffect(() => {
+    socket?.emit("becomeActive", { userId: user._id });
+  }, [socket, user]);
+
   return (
     <div className="navbar bg-[#2979FF] text-[#FAFAFA] shadow-sm px-3">
       <div className="navbar-start">
