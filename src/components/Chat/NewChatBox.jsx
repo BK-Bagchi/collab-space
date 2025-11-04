@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useEffectEvent, useState } from "react";
 import { io } from "socket.io-client";
 import { Send, X } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
@@ -12,10 +12,12 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
   const { user } = useAuth();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-
-  const sender = user?._id;
-  const receiver = activeChatUser?._id;
+  const [sender, receiver] = [user._id, activeChatUser._id];
   // console.log(sender, receiver);
+
+  const handleNewMessage = useEffectEvent((newMsg) => {
+    setMessages((prev) => [...prev, newMsg]);
+  });
 
   useEffect(() => {
     if (!sender || !receiver) return;
@@ -29,16 +31,14 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
     });
 
     // Listen for new messages
-    socket.on("newMessage", (newMsg) => {
-      setMessages((prev) => [...prev, newMsg]);
-    });
+    socket.on("newMessage", handleNewMessage);
 
     // Cleanup listeners when chat user changes or unmounts
     return () => {
       socket.off("oldMessages");
       socket.off("newMessage");
     };
-  }, [sender, receiver]);
+  }, [sender, receiver, handleNewMessage]);
 
   const sendMessage = () => {
     if (!message.trim()) return;
