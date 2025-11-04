@@ -15,6 +15,7 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
 
   const sender = user?._id;
   const receiver = activeChatUser?._id;
+  // console.log(sender, receiver);
 
   useEffect(() => {
     if (!sender || !receiver) return;

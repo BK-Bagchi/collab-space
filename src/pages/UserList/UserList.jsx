@@ -49,7 +49,7 @@ const UserList = () => {
                 <img
                   src={user.avatar || Avatar}
                   alt={user.name}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-electricBlue shadow-sm"
+                  className="w-14 h-14 rounded-full object-cover border-2 border-[#2979FF] shadow-sm"
                 />
                 <div>
                   <h3 className="text-lg font-semibold text-charcoalGray">

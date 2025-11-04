@@ -23,13 +23,10 @@ const Chat = ({ open, setOpen }) => {
     fetchChatMessages();
   }, []);
   // console.log(messages);
-  const receivedMessages = messages.filter(
-    (msg) => msg.receiver._id === user._id
-  );
 
   const latestMessagesMap = new Map();
 
-  receivedMessages.forEach((msg) => {
+  messages.forEach((msg) => {
     const senderId = msg.sender._id;
     const existing = latestMessagesMap.get(senderId);
 
@@ -38,41 +35,17 @@ const Chat = ({ open, setOpen }) => {
       latestMessagesMap.set(senderId, msg);
     }
   });
-
   // ✅ Convert Map to array of chat objects
   const chats = Array.from(latestMessagesMap.values()).map((msg) => ({
     id: msg._id,
-    name: msg.sender.name,
-    avatar: msg.sender.avatar,
+    name: msg.sender._id === user._id ? msg.receiver.name : msg.sender.name,
+    avatar:
+      msg.sender._id === user._id ? msg.receiver.avatar : msg.sender.avatar,
     time: msg.createdAt,
     preview: msg.content,
-    _id: msg.sender._id, // ChatBox requires this to connect via socket
-    messages: [
-      {
-        sender: msg.sender.name,
-        text: msg.content,
-        time: msg.createdAt,
-      },
-    ],
+    _id: msg.sender._id === user._id ? msg.receiver._id : msg.sender._id, // ChatBox requires this to connect via socket
+    role: msg.sender._id === user._id ? "sender" : "receiver",
   }));
-
-  // const chats = [
-  //   {
-  //     id: 1,
-  //     name: "Debosree Bagchi",
-  //     avatar: "/default-avatar.png",
-  //     time: "2m ago",
-  //     preview: "Hey! Have you checked the latest update on Collab Space?",
-  //     messages: [
-  //       {
-  //         sender: "Debosree",
-  //         text: "Hey love! Have you checked Collab Space?",
-  //         time: "2:35 PM",
-  //       },
-  //       { sender: "You", text: "Not yet, doing it now 😄", time: "2:36 PM" },
-  //     ],
-  //   },
-  // ];
 
   return (
     open && (
@@ -93,7 +66,7 @@ const Chat = ({ open, setOpen }) => {
             </button>
           </div>
           {/* Chat List */}
-          {receivedMessages.length > 0 ? (
+          {messages.length > 0 ? (
             <>
               <div className="space-y-2">
                 {chats.map((chat) => (
@@ -129,7 +102,9 @@ const Chat = ({ open, setOpen }) => {
                         </span>
                       </div>
                       <p className="text-sm text-gray-600 truncate">
-                        {chat.preview}
+                        {chat.role === "sender"
+                          ? "You: " + chat.preview
+                          : chat.preview}
                       </p>
                     </div>
 
