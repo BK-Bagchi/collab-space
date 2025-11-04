@@ -1,16 +1,12 @@
 import React, { useEffect, useEffectEvent, useState } from "react";
-import { io } from "socket.io-client";
 import { Send, X } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
+import { useActive } from "../../hooks/useActive";
 import Avatar from "../../assets/Default_Avatar.jpg";
-
-const socket = io(import.meta.env.VITE_BASE_URL, {
-  transports: ["websocket"],
-  reconnection: true,
-});
 
 const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
   const { user } = useAuth();
+  const { socket } = useActive();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [sender, receiver] = [user._id, activeChatUser._id];
@@ -39,7 +35,7 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
       socket.off("oldMessages");
       socket.off("newMessage");
     };
-  }, [sender, receiver, handleNewMessage]);
+  }, [socket, sender, receiver, handleNewMessage]);
 
   const sendMessage = () => {
     if (!message.trim()) return;
