@@ -10,6 +10,7 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
   const { socket, activeUsers } = useActive();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
   const [sender, receiver] = [user._id, activeChatUser._id];
   // console.log(sender, receiver);
 
@@ -31,10 +32,18 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
     // Listen for new messages
     socket.on("newMessage", handleNewMessage);
 
+    socket.on("typing", ({ sender: typingUserId }) => {
+      if (typingUserId === receiver) {
+        setIsTyping(true);
+        setTimeout(() => setIsTyping(false), 3000);
+      }
+    });
+
     // Cleanup listeners when chat user changes or unmounts
     return () => {
       socket.off("oldMessages");
       socket.off("newMessage");
+      socket.off("typing");
     };
   }, [socket, sender, receiver, handleNewMessage]);
 
@@ -44,6 +53,16 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
     socket.emit("newMessage", newMsg);
     setMessages((prev) => [...prev, newMsg]);
     setMessage("");
+  };
+
+  let debounce;
+  const handleTyping = (e) => {
+    setMessage(e.target.value);
+
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      socket.emit("typing", { sender, receiver });
+    }, 500);
   };
 
   return (
@@ -58,6 +77,9 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
           />
           <span className="font-medium">{activeChatUser?.name}</span>
           {activeUsers.includes(activeChatUser._id) && <ActiveNow />}
+          {isTyping && (
+            <span className="text-xs text-white/80 mt-0.5">typing...</span>
+          )}
         </div>
         <button onClick={() => setActiveChatUser(null)}>
           <X size={16} />
@@ -91,7 +113,7 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
         <input
           type="text"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={handleTyping}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           placeholder="Type a message..."
           className="flex-1 rounded-full border border-gray-300 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-electricBlue text-charcoalGray"
