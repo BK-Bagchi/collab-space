@@ -1,9 +1,15 @@
-import { Folder, Inbox, MoreVertical, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { Folder, Inbox, MoreVertical, Send } from "lucide-react";
+import { useActive } from "../../hooks/useActive";
+import { useAuth } from "../../hooks/useAuth";
 
 const ProjectChatBox = ({ project }) => {
+  const { socket } = useActive();
+  const { user } = useAuth();
+  const [projectId, userId] = [project._id, user._id];
+
   const [messages, setMessages] = useState([]);
-  const [text, setText] = useState("");
+  const [message, setMessage] = useState("");
   const messagesRef = useRef();
 
   useEffect(() => {
@@ -11,12 +17,36 @@ const ProjectChatBox = ({ project }) => {
     messagesRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const send = () => {
-    if (!text.trim()) return;
-    // onSend(text.trim());
-    console.log(text);
-    setMessages((prev) => [...prev, text]);
-    setText("");
+  useEffect(() => {
+    if (!projectId || !userId) return;
+
+    //Join chatroom
+    socket.emit("joinProject", { projectId, userId });
+
+    // Load old messages
+    socket.on("oldProjectMessages", (oldMsgs) => {
+      setMessages(oldMsgs);
+    });
+
+    // Listen for new messages
+    socket.on("projectMessage", (newMsg) => {
+      setMessages((prev) => [...prev, newMsg]);
+    });
+
+    // Cleanup listeners when chat user changes or unmounts
+    return () => {
+      socket.off("oldProjectMessages");
+      socket.off("projectMessage");
+    };
+  }, [socket, projectId, userId]);
+  // console.log(messages);
+
+  const sendMessage = () => {
+    if (!message.trim()) return;
+    const newMsg = { projectId, sender: userId, content: message };
+    socket.emit("projectMessage", newMsg);
+    // setMessages((prev) => [...prev, newMsg]);
+    setMessage("");
   };
 
   return (
@@ -67,27 +97,27 @@ const ProjectChatBox = ({ project }) => {
           </div>
         )}
 
-        {messages.map((m, i) => (
+        {messages.map((msg, i) => (
           <div
-            key={m.id ?? i}
+            key={i}
             className={`flex ${
-              m.sender === "You" ? "justify-end" : "justify-start"
+              msg.sender === user._id ? "justify-end" : "justify-start"
             }`}
           >
             <div
               className={`max-w-[75%] px-4 py-2 rounded-2xl shadow-sm text-sm ${
-                m.sender === "You"
+                msg.sender === user._id
                   ? "bg-electricBlue text-white"
                   : "bg-white text-charcoalGray"
               }`}
             >
-              <p>{m.text || m.message || "(no text)"}</p>
-              <div className="text-[10px] text-gray-300 mt-1 text-right">
+              <p>{msg.content}</p>
+              {/* <div className="text-[10px] text-gray-300 mt-1 text-right">
                 {m.time ??
                   (m.createdAt
                     ? new Date(m.createdAt).toLocaleTimeString()
                     : "")}
-              </div>
+              </div> */}
             </div>
           </div>
         ))}
@@ -99,14 +129,14 @@ const ProjectChatBox = ({ project }) => {
       <div className="p-3 bg-white border-t border-gray-200 flex items-center gap-2">
         <input
           type="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && send()}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           placeholder={project ? `Message ${project.title}` : "Type a message"}
           className="flex-1 px-4 py-2 text-sm bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-electricBlue"
         />
         <button
-          onClick={send}
+          onClick={sendMessage}
           className="bg-electricBlue hover:bg-[#1E63D1] text-white p-2 rounded-full transition"
         >
           <Send size={16} />
