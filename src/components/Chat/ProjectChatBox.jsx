@@ -2,9 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { Folder, Inbox, MoreVertical, Send } from "lucide-react";
 import { useActive } from "../../hooks/useActive";
 import { useAuth } from "../../hooks/useAuth";
+import Avatar from "../../assets/Default_Avatar.jpg";
+
+const ActiveStatusDot = () => {
+  return (
+    <span className="absolute bottom-0 right-0 block w-1.5 h-1.5 bg-electricBlue rounded-full ring-2 ring-white"></span>
+  );
+};
 
 const ProjectChatBox = ({ project }) => {
-  const { socket } = useActive();
+  const { socket, activeUsers } = useActive();
   const { user } = useAuth();
   const [projectId, userId] = [project._id, user._id];
 
@@ -100,25 +107,55 @@ const ProjectChatBox = ({ project }) => {
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`flex ${
-              msg.sender === user._id ? "justify-end" : "justify-start"
+            className={`flex items-end gap-2 mb-3 ${
+              msg.sender._id === user._id ? "justify-end" : "justify-start"
             }`}
           >
+            {/* Avatar (for others on left, for you on right) */}
+            {msg.sender._id !== user._id && (
+              <div className="relative">
+                <img
+                  src={msg.sender.avatar || Avatar}
+                  alt={msg.sender.name}
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+                {/* Active Status Dot */}
+                {activeUsers.includes(msg.sender._id) && <ActiveStatusDot />}
+              </div>
+            )}
+
+            {/* Message Bubble */}
             <div
               className={`max-w-[75%] px-4 py-2 rounded-2xl shadow-sm text-sm ${
-                msg.sender === user._id
-                  ? "bg-electricBlue text-white"
-                  : "bg-white text-charcoalGray"
+                msg.sender._id === user._id
+                  ? "bg-electricBlue text-white rounded-br-none"
+                  : "bg-white text-charcoalGray rounded-bl-none"
               }`}
             >
               <p>{msg.content}</p>
-              {/* <div className="text-[10px] text-gray-300 mt-1 text-right">
-                {m.time ??
-                  (m.createdAt
-                    ? new Date(m.createdAt).toLocaleTimeString()
+              <div className="text-[10px] text-gray-300 mt-1 text-right">
+                {msg.time ??
+                  (msg.createdAt
+                    ? new Date(msg.createdAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
                     : "")}
-              </div> */}
+              </div>
             </div>
+
+            {/* Avatar (for you on right) */}
+            {msg.sender._id === user._id && (
+              <div className="relative">
+                <img
+                  src={user.avatar || Avatar}
+                  alt="You"
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+                {/* Active Status Dot */}
+                {activeUsers.includes(msg.sender._id) && <ActiveStatusDot />}
+              </div>
+            )}
           </div>
         ))}
 
