@@ -22,7 +22,7 @@ const TabButton = ({ active, children, onClick }) => (
 );
 const Chat = () => {
   const [projects, setProjects] = useState([]);
-  const [lastChats, setLastChats] = useState([]);
+  const [messages, Messages] = useState([]);
   const [activeTab, setActiveTab] = useState("chats"); // "projects" | "chats"
   const [activeProject, setActiveProject] = useState(null); // the project object currently open
 
@@ -37,8 +37,8 @@ const Chat = () => {
     };
     const fetchProjectChats = async () => {
       try {
-        const res = await ChatAPI.getLastProjectChats();
-        setLastChats(res.data.chats || []);
+        const res = await ChatAPI.getAllChats();
+        Messages(res.data.chats || []);
       } catch (error) {
         console.error("Error fetching project chats:", error);
       }
@@ -47,6 +47,31 @@ const Chat = () => {
     fetchProjects();
     fetchProjectChats();
   }, []);
+
+  const latestProjectMessagesMap = new Map();
+
+  messages.forEach((msg) => {
+    if (!msg?.sender?._id || !msg?.project?._id) return;
+
+    const projectId = msg.project._id;
+    const existing = latestProjectMessagesMap.get(projectId);
+
+    if (!existing || new Date(msg.createdAt) > new Date(existing.createdAt)) {
+      latestProjectMessagesMap.set(projectId, msg);
+    }
+  });
+
+  const projectChats = Array.from(latestProjectMessagesMap.values())
+    .filter((msg) => msg?.project && msg?.sender) // double-check valid data
+    .map((msg) => ({
+      _id: msg._id,
+      project: msg.project,
+      sender: msg.sender ?? {},
+      time: msg.createdAt,
+      preview: msg.content,
+    }))
+    .sort((a, b) => new Date(b.time) - new Date(a.time));
+  // console.log(projectChats);
 
   // when user clicks a project row
   const openProjectChat = (project) => {
@@ -132,16 +157,15 @@ const Chat = () => {
                 No projects found
               </div>
             )
-          ) : lastChats.length > 0 ? (
-            lastChats.map((chat) => (
+          ) : projectChats.length > 0 ? (
+            projectChats.map((chat) => (
               <ChatRow
-                key={chat._id || chat.id || (chat.project && chat.project._id)}
+                key={chat._id}
                 chat={chat}
                 active={
                   activeProject &&
                   chat.project &&
-                  (activeProject._id || activeProject.id) ===
-                    (chat.project._id || chat.project.id)
+                  activeProject._id === chat.project._id
                 }
                 onClick={openChatFromLast}
               />

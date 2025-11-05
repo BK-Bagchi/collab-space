@@ -2,7 +2,7 @@ import { MessageSquare } from "lucide-react";
 import Avatar from "../../../assets/Default_Avatar.jpg";
 const ChatRow = ({ chat, active, onClick }) => {
   const project = chat.project || {};
-  const last = chat.lastMessage || chat.message || "";
+  const last = chat.preview || "";
   const time = chat.time || chat.updatedAt || "";
   const senderAvatar = (chat.sender && chat.sender.avatar) || Avatar;
 
