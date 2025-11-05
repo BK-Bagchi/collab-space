@@ -1,7 +1,6 @@
 import axios from "./axiosInstance";
 
 export const getAllChats = () => axios.get(`/chat`);
-export const getLastProjectChats = () => axios.get(`/chat/project/last`);
 export const getProjectMessages = (id) => axios.get(`/chat/${id}`);
 export const sendMessage = (id, data) => axios.post(`/chat/${id}`, data);
 export const uploadChatAttachment = (id, data) =>
