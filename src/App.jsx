@@ -20,6 +20,7 @@ import TeamActivity from "./pages/Dashboard/TeamActivity";
 import ManagerProtectedRoute from "./routes/ManagerProtectedRoute";
 import UserList from "./pages/UserList/UserList";
 import { ActiveProvider } from "./context/ActiveContext";
+import Chat from "./pages/Dashboard/Chat";
 
 function Layout() {
   return (
@@ -47,6 +48,7 @@ function App() {
                 <Route index element={<DashboardHome />} />
                 <Route path="projects" element={<Projects />} />
                 <Route path="tasks" element={<Tasks />} />
+                <Route path="chat" element={<Chat />} />
                 <Route path="calendar" element={<TaskCalendar />} />
 
                 {/* protected route from general members */}
