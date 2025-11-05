@@ -22,11 +22,6 @@ const ProjectRow = ({ project, active, onClick }) => (
         <h4 className="font-medium text-sm text-charcoalGray truncate">
           {project.title || project.name}
         </h4>
-        <span className="text-xs text-gray-400 whitespace-nowrap">
-          {project.updatedAt
-            ? new Date(project.updatedAt).toLocaleDateString()
-            : ""}
-        </span>
       </div>
       <p className="text-xs text-gray-500 truncate">
         {project.description || "No description"}

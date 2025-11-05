@@ -4,8 +4,8 @@ import { Search, MoreVertical, Folder, MessageSquare, Clock } from "lucide-react
 import Avatar from "../../assets/Default_Avatar.jpg";
 import { ChatAPI, ProjectAPI } from "../../api";
 import ProjectRow from "./Components/ProjectRow";
-import ProjectChatBox from "../../components/Chat/ProjectChatBox";
 import ChatRow from "./Components/ChatRow";
+import ProjectChatBox from "../../components/Chat/ProjectChatBox";
 import formatText from "../../utils/textFormater";
 
 const TabButton = ({ active, children, onClick }) => (
@@ -23,7 +23,7 @@ const TabButton = ({ active, children, onClick }) => (
 const Chat = () => {
   const [projects, setProjects] = useState([]);
   const [lastChats, setLastChats] = useState([]);
-  const [activeTab, setActiveTab] = useState("projects"); // "projects" | "chats"
+  const [activeTab, setActiveTab] = useState("chats"); // "projects" | "chats"
   const [activeProject, setActiveProject] = useState(null); // the project object currently open
 
   useEffect(() => {
@@ -76,21 +76,21 @@ const Chat = () => {
         {/* Tabs */}
         <div className="flex border-b border-gray-200">
           <TabButton
-            active={activeTab === "projects"}
-            onClick={() => setActiveTab("projects")}
-          >
-            <div className="flex items-center justify-center gap-2">
-              <Folder size={14} />
-              Projects
-            </div>
-          </TabButton>
-          <TabButton
             active={activeTab === "chats"}
             onClick={() => setActiveTab("chats")}
           >
             <div className="flex items-center justify-center gap-2">
               <MessageSquare size={14} />
               Chats
+            </div>
+          </TabButton>
+          <TabButton
+            active={activeTab === "projects"}
+            onClick={() => setActiveTab("projects")}
+          >
+            <div className="flex items-center justify-center gap-2">
+              <Folder size={14} />
+              Projects
             </div>
           </TabButton>
         </div>
