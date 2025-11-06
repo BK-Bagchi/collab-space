@@ -3,6 +3,7 @@ import { Folder, Inbox, MoreVertical, Send } from "lucide-react";
 import { useActive } from "../../hooks/useActive";
 import { useAuth } from "../../hooks/useAuth";
 import Avatar from "../../assets/Default_Avatar.jpg";
+import formatTime from "../../utils/formatTime";
 
 const ActiveStatusDot = () => {
   return (
@@ -140,13 +141,7 @@ const ProjectChatBox = ({
             >
               <p>{msg.content}</p>
               <div className="text-[10px] text-gray-300 mt-1 text-right">
-                {msg.time ??
-                  (msg.createdAt
-                    ? new Date(msg.createdAt).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })
-                    : "")}
+                {msg.createdAt ? formatTime(msg.createdAt) : ""}
               </div>
             </div>
 

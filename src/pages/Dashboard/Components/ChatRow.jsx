@@ -1,5 +1,6 @@
 import { MessageSquare } from "lucide-react";
 import Avatar from "../../../assets/Default_Avatar.jpg";
+import formatTime from "../../../utils/formatTime";
 const ChatRow = ({ chat, active, onClick }) => {
   const project = chat.project || {};
   const last = chat.content || "";
@@ -26,12 +27,7 @@ const ChatRow = ({ chat, active, onClick }) => {
             {project.title || chat.title}
           </h4>
           <span className="text-xs text-gray-400 whitespace-nowrap">
-            {time
-              ? new Date(time).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })
-              : ""}
+            {time ? formatTime(time) : ""}
           </span>
         </div>
 
