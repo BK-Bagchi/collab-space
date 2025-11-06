@@ -6,7 +6,12 @@ import Avatar from "../../assets/Default_Avatar.jpg";
 import ActiveNow from "../ActiveNow/ActiveNow";
 import formatTime from "../../utils/formatTime";
 
-const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
+const NewChatBox = ({
+  activeChatUser,
+  setActiveChatUser,
+  setMessages: setUserMessages,
+  getUserChat,
+}) => {
   const { user } = useAuth();
   const { socket, activeUsers } = useActive();
   const [message, setMessage] = useState("");
@@ -14,6 +19,7 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [sender, receiver] = [user._id, activeChatUser._id];
   // console.log(sender, receiver);
+  // console.log(messages);
 
   useEffect(() => {
     if (!sender || !receiver) return;
@@ -29,6 +35,8 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
     // Listen for new messages
     socket.on("newMessage", (newMsg) => {
       setMessages((prev) => [...prev, newMsg]);
+      setUserMessages((prev) => [...prev, newMsg]);
+      getUserChat();
     });
 
     socket.on("typing", ({ sender: typingUserId }) => {
@@ -44,7 +52,7 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
       socket.off("newMessage");
       socket.off("typing");
     };
-  }, [socket, sender, receiver]);
+  }, [socket, sender, receiver, setUserMessages, getUserChat]);
 
   const sendMessage = () => {
     if (!message.trim()) return;
@@ -88,7 +96,7 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
       {/* Message Bubble */}
       <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-gray-50">
         {messages.map((msg, i) => {
-          const isSender = msg.sender === sender;
+          const isSender = msg.sender._id === sender;
           // console.log(msg);
           return (
             <div

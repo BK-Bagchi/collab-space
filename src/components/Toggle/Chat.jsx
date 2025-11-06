@@ -28,38 +28,42 @@ const Chat = ({ open, setOpen }) => {
   }, []);
   // console.log(messages);
 
-  const latestMessagesMap = new Map();
-  messages.forEach((msg) => {
-    if (!msg?.sender?._id || !msg?.receiver?._id) return;
+  const getUserChat = () => {
+    const latestMessagesMap = new Map();
+    messages.forEach((msg) => {
+      if (!msg?.sender?._id || !msg?.receiver?._id) return;
 
-    const key =
-      msg.sender._id < msg.receiver._id
-        ? `${msg.sender._id}-${msg.receiver._id}`
-        : `${msg.receiver._id}-${msg.sender._id}`;
+      const key =
+        msg.sender._id < msg.receiver._id
+          ? `${msg.sender._id}-${msg.receiver._id}`
+          : `${msg.receiver._id}-${msg.sender._id}`;
 
-    const existing = latestMessagesMap.get(key);
-    if (!existing || new Date(msg.createdAt) > new Date(existing.createdAt)) {
-      latestMessagesMap.set(key, msg);
-    }
-  });
+      const existing = latestMessagesMap.get(key);
+      if (!existing || new Date(msg.createdAt) > new Date(existing.createdAt)) {
+        latestMessagesMap.set(key, msg);
+      }
+    });
 
-  const chats = Array.from(latestMessagesMap.values())
-    .filter((msg) => msg?.receiver && msg?.sender) // double-check before mapping
-    .map((msg) => {
-      const isSender = msg.sender._id === user._id;
-      const chatPartner = isSender ? msg.receiver : msg.sender;
+    return Array.from(latestMessagesMap.values())
+      .filter((msg) => msg?.receiver && msg?.sender) // double-check before mapping
+      .map((msg) => {
+        const isSender = msg.sender._id === user._id;
+        const chatPartner = isSender ? msg.receiver : msg.sender;
 
-      return {
-        id: msg._id,
-        name: chatPartner?.name ?? "Unknown",
-        avatar: chatPartner?.avatar ?? "",
-        time: msg.createdAt,
-        preview: msg.content,
-        _id: chatPartner?._id, // partner id — used for socket/chatbox
-        role: isSender ? "sender" : "receiver",
-      };
-    })
-    .sort((a, b) => new Date(b.time) - new Date(a.time));
+        return {
+          id: msg._id,
+          name: chatPartner?.name ?? "Unknown",
+          avatar: chatPartner?.avatar ?? "",
+          time: msg.createdAt,
+          preview: msg.content,
+          _id: chatPartner?._id, // partner id — used for socket/chatbox
+          role: isSender ? "sender" : "receiver",
+        };
+      })
+      .sort((a, b) => new Date(b.time) - new Date(a.time));
+  };
+  const chats = getUserChat();
+  // console.log(chats);
 
   return (
     open && (
@@ -155,6 +159,8 @@ const Chat = ({ open, setOpen }) => {
             <NewChatBox
               activeChatUser={activeChatUser}
               setActiveChatUser={setActiveChatUser}
+              setMessages={setMessages}
+              getUserChat={getUserChat}
             />
           )}
         </div>
