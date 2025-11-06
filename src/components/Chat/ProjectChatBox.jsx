@@ -10,7 +10,11 @@ const ActiveStatusDot = () => {
   );
 };
 
-const ProjectChatBox = ({ project }) => {
+const ProjectChatBox = ({
+  project,
+  setMessages: setProjectMessages,
+  getProjectChats,
+}) => {
   const { socket, activeUsers } = useActive();
   const { user } = useAuth();
   const [projectId, userId] = [project._id, user._id];
@@ -38,6 +42,8 @@ const ProjectChatBox = ({ project }) => {
     // Listen for new messages
     socket.on("projectMessage", (newMsg) => {
       setMessages((prev) => [...prev, newMsg]);
+      setProjectMessages((prev) => [...prev, newMsg]);
+      getProjectChats();
     });
 
     // Cleanup listeners when chat user changes or unmounts
@@ -45,7 +51,7 @@ const ProjectChatBox = ({ project }) => {
       socket.off("oldProjectMessages");
       socket.off("projectMessage");
     };
-  }, [socket, projectId, userId]);
+  }, [socket, projectId, userId, getProjectChats, setProjectMessages]);
   // console.log(messages);
 
   const sendMessage = () => {

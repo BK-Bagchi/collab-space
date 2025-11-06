@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 //prettier-ignore
 import { Search, MoreVertical, Folder, MessageSquare, Clock } from "lucide-react";
-import Avatar from "../../assets/Default_Avatar.jpg";
 import { ChatAPI, ProjectAPI } from "../../api";
 import ProjectRow from "./Components/ProjectRow";
 import ChatRow from "./Components/ChatRow";
@@ -22,7 +21,7 @@ const TabButton = ({ active, children, onClick }) => (
 );
 const Chat = () => {
   const [projects, setProjects] = useState([]);
-  const [messages, Messages] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [activeTab, setActiveTab] = useState("chats"); // "projects" | "chats"
   const [activeProject, setActiveProject] = useState(null); // the project object currently open
 
@@ -38,7 +37,7 @@ const Chat = () => {
     const fetchProjectChats = async () => {
       try {
         const res = await ChatAPI.getAllChats();
-        Messages(res.data.chats || []);
+        setMessages(res.data.chats || []);
       } catch (error) {
         console.error("Error fetching project chats:", error);
       }
@@ -47,30 +46,34 @@ const Chat = () => {
     fetchProjects();
     fetchProjectChats();
   }, []);
+  // console.log(projects);
+  // console.log(messages);
 
-  const latestProjectMessagesMap = new Map();
+  const getProjectChats = () => {
+    const latestProjectMessagesMap = new Map();
+    messages.forEach((msg) => {
+      if (!msg?.sender?._id || !msg?.project?._id) return;
 
-  messages.forEach((msg) => {
-    if (!msg?.sender?._id || !msg?.project?._id) return;
+      const projectId = msg.project._id;
+      const existing = latestProjectMessagesMap.get(projectId);
 
-    const projectId = msg.project._id;
-    const existing = latestProjectMessagesMap.get(projectId);
+      if (!existing || new Date(msg.createdAt) > new Date(existing.createdAt)) {
+        latestProjectMessagesMap.set(projectId, msg);
+      }
+    });
 
-    if (!existing || new Date(msg.createdAt) > new Date(existing.createdAt)) {
-      latestProjectMessagesMap.set(projectId, msg);
-    }
-  });
-
-  const projectChats = Array.from(latestProjectMessagesMap.values())
-    .filter((msg) => msg?.project && msg?.sender) // double-check valid data
-    .map((msg) => ({
-      _id: msg._id,
-      project: msg.project,
-      sender: msg.sender ?? {},
-      time: msg.createdAt,
-      preview: msg.content,
-    }))
-    .sort((a, b) => new Date(b.time) - new Date(a.time));
+    return Array.from(latestProjectMessagesMap.values())
+      .filter((msg) => msg?.project && msg?.sender) // double-check valid data
+      .map((msg) => ({
+        _id: msg._id,
+        project: msg.project,
+        sender: msg.sender ?? {},
+        createdAt: msg.createdAt,
+        content: msg.content,
+      }))
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  };
+  const projectChats = getProjectChats();
   // console.log(projectChats);
 
   // when user clicks a project row
@@ -182,7 +185,11 @@ const Chat = () => {
       {/* Right Chat Window */}
       <div className="flex-1 flex flex-col">
         {activeProject ? (
-          <ProjectChatBox project={activeProject} />
+          <ProjectChatBox
+            project={activeProject}
+            setMessages={setMessages}
+            getProjectChats={getProjectChats}
+          />
         ) : (
           <div className="flex-1 flex flex-col items-center text-center text-gray-400 mt-10">
             <MessageSquare size={48} className="mb-3 text-gray-300" />
