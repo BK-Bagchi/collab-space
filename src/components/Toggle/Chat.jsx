@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { ChatAPI } from "../../api";
 import { useAuth } from "../../hooks/useAuth";
 import { useActive } from "../../hooks/useActive";
-import formatDate from "../../utils/dateFormater";
 import NewChatBox from "../Chat/NewChatBox";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import ActiveNow from "../ActiveNow/ActiveNow";
+import formatTime from "../../utils/formatTime";
 
 const Chat = ({ open, setOpen }) => {
   const { user } = useAuth();
@@ -115,7 +115,7 @@ const Chat = ({ open, setOpen }) => {
                           {activeUsers.includes(chat._id) && <ActiveNow />}
                         </div>
                         <span className="text-xs text-gray-400 whitespace-nowrap">
-                          {formatDate(chat.time)}
+                          {formatTime(chat.time)}
                         </span>
                       </div>
                       <p className="text-sm text-gray-600 truncate">

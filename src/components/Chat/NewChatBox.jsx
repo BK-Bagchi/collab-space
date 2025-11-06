@@ -1,9 +1,10 @@
-import React, { useEffect, useEffectEvent, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Send, X } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useActive } from "../../hooks/useActive";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import ActiveNow from "../ActiveNow/ActiveNow";
+import formatTime from "../../utils/formatTime";
 
 const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
   const { user } = useAuth();
@@ -13,10 +14,6 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [sender, receiver] = [user._id, activeChatUser._id];
   // console.log(sender, receiver);
-
-  const handleNewMessage = useEffectEvent((newMsg) => {
-    setMessages((prev) => [...prev, newMsg]);
-  });
 
   useEffect(() => {
     if (!sender || !receiver) return;
@@ -30,7 +27,9 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
     });
 
     // Listen for new messages
-    socket.on("newMessage", handleNewMessage);
+    socket.on("newMessage", (newMsg) => {
+      setMessages((prev) => [...prev, newMsg]);
+    });
 
     socket.on("typing", ({ sender: typingUserId }) => {
       if (typingUserId === receiver) {
@@ -45,13 +44,13 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
       socket.off("newMessage");
       socket.off("typing");
     };
-  }, [socket, sender, receiver, handleNewMessage]);
+  }, [socket, sender, receiver]);
 
   const sendMessage = () => {
     if (!message.trim()) return;
     const newMsg = { sender, receiver, content: message };
     socket.emit("newMessage", newMsg);
-    setMessages((prev) => [...prev, newMsg]);
+    // setMessages((prev) => [...prev, newMsg]);
     setMessage("");
   };
 
@@ -86,26 +85,60 @@ const NewChatBox = ({ activeChatUser, setActiveChatUser }) => {
         </button>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50">
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`flex ${
-              msg.sender === sender ? "justify-end" : "justify-start"
-            }`}
-          >
+      {/* Message Bubble */}
+      <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-gray-50">
+        {messages.map((msg, i) => {
+          const isSender = msg.sender === sender;
+          // console.log(msg);
+          return (
             <div
-              className={`px-3 py-2 rounded-2xl text-sm max-w-[70%] ${
-                msg.sender === sender
-                  ? "bg-electricBlue text-white"
-                  : "bg-gray-200 text-gray-800"
+              key={i}
+              className={`flex items-end gap-2 ${
+                isSender ? "justify-end" : "justify-start"
               }`}
             >
-              <p>{msg.content}</p>
+              {/* Avatar (only for others, optional) */}
+              {!isSender && (
+                <img
+                  src={activeChatUser?.avatar || Avatar}
+                  alt={msg.senderName || "User"}
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+              )}
+
+              {/* Message and time */}
+              <div className="flex flex-col max-w-[70%]">
+                <div
+                  className={`px-4 py-2 rounded-2xl shadow-sm text-sm ${
+                    isSender
+                      ? "bg-electricBlue text-white rounded-br-none self-end"
+                      : "bg-white text-charcoalGray rounded-bl-none"
+                  }`}
+                >
+                  <p>{msg.content}</p>
+                </div>
+
+                {/* Time below bubble */}
+                <div
+                  className={`text-[10px] text-gray-400 mt-1 ${
+                    isSender ? "text-right" : "text-left"
+                  }`}
+                >
+                  {msg.createdAt ? formatTime(msg.createdAt) : ""}
+                </div>
+              </div>
+
+              {/* Avatar for sender (optional) */}
+              {isSender && (
+                <img
+                  src={user?.avatar || Avatar}
+                  alt="You"
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Input */}
