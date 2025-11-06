@@ -22,7 +22,9 @@ const ProjectChatBox = ({
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [typingUsers, setTypingUsers] = useState([]);
   const messagesRef = useRef();
+  // console.log(typingUsers);
 
   useEffect(() => {
     // scroll to bottom on messages change
@@ -47,10 +49,23 @@ const ProjectChatBox = ({
       getProjectChats();
     });
 
+    // Listen for typing
+    socket.on("typing", (user) => {
+      setTypingUsers((prev) => {
+        if (prev.find((u) => u._id === user._id)) return prev;
+        return [...prev, user];
+      });
+      setTimeout(
+        () => setTypingUsers((prev) => prev.filter((u) => u._id !== user._id)),
+        3000
+      );
+    });
+
     // Cleanup listeners when chat user changes or unmounts
     return () => {
       socket.off("oldProjectMessages");
       socket.off("projectMessage");
+      socket.off("typing");
     };
   }, [socket, projectId, userId, getProjectChats, setProjectMessages]);
   // console.log(messages);
@@ -61,6 +76,17 @@ const ProjectChatBox = ({
     socket.emit("projectMessage", newMsg);
     // setMessages((prev) => [...prev, newMsg]);
     setMessage("");
+  };
+
+  // Typing event emit
+  let debounce;
+  const handleTyping = (e) => {
+    setMessage(e.target.value);
+
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      socket.emit("typing", { projectId, user });
+    }, 500);
   };
 
   return (
@@ -163,12 +189,19 @@ const ProjectChatBox = ({
         <div ref={messagesRef} />
       </div>
 
+      {/* Typing indicator */}
+      {typingUsers.length > 0 && (
+        <div className="px-3 py-1 text-xs text-gray-500 italic bg-gray-100 border-t border-gray-200">
+          {typingUsers.map((u) => u.name).join(", ")}{" "}
+          {typingUsers.length > 1 ? "are typing..." : "is typing..."}
+        </div>
+      )}
       {/* Input */}
       <div className="p-3 bg-white border-t border-gray-200 flex items-center gap-2">
         <input
           type="text"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={handleTyping}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           placeholder={project ? `Message ${project.title}` : "Type a message"}
           className="flex-1 px-4 py-2 text-sm bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-electricBlue"
