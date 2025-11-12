@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Send, X } from "lucide-react";
+import { Download, Image, Paperclip, Send, X } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useActive } from "../../hooks/useActive";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import ActiveNow from "../ActiveNow/ActiveNow";
 import formatTime from "../../utils/formatTime";
+import axios from "axios";
 
 const NewChatBox = ({
   activeChatUser,
@@ -17,6 +18,7 @@ const NewChatBox = ({
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [sender, receiver] = [user._id, activeChatUser._id];
   // console.log(sender, receiver);
   // console.log(messages);
@@ -72,6 +74,78 @@ const NewChatBox = ({
     }, 500);
   };
 
+  const handleImageUpload = async (e) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to upload this image?"
+    );
+    if (!confirmed) {
+      e.target.value = "";
+      setShowUploadMenu(false);
+      return;
+    }
+
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const imgbbRes = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMGBB_API_KEY
+        }`,
+        formData
+      );
+
+      if (imgbbRes.data.success) {
+        const attachment = {
+          name: file.name,
+          url: imgbbRes.data.data.url,
+          uploadedBy: sender,
+        };
+
+        const newMsg = { sender, receiver, attachment, type: "FILE" };
+        console.log(newMsg);
+        socket.emit("newMessage", newMsg);
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    } finally {
+      e.target.value = "";
+      setShowUploadMenu(false);
+    }
+  };
+
+  const handleFileUpload = async (e) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to upload this file?"
+    );
+    if (!confirmed) {
+      e.target.value = "";
+      setShowUploadMenu(false);
+      return;
+    }
+    setShowUploadMenu(false);
+    console.log("File uploaded");
+    return;
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("https://file.io", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      sendMessage(data.link); // Send file download link as message
+    }
+  };
+
   return (
     <div className="absolute top-0 right-0 w-96 h-[500px] bg-white border border-gray-200 shadow-lg rounded-xl flex flex-col z-50">
       {/* Header */}
@@ -123,7 +197,29 @@ const NewChatBox = ({
                       : "bg-white text-charcoalGray rounded-bl-none"
                   }`}
                 >
-                  <p>{msg.content}</p>
+                  {msg.attachment ? (
+                    <div className="flex items-center justify-between gap-3">
+                      <a
+                        href={msg.attachment.url}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`px-2 py-1 text-xs rounded-md transition ${
+                          isSender ? "text-white" : "text-electricBlue"
+                        }`}
+                      >
+                        <Download />
+                      </a>
+                      <div className="flex-1 truncate">
+                        <p className="font-medium truncate">
+                          {msg.attachment.name}
+                        </p>
+                        <p className="text-xs opacity-70">Attachment</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <p>{msg.content}</p>
+                  )}
                 </div>
 
                 {/* Time below bubble */}
@@ -150,15 +246,62 @@ const NewChatBox = ({
       </div>
 
       {/* Input */}
-      <div className="flex p-2 border-t border-gray-200 gap-2">
+      <div className="relative flex p-2 border-t border-gray-200 gap-2 items-center bg-white">
+        {/* Upload Menu Toggle */}
+        <div className="relative">
+          <button
+            onClick={() => setShowUploadMenu((prev) => !prev)}
+            className="p-2 rounded-full hover:bg-gray-100 transition"
+          >
+            <span className="text-2xl text-gray-600 font-bold">+</span>
+          </button>
+
+          {/* Upload Options Menu */}
+          {showUploadMenu && (
+            <div className="absolute bottom-12 left-0 bg-white border border-gray-200 shadow-lg rounded-xl p-2 w-40 z-10">
+              <label
+                htmlFor="upload-image"
+                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700"
+              >
+                <Image size={20} />
+                <span>Send Image</span>
+              </label>
+              <input
+                type="file"
+                id="upload-image"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageUpload}
+              />
+
+              <label
+                htmlFor="upload-file"
+                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700"
+              >
+                <Paperclip size={20} />
+                <span>Send File</span>
+              </label>
+              <input
+                type="file"
+                id="upload-file"
+                className="hidden"
+                onChange={handleFileUpload}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Text Input */}
         <input
           type="text"
           value={message}
           onChange={handleTyping}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           placeholder="Type a message..."
-          className="flex-1 rounded-full border border-gray-300 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-electricBlue text-charcoalGray"
+          className="flex-1 rounded-full border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-electricBlue text-charcoalGray"
         />
+
+        {/* Send Button */}
         <button
           onClick={sendMessage}
           className="p-2 bg-electricBlue text-white rounded-full hover:bg-[#1E63D1] transition"
