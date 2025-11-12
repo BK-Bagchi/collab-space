@@ -21,7 +21,6 @@ const ProjectChatBox = ({
   const { socket, activeUsers } = useActive();
   const { user } = useAuth();
   const [projectId, sender] = [project._id, user._id];
-  console.log(projectId, sender);
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -186,78 +185,80 @@ const ProjectChatBox = ({
           </div>
         )}
 
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`flex items-end gap-2 mb-3 ${
-              msg.sender._id === user._id ? "justify-end" : "justify-start"
-            }`}
-          >
-            {/* Avatar (for others on left, for you on right) */}
-            {msg.sender._id !== user._id && (
-              <div className="relative">
-                <img
-                  src={msg.sender.avatar || Avatar}
-                  alt={msg.sender.name}
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-                {/* Active Status Dot */}
-                {activeUsers.includes(msg.sender._id) && <ActiveStatusDot />}
-              </div>
-            )}
-
-            {/* Message Bubble */}
+        {/* Message Bubble */}
+        {messages.map((msg, i) => {
+          const isSender = msg.sender._id === sender;
+          return (
             <div
-              className={`max-w-[75%] px-4 py-2 rounded-2xl shadow-sm text-sm ${
-                msg.sender._id === user._id
-                  ? "bg-electricBlue text-white rounded-br-none"
-                  : "bg-white text-charcoalGray rounded-bl-none"
+              key={i}
+              className={`flex items-end gap-2 mb-3 ${
+                isSender ? "justify-end" : "justify-start"
               }`}
             >
-              {msg.attachment ? (
-                <div className="flex items-center justify-between gap-3">
-                  <a
-                    href={msg.attachment.url}
-                    download
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`px-2 py-1 text-xs rounded-md transition ${
-                      msg.sender._id === user._id
-                        ? "text-white"
-                        : "text-electricBlue"
-                    }`}
-                  >
-                    <Download />
-                  </a>
-                  <div className="flex-1 truncate">
-                    <p className="font-medium truncate">
-                      {msg.attachment.name}
-                    </p>
-                    <p className="text-xs opacity-70">Attachment</p>
-                  </div>
+              {/* Avatar (for others on left, for you on right) */}
+              {!isSender && (
+                <div className="relative">
+                  <img
+                    src={msg.sender.avatar || Avatar}
+                    alt={msg.sender.name}
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                  {/* Active Status Dot */}
+                  {activeUsers.includes(msg.sender._id) && <ActiveStatusDot />}
                 </div>
-              ) : (
-                <p>{msg.content}</p>
               )}
-              <div className="text-[10px] text-gray-300 mt-1 text-right">
-                {msg.createdAt ? formatTime(msg.createdAt) : ""}
-              </div>
-            </div>
 
-            {/* Avatar (for you on right) */}
-            {msg.sender._id === user._id && (
-              <div className="relative">
-                <img
-                  src={user.avatar || Avatar}
-                  alt="You"
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-                {/* Active Status Dot */}
-                {activeUsers.includes(msg.sender._id) && <ActiveStatusDot />}
+              {/* Message Bubble */}
+              <div
+                className={`max-w-[75%] px-4 py-2 rounded-2xl shadow-sm text-sm ${
+                  isSender
+                    ? "bg-electricBlue text-white rounded-br-none"
+                    : "bg-white text-charcoalGray rounded-bl-none"
+                }`}
+              >
+                {msg.attachment ? (
+                  <div className="flex items-center justify-between gap-3">
+                    <a
+                      href={msg.attachment.url}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`px-2 py-1 text-xs rounded-md transition ${
+                        isSender ? "text-white" : "text-electricBlue"
+                      }`}
+                    >
+                      <Download />
+                    </a>
+                    <div className="flex-1 truncate">
+                      <p className="font-medium truncate">
+                        {msg.attachment.name}
+                      </p>
+                      <p className="text-xs opacity-70">Attachment</p>
+                    </div>
+                  </div>
+                ) : (
+                  <p>{msg.content}</p>
+                )}
+                <div className="text-[10px] text-gray-300 mt-1 text-right">
+                  {msg.createdAt ? formatTime(msg.createdAt) : ""}
+                </div>
               </div>
-            )}
-          </div>
-        ))}
+
+              {/* Avatar (for you on right) */}
+              {isSender && (
+                <div className="relative">
+                  <img
+                    src={user.avatar || Avatar}
+                    alt="You"
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                  {/* Active Status Dot */}
+                  {activeUsers.includes(msg.sender._id) && <ActiveStatusDot />}
+                </div>
+              )}
+            </div>
+          );
+        })}
 
         <div ref={messagesRef} />
       </div>

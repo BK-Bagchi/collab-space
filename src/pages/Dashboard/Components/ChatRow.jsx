@@ -2,7 +2,6 @@ import { MessageSquare } from "lucide-react";
 import Avatar from "../../../assets/Default_Avatar.jpg";
 import formatTime from "../../../utils/formatTime";
 const ChatRow = ({ chat, active, onClick }) => {
-  console.log(chat);
   const project = chat.project || {};
   const last = chat.content || "";
   const attachment = chat.content ? null : "📎 Attachment";
