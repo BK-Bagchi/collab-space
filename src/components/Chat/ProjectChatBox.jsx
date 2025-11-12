@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { Folder, Inbox, MoreVertical, Send } from "lucide-react";
+import { Download, Folder, Inbox, MoreVertical, Send } from "lucide-react";
 import { useActive } from "../../hooks/useActive";
 import { useAuth } from "../../hooks/useAuth";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import formatTime from "../../utils/formatTime";
+import axios from "axios";
+import SentMultiMedia from "./SentMultiMedia";
 
 const ActiveStatusDot = () => {
   return (
@@ -18,11 +20,14 @@ const ProjectChatBox = ({
 }) => {
   const { socket, activeUsers } = useActive();
   const { user } = useAuth();
-  const [projectId, userId] = [project._id, user._id];
+  const [projectId, sender] = [project._id, user._id];
+  console.log(projectId, sender);
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [typingUsers, setTypingUsers] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [showUploadMenu, setShowUploadMenu] = useState(false);
   const messagesRef = useRef();
   // console.log(typingUsers);
 
@@ -32,10 +37,10 @@ const ProjectChatBox = ({
   }, [messages]);
 
   useEffect(() => {
-    if (!projectId || !userId) return;
+    if (!projectId || !sender) return;
 
     //Join chatroom
-    socket.emit("joinProject", { projectId, userId });
+    socket.emit("joinProject", { projectId, sender });
 
     // Load old messages
     socket.on("oldProjectMessages", (oldMsgs) => {
@@ -67,12 +72,12 @@ const ProjectChatBox = ({
       socket.off("projectMessage");
       socket.off("typing");
     };
-  }, [socket, projectId, userId, getProjectChats, setProjectMessages]);
+  }, [socket, projectId, sender, getProjectChats, setProjectMessages]);
   // console.log(messages);
 
   const sendMessage = () => {
     if (!message.trim()) return;
-    const newMsg = { projectId, sender: userId, content: message };
+    const newMsg = { projectId, sender, content: message };
     socket.emit("projectMessage", newMsg);
     // setMessages((prev) => [...prev, newMsg]);
     setMessage("");
@@ -87,6 +92,50 @@ const ProjectChatBox = ({
     debounce = setTimeout(() => {
       socket.emit("typing", { projectId, user });
     }, 500);
+  };
+
+  const handleFileUpload = async (e) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to upload this file?"
+    );
+    if (!confirmed) {
+      e.target.value = "";
+      setShowUploadMenu(false);
+      return;
+    }
+
+    setUploading(true);
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
+
+      const res = await axios.post(
+        //prettier-ignore
+        `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUD_NAME}/raw/upload`,
+        formData
+      );
+
+      if (res.data.secure_url) {
+        // console.log("Cloudinary Link:", res.data.secure_url);
+        const attachment = {
+          name: file.name,
+          url: res.data.secure_url,
+          uploadedBy: sender,
+        };
+        const newMsg = { projectId, sender, attachment, type: "FILE" };
+        socket.emit("projectMessage", newMsg);
+      }
+    } catch (error) {
+      console.error("File upload error:", error);
+    } finally {
+      e.target.value = "";
+      setShowUploadMenu(false);
+      setUploading(false);
+    }
   };
 
   return (
@@ -165,7 +214,31 @@ const ProjectChatBox = ({
                   : "bg-white text-charcoalGray rounded-bl-none"
               }`}
             >
-              <p>{msg.content}</p>
+              {msg.attachment ? (
+                <div className="flex items-center justify-between gap-3">
+                  <a
+                    href={msg.attachment.url}
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`px-2 py-1 text-xs rounded-md transition ${
+                      msg.sender._id === user._id
+                        ? "text-white"
+                        : "text-electricBlue"
+                    }`}
+                  >
+                    <Download />
+                  </a>
+                  <div className="flex-1 truncate">
+                    <p className="font-medium truncate">
+                      {msg.attachment.name}
+                    </p>
+                    <p className="text-xs opacity-70">Attachment</p>
+                  </div>
+                </div>
+              ) : (
+                <p>{msg.content}</p>
+              )}
               <div className="text-[10px] text-gray-300 mt-1 text-right">
                 {msg.createdAt ? formatTime(msg.createdAt) : ""}
               </div>
@@ -197,22 +270,18 @@ const ProjectChatBox = ({
         </div>
       )}
       {/* Input */}
-      <div className="p-3 bg-white border-t border-gray-200 flex items-center gap-2">
-        <input
-          type="text"
-          value={message}
-          onChange={handleTyping}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          placeholder={project ? `Message ${project.title}` : "Type a message"}
-          className="flex-1 px-4 py-2 text-sm bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-electricBlue"
-        />
-        <button
-          onClick={sendMessage}
-          className="bg-electricBlue hover:bg-[#1E63D1] text-white p-2 rounded-full transition"
-        >
-          <Send size={16} />
-        </button>
-      </div>
+      <SentMultiMedia
+        {...{
+          message,
+          uploading,
+          handleTyping,
+          sendMessage,
+          handleFileUpload,
+          showUploadMenu,
+          setShowUploadMenu,
+          project,
+        }}
+      />
     </div>
   );
 };
