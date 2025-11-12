@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Download, Image, Paperclip, Send, X } from "lucide-react";
+import { Download, Image, Paperclip, Send, Upload, X } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useActive } from "../../hooks/useActive";
 import Avatar from "../../assets/Default_Avatar.jpg";
@@ -18,6 +18,7 @@ const NewChatBox = ({
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [sender, receiver] = [user._id, activeChatUser._id];
   // console.log(sender, receiver);
@@ -74,49 +75,6 @@ const NewChatBox = ({
     }, 500);
   };
 
-  const handleImageUpload = async (e) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to upload this image?"
-    );
-    if (!confirmed) {
-      e.target.value = "";
-      setShowUploadMenu(false);
-      return;
-    }
-
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("image", file);
-
-    try {
-      const imgbbRes = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_IMGBB_API_KEY
-        }`,
-        formData
-      );
-
-      if (imgbbRes.data.success) {
-        const attachment = {
-          name: file.name,
-          url: imgbbRes.data.data.url,
-          uploadedBy: sender,
-        };
-
-        const newMsg = { sender, receiver, attachment, type: "FILE" };
-        console.log(newMsg);
-        socket.emit("newMessage", newMsg);
-      }
-    } catch (error) {
-      console.error("Error uploading image:", error);
-    } finally {
-      e.target.value = "";
-      setShowUploadMenu(false);
-    }
-  };
-
   const handleFileUpload = async (e) => {
     const confirmed = window.confirm(
       "Are you sure you want to upload this file?"
@@ -126,23 +84,39 @@ const NewChatBox = ({
       setShowUploadMenu(false);
       return;
     }
-    setShowUploadMenu(false);
-    console.log("File uploaded");
-    return;
+    setUploading(true);
     const file = e.target.files[0];
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append("file", file);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
 
-    const res = await fetch("https://file.io", {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
+      const res = await axios.post(
+        //prettier-ignore
+        `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUD_NAME}/raw/upload`,
+        formData
+      );
 
-    if (data.success) {
-      sendMessage(data.link); // Send file download link as message
+      if (res.data.secure_url) {
+        // console.log("Cloudinary Link:", res.data.secure_url);
+        const attachment = {
+          name: file.name,
+          url: res.data.secure_url,
+          uploadedBy: sender,
+        };
+
+        const newMsg = { sender, receiver, attachment, type: "FILE" };
+        // console.log(newMsg);
+        socket.emit("newMessage", newMsg);
+      }
+    } catch (error) {
+      console.error("File upload error:", error);
+    } finally {
+      e.target.value = "";
+      setShowUploadMenu(false);
+      setUploading(false);
     }
   };
 
@@ -259,34 +233,43 @@ const NewChatBox = ({
           {/* Upload Options Menu */}
           {showUploadMenu && (
             <div className="absolute bottom-12 left-0 bg-white border border-gray-200 shadow-lg rounded-xl p-2 w-40 z-10">
-              <label
-                htmlFor="upload-image"
-                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700"
-              >
-                <Image size={20} />
-                <span>Send Image</span>
-              </label>
-              <input
-                type="file"
-                id="upload-image"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageUpload}
-              />
+              {uploading ? (
+                <label className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700">
+                  <Upload size={20} />
+                  <span>Uploading...</span>
+                </label>
+              ) : (
+                <>
+                  <label
+                    htmlFor="upload-image"
+                    className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700"
+                  >
+                    <Image size={20} />
+                    <span>Send Image</span>
+                  </label>
+                  <input
+                    type="file"
+                    id="upload-image"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                  />
 
-              <label
-                htmlFor="upload-file"
-                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700"
-              >
-                <Paperclip size={20} />
-                <span>Send File</span>
-              </label>
-              <input
-                type="file"
-                id="upload-file"
-                className="hidden"
-                onChange={handleFileUpload}
-              />
+                  <label
+                    htmlFor="upload-file"
+                    className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700"
+                  >
+                    <Paperclip size={20} />
+                    <span>Send File</span>
+                  </label>
+                  <input
+                    type="file"
+                    id="upload-file"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                  />
+                </>
+              )}
             </div>
           )}
         </div>
