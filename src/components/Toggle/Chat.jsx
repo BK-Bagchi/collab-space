@@ -123,9 +123,9 @@ const Chat = ({ open, setOpen }) => {
                         </span>
                       </div>
                       <p className="text-sm text-gray-600 truncate">
-                        {chat.role === "sender"
-                          ? "You: " + chat.preview
-                          : chat.preview}
+                        {`${chat.role === "sender" ? "You: " : ""}${
+                          chat.preview || "📎 Attachment"
+                        }`}
                       </p>
                     </div>
 
