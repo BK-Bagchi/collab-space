@@ -144,7 +144,9 @@ const UpdateTask = ({
             {...register("priority")}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
           >
-            <option value="">Select priority</option>
+            <option className="hidden" value="">
+              Select priority
+            </option>
             <option value="LOW">Low</option>
             <option value="MEDIUM">Medium</option>
             <option value="HIGH">High</option>
