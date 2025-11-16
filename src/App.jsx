@@ -21,6 +21,7 @@ import ManagerProtectedRoute from "./routes/ManagerProtectedRoute";
 import UserList from "./pages/UserList/UserList";
 import { ActiveProvider } from "./context/ActiveContext";
 import Chat from "./pages/Dashboard/Chat";
+import Files from "./pages/Dashboard/Files";
 
 function Layout() {
   return (
@@ -49,6 +50,7 @@ function App() {
                 <Route path="projects" element={<Projects />} />
                 <Route path="tasks" element={<Tasks />} />
                 <Route path="chat" element={<Chat />} />
+                <Route path="files" element={<Files />} />
                 <Route path="calendar" element={<TaskCalendar />} />
 
                 {/* protected route from general members */}
