@@ -9,6 +9,7 @@ import OverdueTasks from "./Components/OverdueTasks";
 import TaskCalendar from "./TaskCalender";
 import TaskProgressInProject from "./Components/TaskProgressInProject";
 import ProjectProgress from "./Components/ProjectProgress";
+import ActivityLog from "./Components/ActivityLog";
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -88,12 +89,6 @@ const DashboardHome = () => {
       value: completedTasks.length,
       color: "#26A69A",
     },
-  ];
-
-  const activities = [
-    { message: "You created a new project “Team Hub”", time: "2h ago" },
-    { message: "Task “Set up backend” marked as completed", time: "5h ago" },
-    { message: "You invited Alex to “Collab Space”", time: "1d ago" },
   ];
 
   return (
@@ -193,23 +188,7 @@ const DashboardHome = () => {
         <TaskCalendar />
 
         {/* Recent Activity */}
-        <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-          <div className="flex items-center gap-2 mb-4">
-            <MessageSquare className="text-vibrantPurple" />
-            <h3 className="text-lg font-semibold">Recent Activity</h3>
-          </div>
-          <ul className="space-y-3">
-            {activities.map((a, i) => (
-              <li
-                key={i}
-                className="bg-[#FAFAFA] p-3 rounded-lg border border-gray-100 hover:bg-[#F9F0FF] transition"
-              >
-                <p className="text-sm">{a.message}</p>
-                <p className="text-xs text-gray-500 mt-1">{a.time}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ActivityLog />
       </div>
     </div>
   );

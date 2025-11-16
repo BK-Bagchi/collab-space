@@ -1,4 +1,5 @@
 export * as AuthAPI from "./auth";
+export * as ActivityAPI from "./activity";
 export * as UserAPI from "./user";
 export * as ProjectAPI from "./project";
 export * as TaskAPI from "./task";
