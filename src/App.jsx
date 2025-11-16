@@ -22,6 +22,7 @@ import UserList from "./pages/UserList/UserList";
 import { ActiveProvider } from "./context/ActiveContext";
 import Chat from "./pages/Dashboard/Chat";
 import Files from "./pages/Dashboard/Files";
+import Help from "./pages/Dashboard/Help";
 
 function Layout() {
   return (
@@ -62,6 +63,7 @@ function App() {
                   <Route path="analytics" element={<Analytics />} />
                 </Route>
 
+                <Route path="help" element={<Help />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Route>
