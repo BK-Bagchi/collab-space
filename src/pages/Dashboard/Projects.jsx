@@ -44,7 +44,10 @@ const Projects = () => {
   );
 
   const handleDeleteProject = async (projectId) => {
-    console.log(projectId);
+    //prettier-ignore
+    const confirmed = window.confirm("Are you sure you want to delete this project?");
+    if (!confirmed) return;
+
     try {
       const res = await ProjectAPI.deleteProject(projectId);
       alert(res.data.message);

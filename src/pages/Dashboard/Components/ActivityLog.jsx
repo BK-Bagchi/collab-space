@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MessageSquare } from "lucide-react";
+import { FileClock, MessageSquare } from "lucide-react";
 import { ActivityAPI } from "../../../api";
 import { formatDateWithTime } from "../../../utils/dateFormater";
 
@@ -17,16 +17,17 @@ const ActivityLog = () => {
     fetchActivity();
   }, []);
   //   console.log(activities);
+  const recentActivities = activities.slice(0, 10);
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+    <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 max-h-[480px] overflow-y-auto">
       <div className="flex items-center gap-2 mb-4">
         <MessageSquare className="text-vibrantPurple" />
-        <h3 className="text-lg font-semibold">Recent Activity</h3>
+        <h3 className="text-lg font-semibold">Activity Log</h3>
       </div>
-      {activities.length > 0 && (
+      {recentActivities.length > 0 ? (
         <ul className="space-y-3">
-          {activities.map((a, i) => (
+          {recentActivities.map((a, i) => (
             <li
               key={i}
               className="bg-[#FAFAFA] p-3 rounded-lg border border-gray-100 hover:bg-[#F9F0FF] transition"
@@ -38,6 +39,14 @@ const ActivityLog = () => {
             </li>
           ))}
         </ul>
+      ) : (
+        <div className="flex flex-col items-center justify-center py-10 text-center text-gray-500">
+          <FileClock className="w-10 h-10 text-vibrantPurple mb-2 opacity-80" />
+          <p className="text-sm font-medium">No recent activity</p>
+          <p className="text-xs text-gray-400">
+            Activity updates will appear here
+          </p>
+        </div>
       )}
     </div>
   );
