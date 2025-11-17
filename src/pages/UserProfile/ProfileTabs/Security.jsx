@@ -1,24 +1,32 @@
-import React from "react";
+import { HatGlasses, KeyRound, LogOut } from "lucide-react";
 
 const Security = ({ logout, setPasswordModal }) => {
   return (
-    <div className="mt-6 space-y-4 animate-fadeIn">
-      <h3 className="text-lg font-semibold text-charcoalGray">Security</h3>
-      <button
-        className="w-full border border-[#2979FF] text-[#2979FF] py-2 rounded-lg hover:bg-[#2979FF] hover:text-white transition"
-        onClick={() => setPasswordModal(true)}
-      >
-        Change Password
-      </button>
-      <button
-        className="w-full border border-[#26A69A] text-[#26A69A] py-2 rounded-lg hover:bg-[#26A69A] hover:text-white transition"
-        onClick={logout}
-      >
-        Logout
-      </button>
-      <button className="w-full border border-red-500 text-red-500 py-2 rounded-lg hover:bg-red-500 hover:text-white transition">
-        Delete Account
-      </button>
+    <div className="mt-8 animate-fadeIn space-y-5">
+      <h3 className="text-lg font-semibold text-charcoalGray flex items-center gap-2">
+        <HatGlasses className="text-vibrantPurple" size={20} />
+        Security
+      </h3>
+
+      <div className="bg-softWhite p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+        {/* Change Password */}
+        <button
+          onClick={() => setPasswordModal(true)}
+          className="w-full flex items-center justify-between px-4 py-3 border border-electricBlue text-[#2979FF] font-medium rounded-lg hover:bg-[#2979FF] hover:text-white transition shadow-sm"
+        >
+          <span>Change Password</span>
+          <KeyRound size={18} />
+        </button>
+
+        {/* Logout */}
+        <button
+          onClick={logout}
+          className="w-full flex items-center justify-between px-4 py-3 border border-tealGreen text-[#26A69A] font-medium rounded-lg hover:bg-[#26A69A] hover:text-white transition shadow-sm"
+        >
+          <span>Logout</span>
+          <LogOut size={18} />
+        </button>
+      </div>
     </div>
   );
 };

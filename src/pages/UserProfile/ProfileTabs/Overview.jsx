@@ -1,23 +1,63 @@
-import React from "react";
+import { UserPlus, Users, FolderKanban } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const Overview = ({ user, totalCreatedProjects, totalJoinedProjects }) => {
+const Overview = ({ projects, totalCreatedProjects, totalJoinedProjects }) => {
   return (
-    <div className="mt-6 space-y-6 animate-fadeIn">
-      <h3 className="text-lg font-semibold text-charcoalGray mb-2">About</h3>
-      <p className="text-sm text-[#455A64] leading-relaxed">{user.bio}</p>
-
+    <div className="mt-6 space-y-8 animate-fadeIn">
+      {/* STATS GRID */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="rounded-xl bg-softWhite border border-gray-200 p-4 shadow-sm">
-          <p className="text-sm text-gray-500">Projects Created</p>
-          <p className="text-2xl font-semibold text-electricBlue">
-            {totalCreatedProjects}
-          </p>
+        {/* Created Projects */}
+        <div className="rounded-xl bg-softWhite border border-gray-200 p-4 shadow-sm flex items-center gap-4">
+          <div className="p-3 bg-electricBlue/10 rounded-full">
+            <UserPlus className="text-electricBlue w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Projects Created</p>
+            <p className="text-2xl font-semibold text-electricBlue">
+              {totalCreatedProjects}
+            </p>
+          </div>
         </div>
-        <div className="rounded-xl bg-softWhite border border-gray-200 p-4 shadow-sm">
-          <p className="text-sm text-gray-500">Projects Joined</p>
-          <p className="text-2xl font-semibold text-vibrantPurple">
-            {totalJoinedProjects}
-          </p>
+
+        {/* Joined Projects */}
+        <div className="rounded-xl bg-softWhite border border-gray-200 p-4 shadow-sm flex items-center gap-4">
+          <div className="p-3 bg-vibrantPurple/10 rounded-full">
+            <Users className="text-vibrantPurple w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Projects Joined</p>
+            <p className="text-2xl font-semibold text-vibrantPurple">
+              {totalJoinedProjects}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* PROJECTS LIST */}
+      <div>
+        <h3 className="text-lg font-semibold text-charcoalGray mb-2 flex items-center gap-2">
+          <FolderKanban size={25} className="text-electricBlue" />
+          All Projects
+        </h3>
+
+        <div className="mt-6 grid gap-4 animate-fadeIn">
+          {projects.map((p) => (
+            <div
+              key={p._id}
+              className="bg-softWhite border border-gray-200 rounded-xl p-4 shadow-sm flex justify-between items-center hover:shadow-md transition"
+            >
+              <div>
+                <h3 className="font-medium text-charcoalGray">{p.title}</h3>
+                <p className="text-xs text-gray-500">{p.description}</p>
+              </div>
+              <Link
+                to={`/dashboard/projects`}
+                className="bg-[#2979FF] hover:bg-[#1E63D0] text-white px-4 py-1.5 rounded-lg text-sm transition"
+              >
+                View
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </div>

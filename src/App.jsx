@@ -64,6 +64,7 @@ function App() {
                 </Route>
 
                 <Route path="help" element={<Help />} />
+                <Route path="settings" element={<SeeProfile />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Route>
