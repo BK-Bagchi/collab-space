@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 // prettier-ignore
 import { Bell, LogOut, MessageCircle, Plus, Settings, User, UserRound } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -16,6 +17,8 @@ const PrivateBtn = () => {
   const [openMessage, setOpenMessage] = useState(false);
   const [openPlus, setOpenPlus] = useState(false);
   const [activeModal, setActiveModal] = useState(false);
+
+  if (unread > 0) toast.success("You have new notifications");
 
   return (
     <div className="flex items-center gap-x-0 md:gap-x-5">

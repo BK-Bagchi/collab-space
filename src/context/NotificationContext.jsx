@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { useAuth } from "../hooks/useAuth";
 import { useActive } from "../hooks/useActive";
 
@@ -17,7 +16,6 @@ export const NotificationProvider = ({ children }) => {
     const handler = (notification) => {
       setNotifications((prev) => [notification, ...prev]);
       setUnread((prev) => prev + 1);
-      toast(notification.message, { icon: "🔔" });
     };
 
     socket.on("notification", handler);
