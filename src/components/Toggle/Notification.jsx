@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { BellOff, X } from "lucide-react";
 import { NotificationAPI } from "../../api";
 import { formatDateWithTime } from "../../utils/dateFormater";
+import { useNotification } from "../../hooks/useNotification";
 
 const Notification = ({ open, setOpen }) => {
+  const { notification } = useNotification();
   const [notifications, setNotifications] = useState([]);
+
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
@@ -20,7 +23,21 @@ const Notification = ({ open, setOpen }) => {
 
     fetchNotifications();
   }, []);
+  // console.log(notification);
   // console.log(notifications);
+
+  useEffect(() => {
+    if (notification._id) {
+      setNotifications((prev) => {
+        const alreadyExists = prev.some(
+          (item) => item._id === notification._id
+        );
+        if (alreadyExists) return prev;
+
+        return [notification, ...prev];
+      });
+    }
+  }, [notification]);
 
   return (
     open && (
