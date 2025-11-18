@@ -23,6 +23,7 @@ import { ActiveProvider } from "./context/ActiveContext";
 import Chat from "./pages/Dashboard/Chat";
 import Files from "./pages/Dashboard/Files";
 import Help from "./pages/Dashboard/Help";
+import { NotificationProvider } from "./context/NotificationContext";
 
 function Layout() {
   return (
@@ -37,43 +38,48 @@ function App() {
   return (
     <AuthProvider>
       <ActiveProvider>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+        <NotificationProvider>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
 
-            {/* login protected routes */}
-            <Route element={<LoginProtectedRoute />}>
-              <Route path="profile" element={<SeeProfile />} />
-              <Route path="users" element={<UserList />} />
-              <Route path="user/:id" element={<SeeProfile />} />
-              <Route path="dashboard" element={<Dashboard />}>
-                <Route index element={<DashboardHome />} />
-                <Route path="projects" element={<Projects />} />
-                <Route path="tasks" element={<Tasks />} />
-                <Route path="chat" element={<Chat />} />
-                <Route path="files" element={<Files />} />
-                <Route path="calendar" element={<TaskCalendar />} />
+              {/* login protected routes */}
+              <Route element={<LoginProtectedRoute />}>
+                <Route path="profile" element={<SeeProfile />} />
+                <Route path="users" element={<UserList />} />
+                <Route path="user/:id" element={<SeeProfile />} />
+                <Route path="dashboard" element={<Dashboard />}>
+                  <Route index element={<DashboardHome />} />
+                  <Route path="projects" element={<Projects />} />
+                  <Route path="tasks" element={<Tasks />} />
+                  <Route path="chat" element={<Chat />} />
+                  <Route path="files" element={<Files />} />
+                  <Route path="calendar" element={<TaskCalendar />} />
 
-                {/* protected route from general members */}
-                <Route element={<ManagerProtectedRoute />}>
-                  <Route path="manage-projects" element={<ManageProjects />} />
-                  {/* prettier-ignore */}
-                  <Route path="manage-projects/:projectId" element={<ManageProjectsTaskList />} />
-                  <Route path="team-activity" element={<TeamActivity />} />
-                  <Route path="analytics" element={<Analytics />} />
+                  {/* protected route from general members */}
+                  <Route element={<ManagerProtectedRoute />}>
+                    <Route
+                      path="manage-projects"
+                      element={<ManageProjects />}
+                    />
+                    {/* prettier-ignore */}
+                    <Route path="manage-projects/:projectId" element={<ManageProjectsTaskList />} />
+                    <Route path="team-activity" element={<TeamActivity />} />
+                    <Route path="analytics" element={<Analytics />} />
+                  </Route>
+
+                  <Route path="help" element={<Help />} />
+                  <Route path="settings" element={<SeeProfile />} />
+                  <Route path="*" element={<NotFound />} />
                 </Route>
-
-                <Route path="help" element={<Help />} />
-                <Route path="settings" element={<SeeProfile />} />
-                <Route path="*" element={<NotFound />} />
               </Route>
-            </Route>
 
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </NotificationProvider>
       </ActiveProvider>
     </AuthProvider>
   );

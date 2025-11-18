@@ -5,11 +5,13 @@ import { Link } from "react-router-dom";
 import Notification from "../../Toggle/Notification";
 import Chat from "../../Toggle/Chat";
 import { useAuth } from "../../../hooks/useAuth";
+import { useNotification } from "../../../hooks/useNotification";
 import Modal from "../../Modal/Modal";
 import CreateProject from "../../../pages/CreateProject/CreateProject";
 
 const PrivateBtn = () => {
   const { logout } = useAuth();
+  const { unread, markAsRead } = useNotification();
   const [openNotification, setOpenNotification] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
   const [openPlus, setOpenPlus] = useState(false);
@@ -18,13 +20,17 @@ const PrivateBtn = () => {
   return (
     <div className="flex items-center gap-x-0 md:gap-x-5">
       <button
-        className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
+        className="relative btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
         onClick={() => {
-          setOpenNotification(!openNotification);
+          setOpenNotification((prev) => !prev);
           setOpenMessage(false);
+          markAsRead();
         }}
       >
         <Bell />
+        {unread > 0 && (
+          <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        )}
       </button>
       <button
         className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"

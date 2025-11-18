@@ -1,7 +1,27 @@
-import { X } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { BellOff, X } from "lucide-react";
+import { NotificationAPI } from "../../api";
+import { formatDateWithTime } from "../../utils/dateFormater";
 
 const Notification = ({ open, setOpen }) => {
+  const [notifications, setNotifications] = useState([]);
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const res = await NotificationAPI.getNotifications();
+        setNotifications(res.data.notifications);
+      } catch (error) {
+        console.warn(
+          "Error fetching notifications:",
+          error.response.data.message
+        );
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+  // console.log(notifications);
+
   return (
     open && (
       <div className="absolute right-0 mt-2 w-80 h-[100vh] bg-softWhite border border-gray-200 shadow-lg rounded-tl-xl rounded-bl-xl z-50 overflow-y-auto transition-all duration-300">
@@ -18,20 +38,24 @@ const Notification = ({ open, setOpen }) => {
 
         {/* Notification Items */}
         <div className="p-4 space-y-3 text-charcoalGray">
-          <div className="p-3 rounded-lg bg-[#E3F2FD]">
-            <p className="text-sm font-medium">Project “Team Alpha” updated.</p>
-            <p className="text-xs text-gray-500 mt-1">2 minutes ago</p>
-          </div>
-          <div className="p-3 rounded-lg bg-[#F3E5F5]">
-            <p className="text-sm font-medium">New task assigned to you.</p>
-            <p className="text-xs text-gray-500 mt-1">10 minutes ago</p>
-          </div>
-          <div className="p-3 rounded-lg bg-[#E0F2F1]">
-            <p className="text-sm font-medium">
-              You were mentioned in a comment.
-            </p>
-            <p className="text-xs text-gray-500 mt-1">1 hour ago</p>
-          </div>
+          {notifications.length > 0 ? (
+            notifications.map((n) => (
+              <div
+                key={n._id}
+                className="p-3 rounded-lg bg-softWhite border border-gray-200 hover:bg-gray-50 transition"
+              >
+                <p className="text-sm font-medium">{n.message}</p>
+                <p className="text-xs text-gray-500 mt-1">
+                  {formatDateWithTime(n.createdAt)}
+                </p>
+              </div>
+            ))
+          ) : (
+            <div className="flex flex-col items-center gap-2 py-6 text-gray-500">
+              <BellOff className="w-6 h-6 text-gray-400" />
+              <p className="text-sm">No notifications yet</p>
+            </div>
+          )}
         </div>
       </div>
     )

@@ -18,14 +18,15 @@ export const ActiveProvider = ({ children }) => {
     });
     setSocket(newSocket);
 
-    newSocket.emit("becomeActive", { userId: user._id });
     newSocket.on("activeUsers", (userIds) => {
       setActiveUsers(userIds);
     });
+    newSocket.on("connect", () => {
+      newSocket.emit("becomeActive", { userId: user._id });
+      newSocket.emit("setup", user._id);
+    });
 
-    return () => {
-      newSocket.disconnect();
-    };
+    return () => newSocket.disconnect();
   }, [user]);
 
   return (
