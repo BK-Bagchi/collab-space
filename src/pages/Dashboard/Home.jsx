@@ -11,6 +11,7 @@ import TaskProgressInProject from "./Components/TaskProgressInProject";
 import ProjectProgress from "./Components/ProjectProgress";
 import ActivityLog from "./Components/ActivityLog";
 import Overview from "./Components/Overview";
+import Loading from "../../components/Loading/Loading";
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -20,6 +21,8 @@ const DashboardHome = () => {
   const [projects, setProjects] = useState({ totalCreated: 0, totalMember: 0 });
   const [tasks, setTasks] = useState([]);
   const [selectedRange, setSelectedRange] = useState(15);
+  const [projectLoading, setProjectLoading] = useState(true);
+  const [taskLoading, setTaskLoading] = useState(true);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -35,6 +38,8 @@ const DashboardHome = () => {
           "Error fetching project details:",
           error.response.data.message
         );
+      } finally {
+        setProjectLoading(false);
       }
 
       try {
@@ -45,6 +50,8 @@ const DashboardHome = () => {
           "Error fetching task details:",
           error.response.data.message
         );
+      } finally {
+        setTaskLoading(false);
       }
     };
     fetchDetails();
@@ -98,8 +105,12 @@ const DashboardHome = () => {
       <h1 className="text-2xl font-semibold mb-6 text-charcoalGray">
         Welcome back, <span className="text-electricBlue">{user?.name} 👋</span>
       </h1>
+
       {/* Stats Overview */}
-      <Overview stats={stats} />
+      <Loading loading={projectLoading}>
+        <Overview stats={stats} />
+      </Loading>
+
       {/* Quick Access */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
         <div
@@ -126,19 +137,30 @@ const DashboardHome = () => {
           <p className="mt-2 font-medium text-charcoalGray">Chat</p>
         </div>
       </div>
+
       {/* Project progress chart in assigned or created projects */}
-      <ProjectProgress {...{ projectList }} />
+      <Loading loading={projectLoading}>
+        <ProjectProgress {...{ projectList }} />
+      </Loading>
+
       {/* Task progress chart in assigned projects */}
-      <TaskProgressInProject {...{ projectList, tasks }} />;
+      <Loading loading={projectLoading || taskLoading}>
+        <TaskProgressInProject {...{ projectList, tasks }} />;
+      </Loading>
+
       {/* Upcoming Deadlines + Overdue Tasks + Task Calendar + Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Upcoming Deadlines */}
-        <UpcomingDeadlines
-          {...{ upcomingDeadlines, selectedRange, setSelectedRange }}
-        />
+        <Loading loading={projectLoading}>
+          {/* Upcoming Deadlines */}
+          <UpcomingDeadlines
+            {...{ upcomingDeadlines, selectedRange, setSelectedRange }}
+          />
+        </Loading>
 
-        {/* Overdue tasks */}
-        <OverdueTasks tasks={tasks} />
+        <Loading loading={taskLoading}>
+          {/* Overdue tasks */}
+          <OverdueTasks tasks={tasks} />
+        </Loading>
 
         {/* Task Calendar */}
         <TaskCalendar />

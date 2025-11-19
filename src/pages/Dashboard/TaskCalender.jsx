@@ -3,11 +3,13 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { CalendarIcon } from "lucide-react";
 import { ProjectAPI, TaskAPI } from "../../api";
+import Loading from "../../components/Loading/Loading";
 
 const TaskCalendar = () => {
   const [value, setValue] = useState(new Date());
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -34,6 +36,8 @@ const TaskCalendar = () => {
         );
         setTasks([]);
       }
+
+      setLoading(false);
     };
 
     fetchDetails();
@@ -65,47 +69,49 @@ const TaskCalendar = () => {
         </h2>
       </div>
 
-      {/* Calendar */}
-      <div className="w-full bg-white rounded-xl border border-gray-100 shadow-inner overflow-hidden flex justify-center">
-        <Calendar
-          onChange={setValue}
-          value={value}
-          className="w-full p-3 border-none"
-          tileClassName={({ date }) => {
-            const dateStr = date.toISOString().split("T")[0];
-            return deadlines[dateStr]
-              ? "bg-vibrantPurple/10 rounded-md font-semibold text-vibrantPurple"
-              : "";
-          }}
-          tileContent={({ date, view }) => {
-            const dateStr = date.toISOString().split("T")[0];
-            const label = deadlines[dateStr];
-            return (
-              view === "month" &&
-              label && (
-                <div className="mt-1 text-[10px] font-medium text-vibrantPurple hover:scale-110 transition-transform">
-                  {label}
-                </div>
-              )
-            );
-          }}
-        />
-      </div>
+      <Loading loading={loading}>
+        {/* Calendar */}
+        <div className="w-full bg-white rounded-xl border border-gray-100 shadow-inner overflow-hidden flex justify-center">
+          <Calendar
+            onChange={setValue}
+            value={value}
+            className="w-full p-3 border-none"
+            tileClassName={({ date }) => {
+              const dateStr = date.toISOString().split("T")[0];
+              return deadlines[dateStr]
+                ? "bg-vibrantPurple/10 rounded-md font-semibold text-vibrantPurple"
+                : "";
+            }}
+            tileContent={({ date, view }) => {
+              const dateStr = date.toISOString().split("T")[0];
+              const label = deadlines[dateStr];
+              return (
+                view === "month" &&
+                label && (
+                  <div className="mt-1 text-[10px] font-medium text-vibrantPurple hover:scale-110 transition-transform">
+                    {label}
+                  </div>
+                )
+              );
+            }}
+          />
+        </div>
 
-      {/* Selected Date */}
-      <div className="mt-5 text-center">
-        <p className="text-sm text-gray-600">
-          Selected Date:
-          <span className="ml-1 font-semibold text-electricBlue">
-            {value.toDateString()}
-          </span>
-        </p>
+        {/* Selected Date */}
+        <div className="mt-5 text-center">
+          <p className="text-sm text-gray-600">
+            Selected Date:
+            <span className="ml-1 font-semibold text-electricBlue">
+              {value.toDateString()}
+            </span>
+          </p>
 
-        {/* Tip / Info */}
-        <p className="text-xs text-gray-400 mt-2 italic">
-          Hover over highlighted days to see upcoming tasks ✨
-        </p>
-      </div>
+          {/* Tip / Info */}
+          <p className="text-xs text-gray-400 mt-2 italic">
+            Hover over highlighted days to see upcoming tasks ✨
+          </p>
+        </div>
+      </Loading>
     </div>
   );
 };
