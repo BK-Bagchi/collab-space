@@ -25,7 +25,7 @@ const Notes = () => {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
           <StickyNote size={28} className="text-vibrantPurple" />
-          <h2 className="text-2xl font-bold text-charcoalGray">My Notes</h2>
+          <h2 className="text-2xl font-bold text-charcoalGray">Notes</h2>
         </div>
 
         <button

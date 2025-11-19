@@ -4,7 +4,7 @@ import { Home, CheckCircle, MessageCircle, File, Calendar, Settings, HelpCircle,
 export const commonLinks = [
   { name: "Dashboard", icon: <Home size={20} />, route: "/dashboard" },
   {
-    name: "My Projects",
+    name: "Projects",
     icon: <FolderKanban size={20} />,
     route: "/dashboard/projects",
   },
@@ -14,15 +14,19 @@ export const commonLinks = [
     route: "/dashboard/notes",
   },
   {
-    name: "My Tasks",
+    name: "Tasks",
     icon: <CheckCircle size={20} />,
     route: "/dashboard/tasks",
   },
-  { name: "Chat", icon: <MessageCircle size={20} />, route: "/dashboard/chat" },
   {
-    name: "Notification",
+    name: "Chats",
+    icon: <MessageCircle size={20} />,
+    route: "/dashboard/chats",
+  },
+  {
+    name: "Notifications",
     icon: <Bell size={20} />,
-    route: "/dashboard/notification",
+    route: "/dashboard/notifications",
   },
   { name: "Files", icon: <File size={20} />, route: "/dashboard/files" },
   {

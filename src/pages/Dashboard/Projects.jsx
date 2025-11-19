@@ -70,7 +70,7 @@ const Projects = () => {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <FolderOpen size={26} className="text-vibrantPurple" />
-          <h2 className="text-2xl font-bold text-charcoalGray">My Projects</h2>
+          <h2 className="text-2xl font-bold text-charcoalGray">Projects</h2>
         </div>
 
         {user?.role !== "MEMBER" && (

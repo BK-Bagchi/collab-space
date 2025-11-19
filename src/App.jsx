@@ -55,8 +55,8 @@ function App() {
                   <Route path="projects" element={<Projects />} />
                   <Route path="notes" element={<Notes />} />
                   <Route path="tasks" element={<Tasks />} />
-                  <Route path="chat" element={<Chat />} />
-                  <Route path="notification" element={<Notification />} />
+                  <Route path="chats" element={<Chat />} />
+                  <Route path="notifications" element={<Notification />} />
                   <Route path="files" element={<Files />} />
                   <Route path="calendar" element={<TaskCalendar />} />
 
