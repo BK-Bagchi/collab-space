@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 // prettier-ignore
 import { Bell, LogOut, MessageCircle, Plus, Settings, User, UserRound } from "lucide-react";
@@ -13,85 +13,117 @@ import CreateProject from "../../Forms/CreateProject";
 const PrivateBtn = () => {
   const { logout } = useAuth();
   const { unread, markAsRead } = useNotification();
+
   const [openNotification, setOpenNotification] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
   const [openPlus, setOpenPlus] = useState(false);
   const [activeModal, setActiveModal] = useState(false);
 
-  if (unread > 0) toast.success("You have new notifications");
+  useEffect(() => {
+    if (unread > 0) toast.success("You have new notifications");
+  }, [unread]);
 
   return (
-    <div className="flex items-center gap-x-0 md:gap-x-5">
+    <div className="flex items-center gap-x-2 md:gap-x-4">
+      {/* Notification Button */}
       <button
-        className="relative btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
+        className="relative flex items-center justify-center w-9 h-9 rounded-full 
+      bg-electricBlue text-softWhite hover:bg-white hover:text-charcoalGray 
+      transition shadow-sm"
         onClick={() => {
           setOpenNotification((prev) => !prev);
           setOpenMessage(false);
           markAsRead();
         }}
       >
-        <Bell />
+        <Bell size={20} />
         {unread > 0 && (
           <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
         )}
       </button>
+
+      {/* Message Button */}
       <button
-        className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
+        className="flex items-center justify-center w-9 h-9 rounded-full 
+      bg-electricBlue text-softWhite hover:bg-white hover:text-charcoalGray 
+      transition shadow-sm"
         onClick={() => {
           setOpenMessage(!openMessage);
           setOpenNotification(false);
         }}
       >
-        <MessageCircle />
+        <MessageCircle size={20} />
       </button>
+
+      {/* Plus Button */}
       <button
-        className="btn btn-sm px-2 border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
+        className="flex items-center justify-center w-9 h-9 rounded-full 
+      bg-electricBlue text-softWhite hover:bg-white hover:text-charcoalGray 
+      transition shadow-sm"
         onClick={() => setOpenPlus(!openPlus)}
       >
-        <Plus />
+        <Plus size={20} />
       </button>
+
+      {/* Profile Dropdown */}
       <div className="dropdown dropdown-end">
         <label
           tabIndex={0}
-          className="btn btn-sm px-2 rounded-full border-none shadow-none bg-electricBlue text-softWhite hover:bg-softWhite hover:text-charcoalGray"
+          className="flex items-center justify-center w-9 h-9 rounded-full 
+        bg-electricBlue text-softWhite hover:bg-white hover:text-charcoalGray 
+        transition shadow-sm cursor-pointer"
         >
-          <UserRound />
+          <UserRound size={20} />
         </label>
+
         <ul
           tabIndex={0}
-          className="dropdown-content menu p-2 shadow bg-[#2972FF] rounded-box w-40"
+          className="dropdown-content menu p-2 shadow-lg bg-electricBlue 
+        text-white rounded-xl w-44"
         >
           <li>
-            <Link to="/profile">
-              <User />
-              Profile
+            <Link
+              className="hover:bg-blue-600 rounded-lg transition"
+              to="/profile"
+            >
+              <User size={20} /> Profile
             </Link>
           </li>
+
           <li>
-            <Link to="/profile">
-              <Settings />
-              Settings
+            <Link
+              className="hover:bg-blue-600 rounded-lg transition"
+              to="/profile"
+            >
+              <Settings size={20} /> Settings
             </Link>
           </li>
+
           <li onClick={logout}>
-            <a>
-              <LogOut />
-              Logout
+            <a className="hover:bg-blue-600 rounded-lg transition cursor-pointer">
+              <LogOut size={20} /> Logout
             </a>
           </li>
         </ul>
       </div>
-      <div className="relative inline-block text-left mt-10">
-        {/* Dropdown */}
+
+      {/* Toggles & Menus */}
+      <div className="relative">
         {openNotification && (
           <Notification open={openNotification} setOpen={setOpenNotification} />
         )}
+
         {openMessage && <Chat open={openMessage} setOpen={setOpenMessage} />}
+
         {openPlus && (
-          <div className="absolute mt-1 right-0 w-40 bg-[#FAFAFA] border border-gray-200 rounded-md shadow-lg z-20">
+          <div
+            className="absolute mt-2 right-0 w-44 bg-white border border-gray-200 
+        rounded-xl shadow-xl z-20 animate-fadeIn"
+          >
             <ul className="py-1">
               <li
-                className="px-4 py-2 text-sm text-[#263238] hover:bg-[#EDE7F6] cursor-pointer transition"
+                className="px-4 py-2 text-sm text-charcoalGray hover:bg-blue-100 
+              rounded-lg cursor-pointer transition"
                 onClick={() => {
                   setActiveModal(true);
                   setOpenPlus(false);
@@ -103,15 +135,14 @@ const PrivateBtn = () => {
           </div>
         )}
       </div>
-      {
-        // active create project list on modal
-        activeModal && (
-          <Modal
-            render={<CreateProject setActiveModal={setActiveModal} />}
-            setActiveModal={setActiveModal}
-          />
-        )
-      }
+
+      {/* Project Modal */}
+      {activeModal && (
+        <Modal
+          render={<CreateProject setCreateModal={setActiveModal} />}
+          setActiveModal={setActiveModal}
+        />
+      )}
     </div>
   );
 };
