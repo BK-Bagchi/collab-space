@@ -3,10 +3,12 @@ import { BellOff, X } from "lucide-react";
 import { NotificationAPI } from "../../api";
 import { formatDateWithTime } from "../../utils/dateFormater";
 import { useNotification } from "../../hooks/useNotification";
+import Loading from "../Loading/Loading";
 
 const Notification = ({ open, setOpen }) => {
   const { notification } = useNotification();
   const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -18,6 +20,8 @@ const Notification = ({ open, setOpen }) => {
           "Error fetching notifications:",
           error.response.data.message
         );
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -55,24 +59,26 @@ const Notification = ({ open, setOpen }) => {
 
         {/* Notification Items */}
         <div className="p-4 space-y-3 text-charcoalGray">
-          {notifications.length > 0 ? (
-            notifications.map((n) => (
-              <div
-                key={n._id}
-                className="p-3 rounded-lg bg-softWhite border border-gray-200 hover:bg-gray-50 transition"
-              >
-                <p className="text-sm font-medium">{n.message}</p>
-                <p className="text-xs text-gray-500 mt-1">
-                  {formatDateWithTime(n.createdAt)}
-                </p>
+          <Loading loading={loading}>
+            {notifications.length > 0 ? (
+              notifications.map((n) => (
+                <div
+                  key={n._id}
+                  className="p-3 rounded-lg bg-softWhite border border-gray-200 hover:bg-gray-50 transition"
+                >
+                  <p className="text-sm font-medium">{n.message}</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {formatDateWithTime(n.createdAt)}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <div className="flex flex-col items-center gap-2 py-6 text-gray-500">
+                <BellOff className="w-6 h-6 text-gray-400" />
+                <p className="text-sm">No notifications yet</p>
               </div>
-            ))
-          ) : (
-            <div className="flex flex-col items-center gap-2 py-6 text-gray-500">
-              <BellOff className="w-6 h-6 text-gray-400" />
-              <p className="text-sm">No notifications yet</p>
-            </div>
-          )}
+            )}{" "}
+          </Loading>
         </div>
       </div>
     )
