@@ -8,7 +8,7 @@ import Chat from "../../Toggle/Chat";
 import { useAuth } from "../../../hooks/useAuth";
 import { useNotification } from "../../../hooks/useNotification";
 import Modal from "../../Modal/Modal";
-import CreateProject from "../../../pages/CreateProject/CreateProject";
+import CreateProject from "../../Forms/CreateProject";
 
 const PrivateBtn = () => {
   const { logout } = useAuth();
