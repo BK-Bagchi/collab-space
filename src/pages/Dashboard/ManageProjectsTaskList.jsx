@@ -7,6 +7,7 @@ import formatDate from "../../utils/dateFormater";
 import formatText from "../../utils/textFormater";
 import StatusSlider from "./Components/StatusSlider";
 import SubTasks from "./Components/SubTasks";
+import Loading from "../../components/Loading/Loading";
 
 const ManageUsersTaskList = () => {
   const { projectId } = useParams();
@@ -20,7 +21,7 @@ const ManageUsersTaskList = () => {
     columns.map((col) => col.id)
   );
   const [openSubtasks, setOpenSubtasks] = useState({});
-  // const [updating, setUpdating] = useState(null);
+  const [loading, setLoading] = useState(true);
   // console.log(openSubtasks);
 
   useEffect(() => {
@@ -30,6 +31,8 @@ const ManageUsersTaskList = () => {
         setTask(res.data.tasks);
       } catch (error) {
         console.warn("Error fetching tasks:", error.response.data.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -101,94 +104,100 @@ const ManageUsersTaskList = () => {
                 </h3>
 
                 {/* Task List */}
-                <div className="space-y-3">
-                  {col.tasks.length > 0 ? (
-                    col.tasks.map((task) => (
-                      <div
-                        key={task._id}
-                        className={`bg-[#F9FAFB] p-4 rounded-lg shadow-sm border ${
-                          new Date(task.dueDate) < new Date()
-                            ? "border-red-600"
-                            : "border-gray-100"
-                        } hover:shadow-md transition`}
-                      >
-                        <h4 className="font-medium text-lg text-charcoalGray">
-                          {task.title}
-                        </h4>
+                <Loading loading={loading}>
+                  <div className="space-y-3">
+                    {col.tasks.length > 0 ? (
+                      col.tasks.map((task) => (
+                        <div
+                          key={task._id}
+                          className={`bg-[#F9FAFB] p-4 rounded-lg shadow-sm border ${
+                            new Date(task.dueDate) < new Date()
+                              ? "border-red-600"
+                              : "border-gray-100"
+                          } hover:shadow-md transition`}
+                        >
+                          <h4 className="font-medium text-lg text-charcoalGray">
+                            {task.title}
+                          </h4>
 
-                        <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
-                          <div className="flex items-center gap-1">
-                            {task.assignees.length > 0 && (
-                              <User className="w-4 h-4 text-electricBlue" />
-                            )}
-                            {task.assignees.map((a, i) => (
-                              <span key={i}>{a.name}</span>
-                            ))}
+                          <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
+                            <div className="flex items-center gap-1">
+                              {task.assignees.length > 0 && (
+                                <User className="w-4 h-4 text-electricBlue" />
+                              )}
+                              {task.assignees.map((a, i) => (
+                                <span key={i}>{a.name}</span>
+                              ))}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              {new Date(task.dueDate) < new Date() ? (
+                                <>
+                                  <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+                                  <span className="text-red-600">
+                                    {formatDate(task.dueDate)}
+                                  </span>
+                                </>
+                              ) : (
+                                <>
+                                  <CalendarDays className="w-4 h-4 text-vibrantPurple" />{" "}
+                                  <span>{formatDate(task.dueDate)}</span>
+                                </>
+                              )}
+                            </div>
                           </div>
-                          <div className="flex items-center gap-1">
-                            {new Date(task.dueDate) < new Date() ? (
-                              <>
-                                <AlertCircle className="w-4 h-4 text-red-600" />{" "}
-                                <span className="text-red-600">
-                                  {formatDate(task.dueDate)}
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                <CalendarDays className="w-4 h-4 text-vibrantPurple" />{" "}
-                                <span>{formatDate(task.dueDate)}</span>
-                              </>
-                            )}
-                          </div>
-                        </div>
 
-                        <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
-                          <div className="flex items-center gap-1">
-                            <FolderKanban className="w-4 h-4 text-vibrantPurple" />
-                            <span>{task.project.title}</span>
+                          <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
+                            <div className="flex items-center gap-1">
+                              <FolderKanban className="w-4 h-4 text-vibrantPurple" />
+                              <span>{task.project.title}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Flag
+                                className={`w-4 h-4 ${
+                                  task.priority === "HIGH"
+                                    ? "text-red-500"
+                                    : task.priority === "MEDIUM"
+                                    ? "text-yellow-500"
+                                    : "text-tealGreen"
+                                }`}
+                              />
+                              <span className="font-medium">
+                                {formatText(task.priority)} Priority
+                              </span>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Flag
-                              className={`w-4 h-4 ${
-                                task.priority === "HIGH"
-                                  ? "text-red-500"
-                                  : task.priority === "MEDIUM"
-                                  ? "text-yellow-500"
-                                  : "text-tealGreen"
-                              }`}
+
+                          {/* Subtasks Section */}
+                          {task.subtasks.length > 0 && (
+                            <SubTasks
+                              task={task}
+                              updating={null}
+                              transparentWall={true}
+                              openSubtasks={openSubtasks}
+                              toggleSubtaskView={toggleSubtaskView}
+                              toggleSubtaskStatus={null}
                             />
-                            <span className="font-medium">
-                              {formatText(task.priority)} Priority
-                            </span>
+                          )}
+
+                          <div className="w-full py-2 relative">
+                            <StatusSlider value={task.status} />
+                            {/* Transparent overlay (blocks clicks) */}
+                            <div className="absolute inset-0 bg-transparent pointer-events-auto"></div>
                           </div>
                         </div>
-
-                        {/* Subtasks Section */}
-                        {task.subtasks.length > 0 && (
-                          <SubTasks
-                            task={task}
-                            updating={null}
-                            transparentWall={true}
-                            openSubtasks={openSubtasks}
-                            toggleSubtaskView={toggleSubtaskView}
-                            toggleSubtaskStatus={null}
-                          />
-                        )}
-
-                        <div className="w-full py-2 relative">
-                          <StatusSlider value={task.status} />
-                          {/* Transparent overlay (blocks clicks) */}
-                          <div className="absolute inset-0 bg-transparent pointer-events-auto"></div>
-                        </div>
+                      ))
+                    ) : (
+                      <div className="flex flex-col items-center justify-center text-center py-10 text-gray-400">
+                        <p className="text-sm font-medium">
+                          No tasks here yet.
+                        </p>
+                        <p className="text-xs mt-1">
+                          Drag or create a new task.
+                        </p>
                       </div>
-                    ))
-                  ) : (
-                    <div className="flex flex-col items-center justify-center text-center py-10 text-gray-400">
-                      <p className="text-sm font-medium">No tasks here yet.</p>
-                      <p className="text-xs mt-1">Drag or create a new task.</p>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                </Loading>
               </>
             ) : (
               // When Collapsed: Just show vertical text

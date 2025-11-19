@@ -6,6 +6,7 @@ import formatText from "../../../utils/textFormater";
 import formatDate from "../../../utils/dateFormater";
 import Modal from "../../../components/Modal/Modal";
 import UpdateTask from "../../../components/Forms/UpdateTask";
+import Loading from "../../../components/Loading/Loading";
 
 const ProjectDetails = ({
   selectedProject,
@@ -17,6 +18,7 @@ const ProjectDetails = ({
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [updateTaskModal, setUpdateTaskModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -25,6 +27,8 @@ const ProjectDetails = ({
         setTasks(res.data.tasks);
       } catch (error) {
         console.warn("Error fetching tasks:", error.response.data.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchTasks();
@@ -97,114 +101,111 @@ const ProjectDetails = ({
           Tasks
         </h4>
 
-        {tasks && tasks.length > 0 ? (
-          <ul className="space-y-3">
-            {tasks.map((task) => (
-              <li
-                key={task._id}
-                className={`bg-[#F9FAFB] p-4 rounded-lg shadow-sm border ${
-                  new Date(task.dueDate) < new Date()
-                    ? "border-red-600"
-                    : "border-gray-100"
-                }  hover:shadow-md transition`}
-              >
-                <div className="flex justify-between">
-                  <h5 className="font-medium text-lg text-charcoalGray">
-                    {task.title}
-                  </h5>
-                  <div className="flex items-center mb-4">
-                    <button
-                      onClick={() => {
-                        setSelectedTask(task);
-                        setUpdateTaskModal(true);
-                      }}
-                      className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
-                    >
-                      {/* update task */}
-                      <Edit3 size={16} />
-                    </button>
+        <Loading loading={loading}>
+          {tasks && tasks.length > 0 ? (
+            <ul className="space-y-3">
+              {tasks.map((task) => (
+                <li
+                  key={task._id}
+                  className={`bg-[#F9FAFB] p-4 rounded-lg shadow-sm border ${
+                    new Date(task.dueDate) < new Date()
+                      ? "border-red-600"
+                      : "border-gray-100"
+                  }  hover:shadow-md transition`}
+                >
+                  <div className="flex justify-between">
+                    <h5 className="font-medium text-lg text-charcoalGray">
+                      {task.title}
+                    </h5>
+                    <div className="flex items-center mb-4">
+                      <button
+                        onClick={() => {
+                          setSelectedTask(task);
+                          setUpdateTaskModal(true);
+                        }}
+                        className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
+                      >
+                        {/* update task */}
+                        <Edit3 size={16} />
+                      </button>
 
-                    <button
-                      onClick={() => handleDeleteTask(task._id)}
-                      className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
-                    >
-                      {/* delete task */}
-                      <Trash2 size={16} />
-                    </button>
+                      <button
+                        onClick={() => handleDeleteTask(task._id)}
+                        className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
+                      >
+                        {/* delete task */}
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
-                  <div className="flex items-center gap-1">
-                    {task.assignees.length > 0 && (
-                      <User className="w-4 h-4 text-electricBlue" />
-                    )}
-                    {task.assignees.map((a, i) => (
-                      <span key={i}>{a.name}</span>
-                    ))}
+                  <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
+                    <div className="flex items-center gap-1">
+                      {task.assignees.length > 0 && (
+                        <User className="w-4 h-4 text-electricBlue" />
+                      )}
+                      {task.assignees.map((a, i) => (
+                        <span key={i}>{a.name}</span>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      {new Date(task.dueDate) < new Date() ? (
+                        <>
+                          <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+                          <span className="text-red-600">
+                            {formatDate(task.dueDate)}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <CalendarDays className="w-4 h-4 text-vibrantPurple" />{" "}
+                          <span>{formatDate(task.dueDate)}</span>
+                        </>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1">
-                    {new Date(task.dueDate) < new Date() ? (
-                      <>
-                        <AlertCircle className="w-4 h-4 text-red-600" />{" "}
-                        <span className="text-red-600">
-                          {formatDate(task.dueDate)}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <CalendarDays className="w-4 h-4 text-vibrantPurple" />{" "}
-                        <span>{formatDate(task.dueDate)}</span>
-                      </>
-                    )}
-                  </div>
-                </div>
 
-                <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
-                  <div className="flex items-center gap-1">
-                    {task.status && task.status === "TODO" && (
-                      <CircleCheck className="w-4 h-4 text-electricBlue" />
-                    )}
-                    {task.status && task.status === "IN_PROGRESS" && (
-                      <Loader className="w-4 h-4 text-electricBlue" />
-                    )}
-                    {task.status && task.status === "DONE" && (
-                      <CheckCircle2 className="w-4 h-4 text-tealGreen" />
-                    )}
+                  <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
+                    <div className="flex items-center gap-1">
+                      {task.status && task.status === "TODO" && (
+                        <CircleCheck className="w-4 h-4 text-electricBlue" />
+                      )}
+                      {task.status && task.status === "IN_PROGRESS" && (
+                        <Loader className="w-4 h-4 text-electricBlue" />
+                      )}
+                      {task.status && task.status === "DONE" && (
+                        <CheckCircle2 className="w-4 h-4 text-tealGreen" />
+                      )}
 
-                    <span>{formatText(task.status)}</span>
+                      <span>{formatText(task.status)}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Flag
+                        className={`w-4 h-4 ${
+                          task.priority === "HIGH"
+                            ? "text-red-500"
+                            : task.priority === "MEDIUM"
+                            ? "text-yellow-500"
+                            : "text-tealGreen"
+                        }`}
+                      />
+                      <span className="font-medium">
+                        {formatText(task.priority)} Priority
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Flag
-                      className={`w-4 h-4 ${
-                        task.priority === "HIGH"
-                          ? "text-red-500"
-                          : task.priority === "MEDIUM"
-                          ? "text-yellow-500"
-                          : "text-tealGreen"
-                      }`}
-                    />
-                    <span className="font-medium">
-                      {formatText(task.priority)} Priority
-                    </span>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div className="flex flex-col items-center justify-center text-center py-10 text-gray-400">
-            <p className="text-sm font-medium">No tasks yet!</p>
-            <p className="text-xs mt-1">
-              Tasks assigned to this project will appear here.
-            </p>
-          </div>
-        )}
-
-        {/* Chat Placeholder */}
-        <div className="mt-6 p-4 border-t border-gray-200 text-gray-400 italic text-sm text-center">
-          <span>💬 Chat coming soon...</span>
-        </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="flex flex-col items-center justify-center text-center py-10 text-gray-400">
+              <p className="text-sm font-medium">No tasks yet!</p>
+              <p className="text-xs mt-1">
+                Tasks assigned to this project will appear here.
+              </p>
+            </div>
+          )}
+        </Loading>
       </div>
 
       {/* Update Task Modal */}
