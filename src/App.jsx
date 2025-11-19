@@ -25,6 +25,7 @@ import Notification from "./pages/Dashboard/Notification";
 import Files from "./pages/Dashboard/Files";
 import Help from "./pages/Dashboard/Help";
 import { NotificationProvider } from "./context/NotificationContext";
+import Notes from "./pages/Dashboard/Notes";
 
 function Layout() {
   return (
@@ -52,6 +53,7 @@ function App() {
                 <Route path="dashboard" element={<Dashboard />}>
                   <Route index element={<DashboardHome />} />
                   <Route path="projects" element={<Projects />} />
+                  <Route path="notes" element={<Notes />} />
                   <Route path="tasks" element={<Tasks />} />
                   <Route path="chat" element={<Chat />} />
                   <Route path="notification" element={<Notification />} />
