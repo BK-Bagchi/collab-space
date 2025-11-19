@@ -6,6 +6,7 @@ import ProjectRow from "./Components/ProjectRow";
 import ChatRow from "./Components/ChatRow";
 import ProjectChatBox from "../../components/Chat/ProjectChatBox";
 import formatText from "../../utils/textFormater";
+import Loading from "../../components/Loading/Loading";
 
 const TabButton = ({ active, children, onClick }) => (
   <button
@@ -24,6 +25,8 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [activeTab, setActiveTab] = useState("chats"); // "projects" | "chats"
   const [activeProject, setActiveProject] = useState(null); // the project object currently open
+  const [projectLoading, setProjectLoading] = useState(true);
+  const [messageLoading, setMessageLoading] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -32,6 +35,8 @@ const Chat = () => {
         setProjects(res.data.projects || []);
       } catch (error) {
         console.error("Error fetching projects:", error);
+      } finally {
+        setProjectLoading(false);
       }
     };
     const fetchProjectChats = async () => {
@@ -40,6 +45,8 @@ const Chat = () => {
         setMessages(res.data.chats || []);
       } catch (error) {
         console.error("Error fetching project chats:", error);
+      } finally {
+        setMessageLoading(false);
       }
     };
 
@@ -141,43 +148,49 @@ const Chat = () => {
         {/* List */}
         <div className="flex-1 overflow-y-auto">
           {activeTab === "projects" ? (
-            projects.length > 0 ? (
-              projects.map((project) => (
-                <ProjectRow
-                  key={project._id || project.id}
-                  project={project}
-                  active={
-                    activeProject &&
-                    (activeProject._id || activeProject.id) ===
-                      (project._id || project.id)
-                  }
-                  onClick={openProjectChat}
-                />
-              ))
-            ) : (
-              <div className="text-center text-gray-400 text-sm py-10">
-                <Clock size={36} className="mx-auto mb-2 text-gray-300" />
-                No projects found
-              </div>
-            )
-          ) : projectChats.length > 0 ? (
-            projectChats.map((chat) => (
-              <ChatRow
-                key={chat._id}
-                chat={chat}
-                active={
-                  activeProject &&
-                  chat.project &&
-                  activeProject._id === chat.project._id
-                }
-                onClick={openChatFromLast}
-              />
-            ))
+            <Loading loading={projectLoading}>
+              {projects.length > 0 ? (
+                projects.map((project) => (
+                  <ProjectRow
+                    key={project._id || project.id}
+                    project={project}
+                    active={
+                      activeProject &&
+                      (activeProject._id || activeProject.id) ===
+                        (project._id || project.id)
+                    }
+                    onClick={openProjectChat}
+                  />
+                ))
+              ) : (
+                <div className="text-center text-gray-400 text-sm py-10">
+                  <Clock size={36} className="mx-auto mb-2 text-gray-300" />
+                  No projects found
+                </div>
+              )}
+            </Loading>
           ) : (
-            <div className="text-center text-gray-400 text-sm py-10">
-              <Clock size={36} className="mx-auto mb-2 text-gray-300" />
-              No recent chats
-            </div>
+            <Loading loading={messageLoading}>
+              {projectChats.length > 0 ? (
+                projectChats.map((chat) => (
+                  <ChatRow
+                    key={chat._id}
+                    chat={chat}
+                    active={
+                      activeProject &&
+                      chat.project &&
+                      activeProject._id === chat.project._id
+                    }
+                    onClick={openChatFromLast}
+                  />
+                ))
+              ) : (
+                <div className="text-center text-gray-400 text-sm py-10">
+                  <Clock size={36} className="mx-auto mb-2 text-gray-300" />
+                  No recent chats
+                </div>
+              )}
+            </Loading>
           )}
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Plus } from "lucide-react";
+import { FolderOpen, Plus } from "lucide-react";
 import Modal from "../../components/Modal/Modal";
 import InviteMembers from "../../components/Forms/InviteMembers";
 import CreateProject from "../../components/Forms/CreateProject";
@@ -10,6 +10,7 @@ import CreatedProjects from "./Components/CreatedProjects";
 import JoinedProjects from "./Components/JoinedProjects";
 import ProjectDetails from "./Components/ProjectDetails";
 import AssignedTasks from "../../components/Forms/AssignedTasks";
+import Loading from "../../components/Loading/Loading";
 
 const Projects = () => {
   const { user } = useAuth();
@@ -19,6 +20,7 @@ const Projects = () => {
   const [inviteModal, setInviteModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
   const [assignedTaskModal, setAssignedTaskModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -28,6 +30,8 @@ const Projects = () => {
         setProjects(projects);
       } catch (error) {
         console.warn("Error fetching projects:", error.response.data.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchProjects();
@@ -64,7 +68,11 @@ const Projects = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-charcoalGray">Your Projects</h2>
+        <div className="flex items-center gap-2">
+          <FolderOpen size={26} className="text-vibrantPurple" />
+          <h2 className="text-2xl font-bold text-charcoalGray">My Projects</h2>
+        </div>
+
         {user?.role !== "MEMBER" && (
           <button
             onClick={() => setCreateModal(true)}
@@ -79,14 +87,18 @@ const Projects = () => {
       {/* Projects Section */}
       <div className="grid lg:grid-cols-2 gap-8">
         {/* Created Projects */}
-        <CreatedProjects
-          createdProjects={createdProjects}
-          setSelectedProject={setSelectedProject}
-          handleDeleteProject={handleDeleteProject}
-        />
+        <Loading loading={loading}>
+          <CreatedProjects
+            createdProjects={createdProjects}
+            setSelectedProject={setSelectedProject}
+            handleDeleteProject={handleDeleteProject}
+          />
+        </Loading>
 
         {/* Joined Projects */}
-        <JoinedProjects joinedProjects={joinedProjects} />
+        <Loading loading={loading}>
+          <JoinedProjects joinedProjects={joinedProjects} />
+        </Loading>
       </div>
 
       {/* Project Details (when selected) */}
