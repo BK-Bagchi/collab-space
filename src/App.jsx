@@ -21,6 +21,7 @@ import ManagerProtectedRoute from "./routes/ManagerProtectedRoute";
 import UserList from "./pages/UserList/UserList";
 import { ActiveProvider } from "./context/ActiveContext";
 import Chat from "./pages/Dashboard/Chat";
+import Notification from "./pages/Dashboard/Notification";
 import Files from "./pages/Dashboard/Files";
 import Help from "./pages/Dashboard/Help";
 import { NotificationProvider } from "./context/NotificationContext";
@@ -53,6 +54,7 @@ function App() {
                   <Route path="projects" element={<Projects />} />
                   <Route path="tasks" element={<Tasks />} />
                   <Route path="chat" element={<Chat />} />
+                  <Route path="notification" element={<Notification />} />
                   <Route path="files" element={<Files />} />
                   <Route path="calendar" element={<TaskCalendar />} />
 

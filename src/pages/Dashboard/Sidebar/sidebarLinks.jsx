@@ -15,9 +15,9 @@ export const commonLinks = [
   },
   { name: "Chat", icon: <MessageCircle size={20} />, route: "/dashboard/chat" },
   {
-    name: "Notifications",
+    name: "Notification",
     icon: <Bell size={20} />,
-    route: "/dashboard/notifications",
+    route: "/dashboard/notification",
   },
   { name: "Files", icon: <File size={20} />, route: "/dashboard/files" },
   {
@@ -43,11 +43,11 @@ export const adminLinks = [
     icon: <BarChart size={20} />,
     route: "/dashboard/analytics",
   },
-  {
-    name: "Project Settings",
-    icon: <Sliders size={20} />,
-    route: "/dashboard/project-settings",
-  },
+  // {
+  //   name: "Project Settings",
+  //   icon: <Sliders size={20} />,
+  //   route: "/dashboard/project-settings",
+  // },
 ];
 
 export const bottomLinks = [

@@ -20,7 +20,7 @@ const ActivityLog = () => {
   const recentActivities = activities.slice(0, 10);
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 max-h-[480px] overflow-y-auto">
+    <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 max-h-[480px] overflow-y-auto scrollbar-hide">
       <div className="flex items-center gap-2 mb-4">
         <MessageSquare className="text-vibrantPurple" />
         <h3 className="text-lg font-semibold">Activity Log</h3>
