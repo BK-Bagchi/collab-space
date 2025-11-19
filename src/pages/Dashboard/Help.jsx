@@ -113,6 +113,19 @@ const Help = () => {
 
           <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
             <form className="space-y-5">
+              {/* Category Selector */}
+              <div className="flex flex-col">
+                <label className="text-sm font-semibold text-charcoalGray mb-1">
+                  Category
+                </label>
+                <select className="p-3 border border-gray-300 rounded-xl bg-softWhite outline-none focus:ring-2 focus:ring-[#2979ff] cursor-pointer">
+                  <option className="hidden">Select Category</option>
+                  <option value="contact">Contact Admin</option>
+                  <option value="feature">Feature Request</option>
+                  <option value="bug">Report a Bug</option>
+                </select>
+              </div>
+
               {/* Subject */}
               <div className="flex flex-col">
                 <label className="text-sm font-semibold text-charcoalGray mb-1">
