@@ -5,7 +5,7 @@ import { ClipboardList, MessageSquare, FolderKanban} from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { ProjectAPI, TaskAPI } from "../../api";
 import UpcomingDeadlines from "./Components/UpcomingDeadlines";
-import OverdueTasks from "./Components/OverdueTasks";
+import OverdueTasks from "../../charts/OverdueTasks";
 import TaskCalendar from "./TaskCalender";
 import TaskProgressInProject from "./Components/TaskProgressInProject";
 import ProjectProgress from "./Components/ProjectProgress";

@@ -1,5 +1,5 @@
 import { FolderPlus } from "lucide-react";
-import ProgressChart from "../../../components/ProgressChart/ProgressChart";
+import ProgressChart from "../../../charts/ProgressChart";
 
 const TaskProgressInProject = ({ projectList, tasks }) => {
   const title = "Task progress in assigned projects";

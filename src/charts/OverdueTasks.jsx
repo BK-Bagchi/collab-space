@@ -2,8 +2,8 @@ import { useState } from "react";
 import { AlertTriangle, CircleCheckBig, BarChart3, List } from "lucide-react";
 // prettier-ignore
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
-import formatDate from "../../../utils/dateFormater";
-import formatText from "../../../utils/textFormater";
+import formatDate from "../utils/dateFormater";
+import formatText from "../utils/textFormater";
 
 //prettier-ignore
 const COLORS = ["#2979FF", "#8E24AA", "#26A69A", "#FF7043", "#F44336", "#263238"];

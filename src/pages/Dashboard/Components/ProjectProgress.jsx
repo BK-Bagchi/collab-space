@@ -1,5 +1,5 @@
 import { FolderKanban } from "lucide-react";
-import ProgressChart from "../../../components/ProgressChart/ProgressChart";
+import ProgressChart from "../../../charts/ProgressChart";
 
 const ProjectProgress = ({ projectList }) => {
   const title = "Project Progress";

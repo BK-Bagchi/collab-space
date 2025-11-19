@@ -1,4 +1,3 @@
-import React from "react";
 // prettier-ignore
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from "recharts";
 

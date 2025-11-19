@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Users, CalendarDays, BadgePlus, PenLine, CircleCheckBig, ChevronDown, ChevronRight, CheckSquare, ListChecks } from "lucide-react";
 import formatDate, { formatDateWithTime } from "../../utils/dateFormater";
 import Avatar from "../../assets/Default_Avatar.jpg";
-import ChartAnalytics from "../../pages/Dashboard/Components/ChartAnalytics";
+import ChartAnalytics from "../../charts/ChartAnalytics";
 
 const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
   const navigate = useNavigate();

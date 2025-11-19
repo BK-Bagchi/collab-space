@@ -1,4 +1,3 @@
-import { FolderPlus } from "lucide-react";
 // prettier-ignore
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
 
