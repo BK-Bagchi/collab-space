@@ -124,7 +124,7 @@ const DeadlineProgress = ({ project }) => {
 
       {/* Chart */}
       <div className="h-64">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height={256}>
           <LineChart data={chartData}>
             <XAxis dataKey="week" tick={{ fontSize: 12 }} />
             <YAxis domain={[0, 100]} tickFormatter={(v) => `${v}%`} />

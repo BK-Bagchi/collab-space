@@ -70,5 +70,5 @@ export const bottomLinks = [
     icon: <HelpCircle size={20} />,
     route: "/dashboard/help",
   },
-  { name: "Logout", icon: <LogOut size={20} />, route: null },
+  { name: "Logout", icon: <LogOut size={20} />, route: "/dashboard/logout" },
 ];
