@@ -34,7 +34,7 @@ const Chat = () => {
         const res = await ProjectAPI.getUserProjects();
         setProjects(res.data.projects || []);
       } catch (error) {
-        console.error("Error fetching projects:", error);
+        console.warn("Error fetching projects:", error.response.data.message);
       } finally {
         setProjectLoading(false);
       }
@@ -44,7 +44,10 @@ const Chat = () => {
         const res = await ChatAPI.getAllChats();
         setMessages(res.data.chats || []);
       } catch (error) {
-        console.error("Error fetching project chats:", error);
+        console.warn(
+          "Error fetching project chats:",
+          error.response.data.message
+        );
       } finally {
         setMessageLoading(false);
       }

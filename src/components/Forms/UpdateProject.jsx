@@ -184,7 +184,6 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
         <div className="text-charcoalGray">
           <label className="block font-medium mb-1">
             Members (find by email)
-            <span className="text-red-500">*</span>
           </label>
           <div className="relative">
             <input

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { Calendar, FileText, FolderKanban, Palette, Users } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,7 +8,7 @@ import { projectSchema } from "../../validations/project.validation";
 import { ProjectAPI, UserAPI } from "../../api";
 
 const CreateProject = ({ setCreateModal }) => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [fetchedMembers, setFetchedMembers] = useState([]);
   const [searchedMembers, setSearchedMembers] = useState([]);
   const [selectedMembers, setSelectedMembers] = useState([]);
@@ -77,13 +78,13 @@ const CreateProject = ({ setCreateModal }) => {
       members: selectedMembers.map((member) => member._id),
     };
     try {
+      if (user?.role === "MEMBER") {
+        const res = await UserAPI.updateUserRole(user._id, { role: "MANAGER" });
+        setUser(res.data.user);
+      }
+
       const res = await ProjectAPI.createProject(payload);
-
-      if (user?.role === "MEMBER")
-        // migrate user role to manager unless already manager or an admin
-        await UserAPI.updateUserRole(user._id, "MANAGER");
-
-      alert(res.data.message);
+      toast.success(res.data.message);
       setCreateModal(false);
     } catch (error) {
       console.error("Error creating project:", error.response);
@@ -189,7 +190,6 @@ const CreateProject = ({ setCreateModal }) => {
         <div className="text-charcoalGray">
           <label className="block font-medium mb-1">
             Members (search by email)
-            <span className="text-red-500">*</span>
           </label>
 
           <div className="relative">

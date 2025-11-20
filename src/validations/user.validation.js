@@ -5,8 +5,11 @@ export const editProfileSchema = z.object({
   bio: z.string().max(200, "Bio can be up to 200 characters").optional(),
   image: z
     .any()
-    .refine((files) => files?.length === 1, "Please upload an image")
-    .optional(),
+    .optional()
+    .refine(
+      (files) => !files || files.length === 0 || files.length === 1,
+      "Please upload only one image"
+    ),
 });
 
 export const passwordSchema = z

@@ -15,8 +15,8 @@ const Files = () => {
       try {
         const res = await ProjectAPI.getUserProjects();
         setProjects(res.data.projects);
-      } catch (err) {
-        console.error("Error fetching projects:", err);
+      } catch (error) {
+        console.warn("Error fetching projects:", error.response.data.message);
       } finally {
         setLoading(false);
       }

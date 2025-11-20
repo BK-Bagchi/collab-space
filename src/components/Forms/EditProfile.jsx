@@ -78,9 +78,7 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
         )}
 
         {/* Bio */}
-        <label className="text-sm font-semibold text-charcoalGray">
-          Bio <span className="text-red-500">*</span>
-        </label>
+        <label className="text-sm font-semibold text-charcoalGray">Bio</label>
         <div className="relative">
           <MessageSquare
             className="absolute left-3 top-3 text-gray-500"
@@ -99,7 +97,7 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
 
         {/* Image Upload */}
         <label className="text-sm font-semibold text-charcoalGray">
-          Profile Picture <span className="text-red-500">*</span>
+          Profile Picture
         </label>
         <div className="flex items-center gap-3">
           <label className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-electricBlue text-white rounded-lg hover:bg-[#1E63D0] transition">

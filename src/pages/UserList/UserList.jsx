@@ -39,7 +39,7 @@ const UserList = () => {
           All Registered Users
         </h2>
         <span className="text-sm text-gray-500">
-          Total Users: {users.length}
+          Total Users: You+ {users.length}
         </span>
       </div>
 
