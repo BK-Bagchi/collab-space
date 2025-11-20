@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,8 +28,7 @@ const Register = () => {
   const onSubmit = async (data) => {
     try {
       const res = await AuthAPI.signup(data);
-      const { message } = res.data;
-      alert(message);
+      toast.success(res.data.message);
       navigate("/login");
     } catch (error) {
       console.error("Registration error:", error);

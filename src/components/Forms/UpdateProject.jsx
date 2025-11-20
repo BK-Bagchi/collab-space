@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { Calendar, FileText, FolderKanban, Palette, Users } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -76,8 +77,7 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
     };
     try {
       const res = await ProjectAPI.updateProject(project._id, payload);
-
-      alert(res.data.message);
+      toast.success(res.data.message);
       setUpdateModal(false);
       setSelectedProject(null);
     } catch (error) {

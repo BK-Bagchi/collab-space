@@ -1,6 +1,7 @@
 import { useState } from "react";
 //prettier-ignore
 import { UserPlus, CheckCircle2, PlusCircle, Trash2, X, Edit2, Calendar, Tag, ListCheck } from "lucide-react";
+import { toast } from "react-toastify";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { assignTaskSchema } from "../../validations/task.validation";
@@ -57,7 +58,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
     };
     try {
       const res = await TaskAPI.createTask(taskData);
-      alert(res.data.message);
+      toast.success(res.data.message);
     } catch (error) {
       console.error("Error assigning task:", error.response);
     } finally {

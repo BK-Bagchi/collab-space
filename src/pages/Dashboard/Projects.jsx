@@ -11,6 +11,7 @@ import JoinedProjects from "./Components/JoinedProjects";
 import ProjectDetails from "./Components/ProjectDetails";
 import AssignTasks from "../../components/Forms/AssignTasks";
 import Loading from "../../components/Loading/Loading";
+import { toast } from "react-toastify";
 
 const Projects = () => {
   const { user } = useAuth();
@@ -54,13 +55,12 @@ const Projects = () => {
 
     try {
       const res = await ProjectAPI.deleteProject(projectId);
-      alert(res.data.message);
+      toast.success(res.data.message);
       setProjects((prevProjects) =>
         prevProjects.filter((project) => project._id !== projectId)
       );
     } catch (error) {
-      console.error("Error deleting project:", error);
-      alert(error.response.data.message);
+      console.error("Error deleting project:", error.response.data.message);
     }
   };
 

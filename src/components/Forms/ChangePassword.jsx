@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { Eye, EyeOff, Lock } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,8 +23,7 @@ const ChangePassword = ({ setActiveModal }) => {
   const onSubmit = async (data) => {
     try {
       const res = await UserAPI.updatePassword(data);
-      const { message } = res.data;
-      alert(message);
+      toast.success(res.data.message);
       setActiveModal(false);
     } catch (error) {
       console.error("Change password error:", error.response);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 //prettier-ignore
 import { ClipboardList, Edit3, UserPlus, CalendarDays, User, Flag, Loader, CheckCircle2, AlertCircle, CircleCheck, Trash2 } from "lucide-react";
 import { TaskAPI } from "../../../api";
@@ -37,7 +38,7 @@ const ProjectDetails = ({
   const handleDeleteTask = async (taskId) => {
     try {
       const res = await TaskAPI.deleteTask(taskId);
-      alert(res.data.message);
+      toast.success(res.data.message);
     } catch (error) {
       console.error("Error deleting task:", error.response.data.message);
     } finally {
@@ -47,7 +48,7 @@ const ProjectDetails = ({
   };
 
   return (
-    <div className="bg-softWhite w-full max-w-2xl rounded-xl shadow-lg p-6 relative">
+    <div className="bg-softWhite w-full max-w-2xl rounded-xl shadow-lg p-6 relative max-h-screen overflow-y-auto scrollbar-hide">
       <h3 className="text-xl font-bold text-vibrantPurple">
         {selectedProject.title}
       </h3>

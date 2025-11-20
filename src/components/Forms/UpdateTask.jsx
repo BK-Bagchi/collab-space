@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 //prettier-ignore
 import { UserPlus, Calendar, Tag, CheckCircle2, Trash2, PlusCircle, Edit3, X } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
@@ -68,7 +69,7 @@ const UpdateTask = ({
 
     try {
       const res = await TaskAPI.updateTask(task._id, taskData);
-      alert(res.data.message);
+      toast.success(res.data.message);
     } catch (error) {
       console.error("Error updating task:", error.response);
     } finally {

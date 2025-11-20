@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 // prettier-ignore
 import { CalendarDays, User, Flag, ChevronRight, ChevronLeft, FolderKanban, AlertCircle } from "lucide-react";
+import { toast } from "react-toastify";
 import { TaskAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
 import formatText from "../../utils/textFormater";
@@ -57,7 +58,7 @@ const Tasks = () => {
       setTask((prev) =>
         prev.map((t) => (t._id === taskId ? { ...t, status: newStatus } : t))
       );
-      alert(res.data.message);
+      toast.success(res.data.message);
     } catch (err) {
       console.error("Error updating status:", err.response);
     }
@@ -83,7 +84,7 @@ const Tasks = () => {
 
     try {
       const res = await TaskAPI.updateSubtasks(id, data);
-      alert(res.data.message);
+      toast.success(res.data.message);
 
       // Updating UI state instead of full refresh
       setTask((prev) =>
@@ -236,7 +237,7 @@ const Tasks = () => {
                           No tasks here yet.
                         </p>
                         <p className="text-xs mt-1">
-                          Drag or create a new task.
+                          Create or join a new task.
                         </p>
                       </div>
                     )}

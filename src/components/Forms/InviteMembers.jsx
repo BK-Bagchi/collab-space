@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { Users } from "lucide-react";
 import { ProjectAPI, UserAPI } from "../../api";
 
@@ -65,8 +66,7 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
       setSubmitting(true);
       // send invite to selected members
       const res = await ProjectAPI.inviteMember(project._id, payload);
-
-      alert(res.data.message);
+      toast.success(res.data.message);
       setInviteModal(false);
       setSelectedProject(null);
     } catch (error) {
