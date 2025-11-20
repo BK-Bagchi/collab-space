@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { adminLinks, bottomLinks, commonLinks } from "./sidebarLinks";
 import { useAuth } from "../../../hooks/useAuth";
 import Avatar from "../../../assets/Default_Avatar.jpg";
@@ -7,8 +7,14 @@ import formatText from "../../../utils/textFormater";
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
+  const location = useLocation();
   const { name: userName, role: userRole, avatar: userAvatar } = user || {};
-  const [activeRoute, setActiveRoute] = useState("/dashboard");
+  const [activeRoute, setActiveRoute] = useState(location.pathname);
+
+  useEffect(() => {
+    if (location.pathname.includes("logout")) return logout();
+    setActiveRoute(location.pathname);
+  }, [location, logout]);
 
   return (
     <aside className="flex flex-col justify-between h-screen px-3 py-6 bg-charcoalGray text-softWhite w-[250px]">
@@ -51,7 +57,6 @@ const Sidebar = () => {
               className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-[#2979FF] hover:text-white transition ${
                 activeRoute === link.route ? "bg-electricBlue text-white" : ""
               }`}
-              onClick={() => setActiveRoute(link.route)}
             >
               {link.icon}
               <span>{link.name}</span>
@@ -73,7 +78,6 @@ const Sidebar = () => {
                     ? "bg-vibrantPurple text-white"
                     : ""
                 }`}
-                onClick={() => setActiveRoute(link.route)}
               >
                 {link.icon}
                 <span>{link.name}</span>
@@ -85,16 +89,13 @@ const Sidebar = () => {
       {/* Bottom Links */}
       <div className="flex flex-col gap-2">
         {bottomLinks.map((link) => {
-          const handelClick = () => {
-            if (link.name === "Logout") logout();
-            else setActiveRoute(link.route);
-          };
           return (
             <Link
               key={link.name}
               to={link.route}
-              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-[#26A69A] hover:text-white transition"
-              onClick={handelClick}
+              className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-[#26A69A] hover:text-white transition ${
+                activeRoute === link.route ? "bg-tealGreen text-white" : ""
+              }`}
             >
               {link.icon}
               <span>{link.name}</span>
