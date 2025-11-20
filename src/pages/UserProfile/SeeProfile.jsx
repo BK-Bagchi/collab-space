@@ -1,8 +1,8 @@
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import Modal from "../../components/Modal/Modal";
 import { useAuth } from "../../hooks/useAuth";
-import { ProjectAPI, UserAPI } from "../../api";
+import { UserAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
 import EditProfile from "../../components/Forms/EditProfile";
 import formatText from "../../utils/textFormater";
@@ -24,7 +24,9 @@ const SeeProfile = () => {
   const [passwordModal, setPasswordModal] = useState(false); // Change Password
 
   const [user, setUser] = useState({});
-  setContextUser(user);
+  useEffect(() => {
+    setContextUser(user);
+  }, [user, setContextUser]);
 
   const [loading, setLoading] = useState(true);
 
