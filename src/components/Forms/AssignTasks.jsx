@@ -1,16 +1,13 @@
 import { useState } from "react";
-import { UserPlus, CheckCircle2, PlusCircle, Trash2, X } from "lucide-react";
+//prettier-ignore
+import { UserPlus, CheckCircle2, PlusCircle, Trash2, X, Edit2, Calendar, Tag, ListCheck } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { assignTaskSchema } from "../../validations/task.validation";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import { TaskAPI } from "../../api";
 
-const AssignedTasks = ({
-  project,
-  setAssignedTaskModal,
-  setSelectedProject,
-}) => {
+const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [selectedMembersError, setSelectedMembersError] = useState({
     status: false,
@@ -70,7 +67,7 @@ const AssignedTasks = ({
   };
 
   return (
-    <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 relative">
+    <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 relative overflow-auto max-h-[90vh]">
       {/* Header */}
       <div className="flex items-center gap-2 mb-5">
         <UserPlus className="text-electricBlue" size={20} />
@@ -82,13 +79,18 @@ const AssignedTasks = ({
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Task Input */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">Task Title</label>
-          <input
-            type="text"
-            {...register("title")}
-            placeholder="Enter task title..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
-          />
+          <label className="block font-medium mb-1">
+            Task Title <span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <input
+              type="text"
+              {...register("title")}
+              placeholder="Enter task title..."
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+            />
+            <Edit2 className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+          </div>
           {errors.title && (
             <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>
           )}
@@ -96,20 +98,23 @@ const AssignedTasks = ({
 
         {/* Status Section */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">
-            Task Status
+          <label className="block font-medium mb-1">
+            Task Status <span className="text-red-500">*</span>
           </label>
-          <select
-            {...register("status")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
-          >
-            <option value="" className="hidden">
-              Select status
-            </option>
-            <option value="TODO">To Do</option>
-            <option value="IN_PROGRESS">In Progress</option>
-            <option value="DONE">Completed</option>
-          </select>
+          <div className="relative">
+            <select
+              {...register("status")}
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+            >
+              <option value="" className="hidden">
+                Select status
+              </option>
+              <option value="TODO">To Do</option>
+              <option value="IN_PROGRESS">In Progress</option>
+              <option value="DONE">Completed</option>
+            </select>
+            <CheckCircle2 className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+          </div>
           {errors.status && (
             <p className="text-red-500 text-xs mt-1">{errors.status.message}</p>
           )}
@@ -117,12 +122,17 @@ const AssignedTasks = ({
 
         {/* Due Date Section */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">Due Date</label>
-          <input
-            type="date"
-            {...register("dueDate")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
-          />
+          <label className="block font-medium mb-1">
+            Due Date <span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <input
+              type="date"
+              {...register("dueDate")}
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+            />
+            <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+          </div>
           {errors.dueDate && (
             <p className="text-red-500 text-xs mt-1">
               {errors.dueDate.message}
@@ -132,18 +142,23 @@ const AssignedTasks = ({
 
         {/* Priority Section */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">Priority</label>
-          <select
-            {...register("priority")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
-          >
-            <option className="hidden" value="">
-              Select priority
-            </option>
-            <option value="LOW">Low</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="HIGH">High</option>
-          </select>
+          <label className="block font-medium mb-1">
+            Priority <span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <select
+              {...register("priority")}
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+            >
+              <option className="hidden" value="">
+                Select priority
+              </option>
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
+            </select>
+            <Tag className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+          </div>
           {errors.priority && (
             <p className="text-red-500 text-xs mt-1">
               {errors.priority.message}
@@ -153,16 +168,21 @@ const AssignedTasks = ({
 
         {/* Subtasks Section */}
         <div className="mb-5">
-          <label className="block text-sm text-gray-600 mb-2">Subtasks</label>
+          <label className="block font-medium mb-2">
+            Subtasks <span className="text-red-500">*</span>
+          </label>
           <div className="space-y-2">
             {fields.map((field, index) => (
               <div key={field.id} className="flex items-center gap-2">
-                <input
-                  type="text"
-                  {...register(`subtasks.${index}.title`)}
-                  placeholder={`Subtask ${index + 1}`}
-                  className="flex-1 px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
-                />
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    {...register(`subtasks.${index}.title`)}
+                    placeholder={`Subtask ${index + 1}`}
+                    className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+                  />
+                  <ListCheck className="absolute left-3 top-1.5 h-4 w-4 text-gray-500" />
+                </div>
                 {fields.length > 1 && (
                   <button
                     type="button"
@@ -233,7 +253,7 @@ const AssignedTasks = ({
             </p>
           )}
           <h3 className="text-sm font-medium text-gray-700 mb-2">
-            Select Members
+            Members <span className="text-red-500">*</span>
           </h3>
           <div className="flex flex-wrap gap-4">
             {project.members.length > 0 ? (
@@ -288,7 +308,7 @@ const AssignedTasks = ({
           </button>
           <button
             type="submit"
-            className="px-4 py-2 text-sm rounded-md bg-electricBlue text-white hover:bg-blue-600 transition"
+            className="px-4 py-2 text-sm rounded-md bg-[#2979FF] text-white hover:bg-blue-600 transition"
           >
             {isSubmitting ? "Assigning..." : "Assign Task"}
           </button>
@@ -298,4 +318,4 @@ const AssignedTasks = ({
   );
 };
 
-export default AssignedTasks;
+export default AssignTasks;

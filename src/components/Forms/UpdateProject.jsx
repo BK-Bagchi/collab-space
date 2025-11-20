@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Calendar, FileText, FolderKanban, Palette, Users } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { projectSchema } from "../../validations/project.validation";
@@ -97,14 +98,20 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Project Title */}
         <div className="text-charcoalGray">
-          <label className="block font-medium mb-1">Title</label>
-          <input
-            type="text"
-            {...register("title")}
-            placeholder="Enter project title"
-            required
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
-          />
+          <label className="block font-medium mb-1">
+            Title <span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <input
+              type="text"
+              {...register("title")}
+              placeholder="Enter project title"
+              required
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+            />
+            <FolderKanban className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
+          </div>
+
           {errors.title && (
             <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
           )}
@@ -112,13 +119,19 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
 
         {/* Description */}
         <div className="text-charcoalGray">
-          <label className="block font-medium mb-1">Description</label>
-          <textarea
-            {...register("description")}
-            placeholder="Describe your project"
-            required
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
-          />
+          <label className="block font-medium mb-1">
+            Description <span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <textarea
+              {...register("description")}
+              placeholder="Describe your project"
+              required
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+            />
+            <FileText className="absolute left-3 top-3 h-5 w-5 text-gray-500" />
+          </div>
+
           {errors.description && (
             <p className="text-red-500 text-sm mt-1">
               {errors.description.message}
@@ -128,12 +141,18 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
 
         {/* Color */}
         <div className="text-charcoalGray">
-          <label className="block font-medium mb-1">Project Color</label>
-          <input
-            type="color"
-            {...register("color")}
-            className="w-16 h-10 p-1 border rounded-lg cursor-pointer"
-          />
+          <label className="block font-medium mb-1">
+            Project Color <span className="text-red-500">*</span>
+          </label>
+          <div className="flex items-center gap-3">
+            <Palette className="h-6 w-6 text-gray-600" />
+            <input
+              type="color"
+              {...register("color")}
+              className="w-16 h-10 p-1 border rounded-lg cursor-pointer"
+            />
+          </div>
+
           {errors.color && (
             <p className="text-red-500 text-sm mt-1">{errors.color.message}</p>
           )}
@@ -141,13 +160,19 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
 
         {/* Deadline */}
         <div className="text-charcoalGray">
-          <label className="block font-medium mb-1">Deadline</label>
-          <input
-            type="date"
-            {...register("deadline")}
-            required
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
-          />
+          <label className="block font-medium mb-1">
+            Deadline <span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <input
+              type="date"
+              {...register("deadline")}
+              required
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+            />
+            <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
+          </div>
+
           {errors.deadline && (
             <p className="text-red-500 text-sm mt-1">
               {errors.deadline.message}
@@ -158,16 +183,21 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
         {/* Members */}
         <div className="text-charcoalGray">
           <label className="block font-medium mb-1">
-            Members (emails, comma separated)
+            Members (find by email)
+            <span className="text-red-500">*</span>
           </label>
-          <input
-            type="text"
-            {...register("members")}
-            placeholder="e.g. dipto@example.com, bk@example.com"
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
-            onChange={handleMembersChange}
-          />
-          {/* 👤 Selected Avatars */}
+          <div className="relative">
+            <input
+              type="text"
+              {...register("members")}
+              placeholder="e.g. dipto@example.com, bk@example.com"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+              onChange={handleMembersChange}
+            />
+            <Users className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
+          </div>
+
+          {/* Selected Avatars */}
           {selectedMembers &&
             selectedMembers.map((member) => {
               const { _id, name } = member;
@@ -187,35 +217,33 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
                 </p>
               );
             })}
-          {/* 👤 Dynamic Avatars */}
+
+          {/* Dynamic Avatars */}
           <div className="flex flex-wrap gap-4 mt-3">
             {searchedMembers &&
               searchedMembers.map((member) => {
                 const { _id, name, email, avatar } = member;
                 const initials = email.charAt(0).toUpperCase();
+
                 return (
                   <div
                     key={_id}
                     className="flex flex-col items-center text-center"
                     onClick={() =>
-                      //include this member in list
                       setSelectedMembers((prev) => [...prev, member])
                     }
                   >
-                    {
-                      // Avatar
-                      avatar ? (
-                        <img
-                          src={avatar}
-                          alt={name}
-                          className="w-12 h-12 rounded-full cursor-pointer shadow-sm"
-                        />
-                      ) : (
-                        <div className="w-12 h-12 rounded-full cursor-pointer bg-electricBlue text-softWhite flex items-center justify-center text-lg font-semibold shadow-sm">
-                          {initials}
-                        </div>
-                      )
-                    }
+                    {avatar ? (
+                      <img
+                        src={avatar}
+                        alt={name}
+                        className="w-12 h-12 rounded-full cursor-pointer shadow-sm"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full cursor-pointer bg-electricBlue text-softWhite flex items-center justify-center text-lg font-semibold shadow-sm">
+                        {initials}
+                      </div>
+                    )}
                     <p className="text-xs text-gray-600 mt-1 truncate max-w-[80px]">
                       {name}
                     </p>
@@ -223,6 +251,7 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
                 );
               })}
           </div>
+
           {errors.members && (
             <p className="text-red-500 text-sm mt-1">
               {errors.members.message}
@@ -239,13 +268,14 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
           >
             Cancel
           </button>
+
           <button
             type="submit"
-            className="px-4 py-2 bg-vibrantPurple text-softWhite rounded-lg hover:bg-[#751C8E] transition"
+            className="px-4 py-2 bg-[#8E24AA] text-softWhite rounded-lg hover:bg-[#751C8E] transition"
           >
             {isSubmitting ? "Updating..." : "Update Project"}
           </button>
-          {/* Error while updating project */}
+
           {updatingProjectError.status && (
             <p className="text-red-500 text-sm mt-1">
               {updatingProjectError.message}

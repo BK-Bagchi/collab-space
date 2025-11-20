@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/useAuth";
 import CreatedProjects from "./Components/CreatedProjects";
 import JoinedProjects from "./Components/JoinedProjects";
 import ProjectDetails from "./Components/ProjectDetails";
-import AssignedTasks from "../../components/Forms/AssignedTasks";
+import AssignTasks from "../../components/Forms/AssignTasks";
 import Loading from "../../components/Loading/Loading";
 
 const Projects = () => {
@@ -151,7 +151,7 @@ const Projects = () => {
       {assignedTaskModal && (
         <Modal
           render={
-            <AssignedTasks
+            <AssignTasks
               project={selectedProject}
               setAssignedTaskModal={setAssignedTaskModal}
               setSelectedProject={setSelectedProject}

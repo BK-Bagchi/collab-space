@@ -1,10 +1,15 @@
 import { useState } from "react";
+import { Eye, EyeOff, Lock } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { passwordSchema } from "../../validations/user.validation";
 import { UserAPI } from "../../api";
 
 const ChangePassword = ({ setActiveModal }) => {
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const [passwordError, setPasswordError] = useState({
     status: false,
     message: "",
@@ -34,52 +39,89 @@ const ChangePassword = ({ setActiveModal }) => {
 
       <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
         {/* Current Password */}
-        <div>
+        <label className="text-sm font-semibold text-charcoalGray">
+          Current Password <span className="text-red-500">*</span>
+        </label>
+        <div className="relative">
+          <Lock className="absolute left-3 top-3 text-gray-500" size={18} />
           <input
-            type="password"
+            type={showCurrent ? "text" : "password"}
             placeholder="Current Password"
             {...register("currentPassword")}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+            className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite 
+                   focus:ring-2 focus:ring-[#2979FF] outline-none"
           />
-          {errors.currentPassword && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.currentPassword.message}
-            </p>
-          )}
+          <button
+            type="button"
+            onClick={() => setShowCurrent(!showCurrent)}
+            className="absolute right-3 top-2.5 text-gray-600 hover:text-gray-800"
+          >
+            {showCurrent ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
         </div>
+        {errors.currentPassword && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.currentPassword.message}
+          </p>
+        )}
 
         {/* New Password */}
-        <div>
+        <label className="text-sm font-semibold text-charcoalGray">
+          New Password <span className="text-red-500">*</span>
+        </label>
+        <div className="relative">
+          <Lock className="absolute left-3 top-3 text-gray-500" size={18} />
           <input
-            type="password"
+            type={showNew ? "text" : "password"}
             placeholder="New Password"
             {...register("newPassword")}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+            className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite 
+                   focus:ring-2 focus:ring-[#2979FF] outline-none"
           />
-          {errors.newPassword && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.newPassword.message}
-            </p>
-          )}
+          <button
+            type="button"
+            onClick={() => setShowNew(!showNew)}
+            className="absolute right-3 top-2.5 text-gray-600 hover:text-gray-800"
+          >
+            {showNew ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
         </div>
+        {errors.newPassword && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.newPassword.message}
+          </p>
+        )}
 
         {/* Confirm Password */}
-        <div>
+        <label className="text-sm font-semibold text-charcoalGray">
+          Confirm New Password <span className="text-red-500">*</span>
+        </label>
+        <div className="relative">
+          <Lock className="absolute left-3 top-3 text-gray-500" size={18} />
           <input
-            type="password"
+            type={showConfirm ? "text" : "password"}
             placeholder="Confirm New Password"
             {...register("confirmPassword")}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+            className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite 
+                   focus:ring-2 focus:ring-[#2979FF] outline-none"
           />
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.confirmPassword.message}
-            </p>
-          )}
-          {passwordError.status && (
-            <p className="text-red-500 text-sm mt-1">{passwordError.message}</p>
-          )}
+          <button
+            type="button"
+            onClick={() => setShowConfirm(!showConfirm)}
+            className="absolute right-3 top-2.5 text-gray-600 hover:text-gray-800"
+          >
+            {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
         </div>
+
+        {errors.confirmPassword && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.confirmPassword.message}
+          </p>
+        )}
+        {passwordError.status && (
+          <p className="text-red-500 text-sm mt-1">{passwordError.message}</p>
+        )}
 
         {/* Buttons */}
         <div className="flex justify-end gap-3 pt-3">
@@ -90,10 +132,12 @@ const ChangePassword = ({ setActiveModal }) => {
           >
             Cancel
           </button>
+
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-4 py-1 bg-[#8E24AA] text-softWhite rounded-lg hover:bg-[#751C8E] transition disabled:opacity-60"
+            className="px-4 py-1 bg-[#8E24AA] text-softWhite rounded-lg hover:bg-[#751C8E] 
+                   transition disabled:opacity-60"
           >
             {isSubmitting ? "Saving..." : "Update Password"}
           </button>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { MessageSquare, UploadCloud, User } from "lucide-react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,45 +58,70 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
         Edit Profile
       </h3>
 
-      <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
-        <div>
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        {/* Full Name */}
+        <label className="text-sm font-semibold text-charcoalGray">
+          Full Name <span className="text-red-500">*</span>
+        </label>
+        <div className="relative">
+          <User className="absolute left-3 top-3 text-gray-500" size={18} />
           <input
             type="text"
             placeholder="Full Name"
             {...register("name")}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+            className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 bg-softWhite 
+                     focus:ring-2 focus:ring-[#2979FF] outline-none"
           />
-          {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-          )}
         </div>
+        {errors.name && (
+          <p className="text-red-500 text-sm">{errors.name.message}</p>
+        )}
 
-        <div>
+        {/* Bio */}
+        <label className="text-sm font-semibold text-charcoalGray">
+          Bio <span className="text-red-500">*</span>
+        </label>
+        <div className="relative">
+          <MessageSquare
+            className="absolute left-3 top-3 text-gray-500"
+            size={18}
+          />
           <textarea
-            placeholder="Bio"
+            placeholder="Write something about yourself…"
             {...register("bio")}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+            className="w-full pl-10 pr-3 py-2 h-24 rounded-lg border border-gray-300 bg-softWhite 
+                     focus:ring-2 focus:ring-[#2979FF] outline-none resize-none"
           />
-          {errors.bio && (
-            <p className="text-red-500 text-sm mt-1">{errors.bio.message}</p>
-          )}
+        </div>
+        {errors.bio && (
+          <p className="text-red-500 text-sm">{errors.bio.message}</p>
+        )}
+
+        {/* Image Upload */}
+        <label className="text-sm font-semibold text-charcoalGray">
+          Profile Picture <span className="text-red-500">*</span>
+        </label>
+        <div className="flex items-center gap-3">
+          <label className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-electricBlue text-white rounded-lg hover:bg-[#1E63D0] transition">
+            <UploadCloud size={18} />
+            <span>Upload</span>
+            <input
+              type="file"
+              accept="image/*"
+              {...register("image")}
+              className="hidden"
+            />
+          </label>
         </div>
 
-        <div>
-          <input
-            type="file"
-            accept="image/*"
-            {...register("image")}
-            className="w-full file:mr-3 file:py-2 file:px-3 file:rounded-md file:border-0 file:bg-[#2979FF] file:text-white hover:file:bg-[#1E63D0]"
-          />
-          {errors.image && (
-            <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
-          )}
-          {editError.status && (
-            <p className="text-red-500 text-sm mt-1">{editError.message}</p>
-          )}
-        </div>
+        {errors.image && (
+          <p className="text-red-500 text-sm">{errors.image.message}</p>
+        )}
+        {editError.status && (
+          <p className="text-red-500 text-sm">{editError.message}</p>
+        )}
 
+        {/* Buttons */}
         <div className="flex justify-end gap-3 pt-3">
           <button
             type="button"
@@ -108,7 +134,7 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-4 py-1 bg-[#8E24AA] text-softWhite rounded-lg hover:bg-[#751C8E] transition"
+            className="px-4 py-1 bg-[#8E24AA] text-softWhite rounded-lg hover:bg-[#751C8E] transition disabled:opacity-60"
           >
             {isSubmitting ? "Saving..." : "Save Changes"}
           </button>

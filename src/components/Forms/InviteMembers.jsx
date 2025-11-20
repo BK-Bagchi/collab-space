@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Users } from "lucide-react";
 import { ProjectAPI, UserAPI } from "../../api";
 
 const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
@@ -89,16 +90,20 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
         {/* Members */}
         <div className="text-charcoalGray">
           <label className="block font-medium mb-1">
-            Members (emails, comma separated)
+            Members (search by email) <span className="text-red-500">*</span>
           </label>
-          <input
-            type="text"
-            name="members"
-            placeholder="e.g. dipto@example.com, bk@example.com"
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
-            onChange={handleMembersChange}
-          />
-          {/* 👤 Selected Avatars */}
+          <div className="relative">
+            <input
+              type="text"
+              name="members"
+              placeholder="e.g. dipto@example.com, bk@example.com"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+              onChange={handleMembersChange}
+            />
+            <Users className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
+          </div>
+
+          {/* Selected Avatars */}
           {selectedMembers &&
             selectedMembers.map((member) => {
               const { _id, name } = member;
@@ -118,7 +123,8 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
                 </p>
               );
             })}
-          {/* 👤 Dynamic Avatars */}
+
+          {/* Dynamic Avatars */}
           <div className="flex flex-wrap gap-4 mt-3">
             {searchedMembers &&
               searchedMembers.map((member) => {
@@ -129,24 +135,20 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
                     key={_id}
                     className="flex flex-col items-center text-center"
                     onClick={() =>
-                      //include this member in list
                       setSelectedMembers((prev) => [...prev, member])
                     }
                   >
-                    {
-                      // Avatar
-                      avatar ? (
-                        <img
-                          src={avatar}
-                          alt={name}
-                          className="w-12 h-12 rounded-full cursor-pointer shadow-sm"
-                        />
-                      ) : (
-                        <div className="w-12 h-12 rounded-full cursor-pointer bg-electricBlue text-softWhite flex items-center justify-center text-lg font-semibold shadow-sm">
-                          {initials}
-                        </div>
-                      )
-                    }
+                    {avatar ? (
+                      <img
+                        src={avatar}
+                        alt={name}
+                        className="w-12 h-12 rounded-full cursor-pointer shadow-sm"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full cursor-pointer bg-electricBlue text-softWhite flex items-center justify-center text-lg font-semibold shadow-sm">
+                        {initials}
+                      </div>
+                    )}
                     <p className="text-xs text-gray-600 mt-1 truncate max-w-[80px]">
                       {name}
                     </p>
@@ -167,11 +169,11 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-vibrantPurple text-softWhite rounded-lg hover:bg-[#751C8E] transition"
+            className="px-4 py-2 bg-[#8E24AA] text-softWhite rounded-lg hover:bg-[#751C8E] transition"
           >
             {submitting ? "Inviting..." : "Invite Members"}
           </button>
-          {/* Error while updating project */}
+          {/* Error while inviting members */}
           {invitingError.status && (
             <p className="text-red-500 text-sm mt-1">{invitingError.message}</p>
           )}

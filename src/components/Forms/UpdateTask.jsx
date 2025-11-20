@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { UserPlus, CheckCircle2, PlusCircle, Trash2, X } from "lucide-react";
+//prettier-ignore
+import { UserPlus, Calendar, Tag, CheckCircle2, Trash2, PlusCircle, Edit3, X } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { assignTaskSchema } from "../../validations/task.validation";
@@ -77,7 +78,7 @@ const UpdateTask = ({
   };
 
   return (
-    <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 relative">
+    <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 relative max-h-screen overflow-y-auto scrollbar-hide">
       {/* Header */}
       <div className="flex items-center gap-2 mb-5">
         <UserPlus className="text-electricBlue" size={20} />
@@ -87,49 +88,62 @@ const UpdateTask = ({
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Task Input */}
+        {/* Task Title */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">Task Title</label>
-          <input
-            type="text"
-            {...register("title")}
-            placeholder="Enter task title..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
-          />
+          <label className="block font-medium mb-1">
+            Task Title <span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <input
+              type="text"
+              {...register("title")}
+              placeholder="Enter task title..."
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+            />
+            <Edit3 className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+          </div>
           {errors.title && (
             <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>
           )}
         </div>
 
-        {/* Status Section */}
+        {/* Task Status */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">
-            Task Status
+          <label className="block font-medium mb-1">
+            Task Status <span className="text-red-500">*</span>
           </label>
-          <select
-            {...register("status")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
-          >
-            <option value="" className="hidden">
-              Select status
-            </option>
-            <option value="TODO">To Do</option>
-            <option value="IN_PROGRESS">In Progress</option>
-            <option value="DONE">Completed</option>
-          </select>
+          <div className="relative">
+            <select
+              {...register("status")}
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+            >
+              <option value="" className="hidden">
+                Select status
+              </option>
+              <option value="TODO">To Do</option>
+              <option value="IN_PROGRESS">In Progress</option>
+              <option value="DONE">Completed</option>
+            </select>
+            <CheckCircle2 className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+          </div>
           {errors.status && (
             <p className="text-red-500 text-xs mt-1">{errors.status.message}</p>
           )}
         </div>
 
-        {/* Due Date Section */}
+        {/* Due Date */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">Due Date</label>
-          <input
-            type="date"
-            {...register("dueDate")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
-          />
+          <label className="block font-medium mb-1">
+            Due Date <span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <input
+              type="date"
+              {...register("dueDate")}
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+            />
+            <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+          </div>
           {errors.dueDate && (
             <p className="text-red-500 text-xs mt-1">
               {errors.dueDate.message}
@@ -137,20 +151,25 @@ const UpdateTask = ({
           )}
         </div>
 
-        {/* Priority Section */}
+        {/* Priority */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">Priority</label>
-          <select
-            {...register("priority")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
-          >
-            <option className="hidden" value="">
-              Select priority
-            </option>
-            <option value="LOW">Low</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="HIGH">High</option>
-          </select>
+          <label className="block font-medium mb-1">
+            Priority <span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <select
+              {...register("priority")}
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+            >
+              <option value="" className="hidden">
+                Select priority
+              </option>
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
+            </select>
+            <Tag className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+          </div>
           {errors.priority && (
             <p className="text-red-500 text-xs mt-1">
               {errors.priority.message}
@@ -158,9 +177,11 @@ const UpdateTask = ({
           )}
         </div>
 
-        {/* Subtasks Section */}
+        {/* Subtasks */}
         <div className="mb-5">
-          <label className="block text-sm text-gray-600 mb-2">Subtasks</label>
+          <label className="block font-medium mb-2">
+            Subtasks <span className="text-red-500">*</span>
+          </label>
           <div className="space-y-2">
             {fields.map((field, index) => (
               <div key={field.id} className="flex items-center gap-2">
@@ -182,8 +203,6 @@ const UpdateTask = ({
               </div>
             ))}
           </div>
-
-          {/* Subtask validation errors */}
           {errors.subtasks &&
             errors.subtasks.map(
               (err, index) =>
@@ -193,7 +212,6 @@ const UpdateTask = ({
                   </p>
                 )
             )}
-
           <button
             type="button"
             onClick={() => append({ title: "" })}
@@ -214,7 +232,6 @@ const UpdateTask = ({
                   className="w-8 h-8 rounded-full border-2 border-[#2979FF] shadow-sm"
                   title={m.name}
                 />
-
                 <button
                   type="button"
                   onClick={() =>
@@ -239,9 +256,9 @@ const UpdateTask = ({
               {selectedMembersError.message}
             </p>
           )}
-          <h3 className="text-sm font-medium text-gray-700 mb-2">
-            Select Members
-          </h3>
+          <label className="block font-medium mb-1">
+            Members <span className="text-red-500">*</span>
+          </label>
           <div className="flex flex-wrap gap-4">
             {project.members.length > 0 ? (
               project.members.map((member) => {
@@ -284,7 +301,7 @@ const UpdateTask = ({
           </div>
         </div>
 
-        {/* Footer */}
+        {/* Footer Buttons */}
         <div className="flex justify-end gap-3 mt-6">
           <button
             type="button"
@@ -295,7 +312,7 @@ const UpdateTask = ({
           </button>
           <button
             type="submit"
-            className="px-4 py-2 text-sm rounded-md bg-electricBlue text-white hover:bg-blue-600 transition"
+            className="px-4 py-2 text-sm rounded-md bg-[#2979FF] text-white hover:bg-blue-600 transition"
           >
             {isSubmitting ? "Updating..." : "Update Task"}
           </button>
