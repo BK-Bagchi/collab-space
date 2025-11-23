@@ -21,7 +21,7 @@ const Register = () => {
   const { handleGoogleLogin, error } = useGoogleAuth();
 
   // prettier-ignore
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(registrationSchema),
   })
 
@@ -151,7 +151,7 @@ const Register = () => {
             type="submit"
             className="w-full py-2 rounded-lg bg-electricBlue text-softWhite font-semibold transition"
           >
-            Sign Up
+            {isSubmitting ? "Registering..." : "Register"}
           </button>
         </form>
 

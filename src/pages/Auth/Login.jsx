@@ -17,7 +17,7 @@ const LoginPage = () => {
   const { handleGoogleLogin, error } = useGoogleAuth();
 
   //prettier-ignore
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(loginSchema),
   });
 
@@ -129,7 +129,7 @@ const LoginPage = () => {
             className="w-full py-2 rounded-lg bg-electricBlue text-softWhite 
           font-semibold heading-font transition hover:opacity-90 shadow-md"
           >
-            Login
+            {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
 
