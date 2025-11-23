@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FolderOpen, Plus } from "lucide-react";
+import { toast } from "react-toastify";
 import Modal from "../../components/Modal/Modal";
 import InviteMembers from "../../components/Forms/InviteMembers";
 import CreateProject from "../../components/Forms/CreateProject";
-import { ProjectAPI, TaskAPI } from "../../api";
+import { ProjectAPI } from "../../api";
 import UpdateProject from "../../components/Forms/UpdateProject";
 import { useAuth } from "../../hooks/useAuth";
 import CreatedProjects from "./Components/CreatedProjects";
@@ -11,7 +12,6 @@ import JoinedProjects from "./Components/JoinedProjects";
 import ProjectDetails from "./Components/ProjectDetails";
 import AssignTasks from "../../components/Forms/AssignTasks";
 import Loading from "../../components/Loading/Loading";
-import { toast } from "react-toastify";
 
 const Projects = () => {
   const { user } = useAuth();
@@ -30,13 +30,13 @@ const Projects = () => {
         const { projects } = res.data;
         setProjects(projects);
       } catch (error) {
-        console.warn("Error fetching projects:", error.response.data.message);
+        console.warn("Error fetching projects:", error.response?.data.message);
       } finally {
         setLoading(false);
       }
     };
     fetchProjects();
-  }, [inviteModal, createModal, updateModal]);
+  }, [inviteModal, createModal, updateModal, projects]);
   // console.log(projects);
   // console.log(selectedProject);
 

@@ -80,7 +80,7 @@ const JoinedProjects = ({ joinedProjects }) => {
               <div className="mt-3 border-t border-gray-200 pt-2">
                 <button className="flex items-center gap-2 text-sm text-gray-700 font-medium hover:text-electricBlue transition">
                   <CornerDownRight size={16} />
-                  {project.tasks.length} Assigned Task(s)
+                  {project.tasks?.length} Assigned Task(s)
                 </button>
               </div>
             </div>

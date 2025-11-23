@@ -20,6 +20,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
     defaultValues: {
       title: "",
       subtasks: [{ title: "" }],
+      status: "TODO",
     },
   });
   const { fields, append, remove } = useFieldArray({
@@ -111,8 +112,6 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
                 Select status
               </option>
               <option value="TODO">To Do</option>
-              <option value="IN_PROGRESS">In Progress</option>
-              <option value="DONE">Completed</option>
             </select>
             <CheckCircle2 className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
           </div>
