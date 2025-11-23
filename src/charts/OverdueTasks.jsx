@@ -77,7 +77,7 @@ const OverdueTasks = ({ tasks }) => {
         totalTasks > 0 && (
           <div className="flex flex-col items-center justify-center py-4">
             <div className="h-64 w-full">
-              <ResponsiveContainer>
+              <ResponsiveContainer width="100%" height={260}>
                 <PieChart>
                   <Pie
                     data={data}

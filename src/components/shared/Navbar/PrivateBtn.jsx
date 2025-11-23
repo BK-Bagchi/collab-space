@@ -11,7 +11,7 @@ import Modal from "../../Modal/Modal";
 import CreateProject from "../../Forms/CreateProject";
 
 const PrivateBtn = () => {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const { unread, markAsRead } = useNotification();
 
   const [openNotification, setOpenNotification] = useState(false);
@@ -73,7 +73,15 @@ const PrivateBtn = () => {
         bg-electricBlue text-softWhite hover:bg-white hover:text-charcoalGray 
         transition shadow-sm cursor-pointer"
         >
-          <UserRound size={20} />
+          {user?.avatar ? (
+            <img
+              className="h-full w-full rounded-full"
+              src={user?.avatar}
+              alt={user?.name}
+            />
+          ) : (
+            <UserRound size={20} />
+          )}
         </label>
 
         <ul
