@@ -61,10 +61,10 @@ const LivePreview = () => {
               >
                 {Icon && <Icon size={28} />}
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-charcoalGray">
+              <h3 className="text-lg font-semibold mb-2 text-charcoalGray heading-font">
                 {preview.title}
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed text-center">
+              <p className="text-gray-600 text-sm leading-relaxed text-center body-font">
                 {preview.text}
               </p>
             </div>

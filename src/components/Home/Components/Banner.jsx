@@ -21,7 +21,7 @@ const Banner = () => {
         <div className="flex gap-4">
           <Link
             to={loggedIn ? "/dashboard" : "/register"}
-            className="px-6 py-3 bg-white text-electricBlue font-semibold rounded-lg hover:bg-[#E3F2FD] transition"
+            className="px-6 py-3 bg-white text-electricBlue font-semibold rounded-lg hover:bg-[#E3F2FD] transition logo-font"
           >
             Get Started
           </Link>
@@ -29,7 +29,7 @@ const Banner = () => {
           {!loggedIn && (
             <Link
               to="/login"
-              className="px-6 py-3 border border-white font-semibold rounded-lg hover:bg-white hover:text-charcoalGray transition"
+              className="px-6 py-3 border border-white font-semibold rounded-lg hover:bg-white hover:text-charcoalGray transition logo-font"
             >
               Login
             </Link>
