@@ -54,7 +54,10 @@ const ManageUsers = () => {
         ) : (
           <div className="flex flex-col items-center justify-center mt-20 text-gray-400">
             <FolderKanban size={40} className="mb-3 text-gray-300" />
-            <p className="text-sm">You have not created any projects yet.</p>
+            <p className="text-sm font-medium mb-2">No projects found</p>
+            <p className="text-xs text-gray-400">
+              Once you create a project, you’ll see their activities here.
+            </p>
           </div>
         )}
       </Loading>

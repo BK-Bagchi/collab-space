@@ -8,8 +8,10 @@ import TeamProgress from "../../charts/TeamActivity/TeamProgress";
 import DeadlineProgress from "../../charts/TeamActivity/DeadlineProgress";
 import ProjectDetailsCard from "../../components/ProjectDetailsCard/ProjectDetailsCard";
 import Loading from "../../components/Loading/Loading";
+import { useAuth } from "../../hooks/useAuth";
 
 const TeamActivity = () => {
+  const { user } = useAuth();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -28,20 +30,24 @@ const TeamActivity = () => {
     fetchProjects();
   }, []);
 
+  const createdProject = projects.filter(
+    (project) => project.createdBy._id === user._id
+  );
+
   return (
     <div className="p-6 space-y-8">
       <Loading loading={loading}>
         {/* 🔹 Top Section — Project Progress Summary */}
-        {projects.length > 0 && (
+        {createdProject.length > 0 && (
           <div>
-            <ProjectProgress projectList={projects} />
+            <ProjectProgress projectList={createdProject} />
           </div>
         )}
 
         {/* 🔹 Second Section — Individual Project Activity */}
         <div className="space-y-8">
-          {projects.length > 0 ? (
-            projects.map((project) => (
+          {createdProject.length > 0 ? (
+            createdProject.map((project) => (
               <div
                 key={project._id}
                 className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition"
@@ -75,8 +81,7 @@ const TeamActivity = () => {
               <FolderKanban size={40} className="mb-3 text-gray-300" />
               <p className="text-sm font-medium mb-2">No projects found</p>
               <p className="text-xs text-gray-400">
-                Once projects are created or assigned, you’ll see their
-                activities here.
+                Once you create a project, you’ll see their activities here.
               </p>
             </div>
           )}

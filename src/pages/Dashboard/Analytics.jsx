@@ -47,8 +47,7 @@ const Analytics = () => {
             <FolderKanban size={40} className="mb-3 text-gray-300" />
             <p className="text-sm font-medium mb-2">No projects found</p>
             <p className="text-xs text-gray-400">
-              Once projects are created or assigned, you’ll see their activities
-              here.
+              Once you create a project, you’ll see their activities here.
             </p>
           </div>
         )}
