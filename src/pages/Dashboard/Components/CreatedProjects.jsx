@@ -61,7 +61,7 @@ const CreatedProjects = ({
                     e.stopPropagation();
                     handleDeleteProject(project._id);
                   }}
-                  className="text-gray-500 hover:text-red-500 transition"
+                  className="text-gray-500 hover:text-red-500 transition cursor-pointer"
                 >
                   <Trash2 size={16} />
                 </button>
@@ -128,7 +128,7 @@ const CreatedProjects = ({
                   ) : (
                     <ChevronRight size={16} />
                   )}
-                  {project.tasks.length} Tasks
+                  {project.tasks.length} Assigned Task(s)
                 </button>
 
                 {openProjects[project._id] && (

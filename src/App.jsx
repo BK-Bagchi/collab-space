@@ -62,10 +62,8 @@ function App() {
 
                   {/* protected route from general members */}
                   <Route element={<ManagerProtectedRoute />}>
-                    <Route
-                      path="manage-projects"
-                      element={<ManageProjects />}
-                    />
+                    {/* prettier-ignore */}
+                    <Route path="manage-projects" element={<ManageProjects />} />
                     {/* prettier-ignore */}
                     <Route path="manage-projects/:projectId" element={<ManageProjectsTaskList />} />
                     <Route path="team-activity" element={<TeamActivity />} />
