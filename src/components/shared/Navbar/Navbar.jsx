@@ -1,9 +1,9 @@
+import { Link } from "react-router-dom";
 import PublicList from "./PublicList.jsx";
 import projectName from "../../../utils/getProjectName.js";
 import PrivateList from "./PrivateList.jsx";
 import PrivateBtn from "./PrivateBtn.jsx";
 import PublicBtn from "./PublicBtn.jsx";
-import { Link } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth.js";
 import useUserActive from "../../../hooks/useUserActive.js";
 
@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-[#2979FF] text-[#FAFAFA] shadow-sm px-3">
       <div className="navbar-start">
-        <div className="dropdown md:hidden">
+        <div className="dropdown lg:hidden">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
             {/* prettier-ignore */}
             <svg  xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"  stroke="currentColor" >
@@ -28,7 +28,14 @@ const Navbar = () => {
             tabIndex="-1"
             className="menu menu-sm body-font bg-[#2979FF] dropdown-content rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
-            {loggedIn ? <PrivateList /> : <PublicList />}
+            {loggedIn ? (
+              <>
+                <PrivateList />
+                <PublicList />
+              </>
+            ) : (
+              <PublicList />
+            )}
           </ul>
         </div>
         <Link to="/" className="text-2xl font-bold logo-font cursor-pointer">
@@ -36,12 +43,19 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-center">
-        <div className="hidden md:flex w-full">
+        <div className="hidden lg:flex w-full">
           <ul
             tabIndex="1"
             className="menu menu-sm body-font w-full rounded-box z-1 p-2 flex flex-row items-center gap-4"
           >
-            {loggedIn ? <PrivateList /> : <PublicList />}
+            {loggedIn ? (
+              <>
+                <PrivateList />
+                <PublicList />
+              </>
+            ) : (
+              <PublicList />
+            )}
           </ul>
         </div>
       </div>

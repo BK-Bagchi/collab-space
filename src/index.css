@@ -82,3 +82,7 @@
 .animate-slideDown {
   animation: slideDown 0.2s ease-out;
 }
+
+.active {
+  @apply bg-[#3D86FF];
+}

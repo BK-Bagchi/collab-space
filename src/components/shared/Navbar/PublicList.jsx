@@ -1,24 +1,22 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import PublicBtn from "./PublicBtn";
+import { NavLink } from "react-router-dom";
 
 const li = () => {
   return (
     <>
-      <li className="mt-2">
-        <Link className="text-[15px]" to="/">
+      <li className="m-1">
+        <NavLink className="text-[15px]" to="/">
           Home
-        </Link>
+        </NavLink>
       </li>
-      <li className="mt-2">
-        <Link className="text-[15px]" to="/features">
+      <li className="m-1">
+        <NavLink className="text-[15px]" to="/features">
           Features
-        </Link>
+        </NavLink>
       </li>
-      <li className="mt-2">
-        <Link className="text-[15px]" to="/about">
+      <li className="m-1">
+        <NavLink className="text-[15px]" to="/about">
           About
-        </Link>
+        </NavLink>
       </li>
     </>
   );
