@@ -6,6 +6,8 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import SeeProfile from "./pages/UserProfile/SeeProfile";
 import Home from "./components/Home/Home";
+import Features from "./components/Features/Features";
+import About from "./components/About/About";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardHome from "./pages/Dashboard/Home";
 import Projects from "./pages/Dashboard/Projects";
@@ -44,6 +46,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/about" element={<About />} />
 
               {/* login protected routes */}
               <Route element={<LoginProtectedRoute />}>
