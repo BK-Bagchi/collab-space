@@ -13,9 +13,11 @@ const Banner = () => {
           {projectSlogan()} 🚀
         </h1>
         <p className="text-lg text-gray-100 body-font">
-          {projectName()} is a platform where teams, creators, and innovators
-          work together effortlessly. Manage projects, chat in real time, and
-          share files — all in one place.
+          {projectName()} is a full-stack collaboration and productivity
+          platform built with the MERN stack, Socket.IO, and a fully
+          customizable, modern UI. It provides project management, task
+          workflow, real-time messaging, notifications, analytics, notes, and
+          team activity tracking — all in one unified workspace.
         </p>
 
         <div className="flex gap-4">

@@ -3,12 +3,12 @@ const ActivityFeed = () => {
     { user: "Dipto", action: "completed a task", time: "2 minutes ago" },
     { user: "User", action: "commented on UI Design", time: "5 minutes ago" },
     //prettier-ignore
-    { user: "Admin", action: "assigned you a new task", time: "10 minutes ago"},
+    { user: "Manager", action: "assigned you a new task", time: "10 minutes ago"},
   ];
 
   return (
-    <section className="py-20 px-8 md:px-16 bg-white">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-charcoalGray logo-font">
+    <section className="py-20 px-8 md:px-16 bg-charcoalGray">
+      <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-softWhite logo-font">
         Stay Updated with Live Activity 🔔
       </h2>
 

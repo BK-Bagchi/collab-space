@@ -7,7 +7,7 @@ const Notes = () => {
 
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
         {/* Text Note */}
-        <div className="bg-white p-6 rounded-2xl shadow-md border">
+        <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-300 transform hover:-translate-y-2 transition-all duration-300">
           <h3 className="font-semibold text-lg text-electricBlue heading-font">
             Text Note
           </h3>
@@ -18,7 +18,7 @@ const Notes = () => {
         </div>
 
         {/* Todo Note */}
-        <div className="bg-white p-6 rounded-2xl shadow-md border">
+        <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-300 transform hover:-translate-y-2 transition-all duration-300">
           <h3 className="font-semibold text-lg text-vibrantPurple heading-font">
             Todo Note
           </h3>

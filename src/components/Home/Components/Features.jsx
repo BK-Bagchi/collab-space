@@ -59,7 +59,7 @@ const Features = () => {
           return (
             <div
               key={i}
-              className={`p-6 flex flex-col items-center rounded-xl border shadow-sm transition hover:shadow-md ${feature.bg} ${feature.color}`}
+              className={`px-6 py-10 flex flex-col items-center rounded-xl border shadow-sm hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 ${feature.bg} ${feature.color}`}
             >
               {Icon && <Icon className="w-8 h-8 mb-4" />}
               <h3 className="text-lg font-semibold logo-font">

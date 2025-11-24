@@ -7,7 +7,7 @@ const Workflow = () => {
 
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
         {/* Todo */}
-        <div className="p-6 bg-white rounded-xl shadow-md border body-font">
+        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-300 body-font transform hover:-translate-y-2 transition-all duration-300">
           <h3 className="font-semibold text-lg mb-3 text-electricBlue">Todo</h3>
           <div className="p-3 bg-gray-100 rounded-lg text-sm shadow-sm">
             Design Login Page
@@ -15,7 +15,7 @@ const Workflow = () => {
         </div>
 
         {/* In Progress */}
-        <div className="p-6 bg-white rounded-xl shadow-md border body-font">
+        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-300 body-font transform hover:-translate-y-2 transition-all duration-300">
           <h3 className="font-semibold text-lg mb-3 text-vibrantPurple">
             In Progress
           </h3>
@@ -28,7 +28,7 @@ const Workflow = () => {
         </div>
 
         {/* Done */}
-        <div className="p-6 bg-white rounded-xl shadow-md border body-font">
+        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-300 body-font transform hover:-translate-y-2 transition-all duration-300">
           <h3 className="font-semibold text-lg mb-3 text-tealGreen">
             Completed
           </h3>

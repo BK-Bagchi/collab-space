@@ -36,7 +36,7 @@ const TechShowcase = () => {
         {techStack.map(({ name, icon, color }) => (
           <div
             key={name}
-            className="group bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl 
+            className="group py-8 bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl 
                        flex flex-col items-center shadow-md hover:shadow-xl 
                        transition-all duration-300 hover:-translate-y-2 relative"
           >

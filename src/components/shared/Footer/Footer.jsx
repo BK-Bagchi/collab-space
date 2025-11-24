@@ -1,129 +1,173 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import { Github, Linkedin, Twitter } from "lucide-react";
 import projectName, { projectSlogan } from "../../../utils/getProjectName";
 
 const Footer = () => {
-  const user = true;
   return (
-    <footer className="bg-charcoalGray text-softWhite px-6 py-10 mt-auto">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-8">
-        {/* Left Section: Branding */}
-        <div className="flex flex-col gap-2">
-          <a className="text-2xl font-bold logo-font">{projectName()}</a>
-          <span className="text-sm font-body">{projectSlogan()}</span>
-          <span className="text-xs text-gray-400">v1.0.0</span>
-        </div>
-
-        {/* Middle Section: Quick Links */}
-        <div className="flex flex-col gap-2">
-          <h4 className="font-heading font-semibold mb-2">Quick Links</h4>
-          <ul className="flex flex-col gap-1 text-sm">
-            {user ? (
-              <>
-                <li>
-                  <a
-                    href="/dashboard"
-                    className="hover:text-[#2972FF] transition"
-                  >
-                    Dashboard
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/projects"
-                    className="hover:text-[#2972FF] transition"
-                  >
-                    Projects
-                  </a>
-                </li>
-                <li>
-                  <a href="/tasks" className="hover:text-[#2972FF] transition">
-                    Tasks
-                  </a>
-                </li>
-                <li>
-                  <a href="/chat" className="hover:text-[#2972FF] transition">
-                    Chat
-                  </a>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <a href="/" className="hover:text#2972FF] transition">
-                    Homepage
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/about"
-                    className="hover:text-electricBlue transition"
-                  >
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/pricing"
-                    className="hover:text-electricBlue transition"
-                  >
-                    Pricing
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/contact"
-                    className="hover:text-electricBlue transition"
-                  >
-                    Contact
-                  </a>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-
-        {/* Right Section: Support & Social */}
-        <div className="flex flex-col gap-2">
-          <h4 className="font-heading font-semibold mb-2">Support</h4>
-          <p className="text-sm">help@collabspace.com</p>
-          <div className="flex gap-3 mt-2">
+    <footer className="bg-charcoalGray text-softWhite px-6 py-14 mt-auto">
+      <div className="max-w-[90%] mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+        {/* Branding */}
+        <div>
+          <h2 className="text-2xl font-bold logo-font">{projectName()}</h2>
+          <p className="text-sm text-gray-300 mt-1 font-body">
+            {projectSlogan()}
+          </p>
+          <p className="mt-2 text-xs text-gray-500">v1.0.0</p>
+          <div className="flex gap-4 mt-4">
             <a
-              href="https://github.com/"
+              href="https://github.com/bk-bagchi"
               target="_blank"
-              className="hover:text-electricBlue transition"
+              className="hover:text-[#2979FF] transition"
             >
               <Github size={20} />
             </a>
             <a
-              href="https://linkedin.com/"
+              href="https://linkedin.com/in/bkbagchi-dipto/"
               target="_blank"
-              className="hover:text-electricBlue transition"
+              className="hover:text-[#2979FF] transition"
             >
               <Linkedin size={20} />
             </a>
             <a
-              href="https://twitter.com/"
+              href="https://twitter.com"
               target="_blank"
-              className="hover:text-electricBlue transition"
+              className="hover:text-[#2979FF] transition"
             >
               <Twitter size={20} />
             </a>
           </div>
         </div>
+
+        {/* Product Links */}
+        <div>
+          <h4 className="font-heading text-lg font-semibold mb-4">Product</h4>
+          <ul className="flex flex-col gap-2 text-sm">
+            <li>
+              <Link to="/dashboard" className="hover:text-[#2979FF] transition">
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="dashboard/projects"
+                className="hover:text-[#2979FF] transition"
+              >
+                Projects
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="dashboard/tasks"
+                className="hover:text-[#2979FF] transition"
+              >
+                Tasks
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="dashboard/notes"
+                className="hover:text-[#2979FF] transition"
+              >
+                Notes
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="dashboard/chats"
+                className="hover:text-[#2979FF] transition"
+              >
+                Chats
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="dashboard/files"
+                className="hover:text-[#2979FF] transition"
+              >
+                Files
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Resources */}
+        <div>
+          <h4 className="font-heading text-lg font-semibold mb-4">Resources</h4>
+          <ul className="flex flex-col gap-2 text-sm">
+            <li>
+              <a href="#" className="hover:text-[#2979FF] transition">
+                Documentation
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-[#2979FF] transition">
+                API Reference
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-[#2979FF] transition">
+                Blog
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-[#2979FF] transition">
+                Roadmap
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-[#2979FF] transition">
+                Changelog
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-[#2979FF] transition">
+                Support
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* Company */}
+        <div>
+          <h4 className="font-heading text-lg font-semibold mb-4">Company</h4>
+          <ul className="flex flex-col gap-2 text-sm">
+            <li>
+              <Link to="/about" className="hover:text-[#2979FF] transition">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link to="/features" className="hover:text-[#2979FF] transition">
+                Features
+              </Link>
+            </li>
+            <li>
+              <a href="#" className="hover:text-[#2979FF] transition">
+                Careers
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-[#2979FF] transition">
+                Contact
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-[#2979FF] transition">
+                Terms & Conditions
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-[#2979FF] transition">
+                Privacy Policy
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
 
-      {/* Bottom Line */}
-      <div className="mt-8 border-t border-gray-700 pt-4 text-sm flex flex-col items-center text-gray-400">
+      {/* Bottom Bar */}
+      <div className="mt-10 border-t border-gray-700 pt-5 text-center text-sm text-gray-400">
         <span>© 2025 Collab Space. All rights reserved.</span>
-        <span className="flex gap-2 mt-2 md:mt-0">
-          <a href="/terms" className="hover:text-electricBlue transition">
-            Terms of Service
-          </a>
-          <a href="/privacy" className="hover:text-electricBlue transition">
-            Privacy Policy
-          </a>
-        </span>
       </div>
     </footer>
   );
