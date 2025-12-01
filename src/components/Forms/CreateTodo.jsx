@@ -1,6 +1,6 @@
 import { useState } from "react";
 //prettier-ignore
-import { CheckSquare, FolderKanban, Hash, Layers, Palette, Save, Square, Tag } from "lucide-react";
+import { CheckSquare, FolderKanban, Hash, Layers, ListTodo, Palette, Save, Square, Tag } from "lucide-react";
 
 const CreateTodo = ({ tasks = [], projects = [], onSave }) => {
   const [note, setNote] = useState({
@@ -31,6 +31,11 @@ const CreateTodo = ({ tasks = [], projects = [], onSave }) => {
   return (
     <div className="p-6 min-w-[430px] mx-auto animate-fadeIn">
       <div className="space-y-6 bg-white p-6 rounded-2xl shadow">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <ListTodo size={32} className="text-vibrantPurple" />
+          <h2 className="text-2xl font-bold text-charcoalGray">Create Todo</h2>
+        </div>
         {/* Title */}
         <div>
           <label className="font-medium text-gray-700">

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { FolderKanban, Hash, Layers, Palette, Save, Tag } from "lucide-react";
+//prettier-ignore
+import { FolderKanban, Hash, Layers, Palette, Save, StickyNote, Tag } from "lucide-react";
 
 const CreateNote = ({ tasks = [], projects = [], onSave }) => {
   const [note, setNote] = useState({
@@ -27,6 +28,11 @@ const CreateNote = ({ tasks = [], projects = [], onSave }) => {
     <div className="p-6 min-w-[430px] mx-auto animate-fadeIn">
       {/* Form */}
       <div className="space-y-5 bg-white shadow-md rounded-2xl p-6">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <StickyNote size={32} className="text-vibrantPurple" />
+          <h2 className="text-2xl font-bold text-charcoalGray">Create Note</h2>
+        </div>
         {/* Title */}
         <div>
           <label className="font-medium text-gray-700">
