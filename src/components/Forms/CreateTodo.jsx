@@ -1,61 +1,70 @@
 import { useState } from "react";
-//prettier-ignore
-import { X, Save, ListTodo, CheckSquare, Square, Tag, Palette, Hash, FolderKanban, Layers } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+import {
+  ListTodo,
+  ListCheck,
+  Trash2,
+  PlusCircle,
+  Tag,
+  X,
+  Palette,
+  Hash,
+  FolderKanban,
+  Layers,
+  Save,
+} from "lucide-react";
 import { todoSchema } from "../../validations/note.validation";
 
 const CreateTodo = () => {
-  // prettier-ignore
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState("");
+
+  // ---- React Hook Form ----
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm({
     resolver: zodResolver(todoSchema),
     defaultValues: {
+      title: "",
+      todos: [{ title: "" }],
       color: "#2979ff",
       visibility: "PRIVATE",
-      todos: [],
-      tags: [],
+      relatedTask: "",
+      relatedProject: "",
     },
   });
   console.log(errors);
 
-  // Local state for dynamic lists
-  const [todos, setTodos] = useState([]);
-  const [todoInput, setTodoInput] = useState("");
-  const [tags, setTags] = useState([]);
-  const [tagInput, setTagInput] = useState("");
+  // ---- Field Array ----
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "todos",
+  });
 
-  // Add Todo
-  const addTodo = (e) => {
-    e.preventDefault();
-    if (todoInput.trim().length < 5) return;
-    setTodos([...todos, { text: todoInput.trim(), done: false }]);
-    setTodoInput("");
-  };
-
-  // Toggle Todo Done
-  const toggleTodo = (i) => {
-    const updated = [...todos];
-    updated[i].done = !updated[i].done;
-    setTodos(updated);
-  };
-
-  // Add Tag
-  const addTag = (e) => {
-    e.preventDefault();
-    if (tagInput.trim().length < 3) return;
+  // ---- TAGS ----
+  const handleAddTag = () => {
+    if (tagInput.trim().length < 2) return;
     setTags([...tags, tagInput.trim()]);
     setTagInput("");
   };
 
-  // Submit Handler
+  const handleRemoveTag = (i) => {
+    setTags(tags.filter((_, idx) => idx !== i));
+  };
+
+  // ---- Submit ----
   const onSubmit = (data) => {
-    data.todos = todos;
     data.tags = tags;
 
-    console.log("FINAL DATA:", data);
+    console.log("🔥 FINAL SUBMIT DATA:", data);
 
     reset();
-    setTodos([]);
     setTags([]);
   };
 
@@ -73,11 +82,13 @@ const CreateTodo = () => {
 
         {/* Title */}
         <div>
-          <label className="font-medium">Title *</label>
+          <label className="font-medium">
+            Title <span className="text-red-500">*</span>
+          </label>
           <input
             type="text"
             {...register("title")}
-            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF]"
             placeholder="Todo list title..."
           />
           {errors.title && (
@@ -85,72 +96,83 @@ const CreateTodo = () => {
           )}
         </div>
 
-        {/* Todo items */}
-        <div>
-          <label className="font-medium">Add Todo *</label>
-          <div className="flex gap-2 mt-2">
-            <input
-              type="text"
-              {...register("todos")}
-              value={todoInput}
-              onChange={(e) => setTodoInput(e.target.value)}
-              className="flex-1 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
-              placeholder="Write your todo..."
-            />
-            <button
-              className="px-4 py-2 bg-electricBlue text-white rounded-lg"
-              onClick={addTodo}
-            >
-              Add
-            </button>
-          </div>
+        {/* Todos Section */}
+        <div className="mb-5">
+          <label className="block font-medium mb-2">
+            Todos <span className="text-red-500">*</span>
+          </label>
 
-          {errors.todos && (
-            <p className="text-red-500">{errors.todos.message}</p>
-          )}
+          <div className="space-y-2">
+            {fields.map((field, index) => (
+              <div key={field.id} className="flex items-center gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    {...register(`todos.${index}.title`)}
+                    placeholder={`Todo ${index + 1}`}
+                    className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+                  />
+                  <ListCheck className="absolute left-3 top-1.5 h-4 w-4 text-gray-500" />
+                </div>
 
-          <div className="mt-4 space-y-2">
-            {todos.map((t, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-3 bg-gray-100 px-3 py-2 rounded-lg"
-              >
-                {t.done ? (
-                  <CheckSquare
-                    size={20}
-                    className="text-green-600 cursor-pointer"
-                    onClick={() => toggleTodo(i)}
-                  />
-                ) : (
-                  <Square
-                    size={20}
-                    className="cursor-pointer"
-                    onClick={() => toggleTodo(i)}
-                  />
+                {fields.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => remove(index)}
+                    className="p-1 text-gray-400 hover:text-red-500 transition"
+                  >
+                    <Trash2 size={16} />
+                  </button>
                 )}
-
-                <span className={t.done ? "line-through" : ""}>{t.text}</span>
               </div>
             ))}
           </div>
+
+          {/* Validation errors */}
+          {errors.todos &&
+            errors.todos.map(
+              (err, index) =>
+                err?.title && (
+                  <p key={index} className="text-red-500 text-xs mt-1">
+                    {err.title.message}
+                  </p>
+                )
+            )}
+
+          <button
+            type="button"
+            onClick={() => append({ title: "" })}
+            className="flex items-center gap-1 mt-2 text-sm text-electricBlue hover:underline"
+          >
+            <PlusCircle size={14} /> Add Todo
+          </button>
         </div>
 
-        {/* Tags */}
+        {/* TAGS */}
         <div>
           <label className="font-medium flex items-center gap-2">
             <Tag size={18} /> Tags
           </label>
+
           <div className="flex gap-2 mt-2">
             <input
               type="text"
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              className="flex-1 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+              className="flex-1 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF]"
               placeholder="Add a tag..."
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleAddTag();
+                }
+              }}
             />
+
             <button
+              type="button"
               className="px-4 py-2 bg-electricBlue text-white rounded-lg"
-              onClick={addTag}
+              onClick={handleAddTag}
             >
               Add
             </button>
@@ -166,15 +188,15 @@ const CreateTodo = () => {
                 <X
                   size={14}
                   className="cursor-pointer"
-                  onClick={() => setTags(tags.filter((_, idx) => idx !== i))}
+                  onClick={() => handleRemoveTag(i)}
                 />
               </span>
             ))}
           </div>
         </div>
 
+        {/* Color / Visibility */}
         <div className="flex justify-between">
-          {/* Color */}
           <div>
             <label className="font-medium flex items-center gap-2">
               <Palette size={18} /> Note Color
@@ -186,14 +208,13 @@ const CreateTodo = () => {
             />
           </div>
 
-          {/* Visibility */}
           <div>
             <label className="font-medium flex items-center gap-2">
               <Hash size={18} /> Visibility
             </label>
             <select
               {...register("visibility")}
-              className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+              className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF]"
             >
               <option value="PRIVATE">Private</option>
             </select>
@@ -207,7 +228,7 @@ const CreateTodo = () => {
           </label>
           <select
             {...register("relatedTask")}
-            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none w-full"
+            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] w-full"
           >
             <option value="">None</option>
           </select>
@@ -220,13 +241,13 @@ const CreateTodo = () => {
           </label>
           <select
             {...register("relatedProject")}
-            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none w-full"
+            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] w-full"
           >
             <option value="">None</option>
           </select>
         </div>
 
-        {/* Save */}
+        {/* Submit */}
         <button
           type="submit"
           className="w-full flex items-center justify-center gap-2 py-3 bg-electricBlue text-white rounded-lg"
