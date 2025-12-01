@@ -4,6 +4,8 @@ import { Archive, CheckCircle2, Circle, FileText, ListTodo, Pin, PlusCircle, Sti
 import { NoteAPI } from "../../api";
 import Loading from "../../components/Loading/Loading";
 import Modal from "../../components/Modal/Modal";
+import CreateNote from "../../components/Forms/CreateNote";
+import CreateTodo from "../../components/Forms/CreateTodo";
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -231,12 +233,8 @@ const Notes = () => {
           </div>
         )}
       </Loading>
-      {addNote && (
-        <Modal setActiveModal={setAddNote} render={<di>This is note</di>} />
-      )}
-      {addTodo && (
-        <Modal setActiveModal={setAddTodo} render={<di>This is todo</di>} />
-      )}
+      {addNote && <Modal setActiveModal={setAddNote} render={<CreateNote />} />}
+      {addTodo && <Modal setActiveModal={setAddTodo} render={<CreateTodo />} />}
     </div>
   );
 };
