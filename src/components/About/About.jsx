@@ -44,7 +44,7 @@ const About = () => {
             <div className="flex flex-wrap gap-4 pt-2">
               <Link
                 to={loggedIn ? "/dashboard" : "/register"}
-                className="px-6 py-3 bg-electricBlue text-white font-semibold rounded-lg hover:bg-[#1E63D4] transition logo-font"
+                className="px-6 py-3 bg-white text-[#2979FF] border border-amber-50 font-semibold rounded-lg hover:bg-transparent hover:text-gray-600 transition logo-font"
               >
                 Get Started
               </Link>
@@ -52,7 +52,7 @@ const About = () => {
               {!loggedIn && (
                 <Link
                   to="/login"
-                  className="px-6 py-3 border border-electricBlue text-electricBlue font-semibold rounded-lg hover:bg-electricBlue hover:text-white transition logo-font"
+                  className="px-6 py-3 border border-white font-semibold text-gray-600 rounded-lg hover:bg-white hover:text-[#2979FF] transition logo-font"
                 >
                   Login
                 </Link>
