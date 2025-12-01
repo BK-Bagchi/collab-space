@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import {
   ListTodo,
   ListCheck,
@@ -14,6 +13,7 @@ import {
   FolderKanban,
   Layers,
   Save,
+  Plus,
 } from "lucide-react";
 import { todoSchema } from "../../validations/note.validation";
 
@@ -21,17 +21,12 @@ const CreateTodo = () => {
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
 
-  // ---- React Hook Form ----
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm({
+  //prettier-ignore
+  const { register, handleSubmit, control, formState: { errors, isSubmitting }, reset, setValue } = useForm({
     resolver: zodResolver(todoSchema),
     defaultValues: {
       title: "",
+      tags: [],
       todos: [{ title: "" }],
       color: "#2979ff",
       visibility: "PRIVATE",
@@ -41,29 +36,28 @@ const CreateTodo = () => {
   });
   console.log(errors);
 
-  // ---- Field Array ----
   const { fields, append, remove } = useFieldArray({
     control,
     name: "todos",
   });
 
-  // ---- TAGS ----
   const handleAddTag = () => {
-    if (tagInput.trim().length < 2) return;
-    setTags([...tags, tagInput.trim()]);
+    if (!tagInput.trim()) return;
+    const newTags = [...tags, tagInput.trim()];
+    setTags(newTags);
+    setValue("tags", newTags); // <-- sync with form
     setTagInput("");
   };
 
   const handleRemoveTag = (i) => {
-    setTags(tags.filter((_, idx) => idx !== i));
+    const updated = tags.filter((_, idx) => idx !== i);
+    setTags(updated);
+    setValue("tags", updated);
   };
 
-  // ---- Submit ----
   const onSubmit = (data) => {
     data.tags = tags;
-
     console.log("🔥 FINAL SUBMIT DATA:", data);
-
     reset();
     setTags([]);
   };
@@ -88,7 +82,7 @@ const CreateTodo = () => {
           <input
             type="text"
             {...register("title")}
-            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF]"
+            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
             placeholder="Todo list title..."
           />
           {errors.title && (
@@ -154,12 +148,13 @@ const CreateTodo = () => {
             <Tag size={18} /> Tags
           </label>
 
+          {/* Input + Add icon button */}
           <div className="flex gap-2 mt-2">
             <input
               type="text"
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              className="flex-1 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF]"
+              className="flex-1 px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:ring-2 focus:ring-[#2979FF] focus:outline-none transition"
               placeholder="Add a tag..."
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -171,14 +166,32 @@ const CreateTodo = () => {
 
             <button
               type="button"
-              className="px-4 py-2 bg-electricBlue text-white rounded-lg"
               onClick={handleAddTag}
+              className="p-2.5 rounded-xl bg-[#2979FF] focus:outline-none text-white shadow-md 
+               hover:bg-blue-700 hover:shadow-lg active:scale-95
+               transition-all"
             >
-              Add
+              <Plus className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="flex gap-2 mt-2 flex-wrap">
+          {/* Zod validation errors (global or per-tag) */}
+          {errors.tags && (
+            <p className="text-red-500 text-sm mt-1">{errors.tags.message}</p>
+          )}
+
+          {Array.isArray(errors.tags) &&
+            errors.tags.map(
+              (err, index) =>
+                err && (
+                  <p key={index} className="text-red-500 text-xs mt-1">
+                    Tag {index + 1}: {err.message}
+                  </p>
+                )
+            )}
+
+          {/* Tags Preview */}
+          <div className="flex gap-2 mt-3 flex-wrap">
             {tags.map((tag, i) => (
               <span
                 key={i}

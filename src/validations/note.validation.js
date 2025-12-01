@@ -21,6 +21,14 @@ export const todoSchema = z.object({
       })
     )
     .min(1, "At least one todo is required"),
+  tags: z
+    .array(
+      z
+        .string()
+        .min(2, "Tag must be at least 2 characters")
+        .max(10, "Tag cannot exceed 10 characters")
+    )
+    .optional(),
   color: z.string(),
   visibility: z.enum(["PRIVATE"]),
   relatedTask: z.string().optional(),
