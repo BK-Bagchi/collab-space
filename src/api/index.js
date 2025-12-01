@@ -9,8 +9,3 @@ export * as ProjectAPI from "./project";
 export * as SearchAPI from "./search";
 export * as TaskAPI from "./task";
 export * as UserAPI from "./user";
-
-// later use in react
-// import { ProjectAPI } from "@/api";
-// const { data } = await ProjectAPI.getUserProjects();
-// console.log(data);
