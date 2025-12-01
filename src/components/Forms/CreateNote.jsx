@@ -1,13 +1,13 @@
 import { useState } from "react";
 //prettier-ignore
-import { FolderKanban, Hash, Layers, Palette, Save, StickyNote, Tag, X } from "lucide-react";
+import { FolderKanban, Hash, Layers, Palette, Plus, Save, StickyNote, Tag, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { noteSchema } from "../../validations/note.validation";
 
 const CreateNote = () => {
   // prettier-ignore
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting }} = useForm({
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset, setValue} = useForm({
     resolver: zodResolver(noteSchema),
     defaultValues: {
       color: "#2979ff",
@@ -19,16 +19,18 @@ const CreateNote = () => {
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
 
-  const addTag = (e) => {
-    e.preventDefault();
+  const handleAddTag = () => {
     if (!tagInput.trim()) return;
-
-    setTags((prev) => [...prev, tagInput.trim()]);
+    const newTags = [...tags, tagInput.trim()];
+    setTags(newTags);
+    setValue("tags", newTags);
     setTagInput("");
   };
 
-  const removeTag = (index) => {
-    setTags((prev) => prev.filter((_, i) => i !== index));
+  const handleRemoveTag = (i) => {
+    const updated = tags.filter((_, idx) => idx !== i);
+    setTags(updated);
+    setValue("tags", updated);
   };
 
   const onSubmit = (data) => {
@@ -86,39 +88,64 @@ const CreateNote = () => {
 
         {/* Tags */}
         <div>
-          <label className="font-medium text-gray-700 flex items-center gap-2">
+          <label className="font-medium flex items-center gap-2">
             <Tag size={18} /> Tags
           </label>
 
+          {/* Input + Add icon button */}
           <div className="flex gap-2 mt-2">
             <input
               type="text"
-              placeholder="Add a tag..."
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+              className="flex-1 px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:ring-2 focus:ring-[#2979FF] focus:outline-none transition"
+              placeholder="Add a tag..."
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleAddTag();
+                }
+              }}
             />
 
             <button
-              onClick={addTag}
-              className="px-4 py-2 bg-electricBlue text-softWhite rounded-lg"
+              type="button"
+              onClick={handleAddTag}
+              className="p-2.5 rounded-xl bg-[#2979FF] focus:outline-none text-white shadow-md 
+               hover:bg-blue-700 hover:shadow-lg active:scale-95
+               transition-all"
             >
-              Add
+              <Plus className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Tag list */}
-          <div className="flex gap-2 mt-2 flex-wrap">
+          {/* Zod validation errors (global or per-tag) */}
+          {errors.tags && (
+            <p className="text-red-500 text-sm mt-1">{errors.tags.message}</p>
+          )}
+
+          {Array.isArray(errors.tags) &&
+            errors.tags.map(
+              (err, index) =>
+                err && (
+                  <p key={index} className="text-red-500 text-xs mt-1">
+                    Tag {index + 1}: {err.message}
+                  </p>
+                )
+            )}
+
+          {/* Tags Preview */}
+          <div className="flex gap-2 mt-3 flex-wrap">
             {tags.map((tag, i) => (
               <span
                 key={i}
-                className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#2979FF]/10 text-electricBlue text-sm"
+                className="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-600 rounded-full"
               >
                 #{tag}
                 <X
-                  className="cursor-pointer"
                   size={14}
-                  onClick={() => removeTag(i)}
+                  className="cursor-pointer"
+                  onClick={() => handleRemoveTag(i)}
                 />
               </span>
             ))}

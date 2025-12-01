@@ -34,7 +34,6 @@ const CreateTodo = () => {
       relatedProject: "",
     },
   });
-  console.log(errors);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -45,7 +44,7 @@ const CreateTodo = () => {
     if (!tagInput.trim()) return;
     const newTags = [...tags, tagInput.trim()];
     setTags(newTags);
-    setValue("tags", newTags); // <-- sync with form
+    setValue("tags", newTags);
     setTagInput("");
   };
 
