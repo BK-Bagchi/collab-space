@@ -3,9 +3,6 @@ import { z } from "zod";
 export const noteSchema = z
   .object({
     title: z.string().min(5, "Title must be at least 5 characters"),
-    type: z.enum(["TEXT", "TODO"], {
-      required_error: "Type must be either TEXT or TODO",
-    }),
     content: z.string().min(5, "Content must be at least 5 characters"),
     todos: z
       .array(
@@ -15,7 +12,6 @@ export const noteSchema = z
         })
       )
       .optional(),
-    tags: z.array(z.string()).optional(),
     color: z.string().optional(),
     visibility: z.enum(["PRIVATE", "PROJECT"]).optional(),
     relatedTask: z.string().optional(),
