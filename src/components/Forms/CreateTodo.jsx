@@ -1,12 +1,18 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 //prettier-ignore
 import { ListTodo, ListCheck, Trash2, PlusCircle, Tag, X, Palette, Hash, FolderKanban, Layers, Save, Plus } from "lucide-react";
 import { todoSchema } from "../../validations/note.validation";
 import { cleanObject } from "../../utils/cleanObject";
+import { NoteAPI } from "../../api";
 
-const CreateTodo = () => {
+const CreateTodo = ({ setNotes, setAddTodo }) => {
+  const [creatingTodoError, setCreatingTodoError] = useState({
+    status: false,
+    message: "",
+  });
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
 
@@ -16,7 +22,7 @@ const CreateTodo = () => {
     defaultValues: {
       title: "",
       tags: [],
-      todos: [{ title: "" }],
+      todos: [{ text: "" }],
       color: "#2979ff",
       visibility: "PRIVATE",
       relatedTask: "",
@@ -43,12 +49,26 @@ const CreateTodo = () => {
     setValue("tags", updated);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     data.tags = tags;
+    data.type = "TODO";
     const cleanedData = cleanObject(data);
-    console.log("🔥 FINAL SUBMIT DATA:", cleanedData);
-    reset();
-    setTags([]);
+
+    try {
+      const res = await NoteAPI.createTodo(cleanedData);
+      toast.success(res.data.message);
+      setNotes((prev) => [res.data.note, ...prev]);
+      setAddTodo(false);
+    } catch (error) {
+      console.error("Error creating note:", error.response.data.message);
+      setCreatingTodoError({
+        status: true,
+        message: error.response.data.message,
+      });
+    } finally {
+      reset();
+      setTags([]);
+    }
   };
 
   return (
@@ -91,7 +111,7 @@ const CreateTodo = () => {
                 <div className="relative flex-1">
                   <input
                     type="text"
-                    {...register(`todos.${index}.title`)}
+                    {...register(`todos.${index}.text`)}
                     placeholder={`Todo ${index + 1}`}
                     className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
                   />
@@ -208,6 +228,11 @@ const CreateTodo = () => {
               {...register("color")}
               className="w-12 h-10 mt-2 cursor-pointer"
             />
+            {errors.color && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.color.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -220,6 +245,11 @@ const CreateTodo = () => {
             >
               <option value="PRIVATE">Private</option>
             </select>
+            {errors.visibility && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.visibility.message}
+              </p>
+            )}
           </div>
         </div>
 
@@ -234,6 +264,11 @@ const CreateTodo = () => {
           >
             <option value="">None</option>
           </select>
+          {errors.relatedTask && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.relatedTask.message}
+            </p>
+          )}
         </div>
 
         {/* Related Project */}
@@ -247,6 +282,16 @@ const CreateTodo = () => {
           >
             <option value="">None</option>
           </select>
+          {errors.relatedProject && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.relatedProject.message}
+            </p>
+          )}
+          {creatingTodoError.status && (
+            <p className="text-red-500 text-sm mt-1">
+              Error creating todo: {creatingTodoError.message}
+            </p>
+          )}
         </div>
 
         {/* Submit */}

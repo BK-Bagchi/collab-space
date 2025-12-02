@@ -238,7 +238,12 @@ const Notes = () => {
           render={<CreateNote {...{ setNotes, setAddNote }} />}
         />
       )}
-      {addTodo && <Modal setActiveModal={setAddTodo} render={<CreateTodo />} />}
+      {addTodo && (
+        <Modal
+          setActiveModal={setAddTodo}
+          render={<CreateTodo {...{ setNotes, setAddTodo }} />}
+        />
+      )}
     </div>
   );
 };

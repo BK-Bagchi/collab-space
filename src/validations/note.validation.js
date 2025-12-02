@@ -22,7 +22,7 @@ export const todoSchema = z.object({
   todos: z
     .array(
       z.object({
-        title: z.string().min(5, "Todo must be at least 5 characters"),
+        text: z.string().min(5, "Todo must be at least 5 characters"),
       })
     )
     .min(1, "At least one todo is required"),
