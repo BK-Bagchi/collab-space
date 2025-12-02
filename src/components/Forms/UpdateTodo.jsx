@@ -1,34 +1,39 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-//prettier-ignore
-import { FolderKanban, Hash, Layers, Palette, Plus, Save, StickyNote, Tag, X } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { noteSchema } from "../../validations/note.validation";
+//prettier-ignore
+import { ListTodo, ListCheck, Trash2, PlusCircle, Tag, X, Palette, Hash, FolderKanban, Layers, Save, Plus } from "lucide-react";
+import { todoSchema } from "../../validations/note.validation";
 import { cleanObject } from "../../utils/cleanObject";
 import { NoteAPI } from "../../api";
 
-const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
-  const [updatingNoteError, setUpdatingNoteError] = useState({
+const UpdateTodo = ({ setNotes, setUpdateTodo, updateNoteItem }) => {
+  const [updatingTodoError, setUpdatingTodoError] = useState({
     status: false,
     message: "",
   });
-  // prettier-ignore
-  const { register, handleSubmit, formState: { errors, isSubmitting }, reset, setValue} = useForm({
-    resolver: zodResolver(noteSchema),
+  const [tags, setTags] = useState(updateNoteItem?.tags || []);
+  const [tagInput, setTagInput] = useState("");
+
+  //prettier-ignore
+  const { register, handleSubmit, control, formState: { errors, isSubmitting }, reset, setValue } = useForm({
+    resolver: zodResolver(todoSchema),
     defaultValues: {
       title: updateNoteItem?.title,
-      content: updateNoteItem?.content,
+      tags: updateNoteItem?.tags,
+      todos: updateNoteItem?.todos || [{ text: "" }],
       color: updateNoteItem?.color,
       visibility: updateNoteItem?.visibility,
-      tags: updateNoteItem?.tags,
       relatedTask: updateNoteItem?.relatedTask,
       relatedProject: updateNoteItem?.relatedProject,
     },
   });
 
-  const [tags, setTags] = useState(updateNoteItem?.tags || []);
-  const [tagInput, setTagInput] = useState("");
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "todos",
+  });
 
   const handleAddTag = () => {
     if (!tagInput.trim()) return;
@@ -46,18 +51,20 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
 
   const onSubmit = async (data) => {
     data.tags = tags;
+    data.type = "TODO";
     const cleanedData = cleanObject(data);
+    // console.log("cleanedData", cleanedData);
 
     try {
-      const res = await NoteAPI.updateNote(updateNoteItem._id, cleanedData);
+      const res = await NoteAPI.updateTodo(updateNoteItem._id, cleanedData);
+      toast.success(res.data.message);
       setNotes((prev) =>
         prev.map((n) => (n._id === updateNoteItem._id ? res.data.note : n))
       );
-      toast.success(res.data.message);
-      setUpdateNote(false);
+      setUpdateTodo(false);
     } catch (error) {
-      console.error("Error updating note:", error.response.data.message);
-      setUpdatingNoteError({
+      console.error("Error creating note:", error.response.data.message);
+      setUpdatingTodoError({
         status: true,
         message: error.response.data.message,
       });
@@ -70,50 +77,84 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
   return (
     <div className="p-6 min-w-[430px] mx-auto animate-fadeIn">
       <form
-        className="space-y-5 bg-white shadow-md rounded-2xl p-6"
+        className="space-y-6 bg-white p-6 rounded-2xl shadow"
         onSubmit={handleSubmit(onSubmit)}
       >
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
-          <StickyNote size={32} className="text-vibrantPurple" />
-          <h2 className="text-2xl font-bold text-charcoalGray">Update Note</h2>
+          <ListTodo size={32} className="text-vibrantPurple" />
+          <h2 className="text-2xl font-bold">Update Todo</h2>
         </div>
 
         {/* Title */}
         <div>
-          <label className="font-medium text-gray-700">
+          <label className="font-medium">
             Title <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
-            placeholder="Enter title..."
             {...register("title")}
             className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+            placeholder="Todo list title..."
           />
           {errors.title && (
-            <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>
+            <p className="text-red-500">{errors.title.message}</p>
           )}
         </div>
 
-        {/* Content */}
-        <div>
-          <label className="font-medium text-gray-700">
-            Content <span className="text-red-500">*</span>
+        {/* Todos Section */}
+        <div className="mb-5">
+          <label className="block font-medium mb-2">
+            Todos <span className="text-red-500">*</span>
           </label>
-          <textarea
-            rows="6"
-            placeholder="Write your note..."
-            {...register("content")}
-            className="w-full mt-2 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
-          />
-          {errors.content && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.content.message}
-            </p>
-          )}
+
+          <div className="space-y-2">
+            {fields.map((field, index) => (
+              <div key={field.id} className="flex items-center gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    {...register(`todos.${index}.text`)}
+                    placeholder={`Todo ${index + 1}`}
+                    className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+                  />
+                  <ListCheck className="absolute left-3 top-1.5 h-4 w-4 text-gray-500" />
+                </div>
+
+                {fields.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => remove(index)}
+                    className="p-1 text-gray-400 hover:text-red-500 transition"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Validation errors */}
+          {errors.todos &&
+            errors.todos.map(
+              (err, index) =>
+                err?.title && (
+                  <p key={index} className="text-red-500 text-xs mt-1">
+                    {err.title.message}
+                  </p>
+                )
+            )}
+
+          <button
+            type="button"
+            onClick={() => append({ title: "" })}
+            className="flex items-center gap-1 mt-2 text-sm text-electricBlue hover:underline"
+          >
+            <PlusCircle size={14} /> Add Todo
+          </button>
         </div>
 
-        {/* Tags */}
+        {/* TAGS */}
         <div>
           <label className="font-medium flex items-center gap-2">
             <Tag size={18} /> Tags
@@ -179,14 +220,12 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
           </div>
         </div>
 
-        {/* Colors & Visibility */}
+        {/* Color / Visibility */}
         <div className="flex justify-between">
-          {/* Color */}
           <div>
-            <label className="font-medium text-gray-700 flex items-center gap-2">
+            <label className="font-medium flex items-center gap-2">
               <Palette size={18} /> Note Color
             </label>
-
             <input
               type="color"
               {...register("color")}
@@ -199,15 +238,13 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
             )}
           </div>
 
-          {/* Visibility */}
           <div>
-            <label className="font-medium text-gray-700 flex items-center gap-2">
+            <label className="font-medium flex items-center gap-2">
               <Hash size={18} /> Visibility
             </label>
-
             <select
               {...register("visibility")}
-              className="mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+              className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF]"
             >
               <option value="PRIVATE">Private</option>
             </select>
@@ -221,13 +258,12 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
 
         {/* Related Task */}
         <div>
-          <label className="font-medium text-gray-700 flex items-center gap-2">
+          <label className="font-medium flex items-center gap-2">
             <FolderKanban size={18} /> Related Task
           </label>
-
           <select
             {...register("relatedTask")}
-            className="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] w-full"
           >
             <option value="">None</option>
           </select>
@@ -240,13 +276,12 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
 
         {/* Related Project */}
         <div>
-          <label className="font-medium text-gray-700 flex items-center gap-2">
+          <label className="font-medium flex items-center gap-2">
             <Layers size={18} /> Related Project
           </label>
-
           <select
             {...register("relatedProject")}
-            className="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] w-full"
           >
             <option value="">None</option>
           </select>
@@ -255,24 +290,24 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
               {errors.relatedProject.message}
             </p>
           )}
-          {updatingNoteError.status && (
+          {updatingTodoError.status && (
             <p className="text-red-500 text-sm mt-1">
-              Error updating note: {updatingNoteError.message}
+              Error updating todo: {updatingTodoError.message}
             </p>
           )}
         </div>
 
-        {/* Save */}
+        {/* Submit */}
         <button
           type="submit"
-          className="w-full flex items-center justify-center gap-2 py-3 bg-electricBlue text-softWhite rounded-lg hover:bg-electricBlue/90 mt-4"
+          className="w-full flex items-center justify-center gap-2 py-3 bg-electricBlue text-white rounded-lg"
         >
           <Save size={18} />
-          {isSubmitting ? "Saving..." : "Save Note"}
+          {isSubmitting ? "Saving..." : "Save Todo"}
         </button>
       </form>
     </div>
   );
 };
 
-export default UpdateNote;
+export default UpdateTodo;

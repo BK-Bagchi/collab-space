@@ -8,6 +8,7 @@ import Modal from "../../components/Modal/Modal";
 import CreateNote from "../../components/Forms/CreateNote";
 import CreateTodo from "../../components/Forms/CreateTodo";
 import UpdateNote from "../../components/Forms/UpdateNote";
+import UpdateTodo from "../../components/Forms/UpdateTodo";
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -17,7 +18,7 @@ const Notes = () => {
   const [addNote, setAddNote] = useState(false);
   const [addTodo, setAddTodo] = useState(false);
   const [updateNote, setUpdateNote] = useState(false);
-  // const [updateTodo, setUpdateTodo] = useState(false);
+  const [updateTodo, setUpdateTodo] = useState(false);
   const [updateNoteItem, setUpdateNoteItem] = useState({});
 
   useEffect(() => {
@@ -68,7 +69,7 @@ const Notes = () => {
     setUpdateNoteItem(note);
 
     if (note.type === "TEXT") setUpdateNote(true);
-    // if(note.type === "TODO") setUpdateTodo(true);
+    if (note.type === "TODO") setUpdateTodo(true);
   };
 
   const handleDeleteNote = async (id) => {
@@ -332,6 +333,14 @@ const Notes = () => {
           setActiveModal={setUpdateNote}
           render={
             <UpdateNote {...{ setNotes, setUpdateNote, updateNoteItem }} />
+          }
+        />
+      )}
+      {updateTodo && (
+        <Modal
+          setActiveModal={setUpdateTodo}
+          render={
+            <UpdateTodo {...{ setNotes, setUpdateTodo, updateNoteItem }} />
           }
         />
       )}
