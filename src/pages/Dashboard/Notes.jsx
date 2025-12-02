@@ -43,7 +43,6 @@ const Notes = () => {
   });
 
   const togglePin = async (id) => {
-    console.log(id);
     try {
       const res = await NoteAPI.togglePinNote(id);
       setNotes((prev) => prev.map((n) => (n._id === id ? res.data.note : n)));
@@ -83,16 +82,19 @@ const Notes = () => {
     }
   };
 
-  const handleDeleteNote = async (id) => {
-    console.log(id);
-    // try {
-    //   const res = await NoteAPI.deleteNote(id);
-    //   setNotes((prev) => prev.filter((n) => n._id !== id));
-    //   toast.success(res.data.message);
-    // } catch (error) {
-    //   toast.error(error.response.data.message);
-    //   console.error("Error deleting note:", error.response.data.message);
-    // }
+  const handleDeleteNote = async (note) => {
+    const confirmed = window.confirm("Are you sure you want to delete?");
+    if (!confirmed) return;
+    try {
+      let res;
+      if (note.type === "TEXT") res = await NoteAPI.deleteNote(note._id);
+      if (note.type === "TODO") res = await NoteAPI.deleteTodo(note._id);
+      setNotes((prev) => prev.filter((n) => n._id !== note._id));
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.error("Error deleting note:", error.response.data.message);
+    }
   };
 
   return (
@@ -250,7 +252,7 @@ const Notes = () => {
                       {/* DELETE ICON */}
                       <Trash2
                         size={18}
-                        onClick={() => handleDeleteNote(note._id)}
+                        onClick={() => handleDeleteNote(note)}
                         className="text-gray-400 cursor-pointer hover:text-red-600 transition"
                       />
                     </div>
