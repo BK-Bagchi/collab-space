@@ -72,6 +72,17 @@ const Notes = () => {
     if (note.type === "TODO") setUpdateTodo(true);
   };
 
+  const handleToggleTodo = async (id, todoId) => {
+    try {
+      const res = await NoteAPI.toggleTodoDone(id, todoId);
+      setNotes((prev) => prev.map((n) => (n._id === id ? res.data.note : n)));
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.error("Error archiving note:", error.response.data.message);
+    }
+  };
+
   const handleDeleteNote = async (id) => {
     console.log(id);
     // try {
@@ -266,7 +277,11 @@ const Notes = () => {
                         {t.done ? (
                           <CheckCircle2 size={16} className="text-green-500" />
                         ) : (
-                          <Circle size={16} className="text-gray-400" />
+                          <Circle
+                            size={16}
+                            className="text-gray-400"
+                            onClick={() => handleToggleTodo(note._id, t._id)}
+                          />
                         )}
                         <span
                           className={`text-sm ${
