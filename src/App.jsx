@@ -1,6 +1,5 @@
-import { Routes, Route, Outlet } from "react-router-dom";
-import Footer from "./components/shared/Footer/Footer";
-import Navbar from "./components/shared/Navbar/navbar";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/shared/Layout/Layout";
 import NotFound from "./components/shared/404/404";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
@@ -29,15 +28,6 @@ import Help from "./pages/Dashboard/Help";
 import { NotificationProvider } from "./context/NotificationContext";
 import Notes from "./pages/Dashboard/Notes";
 
-function Layout() {
-  return (
-    <>
-      <Navbar />
-      <Outlet />
-      <Footer />
-    </>
-  );
-}
 function App() {
   return (
     <AuthProvider>
