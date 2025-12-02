@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 //prettier-ignore
-import { Archive, CheckCircle2, Circle, FileText, ListTodo, Pin, PlusCircle, StickyNote, Tag } from "lucide-react";
+import { Archive, CheckCircle2, Circle, Edit, FileText, ListTodo, Pin, PlusCircle, StickyNote, Tag, Trash2 } from "lucide-react";
 import { NoteAPI } from "../../api";
 import Loading from "../../components/Loading/Loading";
 import Modal from "../../components/Modal/Modal";
 import CreateNote from "../../components/Forms/CreateNote";
 import CreateTodo from "../../components/Forms/CreateTodo";
+import UpdateNote from "../../components/Forms/UpdateNote";
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -15,6 +16,9 @@ const Notes = () => {
   const [open, setOpen] = useState(false);
   const [addNote, setAddNote] = useState(false);
   const [addTodo, setAddTodo] = useState(false);
+  const [updateNote, setUpdateNote] = useState(false);
+  // const [updateTodo, setUpdateTodo] = useState(false);
+  const [updateNoteItem, setUpdateNoteItem] = useState({});
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -58,6 +62,25 @@ const Notes = () => {
       toast.error(error.response.data.message);
       console.error("Error archiving note:", error.response.data.message);
     }
+  };
+
+  const handleUpdateNote = async (note) => {
+    setUpdateNoteItem(note);
+
+    if (note.type === "TEXT") setUpdateNote(true);
+    // if(note.type === "TODO") setUpdateTodo(true);
+  };
+
+  const handleDeleteNote = async (id) => {
+    console.log(id);
+    // try {
+    //   const res = await NoteAPI.deleteNote(id);
+    //   setNotes((prev) => prev.filter((n) => n._id !== id));
+    //   toast.success(res.data.message);
+    // } catch (error) {
+    //   toast.error(error.response.data.message);
+    //   console.error("Error deleting note:", error.response.data.message);
+    // }
   };
 
   return (
@@ -175,17 +198,21 @@ const Notes = () => {
                   {/* COLOR + PIN + ARCHIVE */}
                   <div className="flex items-center gap-3">
                     {/* COLOR INDICATOR */}
-                    <div
-                      className="w-4 h-4 rounded-full"
+                    <span
+                      className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: note.color || "#2979FF" }}
-                    ></div>
+                    ></span>
 
                     {/* PIN ICON */}
                     <Pin
                       size={18}
                       onClick={() => togglePin(note._id)}
                       className={`cursor-pointer transition
-    ${note.pinned ? "text-red-500" : "text-gray-400 hover:text-gray-600"}
+    ${
+      note.pinned
+        ? "text-red-500 transform rotate-45"
+        : "text-gray-400 hover:text-gray-600"
+    }
   `}
                     />
 
@@ -197,6 +224,24 @@ const Notes = () => {
     ${note.archived ? "text-yellow-500" : "text-gray-400 hover:text-gray-600"}
   `}
                     />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-3">
+                      {/* EDIT ICON */}
+                      <Edit
+                        size={18}
+                        onClick={() => {
+                          handleUpdateNote(note);
+                        }}
+                        className="text-gray-400 cursor-pointer hover:text-electricBlue transition"
+                      />
+                      {/* DELETE ICON */}
+                      <Trash2
+                        size={18}
+                        onClick={() => handleDeleteNote(note._id)}
+                        className="text-gray-400 cursor-pointer hover:text-red-600 transition"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -280,6 +325,14 @@ const Notes = () => {
         <Modal
           setActiveModal={setAddTodo}
           render={<CreateTodo {...{ setNotes, setAddTodo }} />}
+        />
+      )}
+      {updateNote && (
+        <Modal
+          setActiveModal={setUpdateNote}
+          render={
+            <UpdateNote {...{ setNotes, setUpdateNote, updateNoteItem }} />
+          }
         />
       )}
     </div>
