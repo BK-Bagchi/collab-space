@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 //prettier-ignore
 import { Archive, CheckCircle2, Circle, FileText, ListTodo, Pin, PlusCircle, StickyNote, Tag } from "lucide-react";
 import { NoteAPI } from "../../api";
@@ -28,13 +29,36 @@ const Notes = () => {
     };
     fetchNotes();
   }, []);
-  console.log(notes);
+  // console.log(notes);
 
   const filteredNotes = notes.filter((n) => {
     if (filter === "pinned") return n.pinned && !n.archived;
     if (filter === "archived") return n.archived;
     return !n.archived;
   });
+
+  const togglePin = async (id) => {
+    console.log(id);
+    try {
+      const res = await NoteAPI.togglePinNote(id);
+      setNotes((prev) => prev.map((n) => (n._id === id ? res.data.note : n)));
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.error("Error pinning note:", error.response.data.message);
+    }
+  };
+
+  const toggleArchive = async (id) => {
+    try {
+      const res = await NoteAPI.toggleArchiveNote(id);
+      setNotes((prev) => prev.map((n) => (n._id === id ? res.data.note : n)));
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.error("Error archiving note:", error.response.data.message);
+    }
+  };
 
   return (
     <div className="animate-fadeIn pb-10">
@@ -146,21 +170,35 @@ const Notes = () => {
                 key={note._id}
                 className="relative bg-white border border-gray-200 shadow-sm rounded-xl p-5 hover:shadow-md transition"
               >
-                {/* PIN / ARCHIVE ICONS */}
-                <div className="absolute top-3 right-3 flex gap-2">
-                  {note.pinned && (
-                    <Pin size={18} className="text-vibrantPurple" />
-                  )}
-                  {note.archived && (
-                    <Archive size={18} className="text-gray-500" />
-                  )}
-                </div>
+                {/* TOP INDICATORS */}
+                <div className="flex items-center justify-between mb-3">
+                  {/* COLOR + PIN + ARCHIVE */}
+                  <div className="flex items-center gap-3">
+                    {/* COLOR INDICATOR */}
+                    <div
+                      className="w-4 h-4 rounded-full"
+                      style={{ backgroundColor: note.color || "#2979FF" }}
+                    ></div>
 
-                {/* COLOR INDICATOR */}
-                <div
-                  className="w-4 h-4 rounded-full mb-3"
-                  style={{ backgroundColor: note.color || "#2979FF" }}
-                ></div>
+                    {/* PIN ICON */}
+                    <Pin
+                      size={18}
+                      onClick={() => togglePin(note._id)}
+                      className={`cursor-pointer transition
+    ${note.pinned ? "text-red-500" : "text-gray-400 hover:text-gray-600"}
+  `}
+                    />
+
+                    {/* ARCHIVE ICON */}
+                    <Archive
+                      size={18}
+                      onClick={() => toggleArchive(note._id)}
+                      className={`cursor-pointer transition
+    ${note.archived ? "text-yellow-500" : "text-gray-400 hover:text-gray-600"}
+  `}
+                    />
+                  </div>
+                </div>
 
                 {/* TITLE */}
                 <h3 className="text-lg font-semibold text-charcoalGray flex items-center gap-2">
@@ -204,7 +242,7 @@ const Notes = () => {
                     {note.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-600 rounded-full"
+                        className="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"
                       >
                         #{tag}
                       </span>
