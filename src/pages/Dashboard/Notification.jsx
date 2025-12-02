@@ -15,6 +15,7 @@ const Notification = () => {
       try {
         const res = await NotificationAPI.getNotifications();
         setNotifications(res.data.notifications);
+        await NotificationAPI.markAllAsRead();
       } catch (error) {
         console.warn(
           "Error fetching notifications:",
@@ -62,9 +63,21 @@ const Notification = () => {
             notifications.map((n) => (
               <div
                 key={n._id}
-                className="p-4 bg-[#FAFAFA] rounded-lg border border-gray-200 hover:bg-blue-50 transition"
+                className={`
+            p-3 rounded-lg transition border 
+            ${
+              n.read
+                ? "bg-softWhite border-gray-200" // READ
+                : "bg-[#2979ff]/10 border-[#2979ff]/40 shadow-sm border-l-4" // UNREAD
+            }
+            hover:bg-gray-50
+          `}
               >
-                <p className="text-sm font-medium text-charcoalGray">
+                <p
+                  className={`text-sm text-charcoalGray ${
+                    n.read ? "font-normal" : "font-semibold"
+                  }`}
+                >
                   {n.message}
                 </p>
                 <p className="text-xs text-gray-500 mt-1">

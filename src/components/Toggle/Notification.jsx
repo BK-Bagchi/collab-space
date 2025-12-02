@@ -76,7 +76,7 @@ const Notification = ({ open, setOpen }) => {
           `}
                 >
                   <p
-                    className={`text-sm ${
+                    className={`text-sm text-charcoalGray ${
                       n.read ? "font-normal" : "font-semibold"
                     }`}
                   >
