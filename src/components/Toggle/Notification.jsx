@@ -15,6 +15,7 @@ const Notification = ({ open, setOpen }) => {
       try {
         const res = await NotificationAPI.getNotifications();
         setNotifications(res.data.notifications);
+        await NotificationAPI.markAllAsRead();
       } catch (error) {
         console.warn(
           "Error fetching notifications:",
@@ -64,10 +65,29 @@ const Notification = ({ open, setOpen }) => {
               notifications.map((n) => (
                 <div
                   key={n._id}
-                  className="p-3 rounded-lg bg-softWhite border border-gray-200 hover:bg-gray-50 transition"
+                  className={`
+            p-3 rounded-lg transition border 
+            ${
+              n.read
+                ? "bg-softWhite border-gray-200" // READ
+                : "bg-[#2979ff]/10 border-[#2979ff]/40 shadow-sm border-l-4" // UNREAD
+            }
+            hover:bg-gray-50
+          `}
                 >
-                  <p className="text-sm font-medium">{n.message}</p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p
+                    className={`text-sm ${
+                      n.read ? "font-normal" : "font-semibold"
+                    }`}
+                  >
+                    {n.message}
+                  </p>
+
+                  <p
+                    className={`text-xs mt-1 ${
+                      n.read ? "text-gray-500" : "text-electricBlue font-medium"
+                    }`}
+                  >
                     {formatDateWithTime(n.createdAt)}
                   </p>
                 </div>
@@ -77,7 +97,7 @@ const Notification = ({ open, setOpen }) => {
                 <BellOff className="w-6 h-6 text-gray-400" />
                 <p className="text-sm">No notifications yet</p>
               </div>
-            )}{" "}
+            )}
           </Loading>
         </div>
       </div>
