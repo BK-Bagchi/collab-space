@@ -1,11 +1,18 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 //prettier-ignore
 import { FolderKanban, Hash, Layers, Palette, Plus, Save, StickyNote, Tag, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { noteSchema } from "../../validations/note.validation";
+import { cleanObject } from "../../utils/cleanObject";
+import { NoteAPI } from "../../api";
 
-const CreateNote = () => {
+const CreateNote = ({ setNotes, setAddNote }) => {
+  const [creatingNoteError, setCreatingNoteError] = useState({
+    status: false,
+    message: "",
+  });
   // prettier-ignore
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset, setValue} = useForm({
     resolver: zodResolver(noteSchema),
@@ -33,11 +40,26 @@ const CreateNote = () => {
     setValue("tags", updated);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     data.tags = tags;
-    console.log("FINAL SUBMIT DATA:", data);
-    reset();
-    setTags([]); // reset tags
+    data.type = "TEXT";
+    const cleanedData = cleanObject(data);
+
+    try {
+      const res = await NoteAPI.createNote(cleanedData);
+      toast.success(res.data.message);
+      setNotes((prev) => [res.data.note, ...prev]);
+      setAddNote(false);
+    } catch (error) {
+      console.error("Error creating note:", error.response.data.message);
+      setCreatingNoteError({
+        status: true,
+        message: error.response.data.message,
+      });
+    } finally {
+      reset();
+      setTags([]);
+    }
   };
 
   return (
@@ -165,6 +187,11 @@ const CreateNote = () => {
               {...register("color")}
               className="w-12 h-10 mt-2 cursor-pointer"
             />
+            {errors.color && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.color.message}
+              </p>
+            )}
           </div>
 
           {/* Visibility */}
@@ -179,6 +206,11 @@ const CreateNote = () => {
             >
               <option value="PRIVATE">Private</option>
             </select>
+            {errors.visibility && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.visibility.message}
+              </p>
+            )}
           </div>
         </div>
 
@@ -194,6 +226,11 @@ const CreateNote = () => {
           >
             <option value="">None</option>
           </select>
+          {errors.relatedTask && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.relatedTask.message}
+            </p>
+          )}
         </div>
 
         {/* Related Project */}
@@ -208,6 +245,16 @@ const CreateNote = () => {
           >
             <option value="">None</option>
           </select>
+          {errors.relatedProject && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.relatedProject.message}
+            </p>
+          )}
+          {creatingNoteError.status && (
+            <p className="text-red-500 text-sm mt-1">
+              Error creating note: {creatingNoteError.message}
+            </p>
+          )}
         </div>
 
         {/* Save */}

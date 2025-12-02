@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 //prettier-ignore
-import { Archive, CheckCircle2, Circle, FileText, ListTodo, Pin, PlusCircle, StickyNote } from "lucide-react";
+import { Archive, CheckCircle2, Circle, FileText, ListTodo, Pin, PlusCircle, StickyNote, Tag } from "lucide-react";
 import { NoteAPI } from "../../api";
 import Loading from "../../components/Loading/Loading";
 import Modal from "../../components/Modal/Modal";
@@ -28,7 +28,7 @@ const Notes = () => {
     };
     fetchNotes();
   }, []);
-  // console.log(notes);
+  console.log(notes);
 
   const filteredNotes = notes.filter((n) => {
     if (filter === "pinned") return n.pinned && !n.archived;
@@ -98,13 +98,13 @@ const Notes = () => {
         <div className="flex gap-3 mb-6">
           <button
             onClick={() => setFilter("all")}
-            className={`px-4 py-2 rounded-lg border text-sm transition ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-sm transition ${
               filter === "all"
                 ? "bg-electricBlue text-white"
                 : "bg-white text-charcoalGray border-gray-300"
             }`}
           >
-            All Notes
+            <StickyNote size={16} /> All Notes
           </button>
 
           <button
@@ -123,7 +123,7 @@ const Notes = () => {
             onClick={() => setFilter("archived")}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-sm transition ${
               filter === "archived"
-                ? "bg-charcoalGray text-white"
+                ? "bg-tealGreen text-white"
                 : "bg-white text-charcoalGray border-gray-300"
             }`}
           >
@@ -204,10 +204,9 @@ const Notes = () => {
                     {note.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-1 text-xs bg-electricBlue/10 text-electricBlue rounded-md flex items-center gap-1"
+                        className="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-600 rounded-full"
                       >
-                        <Tag size={12} />
-                        {tag}
+                        #{tag}
                       </span>
                     ))}
                   </div>
@@ -233,7 +232,12 @@ const Notes = () => {
           </div>
         )}
       </Loading>
-      {addNote && <Modal setActiveModal={setAddNote} render={<CreateNote />} />}
+      {addNote && (
+        <Modal
+          setActiveModal={setAddNote}
+          render={<CreateNote {...{ setNotes, setAddNote }} />}
+        />
+      )}
       {addTodo && <Modal setActiveModal={setAddTodo} render={<CreateTodo />} />}
     </div>
   );

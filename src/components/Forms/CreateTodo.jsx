@@ -1,21 +1,10 @@
 import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ListTodo,
-  ListCheck,
-  Trash2,
-  PlusCircle,
-  Tag,
-  X,
-  Palette,
-  Hash,
-  FolderKanban,
-  Layers,
-  Save,
-  Plus,
-} from "lucide-react";
+//prettier-ignore
+import { ListTodo, ListCheck, Trash2, PlusCircle, Tag, X, Palette, Hash, FolderKanban, Layers, Save, Plus } from "lucide-react";
 import { todoSchema } from "../../validations/note.validation";
+import { cleanObject } from "../../utils/cleanObject";
 
 const CreateTodo = () => {
   const [tags, setTags] = useState([]);
@@ -56,7 +45,8 @@ const CreateTodo = () => {
 
   const onSubmit = (data) => {
     data.tags = tags;
-    console.log("🔥 FINAL SUBMIT DATA:", data);
+    const cleanedData = cleanObject(data);
+    console.log("🔥 FINAL SUBMIT DATA:", cleanedData);
     reset();
     setTags([]);
   };
