@@ -32,7 +32,7 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                   : undefined
               }
             >
-              <h3 className="font-semibold text-[#263238] text-base truncate hover:text-electricBlue hover:underline cursor-pointer">
+              <h3 className="font-semibold text-charcoalGray text-base truncate hover:text-electricBlue hover:underline cursor-pointer">
                 {project.title}
               </h3>
               <span

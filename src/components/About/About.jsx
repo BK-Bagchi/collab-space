@@ -105,7 +105,7 @@ const About = () => {
               desc: "Get project clarity using analytics, dashboards, and timelines.",
               icon: <BarChart3 size={40} className="text-tealGreen" />,
               text: "text-tealGreen",
-              color: "from-[#26A69A]/20 to-[#26A69A]/5",
+              color: "from-tealGreen/20 to-tealGreen/5",
             },
           ].map((item, i) => (
             <div
