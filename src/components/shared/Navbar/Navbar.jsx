@@ -12,7 +12,7 @@ const Navbar = () => {
   useUserActive();
 
   return (
-    <div className="navbar bg-[#2979FF] text-[#FAFAFA] shadow-sm px-3">
+    <div className="navbar bg-electricBlue text-softWhite shadow-sm px-3">
       <div className="navbar-start">
         <div className="dropdown lg:hidden">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -26,7 +26,7 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex="-1"
-            className="menu menu-sm body-font bg-[#2979FF] dropdown-content rounded-box z-1 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm body-font bg-electricBlue dropdown-content rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             {loggedIn ? (
               <>

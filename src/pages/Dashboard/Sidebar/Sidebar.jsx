@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { adminLinks, bottomLinks, commonLinks } from "./sidebarLinks";
 import { useAuth } from "../../../hooks/useAuth";
 import { useNotification } from "../../../hooks/useNotification";
@@ -10,6 +10,7 @@ const Sidebar = () => {
   const { user, logout } = useAuth();
   const { unread, markAsRead } = useNotification();
   const location = useLocation();
+  const navigate = useNavigate();
   const { name: userName, role: userRole, avatar: userAvatar } = user || {};
   const [activeRoute, setActiveRoute] = useState(location.pathname);
 
@@ -22,7 +23,10 @@ const Sidebar = () => {
     <aside className="flex flex-col justify-between h-screen px-3 py-6 bg-charcoalGray text-softWhite w-[250px]">
       <div>
         {/* Project Info Section */}
-        <div className="flex items-center gap-3 px-3 py-2 my-4 rounded-md bg-[#37474F] hover:bg-[#455A64] transition cursor-pointer">
+        <div
+          className="flex items-center gap-3 px-3 py-2 my-4 rounded-md bg-[#37474F] hover:bg-[#455A64] transition cursor-pointer"
+          onClick={() => navigate("/profile")}
+        >
           {/* User Info */}
           <div className="flex items-center justify-center rounded-md text-softWhite">
             {userAvatar ? (

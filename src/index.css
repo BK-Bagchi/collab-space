@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@theme {
+  --color-electricBlue: #2979ff;
+  --color-vibrantPurple: #8e24aa;
+  --color-tealGreen: #20c997;
+  --color-charcoalGray: #263238;
+  --color-softWhite: #fafafa;
+}
+
 .logo-font {
   font-family: "Poppins", sans-serif;
 }
@@ -13,38 +21,36 @@
   font-family: "Inter", sans-serif;
 }
 /* primary colors */
-.text-electricBlue {
+/* .text-electricBlue {
   color: #2979ff;
-}
-.bg-electricBlue {
+} */
+/* .bg-electricBlue {
   background-color: #2979ff;
-}
-.text-vibrantPurple {
-  color: #8e24aa;
-}
-.bg-vibrantPurple {
+} */
+/* W */
+/* .bg-vibrantPurple {
   background-color: #8e24aa;
-}
+} */
 /* primary colors */
 /* secondary colors */
-.text-tealGreen {
+/* .text-tealGreen {
   color: #26a69a;
-}
-.bg-tealGreen {
+} */
+/* .bg-tealGreen {
   background-color: #26a69a;
-}
-.text-softWhite {
+} */
+/* .text-softWhite {
   color: #fafafa;
-}
-.bg-softWhite {
+} */
+/* .bg-softWhite {
   background-color: #fafafa;
-}
-.text-charcoalGray {
+} */
+/* .text-charcoalGray {
   color: #263238;
-}
-.bg-charcoalGray {
+} */
+/* .bg-charcoalGray {
   background-color: #263238;
-}
+} */
 /* secondary colors */
 
 .react-calendar__tile--active {
