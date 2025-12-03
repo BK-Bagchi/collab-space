@@ -139,7 +139,7 @@ const Notes = () => {
                 {/* Add Todo Note */}
                 <button
                   className="w-full flex items-center gap-2 px-4 py-2 text-charcoalGray 
-            hover:bg-[#8E24AA]/10 transition text-sm cursor-pointer border-t"
+            hover:bg-vibrantPurple/10 transition text-sm cursor-pointer border-t"
                   onClick={() => {
                     setOpen(false);
                     setAddTodo(true);
@@ -322,7 +322,7 @@ const Notes = () => {
                       </span>
                     )}
                     {note.relatedProject && (
-                      <span className="px-2 py-1 text-xs bg-[#8E24AA]/10 text-[#8E24AA] rounded-md">
+                      <span className="px-2 py-1 text-xs bg-vibrantPurple/10 text-vibrantPurplerple rounded-md">
                         Project: {note.relatedProject}
                       </span>
                     )}

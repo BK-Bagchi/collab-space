@@ -132,7 +132,7 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-4 py-1 bg-[#8E24AA] text-softWhite rounded-lg hover:bg-[#751C8E] transition disabled:opacity-60"
+            className="px-4 py-1 bg-vibrantPurplerple text-softWhite rounded-lg hover:bg-[#751C8E] transition disabled:opacity-60"
           >
             {isSubmitting ? "Saving..." : "Save Changes"}
           </button>

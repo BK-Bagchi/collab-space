@@ -116,7 +116,7 @@ const SeeProfile = () => {
                 className={`capitalize px-4 py-2 rounded-t-md font-medium transition-all ${
                   activeTab === tab
                     ? "bg-vibrantPurple text-softWhite"
-                    : "text-[#455A64] hover:text-[#8E24AA]"
+                    : "text-[#455A64] hover:text-vibrantPurple"
                 }`}
               >
                 {tab}

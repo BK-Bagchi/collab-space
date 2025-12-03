@@ -270,7 +270,7 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
 
           <button
             type="submit"
-            className="px-4 py-2 bg-[#8E24AA] text-softWhite rounded-lg hover:bg-[#751C8E] transition"
+            className="px-4 py-2 bg-vibrantPurplerple text-softWhite rounded-lg hover:bg-[#751C8E] transition"
           >
             {isSubmitting ? "Updating..." : "Update Project"}
           </button>

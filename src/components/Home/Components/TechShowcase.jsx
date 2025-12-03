@@ -15,7 +15,7 @@ const TechShowcase = () => {
     { name: "Node.js", icon: Node, color: "text-[#26A69A]" },
     { name: "Socket.IO", icon: SocketIO, color: "text-[#FF5722]" },
     { name: "Tailwind CSS", icon: Tailwind, color: "text-[#38BDF8]" },
-    { name: "JWT Auth", icon: JWT, color: "text-[#8E24AA]" },
+    { name: "JWT Auth", icon: JWT, color: "text-vibrantPurple" },
     { name: "Cloudinary", icon: Cloudinary, color: "textelectricBlue" },
   ];
 

@@ -9,7 +9,7 @@ const PublicBtn = () => {
           Login
         </Link>
       </button>
-      <button className="btn btn-primary btn-md px-5 text-softWhite bg-[#8e24aa] hover:bg-purple-800">
+      <button className="btn btn-primary btn-md px-5 text-softWhite bg-vibrantPurple hover:bg-purple-800">
         <Link className="font-normal" to="/register">
           Register
         </Link>

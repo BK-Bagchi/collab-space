@@ -152,7 +152,7 @@ const Help = () => {
               {/* Submit */}
               <button
                 type="submit"
-                className="bg-[#8E24AA] w-full text-white font-medium py-3 rounded-xl hover:bg-purple-700 transition shadow-md cursor-pointer"
+                className="bg-vibrantPurplerple w-full text-white font-medium py-3 rounded-xl hover:bg-purple-700 transition shadow-md cursor-pointer"
               >
                 Send Message
               </button>

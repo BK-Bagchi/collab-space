@@ -18,13 +18,13 @@ const previews = [
     icon: NotebookPen,
     title: "Notes & Todos",
     text: "Create personal notes or todo-lists, pin important items, and link them to tasks or projects.",
-    color: "bg-[#8E24AA]/20 text-[#8E24AA]",
+    color: "bg-vibrantPurplerple/20 text-vibrantPurplerple",
   },
   {
     icon: MessageSquare,
     title: "Live Chat",
     text: "Instant messaging, group chat, file sharing, and online status.",
-    color: "bg-[#8e24aa]/20 text-[#8e24aa]",
+    color: "bg-vibrantPurple/20 text-vibrantPurple",
   },
   {
     icon: BellRing,
