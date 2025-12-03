@@ -18,7 +18,7 @@ const previews = [
     icon: NotebookPen,
     title: "Notes & Todos",
     text: "Create personal notes or todo-lists, pin important items, and link them to tasks or projects.",
-    color: "bg-vibrantPurplerple/20 text-vibrantPurplerple",
+    color: "bg-vibrantPurple/20 text-vibrantPurple",
   },
   {
     icon: MessageSquare,
