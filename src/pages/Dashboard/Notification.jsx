@@ -68,7 +68,7 @@ const Notification = () => {
             ${
               n.read
                 ? "bg-softWhite border-gray-200" // READ
-                : "bg-[#2979ff]/10 border-[#2979ff]/40 shadow-sm border-l-4" // UNREAD
+                : "bg-electricBlue/10 border-electricBlue/40 shadow-sm border-l-4" // UNREAD
             }
             hover:bg-gray-50
           `}

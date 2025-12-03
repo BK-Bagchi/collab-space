@@ -89,7 +89,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
               type="text"
               {...register("title")}
               placeholder="Enter task title..."
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
             />
             <Edit2 className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
           </div>
@@ -106,7 +106,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
           <div className="relative">
             <select
               {...register("status")}
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
             >
               <option value="" className="hidden">
                 Select status
@@ -129,7 +129,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
             <input
               type="date"
               {...register("dueDate")}
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
             />
             <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
           </div>
@@ -148,7 +148,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
           <div className="relative">
             <select
               {...register("priority")}
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
             >
               <option className="hidden" value="">
                 Select priority
@@ -179,7 +179,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
                     type="text"
                     {...register(`subtasks.${index}.title`)}
                     placeholder={`Subtask ${index + 1}`}
-                    className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+                    className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
                   />
                   <ListCheck className="absolute left-3 top-1.5 h-4 w-4 text-gray-500" />
                 </div>
@@ -224,7 +224,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
                 <img
                   src={m.avatar || Avatar}
                   alt={m.name}
-                  className="w-8 h-8 rounded-full border-2 border-[#2979FF] shadow-sm"
+                  className="w-8 h-8 rounded-full border-2 border-electricBlue shadow-sm"
                   title={m.name}
                 />
 
@@ -274,7 +274,9 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
                         src={member.avatar || Avatar}
                         alt={member.name}
                         className={`w-12 h-12 rounded-full border-2 ${
-                          isSelected ? "border-[#2979FF]" : "border-transparent"
+                          isSelected
+                            ? "border-electricBlue"
+                            : "border-transparent"
                         }`}
                       />
                       {isSelected && (
@@ -308,7 +310,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
           </button>
           <button
             type="submit"
-            className="px-4 py-2 text-sm rounded-md bg-[#2979FF] text-white hover:bg-blue-600 transition"
+            className="px-4 py-2 text-sm rounded-md bg-electricBlue text-white hover:bg-blue-600 transition"
           >
             {isSubmitting ? "Assigning..." : "Assign Task"}
           </button>

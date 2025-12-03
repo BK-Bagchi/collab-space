@@ -70,7 +70,7 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
             placeholder="Full Name"
             {...register("name")}
             className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 bg-softWhite 
-                     focus:ring-2 focus:ring-[#2979FF] outline-none"
+                     focus:ring-2 focus:ring-electricBlue outline-none"
           />
         </div>
         {errors.name && (
@@ -88,7 +88,7 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
             placeholder="Write something about yourself…"
             {...register("bio")}
             className="w-full pl-10 pr-3 py-2 h-24 rounded-lg border border-gray-300 bg-softWhite 
-                     focus:ring-2 focus:ring-[#2979FF] outline-none resize-none"
+                     focus:ring-2 focus:ring-electricBlue outline-none resize-none"
           />
         </div>
         {errors.bio && (

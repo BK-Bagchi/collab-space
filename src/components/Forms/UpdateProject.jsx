@@ -107,7 +107,7 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
               {...register("title")}
               placeholder="Enter project title"
               required
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
             />
             <FolderKanban className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
           </div>
@@ -127,7 +127,7 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
               {...register("description")}
               placeholder="Describe your project"
               required
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
             />
             <FileText className="absolute left-3 top-3 h-5 w-5 text-gray-500" />
           </div>
@@ -168,7 +168,7 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
               type="date"
               {...register("deadline")}
               required
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
             />
             <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
           </div>
@@ -190,7 +190,7 @@ const UpdateProject = ({ project, setUpdateModal, setSelectedProject }) => {
               type="text"
               {...register("members")}
               placeholder="e.g. dipto@example.com, bk@example.com"
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
               onChange={handleMembersChange}
             />
             <Users className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />

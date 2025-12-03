@@ -49,7 +49,7 @@ const ChangePassword = ({ setActiveModal }) => {
             placeholder="Current Password"
             {...register("currentPassword")}
             className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite 
-                   focus:ring-2 focus:ring-[#2979FF] outline-none"
+                   focus:ring-2 focus:ring-electricBlue outline-none"
           />
           <button
             type="button"
@@ -76,7 +76,7 @@ const ChangePassword = ({ setActiveModal }) => {
             placeholder="New Password"
             {...register("newPassword")}
             className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite 
-                   focus:ring-2 focus:ring-[#2979FF] outline-none"
+                   focus:ring-2 focus:ring-electricBlue outline-none"
           />
           <button
             type="button"
@@ -103,7 +103,7 @@ const ChangePassword = ({ setActiveModal }) => {
             placeholder="Confirm New Password"
             {...register("confirmPassword")}
             className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite 
-                   focus:ring-2 focus:ring-[#2979FF] outline-none"
+                   focus:ring-2 focus:ring-electricBlue outline-none"
           />
           <button
             type="button"

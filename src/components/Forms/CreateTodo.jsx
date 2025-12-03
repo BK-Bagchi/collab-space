@@ -91,7 +91,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
           <input
             type="text"
             {...register("title")}
-            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue focus:outline-none"
             placeholder="Todo list title..."
           />
           {errors.title && (
@@ -113,7 +113,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
                     type="text"
                     {...register(`todos.${index}.text`)}
                     placeholder={`Todo ${index + 1}`}
-                    className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2979FF]"
+                    className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
                   />
                   <ListCheck className="absolute left-3 top-1.5 h-4 w-4 text-gray-500" />
                 </div>
@@ -163,7 +163,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
               type="text"
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              className="flex-1 px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:ring-2 focus:ring-[#2979FF] focus:outline-none transition"
+              className="flex-1 px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:ring-2 focus:ring-electricBlue focus:outline-none transition"
               placeholder="Add a tag..."
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -176,7 +176,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
             <button
               type="button"
               onClick={handleAddTag}
-              className="p-2.5 rounded-xl bg-[#2979FF] focus:outline-none text-white shadow-md 
+              className="p-2.5 rounded-xl bg-electricBlue focus:outline-none text-white shadow-md 
                hover:bg-blue-700 hover:shadow-lg active:scale-95
                transition-all"
             >
@@ -241,7 +241,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
             </label>
             <select
               {...register("visibility")}
-              className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF]"
+              className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue"
             >
               <option value="PRIVATE">Private</option>
             </select>
@@ -260,7 +260,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
           </label>
           <select
             {...register("relatedTask")}
-            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] w-full"
+            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue w-full"
           >
             <option value="">None</option>
           </select>
@@ -278,7 +278,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
           </label>
           <select
             {...register("relatedProject")}
-            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] w-full"
+            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue w-full"
           >
             <option value="">None</option>
           </select>

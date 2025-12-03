@@ -12,7 +12,7 @@ const Security = ({ logout, setPasswordModal }) => {
         {/* Change Password */}
         <button
           onClick={() => setPasswordModal(true)}
-          className="w-full flex items-center justify-between px-4 py-3 border border-electricBlue text-[#2979FF] font-medium rounded-lg hover:bg-[#2979FF] hover:text-white transition shadow-sm"
+          className="w-full flex items-center justify-between px-4 py-3 border border-electricBlue text-electricBlue font-medium rounded-lg hover:bg-electricBlue hover:text-white transition shadow-sm"
         >
           <span>Change Password</span>
           <KeyRound size={18} />

@@ -19,7 +19,7 @@ const UpcomingDeadlines = ({
         <select
           value={selectedRange}
           onChange={(e) => setSelectedRange(e.target.value)}
-          className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
+          className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
         >
           <option value="15">Next 15 Days</option>
           <option value="30">Next 1 Month</option>

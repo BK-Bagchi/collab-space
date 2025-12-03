@@ -61,7 +61,7 @@ const LoginPage = () => {
                 required
                 className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 
               bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 
-              focus:ring-[#2979FF] transition"
+              focus:ring-electricBlue transition"
               />
             </div>
             {errors.email && (
@@ -84,7 +84,7 @@ const LoginPage = () => {
                 required
                 className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 
               bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 
-              focus:ring-[#2979FF] transition"
+              focus:ring-electricBlue transition"
               />
 
               {/* Show/Hide Password toggle */}

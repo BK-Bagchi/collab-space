@@ -18,7 +18,7 @@ const Overview = ({ stats }) => {
           </p>
           {item.value > 0 && (
             <span
-              className="text-xs text-[#263238] hover:underline hover:text-[#2979ff] cursor-pointer"
+              className="text-xs text-[#263238] hover:underline hover:text-electricBlue cursor-pointer"
               onClick={() => navigate("/dashboard/projects")}
             >
               View All
@@ -40,7 +40,7 @@ const Overview = ({ stats }) => {
           </p>
           {item.value > 0 && (
             <span
-              className="text-xs text-[#263238] hover:underline hover:text-[#2979ff] cursor-pointer"
+              className="text-xs text-[#263238] hover:underline hover:text-electricBlue cursor-pointer"
               onClick={() => navigate("/dashboard/tasks")}
             >
               View All

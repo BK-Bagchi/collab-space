@@ -126,7 +126,7 @@ const Notes = () => {
                 {/* Add Text Note */}
                 <button
                   className="w-full flex items-center gap-2 px-4 py-2 text-charcoalGray 
-            hover:bg-[#2979FF]/10 transition text-sm cursor-pointer"
+            hover:bg-electricBlue/10 transition text-sm cursor-pointer"
                   onClick={() => {
                     setOpen(false);
                     setAddNote(true);

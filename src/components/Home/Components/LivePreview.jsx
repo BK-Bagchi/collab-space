@@ -6,7 +6,7 @@ const previews = [
     icon: LayoutDashboard,
     title: "Dashboard Overview",
     text: "Real-time charts, task progress, active users, and project stats.",
-    color: "bg-[#2979ff]/20 text-[#2979ff]",
+    color: "bg-electricBlue/20 text-electricBlue",
   },
   {
     icon: ListTodo,

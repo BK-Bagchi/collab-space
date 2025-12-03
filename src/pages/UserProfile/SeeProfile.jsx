@@ -85,7 +85,7 @@ const SeeProfile = () => {
             <img
               src={user.avatar || Avatar}
               alt="Profile"
-              className="w-24 h-24 rounded-full border-2 border-[#2979FF] object-cover"
+              className="w-24 h-24 rounded-full border-2 border-electricBlue object-cover"
             />
             <div className="flex-1 text-center md:text-left">
               <h2 className="text-2xl font-semibold">{user.name}</h2>
@@ -101,7 +101,7 @@ const SeeProfile = () => {
             </div>
             <button
               onClick={() => setActiveModal(true)}
-              className="bg-[#2979FF] hover:bg-[#1E63D0] text-white px-4 py-2 rounded-lg transition"
+              className="bg-electricBlue hover:bg-[#1E63D0] text-white px-4 py-2 rounded-lg transition"
             >
               Edit Profile
             </button>

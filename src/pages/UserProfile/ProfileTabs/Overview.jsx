@@ -77,7 +77,7 @@ const Overview = () => {
                 </div>
                 <Link
                   to={`/dashboard/projects`}
-                  className="bg-[#2979FF] hover:bg-[#1E63D0] text-white px-4 py-1.5 rounded-lg text-sm transition"
+                  className="bg-electricBlue hover:bg-[#1E63D0] text-white px-4 py-1.5 rounded-lg text-sm transition"
                 >
                   View
                 </Link>

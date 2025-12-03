@@ -118,7 +118,7 @@ const Help = () => {
                 <label className="text-sm font-semibold text-charcoalGray mb-1">
                   Category
                 </label>
-                <select className="p-3 border border-gray-300 rounded-xl bg-softWhite outline-none focus:ring-2 focus:ring-[#2979ff] cursor-pointer">
+                <select className="p-3 border border-gray-300 rounded-xl bg-softWhite outline-none focus:ring-2 focus:ring-electricBlue cursor-pointer">
                   <option className="hidden">Select Category</option>
                   <option value="contact">Contact Admin</option>
                   <option value="feature">Feature Request</option>
@@ -134,7 +134,7 @@ const Help = () => {
                 <input
                   type="text"
                   placeholder="Write the subject"
-                  className="p-3 border border-gray-300 rounded-xl bg-softWhite outline-none focus:ring-2 focus:ring-[#2979ff]"
+                  className="p-3 border border-gray-300 rounded-xl bg-softWhite outline-none focus:ring-2 focus:ring-electricBlue"
                 />
               </div>
 
@@ -145,7 +145,7 @@ const Help = () => {
                 </label>
                 <textarea
                   placeholder="Write your message for admin…"
-                  className="p-3 h-32 border border-gray-300 rounded-xl bg-softWhite outline-none focus:ring-2 focus:ring-[#2979ff]"
+                  className="p-3 h-32 border border-gray-300 rounded-xl bg-softWhite outline-none focus:ring-2 focus:ring-electricBlue"
                 ></textarea>
               </div>
 

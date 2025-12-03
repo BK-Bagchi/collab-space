@@ -17,21 +17,21 @@ const Footer = () => {
             <a
               href="https://github.com/bk-bagchi"
               target="_blank"
-              className="hover:text-[#2979FF] transition"
+              className="hover:text-electricBlue transition"
             >
               <Github size={20} />
             </a>
             <a
               href="https://linkedin.com/in/bkbagchi-dipto/"
               target="_blank"
-              className="hover:text-[#2979FF] transition"
+              className="hover:text-electricBlue transition"
             >
               <Linkedin size={20} />
             </a>
             <a
               href="https://twitter.com"
               target="_blank"
-              className="hover:text-[#2979FF] transition"
+              className="hover:text-electricBlue transition"
             >
               <Twitter size={20} />
             </a>
@@ -43,14 +43,17 @@ const Footer = () => {
           <h4 className="font-heading text-lg font-semibold mb-4">Product</h4>
           <ul className="flex flex-col gap-2 text-sm">
             <li>
-              <Link to="/dashboard" className="hover:text-[#2979FF] transition">
+              <Link
+                to="/dashboard"
+                className="hover:text-electricBlue transition"
+              >
                 Dashboard
               </Link>
             </li>
             <li>
               <Link
                 to="dashboard/projects"
-                className="hover:text-[#2979FF] transition"
+                className="hover:text-electricBlue transition"
               >
                 Projects
               </Link>
@@ -58,7 +61,7 @@ const Footer = () => {
             <li>
               <Link
                 to="dashboard/tasks"
-                className="hover:text-[#2979FF] transition"
+                className="hover:text-electricBlue transition"
               >
                 Tasks
               </Link>
@@ -66,7 +69,7 @@ const Footer = () => {
             <li>
               <Link
                 to="dashboard/notes"
-                className="hover:text-[#2979FF] transition"
+                className="hover:text-electricBlue transition"
               >
                 Notes
               </Link>
@@ -74,7 +77,7 @@ const Footer = () => {
             <li>
               <Link
                 to="dashboard/chats"
-                className="hover:text-[#2979FF] transition"
+                className="hover:text-electricBlue transition"
               >
                 Chats
               </Link>
@@ -82,7 +85,7 @@ const Footer = () => {
             <li>
               <Link
                 to="dashboard/files"
-                className="hover:text-[#2979FF] transition"
+                className="hover:text-electricBlue transition"
               >
                 Files
               </Link>
@@ -95,32 +98,32 @@ const Footer = () => {
           <h4 className="font-heading text-lg font-semibold mb-4">Resources</h4>
           <ul className="flex flex-col gap-2 text-sm">
             <li>
-              <a href="#" className="hover:text-[#2979FF] transition">
+              <a href="#" className="hover:text-electricBlue transition">
                 Documentation
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-[#2979FF] transition">
+              <a href="#" className="hover:text-electricBlue transition">
                 API Reference
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-[#2979FF] transition">
+              <a href="#" className="hover:text-electricBlue transition">
                 Blog
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-[#2979FF] transition">
+              <a href="#" className="hover:text-electricBlue transition">
                 Roadmap
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-[#2979FF] transition">
+              <a href="#" className="hover:text-electricBlue transition">
                 Changelog
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-[#2979FF] transition">
+              <a href="#" className="hover:text-electricBlue transition">
                 Support
               </a>
             </li>
@@ -132,32 +135,35 @@ const Footer = () => {
           <h4 className="font-heading text-lg font-semibold mb-4">Company</h4>
           <ul className="flex flex-col gap-2 text-sm">
             <li>
-              <Link to="/about" className="hover:text-[#2979FF] transition">
+              <Link to="/about" className="hover:text-electricBlue transition">
                 About Us
               </Link>
             </li>
             <li>
-              <Link to="/features" className="hover:text-[#2979FF] transition">
+              <Link
+                to="/features"
+                className="hover:text-electricBlue transition"
+              >
                 Features
               </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-[#2979FF] transition">
+              <a href="#" className="hover:text-electricBlue transition">
                 Careers
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-[#2979FF] transition">
+              <a href="#" className="hover:text-electricBlue transition">
                 Contact
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-[#2979FF] transition">
+              <a href="#" className="hover:text-electricBlue transition">
                 Terms & Conditions
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-[#2979FF] transition">
+              <a href="#" className="hover:text-electricBlue transition">
                 Privacy Policy
               </a>
             </li>

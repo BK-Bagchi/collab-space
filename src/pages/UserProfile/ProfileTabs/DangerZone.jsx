@@ -10,7 +10,7 @@ const DangerZone = () => {
 
       <div className="bg-softWhite p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
         {/* Clear Activity Log */}
-        <button className="w-full flex items-center justify-between px-4 py-3 border border-electricBlue text-[#2979FF] font-medium rounded-lg hover:bg-[#2979FF] hover:text-white transition shadow-sm">
+        <button className="w-full flex items-center justify-between px-4 py-3 border border-electricBlue text-electricBlue font-medium rounded-lg hover:bg-electricBlue hover:text-white transition shadow-sm">
           <span>Clear Activity Log</span>
           <Trash2 size={18} />
         </button>

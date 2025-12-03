@@ -55,7 +55,7 @@ const Register = () => {
               {...register("name")}
               placeholder="Full Name"
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite 
-                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
+                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
               required
             />
           </div>
@@ -74,7 +74,7 @@ const Register = () => {
               {...register("email")}
               placeholder="Email Address"
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite 
-                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
+                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
               required
             />
           </div>
@@ -93,7 +93,7 @@ const Register = () => {
               {...register("password")}
               placeholder="Password"
               className="w-full pl-10 pr-10 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite 
-                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
+                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
               required
             />
             <button
@@ -121,7 +121,7 @@ const Register = () => {
               {...register("confirmPassword")}
               placeholder="Confirm Password"
               className="w-full pl-10 pr-10 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite 
-                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-[#2979FF] transition"
+                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
               required
             />
             <button

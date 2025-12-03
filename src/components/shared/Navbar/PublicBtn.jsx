@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const PublicBtn = () => {
   return (
     <div className="flex items-center gap-3">
-      <button className="btn btn-outline btn-md px-5 text-softWhite bg-softWhit hover:shadow-sm hover:bg-[#2979FF]">
+      <button className="btn btn-outline btn-md px-5 text-softWhite bg-softWhit hover:shadow-sm hover:bg-electricBlue">
         <Link className="font-normal" to="/login">
           Login
         </Link>

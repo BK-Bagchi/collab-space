@@ -97,7 +97,7 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
               type="text"
               name="members"
               placeholder="e.g. dipto@example.com, bk@example.com"
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-[#2979FF] outline-none"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
               onChange={handleMembersChange}
             />
             <Users className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />

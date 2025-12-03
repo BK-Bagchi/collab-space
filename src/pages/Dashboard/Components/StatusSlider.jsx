@@ -38,7 +38,7 @@ const StatusSlider = ({ value, onChange }) => {
 
       {/* Slider */}
       <div
-        className="absolute top-1 bottom-1 w-1/3 bg-[#2979FF] rounded-full flex items-center justify-center text-xs
+        className="absolute top-1 bottom-1 w-1/3 bg-electricBlue rounded-full flex items-center justify-center text-xs
         transition-[left] duration-500 ease-in-out"
         style={{
           left: `calc(${leftPercent}% - 16.6%)`,

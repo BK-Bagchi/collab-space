@@ -39,7 +39,7 @@ const ManageUsers = () => {
         <h2 className="text-2xl font-semibold text-charcoalGray flex items-center gap-2">
           <FolderKanban className="text-electricBlue" size={22} />
           All Projects
-          <span className="text-sm text-gray-500 italic hover:text-[#2979FF] hover:underline cursor-pointer">
+          <span className="text-sm text-gray-500 italic hover:text-electricBlue hover:underline cursor-pointer">
             Click to see details
           </span>
         </h2>

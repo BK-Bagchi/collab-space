@@ -83,7 +83,7 @@ const CreateNote = ({ setNotes, setAddNote }) => {
             type="text"
             placeholder="Enter title..."
             {...register("title")}
-            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue focus:outline-none"
           />
           {errors.title && (
             <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>
@@ -99,7 +99,7 @@ const CreateNote = ({ setNotes, setAddNote }) => {
             rows="6"
             placeholder="Write your note..."
             {...register("content")}
-            className="w-full mt-2 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+            className="w-full mt-2 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue focus:outline-none"
           />
           {errors.content && (
             <p className="text-red-500 text-xs mt-1">
@@ -120,7 +120,7 @@ const CreateNote = ({ setNotes, setAddNote }) => {
               type="text"
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              className="flex-1 px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:ring-2 focus:ring-[#2979FF] focus:outline-none transition"
+              className="flex-1 px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:ring-2 focus:ring-electricBlue focus:outline-none transition"
               placeholder="Add a tag..."
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -133,7 +133,7 @@ const CreateNote = ({ setNotes, setAddNote }) => {
             <button
               type="button"
               onClick={handleAddTag}
-              className="p-2.5 rounded-xl bg-[#2979FF] focus:outline-none text-white shadow-md 
+              className="p-2.5 rounded-xl bg-electricBlue focus:outline-none text-white shadow-md 
                hover:bg-blue-700 hover:shadow-lg active:scale-95
                transition-all"
             >
@@ -202,7 +202,7 @@ const CreateNote = ({ setNotes, setAddNote }) => {
 
             <select
               {...register("visibility")}
-              className="mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+              className="mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electricBlue focus:outline-none"
             >
               <option value="PRIVATE">Private</option>
             </select>
@@ -222,7 +222,7 @@ const CreateNote = ({ setNotes, setAddNote }) => {
 
           <select
             {...register("relatedTask")}
-            className="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+            className="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-electricBlue focus:outline-none"
           >
             <option value="">None</option>
           </select>
@@ -241,7 +241,7 @@ const CreateNote = ({ setNotes, setAddNote }) => {
 
           <select
             {...register("relatedProject")}
-            className="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-[#2979FF] focus:outline-none"
+            className="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-electricBlue focus:outline-none"
           >
             <option value="">None</option>
           </select>
