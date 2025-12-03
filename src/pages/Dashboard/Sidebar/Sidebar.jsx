@@ -110,7 +110,7 @@ const Sidebar = () => {
             <Link
               key={link.name}
               to={link.route}
-              className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-[#26A69A] hover:text-white transition ${
+              className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-tealGreen hover:text-white transition ${
                 activeRoute === link.route ? "bg-tealGreen text-white" : ""
               }`}
             >

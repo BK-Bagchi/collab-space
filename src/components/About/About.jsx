@@ -14,7 +14,7 @@ const About = () => {
   return (
     <div className="min-h-screen flex flex-col bg-softWhite text-charcoalGray">
       {/* HERO SECTION */}
-      <section className="px-8 md:px-16 py-20 bg-gradient-to-br  from-electricBlue/20 via-vibrantPurplerple/20 to-[#26A69A]/20 text-center md:text-left">
+      <section className="px-8 md:px-16 py-20 bg-gradient-to-br  from-electricBlue/20 via-vibrantPurplerple/20 to-tealGreen/20 text-center md:text-left">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
           {/* Left Content */}
           <div className="md:w-1/2 space-y-6">

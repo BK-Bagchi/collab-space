@@ -7,7 +7,7 @@ const Banner = () => {
   const { loggedIn } = useAuth();
 
   return (
-    <section className="flex flex-col md:flex-row items-center justify-between min-h-[50vh] px-8 md:px-16 py-20 bg-gradient-to-br from-electricBlue via-vibrantPurple to-[#26A69A] text-white shadow-lg">
+    <section className="flex flex-col md:flex-row items-center justify-between min-h-[50vh] px-8 md:px-16 py-20 bg-gradient-to-br from-electricBlue via-vibrantPurple to-tealGreen text-white shadow-lg">
       <div className="md:w-1/2 space-y-6">
         <h1 className="text-4xl md:text-5xl font-bold leading-tight logo-font">
           {projectSlogan()} 🚀

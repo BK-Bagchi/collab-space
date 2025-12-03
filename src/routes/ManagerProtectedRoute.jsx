@@ -6,7 +6,7 @@ const ManagerProtectedRoute = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center min-h-screen text-[#26A69A] font-semibold">
+      <div className="flex justify-center items-center min-h-screen text-tealGreen font-semibold">
         Checking permissions...
       </div>
     );

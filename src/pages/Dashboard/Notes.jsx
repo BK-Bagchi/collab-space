@@ -317,7 +317,7 @@ const Notes = () => {
                 {(note.relatedTask || note.relatedProject) && (
                   <div className="mt-4 flex flex-wrap gap-2">
                     {note.relatedTask && (
-                      <span className="px-2 py-1 text-xs bg-[#26A69A]/10 text-[#26A69A] rounded-md">
+                      <span className="px-2 py-1 text-xs bg-tealGreen/10 text-tealGreen rounded-md">
                         Task: {note.relatedTask}
                       </span>
                     )}

@@ -16,7 +16,7 @@ const DangerZone = () => {
         </button>
 
         {/* Logout from All Devices */}
-        <button className="w-full flex items-center justify-between px-4 py-3 border border-tealGreen text-[#26A69A] font-medium rounded-lg hover:bg-[#26A69A] hover:text-white transition shadow-sm">
+        <button className="w-full flex items-center justify-between px-4 py-3 border border-tealGreen text-tealGreen font-medium rounded-lg hover:bg-tealGreen hover:text-white transition shadow-sm">
           <span>Logout from All Devices</span>
           <LogOut size={18} />
         </button>

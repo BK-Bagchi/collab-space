@@ -6,7 +6,7 @@ const CtaSection = () => {
   const { loggedIn } = useAuth();
 
   return (
-    <section className="text-center py-20 px-8 md:px-16 bg-gradient-to-br from-electricBlue/20 via-vibrantPurple/20 to-[#26A69A]/20">
+    <section className="text-center py-20 px-8 md:px-16 bg-gradient-to-br from-electricBlue/20 via-vibrantPurple/20 to-tealGreen/20">
       <h2 className="text-3xl font-bold mb-6 logo-font">
         Empower Your Team with {projectName()} 💡
       </h2>

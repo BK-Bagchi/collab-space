@@ -17,7 +17,7 @@ const Appearance = () => {
         {/* Toggle Switch */}
         <label className="relative inline-flex items-center cursor-pointer">
           <input type="checkbox" className="sr-only peer" />
-          <div className="w-11 h-6 bg-[#26a69a] rounded-full peer peer-checked:bg-electricBlue transition-all"></div>
+          <div className="w-11 h-6 bg-tealGreen rounded-full peer peer-checked:bg-electricBlue transition-all"></div>
           <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all"></div>
         </label>
       </div>

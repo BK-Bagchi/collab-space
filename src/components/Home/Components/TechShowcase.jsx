@@ -12,11 +12,11 @@ const TechShowcase = () => {
     { name: "MongoDB", icon: Mongo, color: "text-[#4DB33D]" },
     { name: "Express.js", icon: ExpressJS, color: "text-gray-200" },
     { name: "React", icon: React, color: "text-[#61DAFB]" },
-    { name: "Node.js", icon: Node, color: "text-[#26A69A]" },
+    { name: "Node.js", icon: Node, color: "text-tealGreen" },
     { name: "Socket.IO", icon: SocketIO, color: "text-[#FF5722]" },
     { name: "Tailwind CSS", icon: Tailwind, color: "text-[#38BDF8]" },
     { name: "JWT Auth", icon: JWT, color: "text-vibrantPurple" },
-    { name: "Cloudinary", icon: Cloudinary, color: "textelectricBlue" },
+    { name: "Cloudinary", icon: Cloudinary, color: "text-electricBlue" },
   ];
 
   return (
