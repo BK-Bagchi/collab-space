@@ -36,7 +36,7 @@ const ActivityLog = () => {
             {recentActivities.map((a, i) => (
               <li
                 key={i}
-                className="bg-[#FAFAFA] p-3 rounded-lg border border-gray-100 hover:bg-[#F9F0FF] transition"
+                className="bg-softWhite p-3 rounded-lg border border-gray-100 hover:bg-[#F9F0FF] transition"
               >
                 <p className="text-sm">{a.message}</p>
                 <p className="text-xs text-gray-500 mt-1">
