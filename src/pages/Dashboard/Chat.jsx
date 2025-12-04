@@ -80,6 +80,7 @@ const Chat = () => {
         sender: msg.sender ?? {},
         createdAt: msg.createdAt,
         content: msg.content,
+        isRead: msg.readBy,
       }))
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   };

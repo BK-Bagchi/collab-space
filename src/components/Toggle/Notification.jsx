@@ -46,7 +46,7 @@ const Notification = ({ open, setOpen }) => {
 
   return (
     open && (
-      <div className="absolute right-0 mt-2 w-80 h-[100vh] bg-softWhite border border-gray-200 shadow-lg rounded-tl-xl rounded-bl-xl z-50 overflow-y-auto transition-all duration-300">
+      <div className="absolute right-0 mt-2 w-80 h-screen bg-softWhite border border-gray-200 shadow-lg rounded-tl-xl rounded-bl-xl z-50 overflow-y-auto transition-all duration-300">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-electricBlue text-white rounded-tl-xl">
           <h3 className="font-semibold text-base">Notifications</h3>
@@ -70,7 +70,7 @@ const Notification = ({ open, setOpen }) => {
             ${
               n.read
                 ? "bg-softWhite border-gray-200" // READ
-                : "bg-electricBlue/10 border-electricBlue/40 shadow-sm border-l-4" // UNREAD
+                : "bg-electricBlue/10 hover:bg-electricBlue/20 border-electricBlue/40 shadow-sm border-l-4" // UNREAD
             }
             hover:bg-gray-50
           `}

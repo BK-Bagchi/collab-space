@@ -1,5 +1,5 @@
-import { X, MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
+import { X, MessageSquare } from "lucide-react";
 import { ChatAPI } from "../../api";
 import { useAuth } from "../../hooks/useAuth";
 import { useActive } from "../../hooks/useActive";
@@ -62,6 +62,7 @@ const Chat = ({ open, setOpen }) => {
           preview: msg.content,
           _id: chatPartner?._id, // partner id — used for socket/chatbox
           role: isSender ? "sender" : "receiver",
+          isRead: msg?.isRead,
         };
       })
       .sort((a, b) => new Date(b.time) - new Date(a.time));
@@ -71,7 +72,7 @@ const Chat = ({ open, setOpen }) => {
 
   return (
     open && (
-      <div className="absolute right-0 top-0 h-[100vh] flex border-l border-gray-200 shadow-xl rounded-tl-xl rounded-bl-xl z-50 transition-all duration-300">
+      <div className="absolute right-0 top-0 h-screen flex border-l border-gray-200 shadow-xl rounded-tl-xl rounded-bl-xl z-50 transition-all duration-300">
         {/* Chat List Panel */}
         <div className="relative w-80 bg-softWhite border-r border-gray-200 flex flex-col rounded-tl-xl">
           {/* Header */}
@@ -96,11 +97,17 @@ const Chat = ({ open, setOpen }) => {
                     <div
                       key={chat.id}
                       onClick={() => setActiveChatUser(chat)}
-                      className={`flex items-center gap-4 p-3 mt-3 mx-3 rounded-lg cursor-pointer transition-all duration-200 shadow-sm border border-transparent ${
-                        activeChatUser?.id === chat.id
-                          ? "bg-[#EEE4F8] border-vibrantPurple shadow-md"
-                          : "bg-white hover:bg-[#F4F1FA] hover:border-gray-200"
-                      }`}
+                      className={`
+    flex items-center gap-4 p-3 mt-3 mx-3 rounded-lg cursor-pointer 
+    transition-all duration-200 shadow-sm border 
+    ${
+      activeChatUser?.id === chat.id
+        ? "bg-[#EEE4F8] border-vibrantPurple shadow-md"
+        : chat.isRead
+        ? "bg-white hover:bg-[#F4F1FA] border-transparent hover:border-gray-200"
+        : "bg-vibrantPurple/10 hover:bg-vibrantPurple/20 border-vibrantPurple/40 shadow-sm border-l-4"
+    }
+  `}
                     >
                       {/* Avatar */}
                       <div className="relative">
@@ -109,16 +116,19 @@ const Chat = ({ open, setOpen }) => {
                           alt={chat.name}
                           className="w-11 h-11 rounded-full object-cover border border-gray-200 shadow-sm"
                         />
-                        {chat.online && (
-                          <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full" />
-                        )}
                       </div>
 
                       {/* Chat Info */}
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-center mb-0.5">
                           <div className="flex items-center gap-2">
-                            <h4 className="font-medium text-[15px] text-charcoalGray truncate">
+                            <h4
+                              className={`font-medium text-[15px] text-charcoalGray truncate ${
+                                chat.isRead
+                                  ? ""
+                                  : "font-semibold text-vibrantPurple"
+                              }`}
+                            >
                               {chat.name}
                             </h4>
                             {activeUsers.includes(chat._id) && <ActiveNow />}
@@ -127,7 +137,14 @@ const Chat = ({ open, setOpen }) => {
                             {formatTime(chat.time)}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-600 truncate">
+
+                        <p
+                          className={`text-sm truncate ${
+                            chat.isRead
+                              ? "text-gray-600"
+                              : "text-charcoalGray font-medium"
+                          }`}
+                        >
                           {`${chat.role === "sender" ? "You: " : ""}${
                             chat.preview || "📎 Attachment"
                           }`}
@@ -135,8 +152,8 @@ const Chat = ({ open, setOpen }) => {
                       </div>
 
                       {/* Unread indicator */}
-                      {chat.unreadCount > 0 && (
-                        <span className="bg-electricBlue text-white text-xs px-2 py-[2px] rounded-full">
+                      {!chat.isRead && chat.unreadCount > 0 && (
+                        <span className="bg-electricBlue text-white text-xs px-2 py-0.5 rounded-full">
                           {chat.unreadCount}
                         </span>
                       )}

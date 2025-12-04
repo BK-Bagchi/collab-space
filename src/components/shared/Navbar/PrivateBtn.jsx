@@ -28,7 +28,7 @@ const PrivateBtn = () => {
       {/* Notification Button */}
       <button
         className="relative flex items-center justify-center w-9 h-9 rounded-full 
-  bg-electricBlue text-softWhite hover:bg-white hover:text-charcoalGray 
+  bg-electricBlue text-softWhite hover:bg-[#3D86FF]
   transition shadow-sm"
         onClick={() => {
           setOpenNotification((prev) => !prev);
@@ -52,7 +52,7 @@ const PrivateBtn = () => {
       {/* Message Button */}
       <button
         className="flex items-center justify-center w-9 h-9 rounded-full 
-      bg-electricBlue text-softWhite hover:bg-white hover:text-charcoalGray 
+      bg-electricBlue text-softWhite hover:bg-[#3D86FF] 
       transition shadow-sm"
         onClick={() => {
           setOpenMessage(!openMessage);
@@ -65,7 +65,7 @@ const PrivateBtn = () => {
       {/* Plus Button */}
       <button
         className="flex items-center justify-center w-9 h-9 rounded-full 
-      bg-electricBlue text-softWhite hover:bg-white hover:text-charcoalGray 
+      bg-electricBlue text-softWhite hover:bg-[#3D86FF] 
       transition shadow-sm"
         onClick={() => setOpenPlus(!openPlus)}
       >
@@ -77,7 +77,7 @@ const PrivateBtn = () => {
         <label
           tabIndex={0}
           className="flex items-center justify-center w-9 h-9 rounded-full 
-        bg-electricBlue text-softWhite hover:bg-white hover:text-charcoalGray 
+        bg-electricBlue text-softWhite hover:bg-[#3D86FF] 
         transition shadow-sm cursor-pointer"
         >
           {user?.avatar ? (
