@@ -14,7 +14,7 @@ const About = () => {
   return (
     <div className="min-h-screen flex flex-col bg-softWhite text-charcoalGray">
       {/* HERO SECTION */}
-      <section className="px-8 md:px-16 py-20 bg-gradient-to-br  from-electricBlue/20 via-vibrantPurple/20 to-tealGreen/20 text-center md:text-left">
+      <section className="px-8 md:px-16 py-20 bg-linear-to-br  from-electricBlue/20 via-vibrantPurple/20 to-tealGreen/20 text-center md:text-left">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
           {/* Left Content */}
           <div className="md:w-1/2 space-y-6">
@@ -111,7 +111,7 @@ const About = () => {
             <div
               key={i}
               className={`p-10 rounded-3xl shadow-md border border-gray-100
-        bg-gradient-to-br ${item.color}
+        bg-linear-to-br ${item.color}
         hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center`}
             >
               <div className="flex justify-center mb-5">{item.icon}</div>

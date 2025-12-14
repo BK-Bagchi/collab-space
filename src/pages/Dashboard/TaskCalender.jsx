@@ -58,7 +58,7 @@ const TaskCalendar = () => {
   // console.log(deadlines);
 
   return (
-    <div className="bg-gradient-to-br from-white via-softWhite to-[#F0F4FF] rounded-2xl shadow-lg p-6 border border-gray-100 flex flex-col items-center">
+    <div className="bg-linear-to-br from-white via-softWhite to-[#F0F4FF] rounded-2xl shadow-lg p-6 border border-gray-100 flex flex-col items-center">
       {/* Header */}
       <div className="flex items-center gap-2 mb-5">
         <div className="p-2 bg-vibrantPurple/10 rounded-lg">

@@ -7,12 +7,14 @@ import Notification from "../../Toggle/Notification";
 import Chat from "../../Toggle/Chat";
 import { useAuth } from "../../../hooks/useAuth";
 import { useNotification } from "../../../hooks/useNotification";
+import { useChatNotification } from "../../../hooks/useChatNotification";
 import Modal from "../../Modal/Modal";
 import CreateProject from "../../Forms/CreateProject";
 
 const PrivateBtn = () => {
   const { user, logout } = useAuth();
   const { unread, markAsRead } = useNotification();
+  const { unreadChatsCount, markChatsAsRead } = useChatNotification();
 
   const [openNotification, setOpenNotification] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
@@ -22,6 +24,10 @@ const PrivateBtn = () => {
   useEffect(() => {
     if (unread > 0) toast.success("You have new notifications");
   }, [unread]);
+
+  useEffect(() => {
+    if (unreadChatsCount > 0) toast.success("You have new messages");
+  }, [unreadChatsCount]);
 
   return (
     <div className="flex items-center gap-x-2 md:gap-x-4">
@@ -51,15 +57,25 @@ const PrivateBtn = () => {
 
       {/* Message Button */}
       <button
-        className="flex items-center justify-center w-9 h-9 rounded-full 
+        className="relative flex items-center justify-center w-9 h-9 rounded-full 
       bg-electricBlue text-softWhite hover:bg-[#3D86FF] 
       transition shadow-sm"
         onClick={() => {
           setOpenMessage(!openMessage);
           setOpenNotification(false);
+          markChatsAsRead();
         }}
       >
         <MessageCircle size={20} />
+        {unreadChatsCount > 0 && (
+          <span
+            className="absolute -top-1 -right-1 min-w-[18px] h-[18px] 
+      flex items-center justify-center text-[10px] font-bold 
+      bg-red-500 text-white rounded-full px-1 shadow-md"
+          >
+            {unreadChatsCount > 9 ? "9+" : unreadChatsCount}
+          </span>
+        )}
       </button>
 
       {/* Plus Button */}

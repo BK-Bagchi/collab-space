@@ -7,7 +7,7 @@ const RealTime = () => {
 
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10">
         {/* Illustration */}
-        <div className="relative bg-gradient-to-br from-electricBlue/20 via-vibrantPurple/20 to-tealGreen/20 p-10 rounded-2xl shadow-xl">
+        <div className="relative bg-linear-to-br from-electricBlue/20 via-vibrantPurple/20 to-tealGreen/20 p-10 rounded-2xl shadow-xl">
           <div className="bg-white p-6 rounded-xl shadow-md">
             <p className="text-gray-700 text-sm">
               <span className="font-semibold text-electricBlue">Dipto</span> is
