@@ -9,8 +9,8 @@ import axios from "axios";
 import SentMultiMedia from "./SentMultiMedia";
 
 const NewChatBox = ({
-  activeChatUser,
-  setActiveChatUser,
+  activeChat,
+  setActiveChat,
   setMessages: setUserMessages,
   getUserChat,
 }) => {
@@ -21,7 +21,7 @@ const NewChatBox = ({
   const [isTyping, setIsTyping] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [showUploadMenu, setShowUploadMenu] = useState(false);
-  const [sender, receiver] = [user._id, activeChatUser._id];
+  const [sender, receiver] = [user._id, activeChat._id];
   // console.log(sender, receiver);
   // console.log(messages);
 
@@ -127,17 +127,17 @@ const NewChatBox = ({
       <div className="flex items-center justify-between bg-vibrantPurple text-white px-4 py-2 rounded-t-xl">
         <div className="flex items-center gap-2">
           <img
-            src={activeChatUser?.avatar || Avatar}
-            alt={activeChatUser?.name}
+            src={activeChat?.avatar || Avatar}
+            alt={activeChat?.name}
             className="w-8 h-8 rounded-full"
           />
-          <span className="font-medium">{activeChatUser?.name}</span>
-          {activeUsers.includes(activeChatUser._id) && <ActiveNow />}
+          <span className="font-medium">{activeChat?.name}</span>
+          {activeUsers.includes(activeChat._id) && <ActiveNow />}
           {isTyping && (
             <span className="text-xs text-white/80 mt-0.5">typing...</span>
           )}
         </div>
-        <button onClick={() => setActiveChatUser(null)}>
+        <button onClick={() => setActiveChat(null)}>
           <X size={16} />
         </button>
       </div>
@@ -157,7 +157,7 @@ const NewChatBox = ({
               {/* Avatar (only for others, optional) */}
               {!isSender && (
                 <img
-                  src={activeChatUser?.avatar || Avatar}
+                  src={activeChat?.avatar || Avatar}
                   alt={msg.senderName || "User"}
                   className="w-8 h-8 rounded-full object-cover"
                 />

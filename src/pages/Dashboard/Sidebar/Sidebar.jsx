@@ -6,13 +6,13 @@ import { useNotification } from "../../../hooks/useNotification";
 import { useChatNotification } from "../../../hooks/useChatNotification";
 import Avatar from "../../../assets/Default_Avatar.jpg";
 import formatText from "../../../utils/textFormater";
+import { toast } from "react-toastify";
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
   const { unread, markAsRead } = useNotification();
   const { unreadProjectChatsCount, markProjectChatsAsRead } =
     useChatNotification();
-  console.log(unreadProjectChatsCount);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -23,6 +23,13 @@ const Sidebar = () => {
     if (location.pathname.includes("logout")) return logout();
     setActiveRoute(location.pathname);
   }, [location, logout]);
+
+  useEffect(() => {
+    if (unreadProjectChatsCount > 0)
+      toast.info(
+        `You have ${unreadProjectChatsCount} unread project chat messages`
+      );
+  }, [unreadProjectChatsCount]);
 
   return (
     <aside className="flex flex-col justify-between h-screen px-3 py-6 bg-charcoalGray text-softWhite w-[250px]">

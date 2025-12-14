@@ -12,7 +12,8 @@ import Loading from "../Loading/Loading";
 const Chat = ({ open, setOpen }) => {
   const { user } = useAuth();
   const { activeUsers } = useActive();
-  const [activeChatUser, setActiveChatUser] = useState(null);
+  const [activeChat, setActiveChat] = useState(null);
+
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -63,12 +64,13 @@ const Chat = ({ open, setOpen }) => {
           _id: chatPartner?._id, // partner id — used for socket/chatbox
           role: isSender ? "sender" : "receiver",
           isRead: msg?.isRead,
+          isSender,
         };
       })
       .sort((a, b) => new Date(b.time) - new Date(a.time));
   };
   const chats = getUserChat();
-  // console.log(chats);
+  console.log(chats);
 
   return (
     open && (
@@ -96,14 +98,14 @@ const Chat = ({ open, setOpen }) => {
                   {chats.map((chat) => (
                     <div
                       key={chat.id}
-                      onClick={() => setActiveChatUser(chat)}
+                      onClick={() => setActiveChat(chat)}
                       className={`
     flex items-center gap-4 p-3 mt-3 mx-3 rounded-lg cursor-pointer 
     transition-all duration-200 shadow-sm border 
     ${
-      activeChatUser?.id === chat.id
+      activeChat?.id === chat.id
         ? "bg-[#EEE4F8] border-vibrantPurple shadow-md"
-        : chat.isRead
+        : chat.isRead || chat.isSender
         ? "bg-white hover:bg-[#F4F1FA] border-transparent hover:border-gray-200"
         : "bg-vibrantPurple/10 hover:bg-vibrantPurple/20 border-vibrantPurple/40 shadow-sm border-l-4"
     }
@@ -169,10 +171,10 @@ const Chat = ({ open, setOpen }) => {
           </Loading>
 
           {/* Active Chat Panel */}
-          {activeChatUser && (
+          {activeChat && (
             <NewChatBox
-              activeChatUser={activeChatUser}
-              setActiveChatUser={setActiveChatUser}
+              activeChat={activeChat}
+              setActiveChat={setActiveChat}
               setMessages={setMessages}
               getUserChat={getUserChat}
             />

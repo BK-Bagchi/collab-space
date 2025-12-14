@@ -16,21 +16,25 @@ export const ChatNotificationProvider = ({ children }) => {
   useEffect(() => {
     if (!user?._id || !socket) return;
 
-    socket.on("chatNotification", (notification) => {
-      setUnreadChats((prev) => [notification[0], ...prev]);
+    const handleUserChatNotification = (message) => {
+      if (message.sender?._id === user._id) return;
+      setUnreadChats((prev) => [message, ...prev]);
       setUnreadChatsCount((prev) => prev + 1);
-    });
+    };
 
-    socket.on("projectChatNotification", (notification) => {
-      setUnreadProjectChats((prev) => [notification[0], ...prev]);
+    const handleProjectChatNotification = (message) => {
+      setUnreadProjectChats((prev) => [message, ...prev]);
       setUnreadProjectChatsCount((prev) => prev + 1);
-    });
+    };
+
+    socket.on("userChatNotification", handleUserChatNotification);
+    socket.on("projectChatNotification", handleProjectChatNotification);
 
     return () => {
-      socket.off("chatNotification");
-      socket.off("projectChatNotification");
+      socket.off("userChatNotification", handleUserChatNotification);
+      socket.off("projectChatNotification", handleProjectChatNotification);
     };
-  }, [user, socket]);
+  }, [user?._id, socket]);
 
   useEffect(() => {
     const fetchUnreadChats = async () => {
@@ -50,8 +54,8 @@ export const ChatNotificationProvider = ({ children }) => {
 
     fetchUnreadChats();
   }, []);
-  // console.log(unreadChats);
-  // console.log(unreadProjectChats);
+  //   console.log(" unreadChats", unreadChats);
+  //   console.log(" unreadChatsCount", unreadChatsCount);
 
   const markChatsAsRead = () => setUnreadChatsCount(0);
   const markProjectChatsAsRead = () => setUnreadProjectChatsCount(0);

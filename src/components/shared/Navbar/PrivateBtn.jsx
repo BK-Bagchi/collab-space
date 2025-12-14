@@ -26,7 +26,8 @@ const PrivateBtn = () => {
   }, [unread]);
 
   useEffect(() => {
-    if (unreadChatsCount > 0) toast.success("You have new messages");
+    if (unreadChatsCount > 0)
+      toast.success(`You have ${unreadChatsCount} new messages`);
   }, [unreadChatsCount]);
 
   return (
