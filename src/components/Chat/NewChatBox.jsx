@@ -31,11 +31,6 @@ const NewChatBox = ({
     // Register user chat session
     socket.emit("register", { sender, receiver });
 
-    // Load old messages
-    socket.on("oldMessages", (oldMsgs) => {
-      setMessages(oldMsgs);
-    });
-
     // Listen for new messages
     socket.on("newMessage", (newMsg) => {
       setMessages((prev) => [...prev, newMsg]);
@@ -52,11 +47,24 @@ const NewChatBox = ({
 
     // Cleanup listeners when chat user changes or unmounts
     return () => {
-      socket.off("oldMessages");
       socket.off("newMessage");
       socket.off("typing");
     };
   }, [socket, sender, receiver, setUserMessages, getUserChat]);
+
+  useEffect(() => {
+    if (!sender || !receiver) return;
+
+    // Load old messages
+    socket.on("oldMessages", (oldMsgs) => {
+      setMessages(oldMsgs);
+    });
+
+    // Mark as read
+    socket.emit("markAsUserChatRead", { sender, receiver });
+
+    return () => socket.off("oldMessages");
+  }, [socket, sender, receiver]);
 
   const sendMessage = () => {
     if (!message.trim()) return;

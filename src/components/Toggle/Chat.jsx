@@ -70,7 +70,7 @@ const Chat = ({ open, setOpen }) => {
       .sort((a, b) => new Date(b.time) - new Date(a.time));
   };
   const chats = getUserChat();
-  console.log(chats);
+  // console.log(chats);
 
   return (
     open && (
