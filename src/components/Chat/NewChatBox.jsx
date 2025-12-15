@@ -28,7 +28,7 @@ const NewChatBox = ({
   // console.log(messages);
   useEffect(() => {
     // scroll to bottom on messages change
-    messagesRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
 
   useEffect(() => {
