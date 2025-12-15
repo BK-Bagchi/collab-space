@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Notification from "../../Toggle/Notification";
 import Chat from "../../Toggle/Chat";
 import { useAuth } from "../../../hooks/useAuth";
+import { useActive } from "../../../hooks/useActive";
 import { useNotification } from "../../../hooks/useNotification";
 import { useChatNotification } from "../../../hooks/useChatNotification";
 import Modal from "../../Modal/Modal";
@@ -13,6 +14,7 @@ import CreateProject from "../../Forms/CreateProject";
 
 const PrivateBtn = () => {
   const { user, logout } = useAuth();
+  const { activeUsers } = useActive();
   const { unread, markAsRead } = useNotification();
   const { unreadChatsCount, markChatsAsRead } = useChatNotification();
 
@@ -93,18 +95,27 @@ const PrivateBtn = () => {
       <div className="dropdown dropdown-end">
         <label
           tabIndex={0}
-          className="flex items-center justify-center w-9 h-9 rounded-full 
-        bg-electricBlue text-softWhite hover:bg-[#3D86FF] 
-        transition shadow-sm cursor-pointer"
+          className="relative flex items-center justify-center w-9 h-9 rounded-full 
+    bg-electricBlue text-softWhite hover:bg-[#3D86FF] 
+    transition shadow-sm cursor-pointer"
         >
           {user?.avatar ? (
             <img
-              className="h-full w-full rounded-full"
+              className="h-full w-full rounded-full object-cover"
               src={user?.avatar}
               alt={user?.name}
             />
           ) : (
             <UserRound size={20} />
+          )}
+
+          {/* Active Indicator */}
+          {activeUsers.includes(user?._id) && (
+            <span
+              className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full 
+      bg-electricBlue border border-white shadow-sm"
+              title="Active Now"
+            />
           )}
         </label>
 
