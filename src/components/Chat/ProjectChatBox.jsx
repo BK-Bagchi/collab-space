@@ -174,7 +174,7 @@ const ProjectChatBox = ({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 bg-[#EFF3F9] space-y-3">
+      <div className="flex-1 overflow-y-auto p-4 bg-[#EFF3F9] space-y-3 scrollbar-hide">
         {(!messages || messages.length === 0) && (
           <div className="flex flex-col items-center justify-center text-center py-12 text-gray-500">
             <Inbox size={36} className="mb-2 text-gray-300" />
@@ -208,38 +208,46 @@ const ProjectChatBox = ({
                 </div>
               )}
 
-              {/* Message Bubble */}
-              <div
-                className={`max-w-[75%] px-4 py-2 rounded-2xl shadow-sm text-sm ${
-                  isSender
-                    ? "bg-electricBlue text-white rounded-br-none"
-                    : "bg-white text-charcoalGray rounded-bl-none"
-                }`}
-              >
-                {msg.attachment ? (
-                  <div className="flex items-center justify-between gap-3">
-                    <a
-                      href={msg.attachment.url}
-                      download
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`px-2 py-1 text-xs rounded-md transition ${
-                        isSender ? "text-white" : "text-electricBlue"
-                      }`}
-                    >
-                      <Download />
-                    </a>
-                    <div className="flex-1 truncate">
-                      <p className="font-medium truncate">
-                        {msg.attachment.name}
-                      </p>
-                      <p className="text-xs opacity-70">Attachment</p>
+              {/* Message and time */}
+              <div className="flex flex-col max-w-[70%]">
+                <div
+                  className={`px-4 py-2 rounded-2xl shadow-sm text-sm ${
+                    isSender
+                      ? "bg-electricBlue text-white rounded-br-none self-end"
+                      : "bg-white text-charcoalGray rounded-bl-none"
+                  }`}
+                >
+                  {msg.attachment ? (
+                    <div className="flex items-center gap-3">
+                      <a
+                        href={msg.attachment.url}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`p-1 rounded-md transition ${
+                          isSender ? "text-white" : "text-electricBlue"
+                        }`}
+                      >
+                        <Download size={16} />
+                      </a>
+                      <div className="flex-1 truncate">
+                        <p className="font-medium truncate">
+                          {msg.attachment.name}
+                        </p>
+                        <p className="text-xs opacity-70">Attachment</p>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <p>{msg.content}</p>
-                )}
-                <div className="text-[10px] text-gray-300 mt-1 text-right">
+                  ) : (
+                    <p>{msg.content}</p>
+                  )}
+                </div>
+
+                {/* Time below bubble */}
+                <div
+                  className={`text-[10px] text-gray-400 mt-1 ${
+                    isSender ? "text-right" : "text-left"
+                  }`}
+                >
                   {msg.createdAt ? formatTime(msg.createdAt) : ""}
                 </div>
               </div>
