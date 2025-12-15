@@ -28,32 +28,36 @@ const ProjectChatBox = ({
   const [uploading, setUploading] = useState(false);
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const messagesRef = useRef();
+  const blockRef = useRef();
   // console.log(typingUsers);
 
   useEffect(() => {
     // scroll to bottom on messages change
     messagesRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    blockRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
 
   useEffect(() => {
     if (!projectId || !sender) return;
 
-    //Join chatroom
     socket.emit("joinProject", { projectId, sender });
-
-    // Load old messages
     socket.on("oldProjectMessages", (oldMsgs) => {
       setMessages(oldMsgs);
     });
 
-    // Listen for new messages
+    return () => {
+      socket.off("oldProjectMessages");
+    };
+  }, [projectId, sender, socket]);
+
+  useEffect(() => {
+    if (!projectId || !sender) return;
+
     socket.on("projectMessage", (newMsg) => {
       setMessages((prev) => [...prev, newMsg]);
       setProjectMessages((prev) => [...prev, newMsg]);
       getProjectChats();
     });
-
-    // Listen for typing
     socket.on("typing", (user) => {
       setTypingUsers((prev) => {
         if (prev.find((u) => u._id === user._id)) return prev;
@@ -65,9 +69,7 @@ const ProjectChatBox = ({
       );
     });
 
-    // Cleanup listeners when chat user changes or unmounts
     return () => {
-      socket.off("oldProjectMessages");
       socket.off("projectMessage");
       socket.off("typing");
     };
@@ -291,6 +293,7 @@ const ProjectChatBox = ({
           project,
         }}
       />
+      <div ref={blockRef} />
     </div>
   );
 };
