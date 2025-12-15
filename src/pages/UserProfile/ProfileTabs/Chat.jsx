@@ -1,6 +1,33 @@
+import { useState } from "react";
+import { toast } from "react-toastify";
 import { MessageCircle } from "lucide-react";
+import confirmToast from "../../../components/ConfirmToast/ConfirmToast";
+import { ChatAPI } from "../../../api";
+import Waiting from "../../../components/Loading/Waiting";
 
 const Chat = () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleClearChat = async () => {
+    const confirm = await confirmToast(
+      "Are you sure you want to clear your chat history?"
+    );
+    if (!confirm) return;
+    setLoading(true);
+
+    try {
+      const res = await ChatAPI.clearChatHistory();
+      toast.success(res.data.message);
+    } catch (error) {
+      console.error(
+        "Error clearing chat history:",
+        error.response.data.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="mt-6 space-y-4 animate-fadeIn">
       {/* Title */}
@@ -37,8 +64,11 @@ const Chat = () => {
       <div className="bg-softWhite border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition flex items-center justify-between">
         <p className="font-medium text-charcoalGray">Clear Chat History</p>
 
-        <button className="px-6 py-2 text-sm font-medium rounded-lg bg-red-500 text-white hover:bg-red-600 transition shadow-sm">
-          Clear
+        <button
+          className="px-6 py-2 text-sm font-medium rounded-lg bg-red-500 text-white hover:bg-red-600 transition shadow-sm"
+          onClick={() => handleClearChat()}
+        >
+          {loading ? <Waiting color="#FFFF" /> : "Clear"}
         </button>
       </div>
     </div>

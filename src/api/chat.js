@@ -8,3 +8,4 @@ export const uploadChatAttachment = (id, data) =>
   axios.post(`/chat/${id}/attachment`, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
+export const clearChatHistory = () => axios.patch(`/chat/history/user`);
