@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { passwordSchema } from "../../validations/user.validation";
 import { UserAPI } from "../../api";
+import Waiting from "../Loading/Waiting";
 
 const ChangePassword = ({ setActiveModal }) => {
   const [showCurrent, setShowCurrent] = useState(false);
@@ -136,10 +137,10 @@ const ChangePassword = ({ setActiveModal }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-4 py-1 bg-vibrantPurplerple text-softWhite rounded-lg hover:bg-[#751C8E] 
+            className="px-4 py-1 bg-vibrantPurple text-softWhite rounded-lg hover:bg-[#751C8E] 
                    transition disabled:opacity-60"
           >
-            {isSubmitting ? "Saving..." : "Update Password"}
+            {isSubmitting ? <Waiting color="#FFFF" /> : "Update Password"}
           </button>
         </div>
       </form>
