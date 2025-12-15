@@ -24,12 +24,12 @@ const PrivateBtn = () => {
   const [activeModal, setActiveModal] = useState(false);
 
   useEffect(() => {
-    if (unread > 0) toast.success("You have new notifications");
+    if (unread > 0) toast.info("You have new notifications");
   }, [unread]);
 
   useEffect(() => {
     if (unreadChatsCount > 0)
-      toast.success(`You have ${unreadChatsCount} new messages`);
+      toast.info(`You have ${unreadChatsCount} new messages`);
   }, [unreadChatsCount]);
 
   return (

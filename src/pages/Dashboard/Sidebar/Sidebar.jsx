@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { adminLinks, bottomLinks, commonLinks } from "./sidebarLinks";
 import { useAuth } from "../../../hooks/useAuth";
@@ -6,7 +7,6 @@ import { useNotification } from "../../../hooks/useNotification";
 import { useChatNotification } from "../../../hooks/useChatNotification";
 import Avatar from "../../../assets/Default_Avatar.jpg";
 import formatText from "../../../utils/textFormater";
-import { toast } from "react-toastify";
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
