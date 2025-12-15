@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Download, Image, Paperclip, Send, Upload, X } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import { Download, X } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useActive } from "../../hooks/useActive";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import ActiveNow from "../ActiveNow/ActiveNow";
 import formatTime from "../../utils/formatTime";
-import axios from "axios";
 import SentMultiMedia from "./SentMultiMedia";
 
 const NewChatBox = ({
@@ -22,8 +22,14 @@ const NewChatBox = ({
   const [uploading, setUploading] = useState(false);
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [sender, receiver] = [user._id, activeChat._id];
+  const messagesRef = useRef();
+
   // console.log(sender, receiver);
   // console.log(messages);
+  useEffect(() => {
+    // scroll to bottom on messages change
+    messagesRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   useEffect(() => {
     if (!sender || !receiver) return;
@@ -226,6 +232,7 @@ const NewChatBox = ({
             </div>
           );
         })}
+        <div ref={messagesRef} />
       </div>
 
       {/* Input */}

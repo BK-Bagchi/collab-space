@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Download, Folder, Inbox, MoreVertical, Send } from "lucide-react";
+import { Download, Folder, Inbox, MoreVertical } from "lucide-react";
 import { useActive } from "../../hooks/useActive";
 import { useAuth } from "../../hooks/useAuth";
 import Avatar from "../../assets/Default_Avatar.jpg";
