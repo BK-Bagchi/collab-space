@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useForm, useFieldArray } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 //prettier-ignore
 import { ListTodo, ListCheck, Trash2, PlusCircle, Tag, X, Palette, Hash, FolderKanban, Layers, Save, Plus } from "lucide-react";
+import { useForm, useFieldArray } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { todoSchema } from "../../validations/note.validation";
 import { cleanObject } from "../../utils/cleanObject";
 import { NoteAPI } from "../../api";
+import Waiting from "../Loading/Waiting";
 
 const CreateTodo = ({ setNotes, setAddTodo }) => {
   const [creatingTodoError, setCreatingTodoError] = useState({
@@ -294,13 +295,19 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
           )}
         </div>
 
-        {/* Submit */}
+        {/* Create */}
         <button
           type="submit"
           className="w-full flex items-center justify-center gap-2 py-3 bg-electricBlue text-white rounded-lg"
         >
           <Save size={18} />
-          {isSubmitting ? "Saving..." : "Save Todo"}
+          {isSubmitting ? (
+            <p className="flex gap-2">
+              <Waiting color="white" /> Creating...
+            </p>
+          ) : (
+            "Create Todo"
+          )}
         </button>
       </form>
     </div>

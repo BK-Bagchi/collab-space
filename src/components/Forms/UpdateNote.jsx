@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { noteSchema } from "../../validations/note.validation";
 import { cleanObject } from "../../utils/cleanObject";
 import { NoteAPI } from "../../api";
+import Waiting from "../Loading/Waiting";
 
 const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
   const [updatingNoteError, setUpdatingNoteError] = useState({
@@ -268,7 +269,13 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
           className="w-full flex items-center justify-center gap-2 py-3 bg-electricBlue text-softWhite rounded-lg hover:bg-electricBlue/90 mt-4"
         >
           <Save size={18} />
-          {isSubmitting ? "Saving..." : "Save Note"}
+          {isSubmitting ? (
+            <p className="flex gap-2">
+              <Waiting color="white" /> Updating...
+            </p>
+          ) : (
+            "Update Note"
+          )}
         </button>
       </form>
     </div>
