@@ -7,6 +7,9 @@ export const SettingsProvider = ({ children }) => {
     return localStorage.getItem("theme") || "light";
   });
 
+  const [typingIndicator, setTypingIndicator] = useState(false);
+  const [activeStatus, setActiveStatus] = useState(false);
+
   useEffect(() => {
     const root = document.documentElement;
 
@@ -20,8 +23,25 @@ export const SettingsProvider = ({ children }) => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
+  const toggleTypingIndicator = () => {
+    setTypingIndicator((prev) => !prev);
+  };
+
+  const toggleActiveStatus = () => {
+    setActiveStatus((prev) => !prev);
+  };
+
   return (
-    <SettingsContext.Provider value={{ theme, toggleTheme }}>
+    <SettingsContext.Provider
+      value={{
+        theme,
+        toggleTheme,
+        typingIndicator,
+        toggleTypingIndicator,
+        activeStatus,
+        toggleActiveStatus,
+      }}
+    >
       {children}
     </SettingsContext.Provider>
   );

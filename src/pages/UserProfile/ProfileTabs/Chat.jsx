@@ -4,8 +4,11 @@ import { MessageCircle } from "lucide-react";
 import confirmToast from "../../../components/ConfirmToast/ConfirmToast";
 import { ChatAPI } from "../../../api";
 import Waiting from "../../../components/Loading/Waiting";
+import { useSettings } from "../../../hooks/useSettings";
 
 const Chat = () => {
+  //prettier-ignore
+  const {typingIndicator, toggleTypingIndicator, activeStatus, toggleActiveStatus} = useSettings();
   const [loading, setLoading] = useState(false);
 
   const handleClearChat = async () => {
@@ -42,11 +45,16 @@ const Chat = () => {
           <p className="font-medium text-charcoalGray">Typing Indicator</p>
         </div>
 
-        {/* Toggle Switch */}
+        {/* Toggle Switch Typing Indicator */}
         <label className="relative inline-flex items-center cursor-pointer">
-          <input type="checkbox" className="sr-only peer" />
-          <div className="w-11 h-6 bg-tealGreen rounded-full peer peer-checked:bg-electricBlue transition-all"></div>
-          <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all"></div>
+          <input
+            type="checkbox"
+            className="sr-only peer"
+            checked={typingIndicator}
+            onChange={toggleTypingIndicator}
+          />
+          <div className="w-11 h-6 bg-tealGreen rounded-full peer peer-checked:bg-electricBlue transition-all" />
+          <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all" />
         </label>
       </div>
       <div className="bg-softWhite border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between">
@@ -54,11 +62,16 @@ const Chat = () => {
           <p className="font-medium text-charcoalGray">Active Status</p>
         </div>
 
-        {/* Toggle Switch */}
+        {/* Toggle Switch Active Status */}
         <label className="relative inline-flex items-center cursor-pointer">
-          <input type="checkbox" className="sr-only peer" />
-          <div className="w-11 h-6 bg-vibrantPurple rounded-full peer peer-checked:bg-electricBlue transition-all"></div>
-          <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all"></div>
+          <input
+            type="checkbox"
+            className="sr-only peer"
+            checked={activeStatus}
+            onChange={toggleActiveStatus}
+          />
+          <div className="w-11 h-6 bg-vibrantPurple rounded-full peer peer-checked:bg-electricBlue transition-all" />
+          <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all" />
         </label>
       </div>
       <div className="bg-softWhite border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition flex items-center justify-between">
