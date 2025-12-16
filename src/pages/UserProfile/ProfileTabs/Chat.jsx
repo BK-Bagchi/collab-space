@@ -4,13 +4,10 @@ import { MessageCircle } from "lucide-react";
 import confirmToast from "../../../components/ConfirmToast/ConfirmToast";
 import { ChatAPI, UserAPI } from "../../../api";
 import Waiting from "../../../components/Loading/Waiting";
-import { useSettings } from "../../../hooks/useSettings";
 import { useAuth } from "../../../hooks/useAuth";
 
 const Chat = () => {
   const { user, setUser } = useAuth();
-  //prettier-ignore
-  const {typingIndicator, toggleTypingIndicator} = useSettings();
 
   const [loading, setLoading] = useState(false);
   const [typingLoading, setTypingLoading] = useState(false);
@@ -40,11 +37,9 @@ const Chat = () => {
     setTypingLoading(true);
 
     try {
-      const res = await UserAPI.toggleUserTypingIndicator({
-        status: typingIndicator,
-      });
+      const res = await UserAPI.toggleUserTypingIndicator();
       toast.success(res.data.message);
-      toggleTypingIndicator();
+      setUser(res.data.user);
     } catch (error) {
       console.error(
         "Error toggling typing indicator:",
@@ -89,7 +84,7 @@ const Chat = () => {
           <input
             type="checkbox"
             className="sr-only peer"
-            checked={typingIndicator}
+            checked={user?.typingIndicator}
             onChange={handleTypingIndicator}
           />
           <div className="w-11 h-6 bg-tealGreen rounded-full peer peer-checked:bg-electricBlue transition-all" />

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import { Download, Folder, Inbox, MoreVertical } from "lucide-react";
-import { useActive } from "../../hooks/useActive";
 import { useAuth } from "../../hooks/useAuth";
+import { useActive } from "../../hooks/useActive";
+import { useSettings } from "../../hooks/useSettings";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import formatTime from "../../utils/formatTime";
-import axios from "axios";
 import SentMultiMedia from "./SentMultiMedia";
 
 const ActiveStatusDot = () => {
@@ -18,10 +19,11 @@ const ProjectChatBox = ({
   setMessages: setProjectMessages,
   getProjectChats,
 }) => {
-  const { socket, activeUsers } = useActive();
   const { user } = useAuth();
-  const [projectId, sender] = [project._id, user._id];
+  const { socket, activeUsers } = useActive();
+  const { typingIndicator } = useSettings();
 
+  const [projectId, sender] = [project._id, user._id];
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [typingUsers, setTypingUsers] = useState([]);
@@ -88,6 +90,7 @@ const ProjectChatBox = ({
   let debounce;
   const handleTyping = (e) => {
     setMessage(e.target.value);
+    if (!typingIndicator) return;
 
     clearTimeout(debounce);
     debounce = setTimeout(() => {

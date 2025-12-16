@@ -3,6 +3,7 @@ import axios from "axios";
 import { Download, X } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useActive } from "../../hooks/useActive";
+import { useSettings } from "../../hooks/useSettings";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import ActiveNow from "../ActiveNow/ActiveNow";
 import formatTime from "../../utils/formatTime";
@@ -16,6 +17,8 @@ const NewChatBox = ({
 }) => {
   const { user } = useAuth();
   const { socket, activeUsers } = useActive();
+  const { typingIndicator } = useSettings();
+
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
@@ -74,6 +77,7 @@ const NewChatBox = ({
   let debounce;
   const handleTyping = (e) => {
     setMessage(e.target.value);
+    if (!typingIndicator) return;
 
     clearTimeout(debounce);
     debounce = setTimeout(() => {
