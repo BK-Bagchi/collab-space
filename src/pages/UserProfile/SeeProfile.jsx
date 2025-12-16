@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import Modal from "../../components/Modal/Modal";
 import { useAuth } from "../../hooks/useAuth";
+import { useActive } from "../../hooks/useActive";
+import { useSettings } from "../../hooks/useSettings";
 import { UserAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
 import EditProfile from "../../components/Forms/EditProfile";
@@ -17,18 +19,19 @@ import Loading from "../../components/Loading/Loading";
 
 const SeeProfile = () => {
   const { setUser: setContextUser, logout } = useAuth();
+  const { activeUsers } = useActive();
+  const { activeStatus } = useSettings();
   //prettier-ignore
   const tabs = [ "overview", "appearance", "notification", "chat", "security", "danger zone" ];
   const [activeTab, setActiveTab] = useState("overview");
   const [activeModal, setActiveModal] = useState(false); // Edit Profile
   const [passwordModal, setPasswordModal] = useState(false); // Change Password
+  const [loading, setLoading] = useState(true);
 
   const [user, setUser] = useState({});
   useEffect(() => {
     setContextUser(user);
   }, [user, setContextUser]);
-
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -82,11 +85,21 @@ const SeeProfile = () => {
         <div className="py-32 px-6 md:px-10 max-w-4xl mx-auto text-charcoalGray">
           {/* Profile Header */}
           <div className="bg-softWhite border border-gray-200 shadow-sm p-6 rounded-2xl flex flex-col md:flex-row items-center gap-6">
-            <img
-              src={user.avatar || Avatar}
-              alt="Profile"
-              className="w-24 h-24 rounded-full border-2 border-electricBlue object-cover"
-            />
+            <div className="relative">
+              <img
+                src={user.avatar || Avatar}
+                alt="Profile"
+                className="w-24 h-24 rounded-full border-2 border-electricBlue object-cover"
+              />
+              {/* Active Indicator */}
+              {activeStatus && activeUsers.includes(user?._id) && (
+                <span
+                  className="absolute right-0.5 bottom-3 w-4 h-4 rounded-full 
+      bg-electricBlue border border-white shadow-sm"
+                  title="Active Now"
+                />
+              )}
+            </div>
             <div className="flex-1 text-center md:text-left">
               <h2 className="text-2xl font-semibold">{user.name}</h2>
               <p className="text-sm text-gray-500">

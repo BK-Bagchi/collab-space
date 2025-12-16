@@ -7,6 +7,7 @@ import Notification from "../../Toggle/Notification";
 import Chat from "../../Toggle/Chat";
 import { useAuth } from "../../../hooks/useAuth";
 import { useActive } from "../../../hooks/useActive";
+import { useSettings } from "../../../hooks/useSettings";
 import { useNotification } from "../../../hooks/useNotification";
 import { useChatNotification } from "../../../hooks/useChatNotification";
 import Modal from "../../Modal/Modal";
@@ -15,6 +16,7 @@ import CreateProject from "../../Forms/CreateProject";
 const PrivateBtn = () => {
   const { user, logout } = useAuth();
   const { activeUsers } = useActive();
+  const { activeStatus } = useSettings();
   const { unread, markAsRead } = useNotification();
   const { unreadChatsCount, markChatsAsRead } = useChatNotification();
 
@@ -110,7 +112,7 @@ const PrivateBtn = () => {
           )}
 
           {/* Active Indicator */}
-          {activeUsers.includes(user?._id) && (
+          {activeStatus && activeUsers.includes(user?._id) && (
             <span
               className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full 
       bg-electricBlue border border-white shadow-sm"
