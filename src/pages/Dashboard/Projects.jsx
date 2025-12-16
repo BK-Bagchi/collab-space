@@ -12,6 +12,7 @@ import JoinedProjects from "./Components/JoinedProjects";
 import ProjectDetails from "./Components/ProjectDetails";
 import AssignTasks from "../../components/Forms/AssignTasks";
 import Loading from "../../components/Loading/Loading";
+import confirmToast from "../../components/ConfirmToast/ConfirmToast";
 
 const Projects = () => {
   const { user } = useAuth();
@@ -50,7 +51,7 @@ const Projects = () => {
 
   const handleDeleteProject = async (projectId) => {
     //prettier-ignore
-    const confirmed = window.confirm("Are you sure you want to delete this project?");
+    const confirmed = await confirmToast("Are you sure you want to delete this project?");
     if (!confirmed) return;
 
     try {
