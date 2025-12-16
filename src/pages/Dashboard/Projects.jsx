@@ -36,7 +36,7 @@ const Projects = () => {
       }
     };
     fetchProjects();
-  }, [inviteModal, createModal, updateModal, projects]);
+  }, [inviteModal, createModal, updateModal]);
   // console.log(projects);
   // console.log(selectedProject);
 
