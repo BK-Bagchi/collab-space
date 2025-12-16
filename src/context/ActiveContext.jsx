@@ -6,6 +6,7 @@ const ActiveContext = createContext();
 
 export const ActiveProvider = ({ children }) => {
   const { user } = useAuth();
+
   const [socket, setSocket] = useState(null);
   const [activeUsers, setActiveUsers] = useState([]);
 
@@ -22,7 +23,6 @@ export const ActiveProvider = ({ children }) => {
       setActiveUsers(userIds);
     });
     newSocket.on("connect", () => {
-      newSocket.emit("becomeActive", { userId: user._id });
       newSocket.emit("setup", user._id);
     });
 

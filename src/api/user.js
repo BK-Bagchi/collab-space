@@ -6,8 +6,8 @@ export const updatePassword = (data) => axios.patch("/user/me/password", data);
 export const toggleUserTheme = (data) => axios.patch("/user/me/theme", data);
 export const toggleUserTypingIndicator = (data) =>
   axios.patch("/user/me/typing-indicator", data);
-export const toggleUserActiveStatus = (data) =>
-  axios.patch("/user/me/active-status", data);
+export const toggleUserActiveStatus = () =>
+  axios.patch("/user/me/active-status");
 export const getAllUsers = () => axios.get("/user");
 export const getUserById = (id) => axios.get(`/user/${id}`);
 export const updateUserRole = (id, data) => axios.put(`/user/${id}/role`, data);

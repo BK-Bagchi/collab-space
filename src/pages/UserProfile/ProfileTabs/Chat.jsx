@@ -5,10 +5,12 @@ import confirmToast from "../../../components/ConfirmToast/ConfirmToast";
 import { ChatAPI, UserAPI } from "../../../api";
 import Waiting from "../../../components/Loading/Waiting";
 import { useSettings } from "../../../hooks/useSettings";
+import { useAuth } from "../../../hooks/useAuth";
 
 const Chat = () => {
+  const { user, setUser } = useAuth();
   //prettier-ignore
-  const {typingIndicator, toggleTypingIndicator, activeStatus, toggleActiveStatus} = useSettings();
+  const {typingIndicator, toggleTypingIndicator} = useSettings();
 
   const [loading, setLoading] = useState(false);
   const [typingLoading, setTypingLoading] = useState(false);
@@ -57,16 +59,11 @@ const Chat = () => {
     setActiveStatusLoading(true);
 
     try {
-      const res = await UserAPI.toggleUserActiveStatus({
-        status: activeStatus,
-      });
+      const res = await UserAPI.toggleUserActiveStatus();
       toast.success(res.data.message);
-      toggleActiveStatus();
+      setUser(res.data.user);
     } catch (error) {
-      console.error(
-        "Error toggling active status:",
-        error.response.data.message
-      );
+      console.error("Error toggling active status:", error);
     } finally {
       setActiveStatusLoading(false);
     }
@@ -110,7 +107,7 @@ const Chat = () => {
           <input
             type="checkbox"
             className="sr-only peer"
-            checked={activeStatus}
+            checked={user?.activeStatus}
             onChange={handleActiveStatus}
           />
           <div className="w-11 h-6 bg-vibrantPurple rounded-full peer peer-checked:bg-electricBlue transition-all" />

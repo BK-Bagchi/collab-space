@@ -1,14 +1,22 @@
 import { createContext, useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("theme") || "light";
-  });
+  const { user } = useAuth();
 
-  const [typingIndicator, setTypingIndicator] = useState(false);
-  const [activeStatus, setActiveStatus] = useState(false);
+  const [theme, setTheme] = useState(null);
+  const [typingIndicator, setTypingIndicator] = useState(null);
+  const [activeStatus, setActiveStatus] = useState(null);
+
+  useEffect(() => {
+    if (!user) return;
+
+    setTheme(user?.theme);
+    setTypingIndicator(user?.typingIndicator);
+    setActiveStatus(user?.activeStatus);
+  }, [user]);
 
   useEffect(() => {
     const root = document.documentElement;

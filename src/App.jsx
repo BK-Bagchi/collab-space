@@ -33,8 +33,8 @@ import { SettingsProvider } from "./context/SettingsContext";
 function App() {
   return (
     <AuthProvider>
-      <ActiveProvider>
-        <SettingsProvider>
+      <SettingsProvider>
+        <ActiveProvider>
           <NotificationProvider>
             <ChatNotificationProvider>
               <Routes>
@@ -84,8 +84,8 @@ function App() {
               </Routes>
             </ChatNotificationProvider>
           </NotificationProvider>
-        </SettingsProvider>
-      </ActiveProvider>
+        </ActiveProvider>
+      </SettingsProvider>
     </AuthProvider>
   );
 }
