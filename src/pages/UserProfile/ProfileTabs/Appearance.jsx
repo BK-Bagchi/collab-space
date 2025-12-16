@@ -32,18 +32,35 @@ const Appearance = () => {
         <div>
           <p className="font-medium text-charcoalGray">Dark Mode</p>
         </div>
-
-        {/* Toggle Switch */}
-        <label className="relative inline-flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            className="sr-only peer"
-            checked={isDark}
-            onClick={handleThemeToggle}
-          />
-          <div className="w-11 h-6 bg-tealGreen rounded-full peer peer-checked:bg-electricBlue transition-all" />
-          <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all" />
-        </label>
+        <div className="flex items-center gap-3">
+          {/* Off label */}
+          <p
+            className={`text-sm font-medium transition ${
+              !isDark ? "text-electricBlue" : "text-gray-400"
+            }`}
+          >
+            Off
+          </p>
+          {/* Toggle Switch */}
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only peer"
+              checked={isDark}
+              onClick={handleThemeToggle}
+            />
+            <div className="w-11 h-6 bg-tealGreen rounded-full peer peer-checked:bg-electricBlue transition-all" />
+            <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all" />
+          </label>
+          {/* ON label */}
+          <p
+            className={`text-sm font-medium transition ${
+              isDark ? "text-electricBlue" : "text-gray-400"
+            }`}
+          >
+            On
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -79,35 +79,70 @@ const Chat = () => {
           {typingLoading && <Waiting />}
         </div>
 
-        {/* Toggle Switch Typing Indicator */}
-        <label className="relative inline-flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            className="sr-only peer"
-            checked={user?.typingIndicator}
-            onChange={handleTypingIndicator}
-          />
-          <div className="w-11 h-6 bg-tealGreen rounded-full peer peer-checked:bg-electricBlue transition-all" />
-          <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all" />
-        </label>
+        <div className="flex items-center gap-3">
+          {/* Off label */}
+          <p
+            className={`text-sm font-medium transition ${
+              !user?.typingIndicator ? "text-electricBlue" : "text-gray-400"
+            }`}
+          >
+            Off
+          </p>
+          {/* Toggle Switch Typing Indicator */}
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only peer"
+              checked={user?.typingIndicator}
+              onChange={handleTypingIndicator}
+            />
+            <div className="w-11 h-6 bg-tealGreen rounded-full peer peer-checked:bg-electricBlue transition-all" />
+            <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all" />
+          </label>
+          {/* On label */}
+          <p
+            className={`text-sm font-medium transition ${
+              user?.typingIndicator ? "text-electricBlue" : "text-gray-400"
+            }`}
+          >
+            On
+          </p>
+        </div>
       </div>
       <div className="bg-softWhite border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between">
         <div className="flex gap-2">
           <p className="font-medium text-charcoalGray">Active Status</p>
           {activeStatusLoading && <Waiting />}
         </div>
-
-        {/* Toggle Switch Active Status */}
-        <label className="relative inline-flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            className="sr-only peer"
-            checked={user?.activeStatus}
-            onChange={handleActiveStatus}
-          />
-          <div className="w-11 h-6 bg-vibrantPurple rounded-full peer peer-checked:bg-electricBlue transition-all" />
-          <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all" />
-        </label>
+        <div className="flex items-center gap-3">
+          {/* Off label */}
+          <p
+            className={`text-sm font-medium transition ${
+              !user?.activeStatus ? "text-electricBlue" : "text-gray-400"
+            }`}
+          >
+            Off
+          </p>
+          {/* Toggle Switch Active Status */}
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only peer"
+              checked={user?.activeStatus}
+              onChange={handleActiveStatus}
+            />
+            <div className="w-11 h-6 bg-vibrantPurple rounded-full peer peer-checked:bg-electricBlue transition-all" />
+            <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all" />
+          </label>
+          {/* On label */}
+          <p
+            className={`text-sm font-medium transition ${
+              user?.activeStatus ? "text-electricBlue" : "text-gray-400"
+            }`}
+          >
+            On
+          </p>
+        </div>
       </div>
       <div className="bg-softWhite border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition flex items-center justify-between">
         <p className="font-medium text-charcoalGray">Clear Chat History</p>
