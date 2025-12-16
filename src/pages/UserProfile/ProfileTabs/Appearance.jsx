@@ -1,8 +1,8 @@
 import { Moon } from "lucide-react";
-import { useTheme } from "../../../hooks/useTheme";
+import { useSettings } from "../../../hooks/useSettings";
 
 const Appearance = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useSettings();
   const isDark = theme === "dark";
 
   return (

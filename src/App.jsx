@@ -28,13 +28,13 @@ import Help from "./pages/Dashboard/Help";
 import { NotificationProvider } from "./context/NotificationContext";
 import Notes from "./pages/Dashboard/Notes";
 import { ChatNotificationProvider } from "./context/ChatNotificationContext";
-import { ThemeProvider } from "./context/ThemeContext";
+import { SettingsProvider } from "./context/SettingsContext";
 
 function App() {
   return (
     <AuthProvider>
       <ActiveProvider>
-        <ThemeProvider>
+        <SettingsProvider>
           <NotificationProvider>
             <ChatNotificationProvider>
               <Routes>
@@ -84,7 +84,7 @@ function App() {
               </Routes>
             </ChatNotificationProvider>
           </NotificationProvider>
-        </ThemeProvider>
+        </SettingsProvider>
       </ActiveProvider>
     </AuthProvider>
   );
