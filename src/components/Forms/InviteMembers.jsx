@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Users } from "lucide-react";
 import { ProjectAPI, UserAPI } from "../../api";
+import Waiting from "../Loading/Waiting";
 
 const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
   const [fetchedMembers, setFetchedMembers] = useState([]);
@@ -149,7 +150,7 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
                         {initials}
                       </div>
                     )}
-                    <p className="text-xs text-gray-600 mt-1 truncate max-w-[80px]">
+                    <p className="text-xs text-gray-600 mt-1 truncate max-w-20">
                       {name}
                     </p>
                   </div>
@@ -171,7 +172,13 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
             type="submit"
             className="px-4 py-2 bg-vibrantPurple text-softWhite rounded-lg hover:bg-[#751C8E] transition"
           >
-            {submitting ? "Inviting..." : "Invite Members"}
+            {submitting ? (
+              <p className="flex gap-2">
+                <Waiting color="white" /> Inviting...
+              </p>
+            ) : (
+              "Invite Members"
+            )}
           </button>
           {/* Error while inviting members */}
           {invitingError.status && (

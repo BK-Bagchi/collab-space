@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../hooks/useAuth";
 import { projectSchema } from "../../validations/project.validation";
 import { ProjectAPI, UserAPI } from "../../api";
+import Waiting from "../Loading/Waiting";
 
 const CreateProject = ({ setCreateModal }) => {
   const { user, setUser } = useAuth();
@@ -195,7 +196,7 @@ const CreateProject = ({ setCreateModal }) => {
           <div className="relative">
             <input
               type="text"
-              {...register("members")}
+              // {...register("members")}
               placeholder="e.g. dipto@example.com"
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
               onChange={handleMembersChange}
@@ -249,7 +250,7 @@ const CreateProject = ({ setCreateModal }) => {
                         {initials}
                       </div>
                     )}
-                    <p className="text-xs text-gray-600 mt-1 truncate max-w-[80px]">
+                    <p className="text-xs text-gray-600 mt-1 truncate max-w-20">
                       {name}
                     </p>
                   </div>
@@ -277,7 +278,13 @@ const CreateProject = ({ setCreateModal }) => {
             type="submit"
             className="px-4 py-2 bg-vibrantPurple text-softWhite rounded-lg hover:bg-[#751C8E] transition"
           >
-            {isSubmitting ? "Creating..." : "Create Project"}
+            {isSubmitting ? (
+              <p className="flex gap-2">
+                <Waiting color="white" /> Creating...
+              </p>
+            ) : (
+              "Create Project"
+            )}
           </button>
 
           {creatingProjectError.status && (
