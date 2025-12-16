@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editProfileSchema } from "../../validations/user.validation";
 import { UserAPI } from "../../api";
+import Waiting from "../Loading/Waiting";
 
 const EditProfile = ({ user, setUser, setActiveModal }) => {
   const [editError, setEditError] = useState({ status: false, message: "" });
@@ -134,7 +135,13 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
             disabled={isSubmitting}
             className="px-4 py-1 bg-vibrantPurple text-softWhite rounded-lg hover:bg-[#751C8E] transition disabled:opacity-60"
           >
-            {isSubmitting ? "Saving..." : "Save Changes"}
+            {isSubmitting ? (
+              <p className="flex gap-2">
+                <Waiting color="white" /> Saving...
+              </p>
+            ) : (
+              "Save Changes"
+            )}
           </button>
         </div>
       </form>
