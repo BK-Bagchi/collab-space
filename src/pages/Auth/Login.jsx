@@ -8,6 +8,7 @@ import { loginSchema } from "../../validations/auth.validation";
 import useGoogleAuth from "../../hooks/useGoogleAuth";
 import { AuthAPI } from "../../api";
 import { useAuth } from "../../hooks/useAuth";
+import { getDeviceId } from "../../utils/getDeviceId";
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -22,6 +23,12 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data) => {
+    const device = {
+      deviceId: getDeviceId(),
+      platform: "WEB",
+    };
+    data.device = device;
+
     try {
       const res = await AuthAPI.login(data);
       const { token, user } = res.data;

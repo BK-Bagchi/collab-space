@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import io from "socket.io-client";
 import { useAuth } from "../hooks/useAuth";
+import { getDeviceId } from "../utils/getDeviceId";
 
 const ActiveContext = createContext();
 
@@ -23,7 +24,10 @@ export const ActiveProvider = ({ children }) => {
       setActiveUsers(userIds);
     });
     newSocket.on("connect", () => {
-      newSocket.emit("setup", user._id);
+      newSocket.emit("setup", {
+        userId: user._id,
+        deviceId: getDeviceId(),
+      });
     });
 
     return () => newSocket.disconnect();

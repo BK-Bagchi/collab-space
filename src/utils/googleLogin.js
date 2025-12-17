@@ -1,4 +1,5 @@
 import { AuthAPI } from "../api";
+import { getDeviceId } from "./getDeviceId";
 
 const googleLogin = async (credentialResponse) => {
   try {
@@ -6,7 +7,11 @@ const googleLogin = async (credentialResponse) => {
       throw new Error("Google login failed: No credential returned");
 
     const token = credentialResponse.credential;
-    const res = await AuthAPI.oauthLogin({ token });
+    const device = {
+      deviceId: getDeviceId(),
+      platform: "WEB",
+    };
+    const res = await AuthAPI.oauthLogin({ token, device });
 
     return res;
   } catch (error) {
