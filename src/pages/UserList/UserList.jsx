@@ -106,8 +106,8 @@ const UserList = () => {
       {/* ChatBox popup */}
       {activeChatUser && (
         <NewChatBox
-          activeChatUser={activeChatUser}
-          setActiveChatUser={setActiveChatUser}
+          activeChat={activeChatUser}
+          setActiveChat={setActiveChatUser}
         />
       )}
     </div>
