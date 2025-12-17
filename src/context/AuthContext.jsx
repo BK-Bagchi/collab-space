@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { AuthAPI } from "../api";
+import { getDeviceId } from "../utils/getDeviceId";
 
 const AuthContext = createContext();
 
@@ -41,11 +43,18 @@ export const AuthProvider = ({ children }) => {
     setLoggedIn(true);
   };
   // Logout method
-  const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    setUser(null);
-    setLoggedIn(false);
+  const logout = async () => {
+    const deviceId = getDeviceId();
+    try {
+      await AuthAPI.logout({ deviceId });
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      setUser(null);
+      setLoggedIn(false);
+    } catch (error) {
+      console.error("Error logging out:", error);
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
