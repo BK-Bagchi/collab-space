@@ -8,6 +8,10 @@ export const toggleUserTypingIndicator = () =>
   axios.patch("/user/me/typing-indicator");
 export const toggleUserActiveStatus = () =>
   axios.patch("/user/me/active-status");
+export const togglePushNotifications = () =>
+  axios.patch("/user/me/push-notification");
+export const toggleEmailNotifications = () =>
+  axios.patch("/user/me/email-notification");
 export const getAllUsers = () => axios.get("/user");
 export const getUserById = (id) => axios.get(`/user/${id}`);
 export const updateUserRole = (id, data) => axios.put(`/user/${id}/role`, data);
