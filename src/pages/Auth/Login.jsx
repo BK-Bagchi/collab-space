@@ -9,6 +9,7 @@ import useGoogleAuth from "../../hooks/useGoogleAuth";
 import { AuthAPI } from "../../api";
 import { useAuth } from "../../hooks/useAuth";
 import { getDeviceId } from "../../utils/getDeviceId";
+import Waiting from "../../components/Loading/Waiting";
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -38,6 +39,8 @@ const LoginPage = () => {
     } catch (error) {
       console.error("Login error:", error.response);
       setLoginError({ status: true, message: error.response.data.message });
+      if (error.response.status === 429)
+        setLoginError({ status: true, message: error.response.data });
     }
   };
 
@@ -136,7 +139,13 @@ const LoginPage = () => {
             className="w-full py-2 rounded-lg bg-electricBlue text-softWhite 
           font-semibold heading-font transition hover:opacity-90 shadow-md"
           >
-            {isSubmitting ? "Logging in..." : "Login"}
+            {isSubmitting ? (
+              <p className="flex gap-2 justify-center">
+                <Waiting color="white" /> Logging in...
+              </p>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
 

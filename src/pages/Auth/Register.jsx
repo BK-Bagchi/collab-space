@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,7 +8,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { registrationSchema } from "../../validations/auth.validation";
 import useGoogleAuth from "../../hooks/useGoogleAuth";
 import { AuthAPI } from "../../api";
-import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import Waiting from "../../components/Loading/Waiting";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -151,7 +152,13 @@ const Register = () => {
             type="submit"
             className="w-full py-2 rounded-lg bg-electricBlue text-softWhite font-semibold transition"
           >
-            {isSubmitting ? "Registering..." : "Register"}
+            {isSubmitting ? (
+              <p className="flex gap-2 justify-center">
+                <Waiting color="white" /> Registering...
+              </p>
+            ) : (
+              "Register"
+            )}
           </button>
         </form>
 

@@ -82,9 +82,9 @@ const UserList = () => {
 
                 {/* Action Buttons */}
                 <div className="flex justify-between gap-2">
-                  <button className="flex-1 flex items-center justify-center gap-2 bg-electricBlue text-white text-sm py-2 rounded-lg hover:bg-[#1E63D1] transition">
+                  {/* <button className="flex-1 flex items-center justify-center gap-2 bg-electricBlue text-white text-sm py-2 rounded-lg hover:bg-[#1E63D1] transition">
                     <UserPlus size={14} /> Follow
-                  </button>
+                  </button> */}
                   <button
                     onClick={() => setActiveChatUser(user)}
                     className="flex-1 flex items-center justify-center gap-2 border border-vibrantPurple text-vibrantPurple text-sm py-2 rounded-lg hover:bg-vibrantPurple hover:text-white transition"
