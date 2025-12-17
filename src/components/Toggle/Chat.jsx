@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { X, MessageSquare } from "lucide-react";
+import { X, MessageSquare, MessageSquareOff } from "lucide-react";
 import { ChatAPI } from "../../api";
 import { useAuth } from "../../hooks/useAuth";
 import { useActive } from "../../hooks/useActive";
@@ -92,7 +92,7 @@ const Chat = ({ open, setOpen }) => {
           </div>
           {/* Chat List */}
           <Loading loading={loading}>
-            {messages.length > 0 ? (
+            {chats.length > 0 ? (
               <>
                 <div className="space-y-2">
                   {chats.map((chat) => (
@@ -164,8 +164,9 @@ const Chat = ({ open, setOpen }) => {
                 </div>
               </>
             ) : (
-              <div className="text-center py-4 text-sm text-gray-500">
-                No Messages
+              <div className="flex flex-col items-center gap-2 py-6 text-gray-500">
+                <MessageSquareOff className="w-6 h-6 text-gray-400" />
+                <p className="text-sm">No messages yet</p>
               </div>
             )}
           </Loading>
