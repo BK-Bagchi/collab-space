@@ -8,6 +8,7 @@ import Avatar from "../../assets/Default_Avatar.jpg";
 import ActiveNow from "../ActiveNow/ActiveNow";
 import formatTime from "../../utils/formatTime";
 import SentMultiMedia from "./SentMultiMedia";
+import confirmToast from "../ConfirmToast/ConfirmToast";
 
 const NewChatBox = ({
   activeChat,
@@ -86,7 +87,7 @@ const NewChatBox = ({
   };
 
   const handleFileUpload = async (e) => {
-    const confirmed = window.confirm(
+    const confirmed = await confirmToast(
       "Are you sure you want to upload this file?"
     );
     if (!confirmed) {

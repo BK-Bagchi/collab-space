@@ -7,6 +7,7 @@ import { useSettings } from "../../hooks/useSettings";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import formatTime from "../../utils/formatTime";
 import SentMultiMedia from "./SentMultiMedia";
+import confirmToast from "../ConfirmToast/ConfirmToast";
 
 const ActiveStatusDot = () => {
   return (
@@ -99,7 +100,7 @@ const ProjectChatBox = ({
   };
 
   const handleFileUpload = async (e) => {
-    const confirmed = window.confirm(
+    const confirmed = await confirmToast(
       "Are you sure you want to upload this file?"
     );
     if (!confirmed) {

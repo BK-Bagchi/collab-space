@@ -9,6 +9,7 @@ import CreateNote from "../../components/Forms/CreateNote";
 import CreateTodo from "../../components/Forms/CreateTodo";
 import UpdateNote from "../../components/Forms/UpdateNote";
 import UpdateTodo from "../../components/Forms/UpdateTodo";
+import confirmToast from "../../components/ConfirmToast/ConfirmToast";
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -83,7 +84,7 @@ const Notes = () => {
   };
 
   const handleDeleteNote = async (note) => {
-    const confirmed = window.confirm("Are you sure you want to delete?");
+    const confirmed = await confirmToast("Are you sure you want to delete?");
     if (!confirmed) return;
     try {
       let res;
