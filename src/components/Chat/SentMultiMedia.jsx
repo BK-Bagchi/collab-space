@@ -12,14 +12,16 @@ const SentMultiMedia = ({
 }) => {
   return (
     // Input
-    <div className="relative flex p-2 border-t border-gray-200 gap-2 items-center bg-white">
+    <div className="relative flex p-2 border-t border-gray-200 gap-2 items-center bg-white dark:bg-darkSlate">
       {/* Upload Menu Toggle */}
       <div className="relative">
         <button
           onClick={() => setShowUploadMenu((prev) => !prev)}
-          className="p-2 rounded-full hover:bg-gray-100 transition"
+          className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-darkSlate transition"
         >
-          <span className="text-2xl text-gray-600 font-bold">+</span>
+          <span className="text-2xl text-gray-600 dark:text-gray-200 font-bold">
+            +
+          </span>
         </button>
 
         {/* Upload Options Menu */}
@@ -73,7 +75,7 @@ const SentMultiMedia = ({
         onChange={handleTyping}
         onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         placeholder={project ? `Message ${project.title}` : "Type a message..."}
-        className="flex-1 rounded-full border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-electricBlue text-charcoalGray"
+        className="flex-1 rounded-full border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-electricBlue text-charcoalGray dark:text-softWhite"
       />
 
       {/* Send Button */}

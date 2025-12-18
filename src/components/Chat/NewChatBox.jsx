@@ -134,7 +134,7 @@ const NewChatBox = ({
   return (
     <div className="absolute top-0 right-0 w-96 h-[500px] bg-white border border-gray-200 shadow-lg rounded-xl flex flex-col z-50">
       {/* Header */}
-      <div className="flex items-center justify-between bg-vibrantPurple text-white px-4 py-2 rounded-t-xl">
+      <div className="flex items-center justify-between bg-vibrantPurple dark:bg-darkSlate border dark:border-b-gray-200 text-white px-4 py-2 rounded-t-xl">
         <div className="flex items-center gap-2">
           <img
             src={activeChat?.avatar || Avatar}
@@ -153,7 +153,7 @@ const NewChatBox = ({
       </div>
 
       {/* Message Bubble */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-gray-50 dark:bg-darkSlate">
         {messages.map((msg, i) => {
           const isSender = msg.sender._id === sender;
           // console.log(msg);
