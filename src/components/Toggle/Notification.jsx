@@ -72,7 +72,7 @@ const Notification = ({ open, setOpen }) => {
                 ? "bg-softWhite dark:bg-gray-600 border-gray-200" // READ
                 : "bg-electricBlue/10 hover:bg-electricBlue/20 border-electricBlue/40 shadow-sm border-l-4" // UNREAD
             }
-            hover:bg-gray-50
+            hover:bg-gray-50 dark:hover:bg-gray-500
           `}
                 >
                   <p

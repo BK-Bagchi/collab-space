@@ -45,12 +45,12 @@ const Notification = () => {
   }, [notification]);
 
   return (
-    <div className="p-5 bg-white rounded-xl shadow-md border border-gray-100 max-h-full overflow-y-auto scrollbar-hide">
+    <div className="p-5 bg-white dark:bg-darkSlate rounded-xl shadow-md border border-gray-100 max-h-full overflow-y-auto scrollbar-hide">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Bell className="text-electricBlue w-5 h-5" />
-          <h2 className="text-lg font-semibold text-charcoalGray">
+          <h2 className="text-lg font-semibold text-charcoalGray dark:text-softWhite">
             Notifications
           </h2>
         </div>
@@ -67,20 +67,20 @@ const Notification = () => {
             p-3 rounded-lg transition border 
             ${
               n.read
-                ? "bg-softWhite border-gray-200" // READ
+                ? "bg-softWhite dark:bg-gray-600 border-gray-200" // READ
                 : "bg-electricBlue/10 border-electricBlue/40 shadow-sm border-l-4" // UNREAD
             }
-            hover:bg-gray-50
+            hover:bg-gray-50 dark:hover:bg-gray-500
           `}
               >
                 <p
-                  className={`text-sm text-charcoalGray ${
+                  className={`text-sm text-charcoalGray dark:text-softWhite ${
                     n.read ? "font-normal" : "font-semibold"
                   }`}
                 >
                   {n.message}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                   {formatDateWithTime(n.createdAt)}
                 </p>
               </div>
