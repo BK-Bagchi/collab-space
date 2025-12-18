@@ -21,7 +21,7 @@ const ChatRow = ({ chat, active, onClick }) => {
       className={`flex items-center gap-3 p-3 mx-2 mt-2 cursor-pointer transition-all duration-200 rounded-lg
         ${
           isRead
-            ? "bg-softWhite hover:bg-[#F4F1FA] border border-gray-200 hover:border-gray-200"
+            ? "bg-softWhite dark:bg-gray-500 hover:bg-[#F4F1FA] border border-gray-200 hover:border-gray-200"
             : "bg-electricBlue/10 hover:bg-electricBlue/20 border border-electricBlue/40 shadow-sm border-l-4"
         }
         ${active && "bg-softWhite border border-electricBlue/30"}
@@ -41,12 +41,14 @@ const ChatRow = ({ chat, active, onClick }) => {
         <div className="flex justify-between items-center">
           <h4
             className={`font-medium text-sm ${
-              isRead ? "text-charcoalGray" : "font-semibold text-electricBlue"
+              isRead
+                ? "text-charcoalGray dark:text-softWhite"
+                : "font-semibold text-electricBlue"
             } truncate`}
           >
             {project.title || chat.title}
           </h4>
-          <span className="text-xs text-gray-400 whitespace-nowrap">
+          <span className="text-xs text-gray-400 dark:text-gray-300 whitespace-nowrap">
             {time ? formatTime(time) : ""}
           </span>
         </div>
@@ -60,7 +62,7 @@ const ChatRow = ({ chat, active, onClick }) => {
           />
 
           <p
-            className={`text-xs truncate ${
+            className={`text-xs truncate dark:text-gray-300 ${
               isRead ? "text-gray-600" : "text-charcoalGray font-medium"
             }`}
           >

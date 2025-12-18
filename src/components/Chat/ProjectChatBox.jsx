@@ -146,7 +146,7 @@ const ProjectChatBox = ({
   return (
     <div className="flex-1 flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center justify-between bg-vibrantPurple text-white px-4 py-3">
+      <div className="flex items-center justify-between bg-vibrantPurple dark:bg-darkSlate text-white px-4 py-3">
         <div className="flex items-center gap-3">
           {project ? (
             <div
@@ -164,12 +164,14 @@ const ProjectChatBox = ({
               <h3 className="font-medium">
                 {project?.title || "Project Chat"}
               </h3>
-              {project?.isActive && (
-                <span className="w-2 h-2 rounded-full bg-electricBlue" />
-              )}
             </div>
             <p className="text-xs text-white/85">
-              {project?.subtitle || "Project chat channel"}
+              {(project?.description || "Project chat channel").length > 50
+                ? (project?.description || "Project chat channel").slice(
+                    0,
+                    50
+                  ) + "..."
+                : project?.description || "Project chat channel"}
             </p>
           </div>
         </div>
@@ -180,7 +182,7 @@ const ProjectChatBox = ({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 bg-[#EFF3F9] space-y-3 scrollbar-hide">
+      <div className="flex-1 overflow-y-auto p-4 bg-[#EFF3F9] dark:bg-darkSlate space-y-3 scrollbar-hide">
         {(!messages || messages.length === 0) && (
           <div className="flex flex-col items-center justify-center text-center py-12 text-gray-500">
             <Inbox size={36} className="mb-2 text-gray-300" />

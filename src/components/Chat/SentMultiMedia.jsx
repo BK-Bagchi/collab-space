@@ -26,9 +26,9 @@ const SentMultiMedia = ({
 
         {/* Upload Options Menu */}
         {showUploadMenu && (
-          <div className="absolute bottom-12 left-0 bg-white border border-gray-200 shadow-lg rounded-xl p-2 w-40 z-10">
+          <div className="absolute bottom-12 left-0 bg-white dark:bg-darkSlate border border-gray-200 shadow-lg rounded-xl p-2 w-40 z-10">
             {uploading ? (
-              <label className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700 dark:text-gray-300">
+              <label className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded-lg cursor-pointer text-sm text-gray-700 dark:text-gray-300">
                 <Upload size={20} />
                 <span>Uploading...</span>
               </label>
@@ -36,7 +36,7 @@ const SentMultiMedia = ({
               <>
                 <label
                   htmlFor="upload-image"
-                  className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700"
+                  className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded-lg cursor-pointer text-sm text-gray-700 dark:text-gray-300"
                 >
                   <Image size={20} />
                   <span>Send Image</span>
@@ -51,7 +51,7 @@ const SentMultiMedia = ({
 
                 <label
                   htmlFor="upload-file"
-                  className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700"
+                  className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded-lg cursor-pointer text-sm text-gray-700 dark:text-gray-300"
                 >
                   <Paperclip size={20} />
                   <span>Send File</span>
