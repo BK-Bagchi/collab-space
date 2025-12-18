@@ -58,20 +58,20 @@ const TaskCalendar = () => {
   // console.log(deadlines);
 
   return (
-    <div className="bg-linear-to-br from-white via-softWhite to-[#F0F4FF] rounded-2xl shadow-lg p-6 border border-gray-100 flex flex-col items-center">
+    <div className="bg-linear-to-br bg-softWhite dark:bg-darkSlate rounded-2xl shadow-lg p-6 border border-gray-100 flex flex-col items-center">
       {/* Header */}
       <div className="flex items-center gap-2 mb-5">
         <div className="p-2 bg-vibrantPurple/10 rounded-lg">
           <CalendarIcon className="text-vibrantPurple w-5 h-5" />
         </div>
-        <h2 className="text-lg font-semibold text-charcoalGray">
+        <h2 className="text-lg font-semibold text-charcoalGray dark:text-softWhite">
           Calendar View
         </h2>
       </div>
 
       <Loading loading={loading}>
         {/* Calendar */}
-        <div className="w-full bg-white rounded-xl border border-gray-100 shadow-inner overflow-hidden flex justify-center">
+        <div className="w-full bg-white dark:bg-darkSlate rounded-xl border border-gray-100 shadow-inner overflow-hidden flex justify-center">
           <Calendar
             onChange={setValue}
             value={value}
@@ -99,7 +99,7 @@ const TaskCalendar = () => {
 
         {/* Selected Date */}
         <div className="mt-5 text-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Selected Date:
             <span className="ml-1 font-semibold text-electricBlue">
               {value.toDateString()}
