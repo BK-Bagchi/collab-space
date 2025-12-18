@@ -12,7 +12,7 @@ const Navbar = () => {
   useUserActive();
 
   return (
-    <div className="navbar bg-electricBlue dark:bg-darkSlate text-softWhite shadow-sm px-3">
+    <div className="navbar sticky top-0 z-50 bg-electricBlue dark:bg-darkSlate text-softWhite shadow-sm px-3 border-b border-gray-500">
       <div className="navbar-start">
         <div className="dropdown lg:hidden">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
