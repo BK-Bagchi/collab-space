@@ -19,7 +19,7 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
       {projects.map((project) => (
         <div
           key={project._id}
-          className="bg-white rounded-xl shadow-md hover:shadow-lg border border-gray-100 transition p-5 flex gap-6"
+          className="bg-white dark:bg-gray-600 rounded-xl shadow-md hover:shadow-lg border border-gray-100 transition p-5 flex gap-6"
         >
           {/* Project Info section */}
           <div className="w-full">
@@ -32,7 +32,7 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                   : undefined
               }
             >
-              <h3 className="font-semibold text-charcoalGray text-base truncate hover:text-electricBlue hover:underline cursor-pointer">
+              <h3 className="font-semibold text-charcoalGray dark:text-softWhite text-base truncate hover:text-electricBlue hover:underline cursor-pointer">
                 {project.title}
               </h3>
               <span
@@ -43,14 +43,14 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
 
             {/* Description */}
             <p
-              className="text-sm text-gray-600 line-clamp-2 mb-4 truncate"
+              className="text-sm text-gray-600 dark:text-gray-200 line-clamp-2 mb-4 truncate"
               title={project.description}
             >
               {project.description || "No description provided."}
             </p>
 
             {/* Info Section */}
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+            <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-300 mb-3">
               <div className="flex items-center gap-1">
                 <CalendarDays size={14} className="text-vibrantPurple" />
                 <span>{formatDate(project.deadline)}</span>
@@ -62,7 +62,7 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
             </div>
 
             {/* Total Members */}
-            <div className="flex items-center text-xs text-gray-500 mb-3">
+            <div className="flex items-center text-xs text-gray-500 dark:text-gray-300 mb-3">
               <div className="flex items-center gap-2">
                 <Users size={14} className="text-tealGreen" />
                 <span className="font-medium">
@@ -112,12 +112,12 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                     return (
                       <div
                         key={task._id}
-                        className="border border-gray-200 rounded-lg p-2 bg-white shadow-sm"
+                        className="border border-gray-200 rounded-lg p-2 bg-white dark:bg-gray-700 shadow-sm"
                       >
                         {/* Task Header */}
                         <div
                           onClick={() => toggleTask(task._id)}
-                          className="flex justify-between items-center cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-md transition"
+                          className="flex justify-between items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600 px-2 py-1 rounded-md transition"
                         >
                           <div className="flex items-center gap-2">
                             {openTasks[task._id] ? (
@@ -131,7 +131,7 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                                 className="text-electricBlue"
                               />
                             )}
-                            <span className="font-medium text-sm text-charcoalGray">
+                            <span className="font-medium text-sm text-charcoalGray dark:text-softWhite">
                               {task.title}
                             </span>
 
@@ -166,7 +166,7 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                             {task.subtasks.map((subtask) => (
                               <div
                                 key={subtask._id}
-                                className="flex justify-between items-center py-1 px-2 rounded-md hover:bg-gray-50 cursor-pointer transition"
+                                className="flex justify-between items-center py-1 px-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer transition"
                               >
                                 <div className="flex items-center gap-2">
                                   {subtask.done ? (
@@ -184,7 +184,7 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                                     className={`text-xs ${
                                       subtask.done
                                         ? "line-through text-gray-400"
-                                        : "text-gray-700"
+                                        : "text-gray-700 dark:text-gray-200"
                                     }`}
                                   >
                                     {subtask.title}
@@ -207,12 +207,12 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
             )}
 
             {/* Project Meta Info */}
-            <div className="mt-4 space-y-3 bg-gray-50/60 rounded-xl p-3 border border-gray-100">
+            <div className="mt-4 space-y-3 bg-gray-50/60 dark:bg-gray-700 rounded-xl p-3 border border-gray-100">
               {/* Created Date */}
               <div className="flex items-center gap-2 text-xs text-gray-600">
                 <BadgePlus size={14} className="text-electricBlue" />
-                <span>
-                  <span className="font-medium text-charcoalGray">
+                <span className="dark:text-gray-400">
+                  <span className="font-medium text-charcoalGray dark:text-gray-200">
                     Created:
                   </span>{" "}
                   {formatDateWithTime(project.createdAt)}
@@ -223,8 +223,8 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
               {project.updatedAt !== project.createdAt && (
                 <div className="flex items-center gap-2 text-xs text-gray-600">
                   <PenLine size={14} className="text-tealGreen" />
-                  <span>
-                    <span className="font-medium text-charcoalGray">
+                  <span className="dark:text-gray-400">
+                    <span className="font-medium text-charcoalGray dark:text-gray-200">
                       Updated:
                     </span>{" "}
                     {formatDateWithTime(project.updatedAt)}
@@ -240,8 +240,10 @@ const ProjectDetailsCard = ({ projects, navigateURL = false }) => {
                     alt={project.createdBy.name}
                     className="w-6 h-6 rounded-full border border-gray-200"
                   />
-                  <span>
-                    <span className="font-medium text-charcoalGray">By</span>{" "}
+                  <span className="dark:text-gray-400">
+                    <span className="font-medium text- dark:text-softWhite">
+                      By
+                    </span>{" "}
                     {project.createdBy.name}
                   </span>
                 </div>

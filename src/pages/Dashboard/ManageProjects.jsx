@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FolderKanban } from "lucide-react";
 import { ProjectAPI } from "../../api";
-import Avatar from "../../assets/Default_Avatar.jpg";
 import { useAuth } from "../../hooks/useAuth";
 import ProjectDetailsCard from "../../components/ProjectDetailsCard/ProjectDetailsCard";
 import Loading from "../../components/Loading/Loading";
@@ -33,10 +32,10 @@ const ManageUsers = () => {
   );
 
   return (
-    <div className="bg-softWhite p-6">
+    <div className="bg-softWhite dark:bg-darkSlate p-6 rounded-lg">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-charcoalGray flex items-center gap-2">
+        <h2 className="text-2xl font-semibold text-charcoalGray dark:text-softWhite flex items-center gap-2">
           <FolderKanban className="text-electricBlue" size={22} />
           All Projects
           <span className="text-sm text-gray-500 italic hover:text-electricBlue hover:underline cursor-pointer">
