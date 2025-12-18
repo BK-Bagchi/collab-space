@@ -30,9 +30,9 @@ const Analytics = () => {
   );
 
   return (
-    <div className="p-6 w-full">
+    <div className="p-6 w-full dark:bg-darkSlate rounded-lg">
       {/* Header */}
-      <h1 className="text-2xl font-semibold text-charcoalGray mb-6">
+      <h1 className="text-2xl font-semibold text-charcoalGray dark:text-softWhite mb-6">
         📊 Project Analytics
       </h1>
 

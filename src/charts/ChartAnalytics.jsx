@@ -69,10 +69,10 @@ const ChartAnalytics = ({ project }) => {
   return (
     <div className="flex flex-col gap-4">
       {/* Task Status Chart */}
-      <div className="bg-gray-50 rounded-xl p-3 shadow-inner">
-        <h4 className="text-sm text-gray-600 mb-2 font-medium">
+      <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-3 shadow-inner">
+        <h4 className="text-sm text-gray-600 dark:text-gray-200 mb-2 font-medium">
           Task Status Overview:{" "}
-          <span className="text-xs text-gray-600 mb-2 font-medium">
+          <span className="text-xs text-gray-600 dark:text-gray-300 mb-2 font-medium">
             Total {project.tasks.length} tasks
           </span>
         </h4>
@@ -107,17 +107,19 @@ const ChartAnalytics = ({ project }) => {
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: COLORS[index % COLORS.length] }}
               ></div>
-              <span className="text-gray-600">{item.name}</span>
+              <span className="text-gray-600 dark:text-gray-200">
+                {item.name}
+              </span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Team Progress Chart */}
-      <div className="bg-gray-50 rounded-xl p-3 shadow-inner">
-        <h4 className="text-sm text-gray-600 mb-2 font-medium">
+      <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-3 shadow-inner">
+        <h4 className="text-sm text-gray-600 dark:text-gray-200 mb-2 font-medium">
           Team Progress:{" "}
-          <span className="text-xs text-gray-600 mb-2 font-medium">
+          <span className="text-xs text-gray-600 dark:text-gray-300 mb-2 font-medium">
             Total {project.members.length} members
           </span>
         </h4>
