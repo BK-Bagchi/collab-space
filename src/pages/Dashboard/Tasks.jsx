@@ -113,7 +113,7 @@ const Tasks = () => {
         return (
           <div
             key={col.id}
-            className={`relative transition-all duration-500 ease-in-out bg-white rounded-xl p-3 border-t-4 shadow-sm flex-shrink-0`}
+            className={`relative transition-all duration-500 ease-in-out bg-white dark:bg-darkSlate rounded-xl p-3 border-t-4 shadow-sm shrink-0`}
             style={{
               borderTopColor: col.color,
               width: isVisible ? "calc(33.333% - 1.5rem)" : "2.5rem",
@@ -153,13 +153,13 @@ const Tasks = () => {
                       col.tasks.map((task) => (
                         <div
                           key={task._id}
-                          className={`bg-[#F9FAFB] p-4 rounded-lg shadow-sm border ${
+                          className={`bg-[#F9FAFB] dark:bg-gray-600 p-4 rounded-lg shadow-sm border ${
                             new Date(task.dueDate) < new Date()
                               ? "border-red-600"
                               : "border-gray-100"
                           } hover:shadow-md transition`}
                         >
-                          <h4 className="font-medium text-lg text-charcoalGray">
+                          <h4 className="font-medium text-lg text-charcoalGray dark:text-softWhite">
                             {task.title}
                           </h4>
 
@@ -169,7 +169,9 @@ const Tasks = () => {
                                 <User className="w-4 h-4 text-electricBlue" />
                               )}
                               {task.assignees.map((a, i) => (
-                                <span key={i}>{a.name}</span>
+                                <span key={i} className="dark:text-gray-300">
+                                  {a.name}
+                                </span>
                               ))}
                             </div>
                             <div className="flex items-center gap-1">
@@ -183,7 +185,9 @@ const Tasks = () => {
                               ) : (
                                 <>
                                   <CalendarDays className="w-4 h-4 text-vibrantPurple" />{" "}
-                                  <span>{formatDate(task.dueDate)}</span>
+                                  <span className="dark:text-gray-300">
+                                    {formatDate(task.dueDate)}
+                                  </span>
                                 </>
                               )}
                             </div>
@@ -192,7 +196,9 @@ const Tasks = () => {
                           <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
                             <div className="flex items-center gap-1">
                               <FolderKanban className="w-4 h-4 text-vibrantPurple" />
-                              <span>{task.project.title}</span>
+                              <span className="dark:text-gray-300">
+                                {task.project.title}
+                              </span>
                             </div>
                             <div className="flex items-center gap-1">
                               <Flag
@@ -204,7 +210,7 @@ const Tasks = () => {
                                     : "text-tealGreen"
                                 }`}
                               />
-                              <span className="font-medium">
+                              <span className="font-medium dark:text-gray-300">
                                 {formatText(task.priority)} Priority
                               </span>
                             </div>

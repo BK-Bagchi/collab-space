@@ -19,12 +19,14 @@ const StatusSlider = ({ value, onChange }) => {
   const leftPercent = position * segmentWidth + segmentWidth / 2;
 
   return (
-    <div className="relative flex items-center justify-between max-w-full bg-gray-200 rounded-full p-1 select-none">
+    <div className="relative flex items-center justify-between max-w-full bg-gray-200 dark:bg-gray-500 rounded-full p-1 select-none">
       {statuses.map((status, index) => (
         <div
           key={status}
           className={`flex-1 text-center cursor-pointer text-xs font-medium transition ${
-            index === position ? "text-white" : "text-gray-600"
+            index === position
+              ? "text-white"
+              : "text-gray-600 dark:text-gray-300"
           }`}
           onClick={() => handleSlide(index)}
         >
