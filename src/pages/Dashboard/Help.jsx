@@ -12,11 +12,13 @@ const Help = () => {
   };
 
   return (
-    <div className="p-6 md:p-10 max-w-5xl mx-auto space-y-10">
+    <div className="p-6 md:p-10 max-w-5xl mx-auto space-y-10 dark:bg-darkSlate rounded-lg">
       {/* Header */}
       <div className="flex items-center gap-3">
         <HelpCircle className="text-vibrantPurple w-8 h-8" />
-        <h1 className="text-3xl font-bold text-charcoalGray">Help & Support</h1>
+        <h1 className="text-3xl font-bold text-charcoalGray dark:text-softWhite">
+          Help & Support
+        </h1>
       </div>
 
       {/* Tabs */}
@@ -26,7 +28,7 @@ const Help = () => {
           className={`px-4 py-2 rounded-lg font-medium transition ${
             tab === "faq"
               ? "bg-electricBlue text-white shadow"
-              : "text-gray-600 hover:bg-gray-100"
+              : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:text-gray-600"
           }`}
         >
           FAQ
@@ -37,7 +39,7 @@ const Help = () => {
           className={`px-4 py-2 rounded-lg font-medium transition ${
             tab === "contact"
               ? "bg-vibrantPurple text-white shadow"
-              : "text-gray-600 hover:bg-gray-100"
+              : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:text-gray-600"
           }`}
         >
           Contact Admin
@@ -55,9 +57,9 @@ const Help = () => {
             {faqData.map((category, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl shadow-md border border-gray-100 p-5"
+                className="bg-white dark:bg-gray-600 rounded-2xl shadow-md border border-gray-100 p-5"
               >
-                <h3 className="text-lg font-semibold text-charcoalGray mb-4 flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite mb-4 flex items-center gap-2">
                   📌 {category.category}
                 </h3>
 
@@ -69,14 +71,14 @@ const Help = () => {
                     return (
                       <div
                         key={j}
-                        className="rounded-xl bg-softWhite border border-gray-100"
+                        className="rounded-xl bg-softWhite dark:bg-gray-800 border border-gray-100"
                       >
                         {/* QUESTION */}
                         <button
                           onClick={() => toggleFAQ(index)}
                           className="w-full flex justify-between items-center p-3 md:p-4 text-left"
                         >
-                          <p className="font-medium text-sm md:text-base text-charcoalGray flex items-center gap-2">
+                          <p className="font-medium text-sm md:text-base text-charcoalGray dark:text-gray-300 flex items-center gap-2">
                             {item.q}
                           </p>
 
@@ -89,7 +91,7 @@ const Help = () => {
 
                         {/* ANSWER */}
                         {isOpen && (
-                          <p className="px-4 pb-4 text-sm text-gray-600 leading-relaxed flex items-center gap-2">
+                          <p className="px-4 pb-4 text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex items-center gap-2">
                             <CornerDownRight size={14} />
                             {item.a}
                           </p>
@@ -111,14 +113,14 @@ const Help = () => {
             Contact Admin
           </h2>
 
-          <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+          <div className="bg-white dark:bg-gray-600 p-6 rounded-2xl shadow-md border border-gray-100">
             <form className="space-y-5">
               {/* Category Selector */}
               <div className="flex flex-col">
-                <label className="text-sm font-semibold text-charcoalGray mb-1">
+                <label className="text-sm font-semibold text-charcoalGray dark:text-softWhite mb-1">
                   Category
                 </label>
-                <select className="p-3 border border-gray-300 rounded-xl bg-softWhite outline-none focus:ring-2 focus:ring-electricBlue cursor-pointer">
+                <select className="p-3 border border-gray-300 rounded-xl bg-softWhite dark:bg-gray-800 dark:text-softWhite outline-none focus:ring-2 focus:ring-electricBlue cursor-pointer">
                   <option className="hidden">Select Category</option>
                   <option value="contact">Contact Admin</option>
                   <option value="feature">Feature Request</option>
@@ -128,31 +130,31 @@ const Help = () => {
 
               {/* Subject */}
               <div className="flex flex-col">
-                <label className="text-sm font-semibold text-charcoalGray mb-1">
+                <label className="text-sm font-semibold text-charcoalGray dark:text-softWhite mb-1">
                   Subject
                 </label>
                 <input
                   type="text"
                   placeholder="Write the subject"
-                  className="p-3 border border-gray-300 rounded-xl bg-softWhite outline-none focus:ring-2 focus:ring-electricBlue"
+                  className="p-3 border border-gray-300 rounded-xl bg-softWhite dark:bg-gray-800 dark:text-softWhite outline-none focus:ring-2 focus:ring-electricBlue"
                 />
               </div>
 
               {/* Message */}
               <div className="flex flex-col">
-                <label className="text-sm font-semibold text-charcoalGray mb-1">
+                <label className="text-sm font-semibold text-charcoalGray dark:text-softWhite mb-1">
                   Message
                 </label>
                 <textarea
                   placeholder="Write your message for admin…"
-                  className="p-3 h-32 border border-gray-300 rounded-xl bg-softWhite outline-none focus:ring-2 focus:ring-electricBlue"
+                  className="p-3 h-32 border border-gray-300 rounded-xl bg-softWhite dark:bg-gray-800 dark:text-softWhite outline-none focus:ring-2 focus:ring-electricBlue"
                 ></textarea>
               </div>
 
               {/* Submit */}
               <button
                 type="submit"
-                className="bg-vibrantPurplerple w-full text-white font-medium py-3 rounded-xl hover:bg-purple-700 transition shadow-md cursor-pointer"
+                className="bg-vibrantPurple w-full text-white font-medium py-3 rounded-xl hover:bg-purple-700 transition shadow-md cursor-pointer"
               >
                 Send Message
               </button>
