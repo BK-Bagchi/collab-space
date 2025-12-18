@@ -76,9 +76,9 @@ const Chat = ({ open, setOpen }) => {
     open && (
       <div className="absolute right-0 top-0 h-screen flex border-l border-gray-200 shadow-xl rounded-tl-xl rounded-bl-xl z-50 transition-all duration-300">
         {/* Chat List Panel */}
-        <div className="relative w-80 bg-softWhite border-r border-gray-200 flex flex-col rounded-tl-xl">
+        <div className="relative w-80 bg-softWhite dark:bg-darkSlate border-r border-gray-200 flex flex-col rounded-tl-xl">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-vibrantPurple text-white rounded-tl-xl w-full">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-vibrantPurple dark:bg-darkSlate text-white rounded-tl-xl w-full">
             <h3 className="font-semibold text-base flex items-center gap-2">
               <MessageSquare size={18} />
               Messages
@@ -106,7 +106,7 @@ const Chat = ({ open, setOpen }) => {
       activeChat?.id === chat.id
         ? "bg-[#EEE4F8] border-vibrantPurple shadow-md"
         : chat.isRead || chat.isSender
-        ? "bg-white hover:bg-[#F4F1FA] border-transparent hover:border-gray-200"
+        ? "bg-white dark:bg-gray-600 hover:bg-[#F4F1FA] border-transparent hover:border-gray-200"
         : "bg-vibrantPurple/10 hover:bg-vibrantPurple/20 border-vibrantPurple/40 shadow-sm border-l-4"
     }
   `}
@@ -127,7 +127,7 @@ const Chat = ({ open, setOpen }) => {
                             <h4
                               className={`font-medium text-[15px] text-charcoalGray truncate ${
                                 chat.isRead
-                                  ? ""
+                                  ? "dark:text-softWhite"
                                   : "font-semibold text-vibrantPurple"
                               }`}
                             >
@@ -143,8 +143,8 @@ const Chat = ({ open, setOpen }) => {
                         <p
                           className={`text-sm truncate ${
                             chat.isRead
-                              ? "text-gray-600"
-                              : "text-charcoalGray font-medium"
+                              ? "text-gray-600 dark:text-softWhite"
+                              : "text-charcoalGray dark:text-softWhite font-medium"
                           }`}
                         >
                           {`${chat.role === "sender" ? "You: " : ""}${

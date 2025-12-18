@@ -46,9 +46,9 @@ const Notification = ({ open, setOpen }) => {
 
   return (
     open && (
-      <div className="absolute right-0 mt-2 w-80 h-screen bg-softWhite border border-gray-200 shadow-lg rounded-tl-xl rounded-bl-xl z-50 overflow-y-auto transition-all duration-300">
+      <div className="absolute right-0 mt-2 w-80 h-screen bg-softWhite dark:bg-darkSlate border border-gray-200 shadow-lg rounded-tl-xl rounded-bl-xl z-50 overflow-y-auto transition-all duration-300">
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-electricBlue text-white rounded-tl-xl">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-electricBlue dark:bg-darkSlate text-white rounded-tl-xl">
           <h3 className="font-semibold text-base">Notifications</h3>
           <button
             onClick={() => setOpen(false)}
@@ -69,14 +69,14 @@ const Notification = ({ open, setOpen }) => {
             p-3 rounded-lg transition border 
             ${
               n.read
-                ? "bg-softWhite border-gray-200" // READ
+                ? "bg-softWhite dark:bg-gray-600 border-gray-200" // READ
                 : "bg-electricBlue/10 hover:bg-electricBlue/20 border-electricBlue/40 shadow-sm border-l-4" // UNREAD
             }
             hover:bg-gray-50
           `}
                 >
                   <p
-                    className={`text-sm text-charcoalGray ${
+                    className={`text-sm text-charcoalGray dark:text-softWhite ${
                       n.read ? "font-normal" : "font-semibold"
                     }`}
                   >
@@ -84,7 +84,7 @@ const Notification = ({ open, setOpen }) => {
                   </p>
 
                   <p
-                    className={`text-xs mt-1 ${
+                    className={`text-xs mt-1 dark:text-gray-400 ${
                       n.read ? "text-gray-500" : "text-electricBlue font-medium"
                     }`}
                   >

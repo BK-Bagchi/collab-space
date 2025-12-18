@@ -28,7 +28,7 @@ const SentMultiMedia = ({
         {showUploadMenu && (
           <div className="absolute bottom-12 left-0 bg-white border border-gray-200 shadow-lg rounded-xl p-2 w-40 z-10">
             {uploading ? (
-              <label className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700">
+              <label className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm text-gray-700 dark:text-gray-300">
                 <Upload size={20} />
                 <span>Uploading...</span>
               </label>
