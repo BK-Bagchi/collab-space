@@ -27,7 +27,7 @@ const CreatedProjects = ({
   };
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+    <div className="bg-white dark:bg-darkSlate p-6 rounded-2xl shadow-md border border-gray-100">
       <h2 className="text-lg font-semibold text-vibrantPurple mb-4 flex items-center gap-2">
         <span className="w-2 h-2 bg-vibrantPurple rounded-full"></span>
         Created Projects
@@ -38,14 +38,14 @@ const CreatedProjects = ({
           {createdProjects.map((project) => (
             <div
               key={project._id}
-              className="p-4 rounded-xl border border-gray-200 bg-softWhite hover:shadow-md transition"
+              className="p-4 rounded-xl border border-gray-200 bg-softWhite dark:bg-gray-600 hover:shadow-md transition"
             >
               {/* HEADER */}
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   {/* Project Title */}
                   <h3
-                    className="text-base font-semibold text-electricBlue hover:underline cursor-pointer"
+                    className="text-base font-semibold text-electricBlue dark:text-softWhite hover:underline cursor-pointer"
                     onClick={() => setSelectedProject(project)}
                   >
                     {project.title}
@@ -61,21 +61,21 @@ const CreatedProjects = ({
                     e.stopPropagation();
                     handleDeleteProject(project._id);
                   }}
-                  className="text-gray-500 hover:text-red-500 transition cursor-pointer"
+                  className="text-gray-500 dark:text-gray-300 hover:text-red-500 transition cursor-pointer"
                 >
                   <Trash2 size={16} />
                 </button>
               </div>
 
               <p
-                className="text-xs text-gray-600 mt-1 line-clamp-2 truncate"
+                className="text-xs text-gray-600 dark:text-softWhite mt-1 line-clamp-2 truncate"
                 title={project.description}
               >
                 {project.description}
               </p>
 
               {/* PROJECT META */}
-              <div className="flex justify-between items-center mt-3 text-xs text-gray-500">
+              <div className="flex justify-between items-center mt-3 text-xs text-gray-500 dark:text-gray-300">
                 {/* Deadline */}
                 <div className="flex items-center gap-1">
                   <Calendar size={14} />
@@ -121,7 +121,7 @@ const CreatedProjects = ({
               <div className="mt-3 border-t border-gray-200 pt-2">
                 <button
                   onClick={() => toggleProject(project._id)}
-                  className="flex items-center gap-2 text-sm text-gray-700 font-medium hover:text-electricBlue transition"
+                  className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium hover:text-electricBlue transition"
                 >
                   {openProjects[project._id] ? (
                     <ChevronDown size={16} />
@@ -141,12 +141,12 @@ const CreatedProjects = ({
                       return (
                         <div
                           key={task._id}
-                          className="border border-gray-200 rounded-lg bg-white p-2 shadow-sm"
+                          className="border border-gray-200 rounded-lg bg-white dark:bg-gray-600 p-2 shadow-sm"
                         >
                           {/* TASK HEADER */}
                           <div
                             onClick={() => toggleTask(project._id, task._id)}
-                            className="flex justify-between items-center cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-md transition"
+                            className="flex justify-between items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-400 px-2 py-1 rounded-md transition"
                           >
                             <div className="flex items-center gap-2">
                               {openTasks[project._id]?.[task._id] ? (
@@ -160,7 +160,7 @@ const CreatedProjects = ({
                                   className="text-electricBlue"
                                 />
                               )}
-                              <span className="font-medium text-sm text-charcoalGray">
+                              <span className="font-medium text-sm text-charcoalGray dark:text-softWhite">
                                 {task.title}
                               </span>
 
@@ -199,7 +199,7 @@ const CreatedProjects = ({
                                 {task.subtasks.map((subtask) => (
                                   <div
                                     key={subtask._id}
-                                    className="flex justify-between items-center py-1 px-2 rounded-md hover:bg-gray-50 cursor-pointer transition"
+                                    className="flex justify-between items-center py-1 px-2 rounded-md hover:bg-gray-50 hover:dark:bg-gray-600 cursor-pointer transition"
                                   >
                                     <div className="flex items-center gap-2">
                                       {subtask.done ? (
@@ -217,14 +217,14 @@ const CreatedProjects = ({
                                         className={`text-xs ${
                                           subtask.done
                                             ? "line-through text-gray-400"
-                                            : "text-gray-700"
+                                            : "text-gray-700 dark:text-gray-300"
                                         }`}
                                       >
                                         {subtask.title}
                                       </span>
                                     </div>
                                     <span className="text-[10px] text-gray-400">
-                                      {subtask.status || "Pending"}
+                                      {subtask.done ? "Done" : "Pending"}
                                     </span>
                                   </div>
                                 ))}

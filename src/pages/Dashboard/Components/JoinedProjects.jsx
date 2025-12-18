@@ -5,7 +5,7 @@ import Avatar from "../../../assets/Default_Avatar.jpg";
 const JoinedProjects = ({ joinedProjects }) => {
   return (
     //  Joined Projects
-    <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+    <div className="bg-white dark:bg-darkSlate p-6 rounded-2xl shadow-md border border-gray-100">
       <h2 className="text-lg font-semibold text-electricBlue mb-4 flex items-center gap-2">
         <span className="w-2 h-2 bg-electricBlue rounded-full"></span>
         Joined Projects
@@ -16,13 +16,13 @@ const JoinedProjects = ({ joinedProjects }) => {
           {joinedProjects.map((project) => (
             <div
               key={project._id}
-              className="p-4 rounded-xl border border-gray-200 bg-softWhite hover:shadow-md transition"
+              className="p-4 rounded-xl border border-gray-200 bg-softWhite dark:bg-gray-600 hover:shadow-md transition"
             >
               {/* HEADER */}
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   {/* Project Title */}
-                  <h3 className="text-base font-semibold text-vibrantPurple">
+                  <h3 className="text-base font-semibold text-vibrantPurple dark:text-softWhite">
                     {project.title}
                   </h3>
                   {/* Color Dot */}
@@ -34,7 +34,7 @@ const JoinedProjects = ({ joinedProjects }) => {
               </div>
 
               {/* PROJECT META */}
-              <div className="flex justify-between items-center mt-3 text-xs text-gray-500">
+              <div className="flex justify-between items-center mt-3 text-xs text-gray-500 dark:text-gray-300">
                 {/* Deadline */}
                 <div className="flex items-center gap-1">
                   <Calendar size={14} className="text-electricBlue" />
@@ -78,7 +78,7 @@ const JoinedProjects = ({ joinedProjects }) => {
 
               {/* ✅ COLLAPSIBLE TASKS SECTION */}
               <div className="mt-3 border-t border-gray-200 pt-2">
-                <button className="flex items-center gap-2 text-sm text-gray-700 font-medium hover:text-electricBlue transition">
+                <button className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium hover:text-electricBlue transition">
                   <CornerDownRight size={16} />
                   {project.tasks?.length} Assigned Task(s)
                 </button>

@@ -32,11 +32,11 @@ const Sidebar = () => {
   }, [unreadProjectChatsCount]);
 
   return (
-    <aside className="flex flex-col justify-between h-screen px-3 py-6 bg-charcoalGray text-softWhite w-[250px]">
+    <aside className="flex flex-col justify-between h-screen px-3 py-6 bg-charcoalGray dark:bg-darkSlate text-softWhite w-[250px]">
       <div>
         {/* Project Info Section */}
         <div
-          className="flex items-center gap-3 px-3 py-2 my-4 rounded-md bg-[#37474F] hover:bg-[#455A64] transition cursor-pointer"
+          className="flex items-center gap-3 px-3 py-2 my-4 rounded-md bg-[#37474F] dark:bg-gray-600 hover:bg-[#455A64] transition cursor-pointer"
           onClick={() => navigate("/profile")}
         >
           {/* User Info */}

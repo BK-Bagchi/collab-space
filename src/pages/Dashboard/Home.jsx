@@ -100,9 +100,9 @@ const DashboardHome = () => {
   ];
 
   return (
-    <div className="p-6 md:p-10 bg-softWhite text-charcoalGray">
+    <div className="p-6 md:p-10 bg-softWhite dark:bg-darkSlate text-charcoalGray rounded-lg">
       {/* Header */}
-      <h1 className="text-2xl font-semibold mb-6 text-charcoalGray">
+      <h1 className="text-2xl font-semibold mb-6 text-charcoalGray dark:text-white">
         Welcome back, <span className="text-electricBlue">{user?.name} 👋</span>
       </h1>
 
