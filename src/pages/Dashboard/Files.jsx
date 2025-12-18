@@ -48,9 +48,9 @@ const Files = () => {
   //   console.log(projectFiles);
 
   return (
-    <div className="p-5 max-w-3xl mx-auto">
-      <h2 className="text-xl font-semibold text-charcoalGray mb-4 flex items-center gap-2">
-        <Folder />
+    <div className="p-5 max-w-3xl mx-auto dark:bg-darkSlate rounded-lg">
+      <h2 className="text-xl font-semibold text-charcoalGray dark:text-softWhite mb-4 flex items-center gap-2">
+        <Folder className="text-vibrantPurple" />
         Project Files
       </h2>
 
@@ -59,12 +59,12 @@ const Files = () => {
           {projects.map((project) => (
             <div
               key={project._id}
-              className="border border-gray-200 rounded-xl bg-white shadow-sm"
+              className="border border-gray-200 rounded-xl bg-white dark:bg-gray-500 shadow-sm"
             >
               {/* -------- PROJECT HEADER -------- */}
               <div
                 onClick={() => toggleProject(project._id)}
-                className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-gray-50"
+                className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600 transition"
               >
                 <div className="flex items-center gap-3">
                   <div
@@ -75,19 +75,19 @@ const Files = () => {
                   </div>
 
                   <div>
-                    <h3 className="font-semibold text-charcoalGray">
+                    <h3 className="font-semibold text-charcoalGray dark:text-softWhite">
                       {project.title}
                     </h3>
-                    <p className="text-sm text-gray-500 truncate">
+                    <p className="text-sm text-gray-500 dark:text-gray-300 truncate">
                       {project.description}
                     </p>
                   </div>
                 </div>
 
                 {openProject === project._id ? (
-                  <ChevronDown className="text-gray-500" />
+                  <ChevronDown className="text-gray-500 dark:text-gray-800" />
                 ) : (
-                  <ChevronRight className="text-gray-500" />
+                  <ChevronRight className="text-gray-500 dark:text-gray-800" />
                 )}
               </div>
 
@@ -99,7 +99,7 @@ const Files = () => {
                       projectFiles.map((file) => (
                         <div
                           key={file._id}
-                          className="flex items-center justify-between gap-3 bg-gray-50 px-3 py-2 rounded-lg"
+                          className="flex items-center justify-between gap-3 bg-gray-50 dark:bg-gray-600 px-3 py-2 rounded-lg"
                         >
                           {/* Uploader Avatar */}
                           <img
@@ -111,7 +111,9 @@ const Files = () => {
 
                           {/* File Info */}
                           <div className="flex-1 truncate">
-                            <p className="font-medium truncate">{file.name}</p>
+                            <p className="font-medium truncate dark:text-softWhite">
+                              {file.name}
+                            </p>
                           </div>
 
                           {/* Download Button */}
