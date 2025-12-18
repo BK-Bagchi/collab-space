@@ -39,7 +39,7 @@ const PrivateBtn = () => {
       {/* Notification Button */}
       <button
         className="relative flex items-center justify-center w-9 h-9 rounded-full 
-  bg-electricBlue text-softWhite hover:bg-[#3D86FF]
+  bg-electricBlue dark:bg-darkSlate text-softWhite hover:bg-[#3D86FF]
   transition shadow-sm"
         onClick={() => {
           setOpenNotification((prev) => !prev);
@@ -63,7 +63,7 @@ const PrivateBtn = () => {
       {/* Message Button */}
       <button
         className="relative flex items-center justify-center w-9 h-9 rounded-full 
-      bg-electricBlue text-softWhite hover:bg-[#3D86FF] 
+      bg-electricBlue dark:bg-darkSlate text-softWhite hover:bg-[#3D86FF] 
       transition shadow-sm"
         onClick={() => {
           setOpenMessage(!openMessage);
@@ -86,7 +86,7 @@ const PrivateBtn = () => {
       {/* Plus Button */}
       <button
         className="flex items-center justify-center w-9 h-9 rounded-full 
-      bg-electricBlue text-softWhite hover:bg-[#3D86FF] 
+      bg-electricBlue dark:bg-darkSlate text-softWhite hover:bg-[#3D86FF] 
       transition shadow-sm"
         onClick={() => setOpenPlus(!openPlus)}
       >
@@ -98,7 +98,7 @@ const PrivateBtn = () => {
         <label
           tabIndex={0}
           className="relative flex items-center justify-center w-9 h-9 rounded-full 
-    bg-electricBlue text-softWhite hover:bg-[#3D86FF] 
+    bg-electricBlue dark:bg-darkSlate text-softWhite hover:bg-[#3D86FF] 
     transition shadow-sm cursor-pointer"
         >
           {user?.avatar ? (
@@ -123,7 +123,7 @@ const PrivateBtn = () => {
 
         <ul
           tabIndex={0}
-          className="dropdown-content menu p-2 shadow-lg bg-electricBlue 
+          className="dropdown-content menu p-2 shadow-lg bg-electricBlue dark:bg-darkSlate 
         text-white rounded-xl w-44"
         >
           <li>
