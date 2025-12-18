@@ -7,9 +7,11 @@ const Overview = ({ stats }) => {
       {stats.slice(0, 2).map((item, i) => (
         <div
           key={i}
-          className="rounded-xl shadow-md bg-white p-5 border border-gray-100 hover:shadow-lg transition"
+          className="rounded-xl shadow-md bg-white dark:bg-gray-600 p-5 border border-gray-100 hover:shadow-lg transition"
         >
-          <h3 className="text-sm text-gray-500">{item.label}</h3>
+          <h3 className="text-sm text-gray-500 dark:text-softWhite">
+            {item.label}
+          </h3>
           <p
             className="text-3xl font-semibold mt-2"
             style={{ color: item.color }}
@@ -18,7 +20,7 @@ const Overview = ({ stats }) => {
           </p>
           {item.value > 0 && (
             <span
-              className="text-xs text-charcoalGray hover:underline hover:text-electricBlue cursor-pointer"
+              className="text-xs text-charcoalGray dark:text-gray-300 hover:underline hover:text-electricBlue cursor-pointer"
               onClick={() => navigate("/dashboard/projects")}
             >
               View All
@@ -29,9 +31,11 @@ const Overview = ({ stats }) => {
       {stats.slice(2, 4).map((item, i) => (
         <div
           key={i}
-          className="rounded-xl shadow-md bg-white p-5 border border-gray-100 hover:shadow-lg transition"
+          className="rounded-xl shadow-md bg-white dark:bg-gray-600 p-5 border border-gray-100 hover:shadow-lg transition"
         >
-          <h3 className="text-sm text-gray-500">{item.label}</h3>
+          <h3 className="text-sm text-gray-500 dark:text-softWhite">
+            {item.label}
+          </h3>
           <p
             className="text-3xl font-semibold mt-2"
             style={{ color: item.color }}
@@ -40,7 +44,7 @@ const Overview = ({ stats }) => {
           </p>
           {item.value > 0 && (
             <span
-              className="text-xs text-charcoalGray hover:underline hover:text-electricBlue cursor-pointer"
+              className="text-xs text-charcoalGray dark:text-gray-300 hover:underline hover:text-electricBlue cursor-pointer"
               onClick={() => navigate("/dashboard/tasks")}
             >
               View All

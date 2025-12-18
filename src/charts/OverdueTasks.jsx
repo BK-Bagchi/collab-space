@@ -35,10 +35,10 @@ const OverdueTasks = ({ tasks }) => {
   ];
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+    <div className="bg-white dark:bg-gray-600 p-6 rounded-xl shadow-md border border-gray-100">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-charcoalGray flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite flex items-center gap-2">
           <AlertTriangle className="text-electricBlue" />
           Task Overview
         </h3>
@@ -103,10 +103,10 @@ const OverdueTasks = ({ tasks }) => {
             </div>
 
             {/* Total summary */}
-            <div className="mt-4 text-center text-sm text-gray-600">
+            <div className="mt-4 text-center text-sm text-gray-600 dark:text-gray-200">
               <p>
                 Total Tasks:{" "}
-                <span className="font-semibold text-charcoalGray">
+                <span className="font-semibold text-charcoalGray dark:text-gray-200">
                   {totalTasks}
                 </span>
               </p>
@@ -117,10 +117,10 @@ const OverdueTasks = ({ tasks }) => {
         // Table view
         <>
           {overdueTasks.length > 0 ? (
-            <div className="overflow-x-auto mt-2">
-              <table className="min-w-full border border-gray-200 bg-white rounded-lg">
-                <thead className="bg-[#F9FAFB] border-b">
-                  <tr className="text-left text-sm text-gray-600">
+            <div className="overflow-x-auto mt-2 rounded-lg">
+              <table className="min-w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg">
+                <thead className="bg-[#F9FAFB] dark:bg-gray-800 border-b">
+                  <tr className="text-left text-sm text-gray-600 dark:text-softWhite">
                     <th className="py-3 px-4 font-semibold">Task</th>
                     <th className="py-3 px-4 font-semibold">Project</th>
                     <th className="py-3 px-4 font-semibold">Status</th>
@@ -133,7 +133,7 @@ const OverdueTasks = ({ tasks }) => {
                     return (
                       <tr
                         key={_id}
-                        className="border-b hover:bg-[#FFF0F0] transition text-sm text-charcoalGray"
+                        className="border-b hover:bg-[#FFF0F0] dark:hover:bg-gray-500 transition text-sm text-charcoalGray dark:text-gray-300"
                       >
                         <td className="py-3 px-4 font-medium">{title}</td>
                         <td className="py-3 px-4">

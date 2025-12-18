@@ -8,18 +8,18 @@ const UpcomingDeadlines = ({
 }) => {
   return (
     // Upcoming Deadlines
-    <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+    <div className="bg-white dark:bg-gray-600 p-6 rounded-xl shadow-md border border-gray-100">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <CalendarDays className="text-electricBlue" />
-          <h3 className="text-lg font-semibold text-charcoalGray">
+          <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite">
             Upcoming Deadlines
           </h3>
         </div>
         <select
           value={selectedRange}
           onChange={(e) => setSelectedRange(e.target.value)}
-          className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
+          className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-softWhite dark:bg-gray-700 text-charcoalGray dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
         >
           <option value="15">Next 15 Days</option>
           <option value="30">Next 1 Month</option>
@@ -35,12 +35,12 @@ const UpcomingDeadlines = ({
             {upcomingDeadlines.map((task, i) => (
               <li
                 key={i}
-                className="flex justify-between items-center bg-softWhite p-3 rounded-lg border border-gray-100 hover:bg-[#F0F4FF] transition"
+                className="flex justify-between items-center bg-softWhite dark:bg-gray-700 p-3 rounded-lg border border-gray-100 hover:bg-[#F0F4FF] dark:hover:bg-gray-500 transition"
               >
-                <span className="text-sm font-medium text-charcoalGray">
+                <span className="text-sm font-medium text-charcoalGray dark:text-softWhite">
                   {task.title}
                 </span>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-500 dark:text-gray-400">
                   {formatDate(task.deadline)}
                 </span>
               </li>
