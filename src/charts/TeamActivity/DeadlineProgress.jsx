@@ -90,14 +90,14 @@ const DeadlineProgress = ({ project }) => {
   // 🟢 Early return safely (hooks are all above)
   if (totalSubtasks === 0) {
     return (
-      <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+      <div className="bg-white dark:bg-gray-600 rounded-2xl p-6 shadow-md border border-gray-100">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-charcoalGray">
+          <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite">
             Deadline Progress
           </h3>
           <p className="text-xs text-gray-400">No subtasks</p>
         </div>
-        <div className="py-12 text-center text-sm text-gray-500">
+        <div className="py-12 text-center text-sm text-gray-500 dark:text-gray-200">
           This project has no tasks or subtasks to track progress for.
         </div>
       </div>
@@ -108,15 +108,15 @@ const DeadlineProgress = ({ project }) => {
   const finalPercent = lastPoint.percent ?? 0;
 
   return (
-    <div className="p-6 w-full">
+    <div className="p-6 w-full dark:bg-gray-600">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-charcoalGray">
+        <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite">
           Deadline Progress
         </h3>
         <div className="text-right">
           <div className="text-xs text-gray-400">Progress</div>
-          <div className="text-sm font-medium text-charcoalGray">
+          <div className="text-sm font-medium text-charcoalGray dark:text-gray-300">
             {finalPercent}%
           </div>
         </div>
@@ -145,16 +145,16 @@ const DeadlineProgress = ({ project }) => {
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between mt-4 text-xs text-gray-500">
+      <div className="flex items-center justify-between mt-4 text-xs text-gray-500 dark:text-gray-200">
         <div>
           Start:{" "}
-          <span className="font-medium text-charcoalGray">
+          <span className="font-medium text-charcoalGray dark:text-gray-400">
             {new Date(startDate).toLocaleDateString()}
           </span>
         </div>
         <div>
           End:{" "}
-          <span className="font-medium text-charcoalGray">
+          <span className="font-medium text-charcoalGray dark:text-gray-400">
             {deadlineDate
               ? new Date(deadlineDate).toLocaleDateString()
               : "No deadline"}
@@ -162,7 +162,9 @@ const DeadlineProgress = ({ project }) => {
         </div>
         <div>
           Subtasks:{" "}
-          <span className="font-medium text-charcoalGray">{totalSubtasks}</span>
+          <span className="font-medium text-charcoalGray dark:text-gray-400">
+            {totalSubtasks}
+          </span>
         </div>
       </div>
     </div>

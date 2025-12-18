@@ -22,18 +22,20 @@ const ProjectProgress = ({ projectList }) => {
   return projectList.length ? (
     <ProgressChart {...{ projectProgressData, title, colors, icon }} />
   ) : (
-    <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100 flex flex-col text-center mb-8">
+    <div className="bg-white dark:bg-darkSlate rounded-2xl p-6 shadow-md border border-gray-100 flex flex-col text-center mb-8">
       {/* Header with icon and title */}
       <div className="flex items-center gap-3 mb-4 text-left">
-        <div className="p-2 rounded-lg bg-[#F3F7FF]">
+        <div className="p-2 rounded-lg">
           <FolderKanban className="w-6 h-6 text-electricBlue" />
         </div>
-        <h3 className="text-lg font-semibold text-charcoalGray">{title}</h3>
+        <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite">
+          {title}
+        </h3>
       </div>
 
       {/* Empty State */}
       <div className="flex flex-col items-center justify-center flex-1">
-        <div className="p-4 rounded-full bg-[#F3F7FF] mb-4">
+        <div className="p-4 rounded-full mb-4">
           <FolderKanban className="w-8 h-8 text-electricBlue" />
         </div>
 

@@ -35,7 +35,7 @@ const TeamActivity = () => {
   );
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="p-6 space-y-8 dark:bg-darkSlate rounded-lg">
       <Loading loading={loading}>
         {/* 🔹 Top Section — Project Progress Summary */}
         {createdProject.length > 0 && (
@@ -50,7 +50,7 @@ const TeamActivity = () => {
             createdProject.map((project) => (
               <div
                 key={project._id}
-                className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition"
+                className="bg-white dark:bg-darkSlate rounded-2xl p-6 shadow-md hover:shadow-lg transition"
               >
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div className="grid grid-rows-2 gap-4">
@@ -59,17 +59,17 @@ const TeamActivity = () => {
                       projects={[project]}
                       navigateURL={true}
                     />
-                    <div className="rounded-xl bg-[#F9FAFB] flex items-center justify-center shadow-inner">
+                    <div className="rounded-xl bg-[#F9FAFB] dark:bg-gray-600 flex items-center justify-center shadow-inner">
                       <DeadlineProgress project={project} />
                     </div>
                   </div>
 
                   {/* 🔸These 2 at right */}
                   <div className="grid grid-rows-2 gap-4">
-                    <div className="rounded-xl bg-[#F9FAFB] flex items-center justify-center shadow-inner">
+                    <div className="rounded-xl bg-[#F9FAFB] dark:bg-gray-600 flex items-center justify-center shadow-inner">
                       <TaskStatus project={project} />
                     </div>
-                    <div className="rounded-xl bg-[#F9FAFB] flex items-center justify-center shadow-inner">
+                    <div className="rounded-xl bg-[#F9FAFB] dark:bg-gray-600 flex items-center justify-center shadow-inner">
                       <TeamProgress project={project} />
                     </div>
                   </div>

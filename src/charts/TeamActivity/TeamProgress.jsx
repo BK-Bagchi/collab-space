@@ -43,10 +43,12 @@ const TeamProgress = ({ project }) => {
   });
 
   return (
-    <div className="rounded-xl p-4 w-full">
-      <h4 className="text-lg text-charcoalGray mb-3">
+    <div className="rounded-xl p-4 w-full dark:bg-gray-600">
+      <h4 className="text-lg text-charcoalGray dark:text-softWhite mb-3">
         <span className="font-semibold">Team Progress —</span>{" "}
-        <span className="text-xs text-gray-500">{project.title}</span>
+        <span className="text-xs text-gray-500 dark:text-gray-300">
+          {project.title}
+        </span>
       </h4>
 
       <ResponsiveContainer width="100%" height={180}>
@@ -69,7 +71,7 @@ const TeamProgress = ({ project }) => {
         </BarChart>
       </ResponsiveContainer>
 
-      <div className="flex justify-center gap-4 mt-2 text-xs text-gray-600">
+      <div className="flex justify-center gap-4 mt-2 text-xs text-gray-600 dark:text-gray-200">
         <div className="flex items-center gap-1">
           <div className={`w-3 h-3 rounded-full bg-[${colors[0]}]`} /> Completed
         </div>

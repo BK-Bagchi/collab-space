@@ -28,11 +28,16 @@ const TaskStatus = ({ project }) => {
   ];
 
   return (
-    <div className="rounded-xl p-4 w-full">
+    <div className="rounded-xl p-4 w-full dark:bg-gray-600">
       <h4 className="text-lg text-charcoalGray mb-3">
-        <span className="font-semibold"> Task Status —</span>{" "}
-        <span className="text-xs text-gray-500">{project.title} — </span>
-        <span className="text-xs text-gray-500">
+        <span className="font-semibold dark:text-softWhite">
+          {" "}
+          Task Status —
+        </span>{" "}
+        <span className="text-xs text-gray-500 dark:text-gray-300">
+          {project.title} —{" "}
+        </span>
+        <span className="text-xs text-gray-500 dark:text-gray-300">
           Total Tasks: {project.tasks.length}
         </span>
       </h4>
@@ -63,7 +68,9 @@ const TaskStatus = ({ project }) => {
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: COLORS[index % COLORS.length] }}
             />
-            <span className="text-gray-600">{item.name}</span>
+            <span className="text-gray-600 dark:text-gray-200">
+              {item.name}
+            </span>
           </div>
         ))}
       </div>
