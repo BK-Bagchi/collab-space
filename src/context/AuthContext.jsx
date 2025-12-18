@@ -12,15 +12,14 @@ export const AuthProvider = ({ children }) => {
 
   // Load user info from localStorage on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
     const storedToken = localStorage.getItem("token");
 
     const verifyToken = async () => {
       try {
-        if (storedUser && storedToken) {
+        if (storedToken) {
           const res = await AuthAPI.verifyToken();
           if (res.status === 200) {
-            setUser(JSON.parse(storedUser));
+            setUser(res.data.user);
             setLoggedIn(true);
           } else logout();
         } else logout();

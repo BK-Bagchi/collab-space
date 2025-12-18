@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useAuth } from "../hooks/useAuth";
 
 const SettingsContext = createContext();
@@ -6,7 +7,7 @@ const SettingsContext = createContext();
 export const SettingsProvider = ({ children }) => {
   const { user } = useAuth();
 
-  const [theme, setTheme] = useState(null);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || null);
   const [typingIndicator, setTypingIndicator] = useState(null);
   const [activeStatus, setActiveStatus] = useState(null);
 
@@ -19,10 +20,14 @@ export const SettingsProvider = ({ children }) => {
   }, [user]);
 
   useEffect(() => {
-    const root = document.documentElement;
+    const root = document.getElementById("root");
+    if (!root) {
+      toast.warn("No root class");
+      return;
+    }
 
-    if (theme === "dark") root.classList.add("dark");
-    else root.classList.remove("dark");
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
 
     localStorage.setItem("theme", theme);
   }, [theme]);
