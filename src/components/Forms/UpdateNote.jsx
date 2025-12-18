@@ -69,27 +69,29 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
   };
 
   return (
-    <div className="p-6 min-w-[430px] mx-auto animate-fadeIn">
+    <div className="p-6 min-w-[430px] max-h-screen overflow-auto scrollbar-hide mx-auto animate-fadeIn">
       <form
-        className="space-y-5 bg-white shadow-md rounded-2xl p-6"
+        className="space-y-5 bg-white dark:bg-darkSlate shadow-md rounded-2xl p-6"
         onSubmit={handleSubmit(onSubmit)}
       >
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <StickyNote size={32} className="text-vibrantPurple" />
-          <h2 className="text-2xl font-bold text-charcoalGray">Update Note</h2>
+          <h2 className="text-2xl font-bold text-charcoalGray dark:text-softWhite">
+            Update Note
+          </h2>
         </div>
 
         {/* Title */}
         <div>
-          <label className="font-medium text-gray-700">
+          <label className="dark:text-gray-300 font-medium text-gray-700">
             Title <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             placeholder="Enter title..."
             {...register("title")}
-            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue focus:outline-none"
+            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 dark:text-softWhite focus:ring-2 focus:ring-electricBlue focus:outline-none"
           />
           {errors.title && (
             <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>
@@ -98,14 +100,14 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
 
         {/* Content */}
         <div>
-          <label className="font-medium text-gray-700">
+          <label className="dark:text-gray-300 font-medium text-gray-700">
             Content <span className="text-red-500">*</span>
           </label>
           <textarea
             rows="6"
             placeholder="Write your note..."
             {...register("content")}
-            className="w-full mt-2 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue focus:outline-none"
+            className="w-full mt-2 px-4 py-3 rounded-lg border border-gray-300 dark:text-softWhite focus:ring-2 focus:ring-electricBlue focus:outline-none"
           />
           {errors.content && (
             <p className="text-red-500 text-xs mt-1">
@@ -116,7 +118,7 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
 
         {/* Tags */}
         <div>
-          <label className="font-medium flex items-center gap-2">
+          <label className="dark:text-gray-300 font-medium flex items-center gap-2">
             <Tag size={18} /> Tags
           </label>
 
@@ -126,7 +128,7 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
               type="text"
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              className="flex-1 px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:ring-2 focus:ring-electricBlue focus:outline-none transition"
+              className="flex-1 px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 dark:bg-darkSlate dark:text-softWhite focus:ring-2 focus:ring-electricBlue focus:outline-none transition"
               placeholder="Add a tag..."
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -184,7 +186,7 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
         <div className="flex justify-between">
           {/* Color */}
           <div>
-            <label className="font-medium text-gray-700 flex items-center gap-2">
+            <label className="dark:text-gray-300 font-medium text-gray-700 flex items-center gap-2">
               <Palette size={18} /> Note Color
             </label>
 
@@ -202,13 +204,13 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
 
           {/* Visibility */}
           <div>
-            <label className="font-medium text-gray-700 flex items-center gap-2">
+            <label className="dark:text-gray-300 font-medium text-gray-700 flex items-center gap-2">
               <Hash size={18} /> Visibility
             </label>
 
             <select
               {...register("visibility")}
-              className="mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electricBlue focus:outline-none"
+              className="mt-2 px-3 py-2 border border-gray-300 rounded-lg dark:text-softWhite focus:ring-2 focus:ring-electricBlue focus:outline-none"
             >
               <option value="PRIVATE">Private</option>
             </select>
@@ -222,13 +224,13 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
 
         {/* Related Task */}
         <div>
-          <label className="font-medium text-gray-700 flex items-center gap-2">
+          <label className="dark:text-gray-300 font-medium text-gray-700 flex items-center gap-2">
             <FolderKanban size={18} /> Related Task
           </label>
 
           <select
             {...register("relatedTask")}
-            className="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-electricBlue focus:outline-none"
+            className="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full dark:text-softWhite focus:ring-2 focus:ring-electricBlue focus:outline-none"
           >
             <option value="">None</option>
           </select>
@@ -241,13 +243,13 @@ const UpdateNote = ({ setNotes, setUpdateNote, updateNoteItem }) => {
 
         {/* Related Project */}
         <div>
-          <label className="font-medium text-gray-700 flex items-center gap-2">
+          <label className="dark:text-gray-300 font-medium text-gray-700 flex items-center gap-2">
             <Layers size={18} /> Related Project
           </label>
 
           <select
             {...register("relatedProject")}
-            className="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-electricBlue focus:outline-none"
+            className="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full dark:text-softWhite focus:ring-2 focus:ring-electricBlue focus:outline-none"
           >
             <option value="">None</option>
           </select>

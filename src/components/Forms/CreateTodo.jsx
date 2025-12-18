@@ -73,26 +73,28 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
   };
 
   return (
-    <div className="p-6 min-w-[430px] mx-auto animate-fadeIn">
+    <div className="p-6 min-w-[430px] max-h-screen overflow-auto mx-auto animate-fadeIn scrollbar-hide">
       <form
-        className="space-y-6 bg-white p-6 rounded-2xl shadow"
+        className="space-y-6 bg-white dark:bg-darkSlate p-6 rounded-2xl shadow"
         onSubmit={handleSubmit(onSubmit)}
       >
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <ListTodo size={32} className="text-vibrantPurple" />
-          <h2 className="text-2xl font-bold">Create Todo</h2>
+          <h2 className="text-2xl font-bold dark:text-softWhite">
+            Create Todo
+          </h2>
         </div>
 
         {/* Title */}
         <div>
-          <label className="font-medium">
+          <label className="dark:text-gray-300 font-medium">
             Title <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             {...register("title")}
-            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue focus:outline-none"
+            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 dark:text-softWhite focus:ring-2 focus:ring-electricBlue focus:outline-none"
             placeholder="Todo list title..."
           />
           {errors.title && (
@@ -102,7 +104,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
 
         {/* Todos Section */}
         <div className="mb-5">
-          <label className="block font-medium mb-2">
+          <label className="dark:text-gray-300 block font-medium mb-2">
             Todos <span className="text-red-500">*</span>
           </label>
 
@@ -114,7 +116,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
                     type="text"
                     {...register(`todos.${index}.text`)}
                     placeholder={`Todo ${index + 1}`}
-                    className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
+                    className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none dark:text-softWhite focus:ring-2 focus:ring-electricBlue"
                   />
                   <ListCheck className="absolute left-3 top-1.5 h-4 w-4 text-gray-500" />
                 </div>
@@ -154,7 +156,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
 
         {/* TAGS */}
         <div>
-          <label className="font-medium flex items-center gap-2">
+          <label className="dark:text-gray-300 font-medium flex items-center gap-2">
             <Tag size={18} /> Tags
           </label>
 
@@ -164,7 +166,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
               type="text"
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              className="flex-1 px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 focus:ring-2 focus:ring-electricBlue focus:outline-none transition"
+              className="flex-1 px-3 py-2 rounded-xl border border-gray-300 bg-gray-50 dark:bg-darkSlate dark:text-softWhite focus:ring-2 focus:ring-electricBlue focus:outline-none transition"
               placeholder="Add a tag..."
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -221,7 +223,7 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
         {/* Color / Visibility */}
         <div className="flex justify-between">
           <div>
-            <label className="font-medium flex items-center gap-2">
+            <label className="dark:text-gray-300 font-medium flex items-center gap-2">
               <Palette size={18} /> Note Color
             </label>
             <input
@@ -237,12 +239,12 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
           </div>
 
           <div>
-            <label className="font-medium flex items-center gap-2">
+            <label className="dark:text-gray-300 font-medium flex items-center gap-2">
               <Hash size={18} /> Visibility
             </label>
             <select
               {...register("visibility")}
-              className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue"
+              className="mt-2 px-3 py-2 rounded-lg border border-gray-300 dark:text-softWhite focus:ring-2 focus:ring-electricBlue"
             >
               <option value="PRIVATE">Private</option>
             </select>
@@ -256,12 +258,12 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
 
         {/* Related Task */}
         <div>
-          <label className="font-medium flex items-center gap-2">
+          <label className="dark:text-gray-300 font-medium flex items-center gap-2">
             <FolderKanban size={18} /> Related Task
           </label>
           <select
             {...register("relatedTask")}
-            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue w-full"
+            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 dark:text-softWhite focus:ring-2 focus:ring-electricBlue w-full"
           >
             <option value="">None</option>
           </select>
@@ -274,12 +276,12 @@ const CreateTodo = ({ setNotes, setAddTodo }) => {
 
         {/* Related Project */}
         <div>
-          <label className="font-medium flex items-center gap-2">
+          <label className="dark:text-gray-300 font-medium flex items-center gap-2">
             <Layers size={18} /> Related Project
           </label>
           <select
             {...register("relatedProject")}
-            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-electricBlue w-full"
+            className="mt-2 px-3 py-2 rounded-lg border border-gray-300 dark:text-softWhite focus:ring-2 focus:ring-electricBlue w-full"
           >
             <option value="">None</option>
           </select>

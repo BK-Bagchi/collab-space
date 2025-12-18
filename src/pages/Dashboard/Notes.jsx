@@ -99,12 +99,14 @@ const Notes = () => {
   };
 
   return (
-    <div className="animate-fadeIn pb-10">
+    <div className="animate-fadeIn pb-10 dark:bg-darkSlate rounded-lg p-4">
       {/* HEADER */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
           <StickyNote size={28} className="text-vibrantPurple" />
-          <h2 className="text-2xl font-bold text-charcoalGray">Notes</h2>
+          <h2 className="text-2xl font-bold text-charcoalGray dark:text-softWhite">
+            Notes
+          </h2>
         </div>
 
         {!loading && (
@@ -126,27 +128,33 @@ const Notes = () => {
               >
                 {/* Add Text Note */}
                 <button
-                  className="w-full flex items-center gap-2 px-4 py-2 text-charcoalGray 
-            hover:bg-electricBlue/10 transition text-sm cursor-pointer"
+                  className="w-full flex items-center gap-2 px-4 py-2 text-charcoalGray dark:bg-gray-600 dark:text-softWhite 
+            hover:bg-electricBlue/10 dark:hover:bg-gray-400 transition text-sm cursor-pointer"
                   onClick={() => {
                     setOpen(false);
                     setAddNote(true);
                   }}
                 >
-                  <FileText size={16} className="text-electricBlue" />
+                  <FileText
+                    size={16}
+                    className="text-electricBlue dark:text-softWhite"
+                  />
                   Text Note
                 </button>
 
                 {/* Add Todo Note */}
                 <button
-                  className="w-full flex items-center gap-2 px-4 py-2 text-charcoalGray 
-            hover:bg-vibrantPurple/10 transition text-sm cursor-pointer border-t"
+                  className="w-full flex items-center gap-2 px-4 py-2 text-charcoalGray dark:bg-gray-600 dark:text-softWhite 
+            hover:bg-vibrantPurple/10 dark:hover:bg-gray-400 transition text-sm cursor-pointer border-t"
                   onClick={() => {
                     setOpen(false);
                     setAddTodo(true);
                   }}
                 >
-                  <ListTodo size={16} className="text-vibrantPurple" />
+                  <ListTodo
+                    size={16}
+                    className="text-vibrantPurple dark:text-softWhite"
+                  />
                   Todo Note
                 </button>
               </div>
@@ -206,7 +214,7 @@ const Notes = () => {
             {filteredNotes.map((note) => (
               <div
                 key={note._id}
-                className="relative bg-white border border-gray-200 shadow-sm rounded-xl p-5 hover:shadow-md transition"
+                className="relative bg-white dark:bg-gray-500 border border-gray-200 shadow-sm rounded-xl p-5 hover:shadow-md transition"
               >
                 {/* TOP INDICATORS */}
                 <div className="flex items-center justify-between mb-3">
@@ -226,7 +234,7 @@ const Notes = () => {
     ${
       note.pinned
         ? "text-red-500 transform rotate-45"
-        : "text-gray-400 hover:text-gray-600"
+        : "text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100"
     }
   `}
                     />
@@ -236,7 +244,11 @@ const Notes = () => {
                       size={18}
                       onClick={() => toggleArchive(note._id)}
                       className={`cursor-pointer transition
-    ${note.archived ? "text-yellow-500" : "text-gray-400 hover:text-gray-600"}
+    ${
+      note.archived
+        ? "text-yellow-500"
+        : "text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100"
+    }
   `}
                     />
                   </div>
@@ -248,31 +260,39 @@ const Notes = () => {
                         onClick={() => {
                           handleUpdateNote(note);
                         }}
-                        className="text-gray-400 cursor-pointer hover:text-electricBlue transition"
+                        className="text-gray-400 dark:text-gray-300 cursor-pointer hover:text-electricBlue dark:hover:text-softWhite transition"
                       />
                       {/* DELETE ICON */}
                       <Trash2
                         size={18}
                         onClick={() => handleDeleteNote(note)}
-                        className="text-gray-400 cursor-pointer hover:text-red-600 transition"
+                        className="text-gray-400 dark:text-gray-300 cursor-pointer hover:text-red-600 dark:hover:text-softWhite transition"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* TITLE */}
-                <h3 className="text-lg font-semibold text-charcoalGray flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite flex items-center gap-2">
                   {note.type === "TEXT" ? (
-                    <FileText size={18} className="text-electricBlue" />
+                    <FileText
+                      size={18}
+                      className="text-electricBlue dark:text-softWhite"
+                    />
                   ) : (
-                    <ListTodo size={18} className="text-tealGreen" />
+                    <ListTodo
+                      size={18}
+                      className="text-tealGreen dark:text-softWhite"
+                    />
                   )}
                   {note.title}
                 </h3>
 
                 {/* CONTENT OR TODOS */}
                 {note.type === "TEXT" ? (
-                  <p className="text-sm text-gray-600 mt-2">{note.content}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-200 mt-2">
+                    {note.content}
+                  </p>
                 ) : (
                   <ul className="mt-3 space-y-2">
                     {note.todos.map((t) => (
@@ -290,7 +310,7 @@ const Notes = () => {
                           className={`text-sm ${
                             t.done
                               ? "line-through text-gray-400"
-                              : "text-gray-700"
+                              : "text-gray-700 dark:text-gray-100"
                           }`}
                         >
                           {t.text}
