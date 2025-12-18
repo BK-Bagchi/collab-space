@@ -67,10 +67,7 @@ const ManageUsersTaskList = () => {
         return (
           <div
             key={col.id}
-            // className={`relative transition-all duration-500 ease-in-out ${
-            //   isVisible ? "opacity-100" : "opacity-70"
-            // } bg-white rounded-xl p-3 border-t-4 shadow-sm flex-shrink-0`}
-            className={`relative transition-all duration-500 ease-in-out bg-white rounded-xl p-3 border-t-4 shadow-sm flex-shrink-0`}
+            className="relative transition-all duration-500 ease-in-out bg-white dark:bg-darkSlate rounded-xl p-3 border-t-4 shadow-sm shrink-0"
             style={{
               borderTopColor: col.color,
               width: isVisible ? "calc(33.333% - 1.5rem)" : "2.5rem",
@@ -80,12 +77,12 @@ const ManageUsersTaskList = () => {
             {/* Collapse / Expand Button */}
             <button
               onClick={() => toggleColumn(col.id)}
-              className="absolute -right-3 top-1/2 transform -translate-y-1/2 bg-white border border-gray-200 rounded-full p-1 shadow hover:shadow-md hover:bg-gray-50 transition"
+              className="absolute -right-3 top-1/2 transform -translate-y-1/2 bg-white dark:bg-darkSlate border border-gray-200 dark:border-gray-700  rounded-full p-1 shadow hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               {isVisible ? (
-                <ChevronLeft className="w-4 h-4 text-gray-600" />
+                <ChevronLeft className="w-4 h-4 text-gray-600 dark:text-gray-300" />
               ) : (
-                <ChevronRight className="w-4 h-4 text-gray-600" />
+                <ChevronRight className="w-4 h-4 text-gray-600 dark:text-gray-300" />
               )}
             </button>
 
@@ -99,7 +96,7 @@ const ManageUsersTaskList = () => {
                   <span
                     className="w-2 h-2 rounded-full"
                     style={{ backgroundColor: col.color }}
-                  ></span>
+                  />
                   {col.title}
                 </h3>
 
@@ -110,17 +107,20 @@ const ManageUsersTaskList = () => {
                       col.tasks.map((task) => (
                         <div
                           key={task._id}
-                          className={`bg-[#F9FAFB] p-4 rounded-lg shadow-sm border ${
-                            new Date(task.dueDate) < new Date()
-                              ? "border-red-600"
-                              : "border-gray-100"
-                          } hover:shadow-md transition`}
+                          className={`bg-[#F9FAFB] dark:bg-gray-700 
+                                    p-4 rounded-lg shadow-sm border 
+                                    ${
+                                      new Date(task.dueDate) < new Date()
+                                        ? "border-red-600"
+                                        : "border-gray-100 dark:border-gray-600"
+                                    } 
+                                    hover:shadow-md transition`}
                         >
-                          <h4 className="font-medium text-lg text-charcoalGray">
+                          <h4 className="font-medium text-lg text-charcoalGray dark:text-softWhite">
                             {task.title}
                           </h4>
 
-                          <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
+                          <div className="flex justify-between items-center mt-3 text-sm text-gray-600 dark:text-gray-300">
                             <div className="flex items-center gap-1">
                               {task.assignees.length > 0 && (
                                 <User className="w-4 h-4 text-electricBlue" />
@@ -129,28 +129,30 @@ const ManageUsersTaskList = () => {
                                 <span key={i}>{a.name}</span>
                               ))}
                             </div>
+
                             <div className="flex items-center gap-1">
                               {new Date(task.dueDate) < new Date() ? (
                                 <>
-                                  <AlertCircle className="w-4 h-4 text-red-600" />{" "}
+                                  <AlertCircle className="w-4 h-4 text-red-600" />
                                   <span className="text-red-600">
                                     {formatDate(task.dueDate)}
                                   </span>
                                 </>
                               ) : (
                                 <>
-                                  <CalendarDays className="w-4 h-4 text-vibrantPurple" />{" "}
+                                  <CalendarDays className="w-4 h-4 text-vibrantPurple" />
                                   <span>{formatDate(task.dueDate)}</span>
                                 </>
                               )}
                             </div>
                           </div>
 
-                          <div className="flex justify-between items-center mt-3 text-sm text-gray-600">
+                          <div className="flex justify-between items-center mt-3 text-sm text-gray-600 dark:text-gray-300">
                             <div className="flex items-center gap-1">
                               <FolderKanban className="w-4 h-4 text-vibrantPurple" />
                               <span>{task.project.title}</span>
                             </div>
+
                             <div className="flex items-center gap-1">
                               <Flag
                                 className={`w-4 h-4 ${
@@ -181,13 +183,12 @@ const ManageUsersTaskList = () => {
 
                           <div className="w-full py-2 relative">
                             <StatusSlider value={task.status} />
-                            {/* Transparent overlay (blocks clicks) */}
-                            <div className="absolute inset-0 bg-transparent pointer-events-auto"></div>
+                            <div className="absolute inset-0 bg-transparent pointer-events-auto" />
                           </div>
                         </div>
                       ))
                     ) : (
-                      <div className="flex flex-col items-center justify-center text-center py-10 text-gray-400">
+                      <div className="flex flex-col items-center justify-center text-center py-10 text-gray-400 dark:text-gray-500">
                         <p className="text-sm font-medium">
                           No tasks here yet.
                         </p>
@@ -200,8 +201,8 @@ const ManageUsersTaskList = () => {
                 </Loading>
               </>
             ) : (
-              // When Collapsed: Just show vertical text
-              <div className="flex items-center justify-center h-full rotate-180 [writing-mode:vertical-rl] text-gray-600 text-sm font-semibold tracking-wider">
+              // Collapsed column
+              <div className="flex items-center justify-center h-full rotate-180 [writing-mode:vertical-rl]  text-gray-600 dark:text-gray-300  text-sm font-semibold tracking-wider">
                 {col.title}
               </div>
             )}
