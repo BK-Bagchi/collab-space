@@ -79,17 +79,17 @@ const SeeProfile = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg h-full overflow-y-auto scrollbar-hide">
+    <div className="bg-white dark:bg-darkSlate rounded-lg h-full overflow-y-auto scrollbar-hide">
       <Loading loading={loading}>
         {" "}
         <div className="py-32 px-6 md:px-10 max-w-4xl mx-auto text-charcoalGray">
           {/* Profile Header */}
-          <div className="bg-softWhite border border-gray-200 shadow-sm p-6 rounded-2xl flex flex-col md:flex-row items-center gap-6">
+          <div className="bg-softWhite dark:bg-gray-900 border border-gray-200 shadow-sm p-6 rounded-2xl flex flex-col md:flex-row items-center gap-6">
             <div className="relative">
               <img
                 src={user.avatar || Avatar}
                 alt="Profile"
-                className="w-24 h-24 rounded-full border-2 border-electricBlue object-cover"
+                className="w-24 h-24 rounded-full border-2 border-electricBlue dark:border-deepCharcoal object-cover"
               />
               {/* Active Indicator */}
               {activeStatus && activeUsers.includes(user?._id) && (
@@ -101,8 +101,10 @@ const SeeProfile = () => {
               )}
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h2 className="text-2xl font-semibold">{user.name}</h2>
-              <p className="text-sm text-gray-500">
+              <h2 className="text-2xl font-semibold dark:text-softWhite">
+                {user.name}
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-200">
                 {user.email} || {formatText(user.role)}
               </p>
               <p className="text-xs text-gray-400 mt-1">
@@ -129,7 +131,7 @@ const SeeProfile = () => {
                 className={`capitalize px-4 py-2 rounded-t-md font-medium transition-all ${
                   activeTab === tab
                     ? "bg-vibrantPurple text-softWhite"
-                    : "text-[#455A64] hover:text-vibrantPurple"
+                    : "text-[#455A64] dark:text-gray-400 hover:text-vibrantPurple"
                 }`}
               >
                 {tab}

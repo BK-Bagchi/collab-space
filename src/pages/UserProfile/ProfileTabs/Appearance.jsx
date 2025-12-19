@@ -29,15 +29,17 @@ const Appearance = () => {
   return (
     <div className="mt-6 space-y-4 animate-fadeIn">
       {/* Title */}
-      <h3 className="text-lg font-semibold text-charcoalGray flex items-center gap-2">
+      <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite flex items-center gap-2">
         <Moon className="w-5 h-5 text-electricBlue" />
         Appearance Settings
       </h3>
 
       {/* Card */}
-      <div className="bg-softWhite border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between">
+      <div className="bg-softWhite dark:bg-gray-900 border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between">
         <div className="flex gap-2">
-          <p className="font-medium text-charcoalGray">Dark Mode</p>
+          <p className="font-medium text-charcoalGray dark:text-softWhite">
+            Dark Mode
+          </p>
           {loading && <Waiting />}
         </div>
         <div className="flex items-center gap-3">

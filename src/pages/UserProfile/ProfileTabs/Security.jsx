@@ -3,12 +3,12 @@ import { HatGlasses, KeyRound, LogOut } from "lucide-react";
 const Security = ({ logout, setPasswordModal }) => {
   return (
     <div className="mt-8 animate-fadeIn space-y-5">
-      <h3 className="text-lg font-semibold text-charcoalGray flex items-center gap-2">
+      <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite flex items-center gap-2">
         <HatGlasses className="text-vibrantPurple" size={20} />
         Security
       </h3>
 
-      <div className="bg-softWhite p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+      <div className="bg-softWhite dark:bg-gray-900 p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
         {/* Change Password */}
         <button
           onClick={() => setPasswordModal(true)}

@@ -32,12 +32,14 @@ const Overview = () => {
         {/* STATS GRID */}
         <div className="grid grid-cols-2 gap-4">
           {/* Created Projects */}
-          <div className="rounded-xl bg-softWhite border border-gray-200 p-4 shadow-sm flex items-center gap-4">
+          <div className="rounded-xl bg-softWhite dark:bg-gray-900 border border-gray-200 p-4 shadow-sm flex items-center gap-4">
             <div className="p-3 bg-electricBlue/10 rounded-full">
               <UserPlus className="text-electricBlue w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Projects Created</p>
+              <p className="text-sm text-gray-500 dark:text-softWhite">
+                Projects Created
+              </p>
               <p className="text-2xl font-semibold text-electricBlue">
                 {totalCreatedProjects}
               </p>
@@ -45,12 +47,14 @@ const Overview = () => {
           </div>
 
           {/* Joined Projects */}
-          <div className="rounded-xl bg-softWhite border border-gray-200 p-4 shadow-sm flex items-center gap-4">
+          <div className="rounded-xl bg-softWhite dark:bg-gray-900 border border-gray-200 p-4 shadow-sm flex items-center gap-4">
             <div className="p-3 bg-vibrantPurple/10 rounded-full">
               <Users className="text-vibrantPurple w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Projects Joined</p>
+              <p className="text-sm text-gray-500 dark:text-softWhite">
+                Projects Joined
+              </p>
               <p className="text-2xl font-semibold text-vibrantPurple">
                 {totalJoinedProjects}
               </p>
@@ -60,7 +64,7 @@ const Overview = () => {
 
         {/* PROJECTS LIST */}
         <div>
-          <h3 className="text-lg font-semibold text-charcoalGray mb-2 flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite mb-2 flex items-center gap-2">
             <FolderKanban size={25} className="text-electricBlue" />
             All Projects
           </h3>
@@ -69,11 +73,15 @@ const Overview = () => {
             {projects.map((p) => (
               <div
                 key={p._id}
-                className="bg-softWhite border border-gray-200 rounded-xl p-4 shadow-sm flex justify-between items-center hover:shadow-md transition"
+                className="bg-softWhite dark:bg-gray-900 border border-gray-200 rounded-xl p-4 shadow-sm flex justify-between items-center hover:shadow-md transition"
               >
                 <div>
-                  <h3 className="font-medium text-charcoalGray">{p.title}</h3>
-                  <p className="text-xs text-gray-500">{p.description}</p>
+                  <h3 className="font-medium text-charcoalGray dark:text-softWhite">
+                    {p.title}
+                  </h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-300">
+                    {p.description}
+                  </p>
                 </div>
                 <Link
                   to={`/dashboard/projects`}

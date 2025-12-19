@@ -52,12 +52,12 @@ const DangerZone = () => {
 
   return (
     <div className="mt-8 space-y-5 animate-fadeIn">
-      <h3 className="text-lg font-semibold text-charcoalGray flex items-center gap-2">
+      <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite flex items-center gap-2">
         <ShieldAlert className="text-red-500" size={20} />
         Danger Zone
       </h3>
 
-      <div className="bg-softWhite p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+      <div className="bg-softWhite dark:bg-gray-900 p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
         {/* Clear Activity Log */}
         <button
           className="w-full flex items-center justify-between px-4 py-3 border border-electricBlue text-electricBlue font-medium rounded-lg hover:bg-electricBlue hover:text-white transition shadow-sm"

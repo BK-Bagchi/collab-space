@@ -67,15 +67,17 @@ const Chat = () => {
   return (
     <div className="mt-6 space-y-4 animate-fadeIn">
       {/* Title */}
-      <h3 className="text-lg font-semibold text-charcoalGray flex items-center gap-2">
+      <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite flex items-center gap-2">
         <MessageCircle className="w-5 h-5 text-electricBlue" />
         Chat Settings
       </h3>
 
       {/* Card */}
-      <div className="bg-softWhite border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between">
+      <div className="bg-softWhite dark:bg-gray-900 border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between">
         <div className="flex gap-2">
-          <p className="font-medium text-charcoalGray">Typing Indicator</p>
+          <p className="font-medium text-charcoalGray dark:text-softWhite">
+            Typing Indicator
+          </p>
           {typingLoading && <Waiting />}
         </div>
 
@@ -109,9 +111,11 @@ const Chat = () => {
           </p>
         </div>
       </div>
-      <div className="bg-softWhite border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between">
+      <div className="bg-softWhite dark:bg-gray-900 border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer flex items-center justify-between">
         <div className="flex gap-2">
-          <p className="font-medium text-charcoalGray">Active Status</p>
+          <p className="font-medium text-charcoalGray dark:text-softWhite">
+            Active Status
+          </p>
           {activeStatusLoading && <Waiting />}
         </div>
         <div className="flex items-center gap-3">
@@ -144,8 +148,10 @@ const Chat = () => {
           </p>
         </div>
       </div>
-      <div className="bg-softWhite border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition flex items-center justify-between">
-        <p className="font-medium text-charcoalGray">Clear Chat History</p>
+      <div className="bg-softWhite dark:bg-gray-900 border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition flex items-center justify-between">
+        <p className="font-medium text-charcoalGray dark:text-softWhite">
+          Clear Chat History
+        </p>
 
         <button
           className="px-6 py-2 text-sm font-medium rounded-lg bg-red-500 text-white hover:bg-red-600 transition shadow-sm"
