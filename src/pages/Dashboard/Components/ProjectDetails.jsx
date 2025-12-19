@@ -48,14 +48,18 @@ const ProjectDetails = ({
   };
 
   return (
-    <div className="bg-softWhite w-full max-w-2xl rounded-xl shadow-lg p-6 relative max-h-screen overflow-y-auto scrollbar-hide">
+    <div className="bg-softWhite dark:bg-darkSlate w-full max-w-2xl rounded-xl shadow-lg p-6 relative max-h-screen overflow-y-auto scrollbar-hide">
       <h3 className="text-xl font-bold text-vibrantPurple">
         {selectedProject.title}
       </h3>
-      <p className="text-gray-700 mt-1">{selectedProject.description}</p>
+      <p className="text-gray-700 dark:text-gray-400 mt-1">
+        {selectedProject.description}
+      </p>
 
       <div className="mt-4">
-        <h4 className="font-semibold text-charcoalGray">Members</h4>
+        <h4 className="font-semibold text-charcoalGray dark:text-softWhite">
+          Members
+        </h4>
         <div className="flex flex-wrap gap-2 mt-2">
           {selectedProject.members.map((member) => {
             const { _id, name } = member;
@@ -97,8 +101,8 @@ const ProjectDetails = ({
       </div>
 
       {/* Tasks */}
-      <div className="mt-6 bg-white rounded-xl shadow-md border border-gray-100 p-5">
-        <h4 className="font-semibold text-charcoalGray flex items-center gap-2 mb-4">
+      <div className="mt-6 bg-white dark:bg-gray-600 rounded-xl shadow-md border border-gray-100 p-5">
+        <h4 className="font-semibold text-charcoalGray dark:text-gray-300 flex items-center gap-2 mb-4">
           Tasks
         </h4>
 
@@ -108,14 +112,14 @@ const ProjectDetails = ({
               {tasks.map((task) => (
                 <li
                   key={task._id}
-                  className={`bg-[#F9FAFB] p-4 rounded-lg shadow-sm border ${
+                  className={`bg-[#F9FAFB] dark:bg-gray-900 p-4 rounded-lg shadow-sm border ${
                     new Date(task.dueDate) < new Date()
                       ? "border-red-600"
                       : "border-gray-100"
                   }  hover:shadow-md transition`}
                 >
                   <div className="flex justify-between">
-                    <h5 className="font-medium text-lg text-charcoalGray">
+                    <h5 className="font-medium text-lg text-charcoalGray dark:text-softWhite">
                       {task.title}
                     </h5>
                     <div className="flex items-center mb-4">
@@ -124,7 +128,7 @@ const ProjectDetails = ({
                           setSelectedTask(task);
                           setUpdateTaskModal(true);
                         }}
-                        className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
+                        className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] dark:hover:bg-gray-600 rounded-md transition"
                       >
                         {/* update task */}
                         <Edit3 size={16} />
@@ -132,7 +136,7 @@ const ProjectDetails = ({
 
                       <button
                         onClick={() => handleDeleteTask(task._id)}
-                        className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] rounded-md transition"
+                        className="flex items-center gap-2 px-3 py-1.5 text-sm text-electricBlue hover:bg-[#E3F2FD] dark:hover:bg-gray-600 rounded-md transition"
                       >
                         {/* delete task */}
                         <Trash2 size={16} />
@@ -146,7 +150,9 @@ const ProjectDetails = ({
                         <User className="w-4 h-4 text-electricBlue" />
                       )}
                       {task.assignees.map((a, i) => (
-                        <span key={i}>{a.name}</span>
+                        <span key={i} className="dark:text-gray-300">
+                          {a.name}
+                        </span>
                       ))}
                     </div>
                     <div className="flex items-center gap-1">
@@ -160,7 +166,9 @@ const ProjectDetails = ({
                       ) : (
                         <>
                           <CalendarDays className="w-4 h-4 text-vibrantPurple" />{" "}
-                          <span>{formatDate(task.dueDate)}</span>
+                          <span className="dark:text-gray-300">
+                            {formatDate(task.dueDate)}
+                          </span>
                         </>
                       )}
                     </div>
@@ -178,7 +186,9 @@ const ProjectDetails = ({
                         <CheckCircle2 className="w-4 h-4 text-tealGreen" />
                       )}
 
-                      <span>{formatText(task.status)}</span>
+                      <span className="dark:text-gray-300">
+                        {formatText(task.status)}
+                      </span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Flag
@@ -190,7 +200,7 @@ const ProjectDetails = ({
                             : "text-tealGreen"
                         }`}
                       />
-                      <span className="font-medium">
+                      <span className="font-medium dark:text-gray-300">
                         {formatText(task.priority)} Priority
                       </span>
                     </div>

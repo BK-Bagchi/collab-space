@@ -97,7 +97,7 @@ const CreateProject = ({ setCreateModal }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 w-full max-w-lg mx-auto">
+    <div className="bg-white dark:bg-darkSlate rounded-2xl shadow-md p-6 w-full max-w-lg mx-auto">
       <h2 className="text-2xl font-semibold text-vibrantPurple mb-6 heading-font">
         Create New Project
       </h2>
@@ -105,7 +105,7 @@ const CreateProject = ({ setCreateModal }) => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Project Title */}
         <div className="text-charcoalGray">
-          <label className="block font-medium mb-1">
+          <label className="block dark:text-gray-300 font-medium mb-1">
             Title <span className="text-red-500">*</span>
           </label>
           <div className="relative">
@@ -114,7 +114,7 @@ const CreateProject = ({ setCreateModal }) => {
               {...register("title")}
               placeholder="Enter project title"
               required
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite dark:bg-darkSlate dark: text-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
             />
             <FolderKanban className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
           </div>
@@ -126,7 +126,7 @@ const CreateProject = ({ setCreateModal }) => {
 
         {/* Description */}
         <div className="text-charcoalGray">
-          <label className="block font-medium mb-1">
+          <label className="block dark:text-gray-300 font-medium mb-1">
             Description <span className="text-red-500">*</span>
           </label>
           <div className="relative">
@@ -134,7 +134,7 @@ const CreateProject = ({ setCreateModal }) => {
               {...register("description")}
               placeholder="Describe your project"
               required
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite dark:bg-darkSlate dark: text-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
             />
             <FileText className="absolute left-3 top-3 h-5 w-5 text-gray-500" />
           </div>
@@ -148,7 +148,7 @@ const CreateProject = ({ setCreateModal }) => {
 
         {/* Color */}
         <div className="text-charcoalGray">
-          <label className="block font-medium mb-1">
+          <label className="block dark:text-gray-300 font-medium mb-1">
             Project Color <span className="text-red-500">*</span>
           </label>
           <div className="flex items-center gap-3">
@@ -167,7 +167,7 @@ const CreateProject = ({ setCreateModal }) => {
 
         {/* Deadline */}
         <div className="text-charcoalGray">
-          <label className="block font-medium mb-1">
+          <label className="block dark:text-gray-300 font-medium mb-1">
             Deadline <span className="text-red-500">*</span>
           </label>
           <div className="relative">
@@ -175,7 +175,7 @@ const CreateProject = ({ setCreateModal }) => {
               type="date"
               {...register("deadline")}
               required
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite dark:bg-darkSlate dark: text-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
             />
             <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
           </div>
@@ -189,7 +189,7 @@ const CreateProject = ({ setCreateModal }) => {
 
         {/* Members */}
         <div className="text-charcoalGray">
-          <label className="block font-medium mb-1">
+          <label className="block dark:text-gray-300 font-medium mb-1">
             Members (search by email)
           </label>
 
@@ -198,7 +198,7 @@ const CreateProject = ({ setCreateModal }) => {
               type="text"
               // {...register("members")}
               placeholder="e.g. dipto@example.com"
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite dark:bg-darkSlate dark: text-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
               onChange={handleMembersChange}
             />
             <Users className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
@@ -250,7 +250,7 @@ const CreateProject = ({ setCreateModal }) => {
                         {initials}
                       </div>
                     )}
-                    <p className="text-xs text-gray-600 mt-1 truncate max-w-20">
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 truncate max-w-20">
                       {name}
                     </p>
                   </div>
@@ -269,7 +269,7 @@ const CreateProject = ({ setCreateModal }) => {
         <div className="flex justify-end gap-3 pt-4">
           <button
             type="reset"
-            className="px-4 py-2 border border-gray-300 text-charcoalGray rounded-lg hover:bg-gray-100 transition"
+            className="px-4 py-2 border border-gray-300 text-charcoalGray dark:text-gray-300 rounded-lg hover:bg-gray-100 hover:dark:text-charcoalGray transition"
             onClick={() => setCreateModal(false)}
           >
             Cancel

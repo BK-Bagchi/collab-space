@@ -70,11 +70,11 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
   };
 
   return (
-    <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 relative overflow-auto max-h-[90vh]">
+    <div className="bg-white dark:bg-darkSlate w-full max-w-md rounded-2xl shadow-lg p-6 relative overflow-auto max-h-[90vh]">
       {/* Header */}
       <div className="flex items-center gap-2 mb-5">
         <UserPlus className="text-electricBlue" size={20} />
-        <h2 className="text-lg font-semibold text-charcoalGray">
+        <h2 className="text-lg font-semibold text-charcoalGray dark:text-softWhite">
           Assign Task — <span>{project.title}</span>
         </h2>
       </div>
@@ -82,7 +82,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Task Input */}
         <div className="mb-4">
-          <label className="block font-medium mb-1">
+          <label className="block dark:text-gray-200 font-medium mb-1">
             Task Title <span className="text-red-500">*</span>
           </label>
           <div className="relative">
@@ -90,7 +90,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
               type="text"
               {...register("title")}
               placeholder="Enter task title..."
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue"
             />
             <Edit2 className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
           </div>
@@ -101,13 +101,13 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
 
         {/* Status Section */}
         <div className="mb-4">
-          <label className="block font-medium mb-1">
+          <label className="block dark:text-gray-200 font-medium mb-1">
             Task Status <span className="text-red-500">*</span>
           </label>
           <div className="relative">
             <select
               {...register("status")}
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue"
             >
               <option value="" className="hidden">
                 Select status
@@ -123,14 +123,14 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
 
         {/* Due Date Section */}
         <div className="mb-4">
-          <label className="block font-medium mb-1">
+          <label className="block dark:text-gray-200 font-medium mb-1">
             Due Date <span className="text-red-500">*</span>
           </label>
           <div className="relative">
             <input
               type="date"
               {...register("dueDate")}
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue"
             />
             <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
           </div>
@@ -143,13 +143,13 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
 
         {/* Priority Section */}
         <div className="mb-4">
-          <label className="block font-medium mb-1">
+          <label className="block dark:text-gray-200 font-medium mb-1">
             Priority <span className="text-red-500">*</span>
           </label>
           <div className="relative">
             <select
               {...register("priority")}
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue"
             >
               <option className="hidden" value="">
                 Select priority
@@ -169,7 +169,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
 
         {/* Subtasks Section */}
         <div className="mb-5">
-          <label className="block font-medium mb-2">
+          <label className="block dark:text-gray-200 font-medium mb-2">
             Subtasks <span className="text-red-500">*</span>
           </label>
           <div className="space-y-2">
@@ -180,7 +180,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
                     type="text"
                     {...register(`subtasks.${index}.title`)}
                     placeholder={`Subtask ${index + 1}`}
-                    className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-electricBlue"
+                    className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue"
                   />
                   <ListCheck className="absolute left-3 top-1.5 h-4 w-4 text-gray-500" />
                 </div>
@@ -253,7 +253,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
               {selectedMembersError.message}
             </p>
           )}
-          <h3 className="text-sm font-medium text-gray-700 mb-2">
+          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Members <span className="text-red-500">*</span>
           </h3>
           <div className="flex flex-wrap gap-4">
@@ -286,7 +286,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
                         </div>
                       )}
                     </div>
-                    <span className="text-xs mt-1 text-gray-600">
+                    <span className="text-xs mt-1 text-gray-600 dark:text-gray-100">
                       {member.name}
                     </span>
                   </div>
@@ -305,7 +305,7 @@ const AssignTasks = ({ project, setAssignedTaskModal, setSelectedProject }) => {
           <button
             type="button"
             onClick={() => setAssignedTaskModal(false)}
-            className="px-4 py-2 text-sm rounded-md border border-gray-300 hover:bg-gray-100"
+            className="px-4 py-2 text-sm rounded-md border dark:text-gray-100 border-gray-300 hover:bg-gray-100 dark:hover:text-charcoalGray"
           >
             Cancel
           </button>

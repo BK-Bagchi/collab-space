@@ -82,7 +82,7 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 w-full max-w-lg mx-auto">
+    <div className="bg-white dark:bg-darkSlate rounded-2xl shadow-md p-6 w-full max-w-lg mx-auto">
       <h2 className="text-2xl font-semibold text-vibrantPurple mb-6 heading-font">
         Invite Members to "{project.title}"
       </h2>
@@ -90,7 +90,7 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Members */}
         <div className="text-charcoalGray">
-          <label className="block font-medium mb-1">
+          <label className="block dark:text-softWhite font-medium mb-1">
             Members (search by email) <span className="text-red-500">*</span>
           </label>
           <div className="relative">
@@ -98,7 +98,7 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
               type="text"
               name="members"
               placeholder="e.g. dipto@example.com, bk@example.com"
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite dark:bg-darkSlate dark:text-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
               onChange={handleMembersChange}
             />
             <Users className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
@@ -163,7 +163,7 @@ const InviteMembers = ({ project, setInviteModal, setSelectedProject }) => {
         <div className="flex justify-end gap-3 pt-4">
           <button
             type="reset"
-            className="px-4 py-2 border border-gray-300 text-charcoalGray rounded-lg hover:bg-gray-100 transition"
+            className="px-4 py-2 border border-gray-300 text-charcoalGray dark:text-softWhite rounded-lg hover:bg-gray-100 dark:hover:text-charcoalGray transition"
             onClick={() => setInviteModal(false)}
           >
             Cancel
