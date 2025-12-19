@@ -31,14 +31,14 @@ const UserList = () => {
   }, [sender._id]);
 
   return (
-    <div className="p-6 bg-softWhite min-h-screen relative">
+    <div className="p-6 bg-softWhite dark:bg-darkSlate min-h-screen relative">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-charcoalGray flex items-center gap-2">
+        <h2 className="text-2xl font-semibold text-charcoalGray dark:text-softWhite flex items-center gap-2">
           <User className="text-electricBlue" />
           All Registered Users
         </h2>
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-gray-500 dark:text-gray-300">
           Total Users: You+ {users.length}
         </span>
       </div>
@@ -50,7 +50,7 @@ const UserList = () => {
             users.map((user) => (
               <div
                 key={user._id}
-                className="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition border border-gray-100 relative"
+                className="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-md hover:shadow-lg transition border border-gray-100 relative"
               >
                 {/* Avatar & Info */}
                 <div className="flex items-center gap-4 mb-4">
@@ -61,14 +61,14 @@ const UserList = () => {
                   />
                   <div>
                     <div className="flex items-center gap-2">
-                      <h3 className="text-lg font-semibold text-charcoalGray">
+                      <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite">
                         {user.name}
                       </h3>
 
                       {/* Active Status Dot */}
                       {activeUsers.includes(user._id) && <ActiveNow />}
                     </div>
-                    <p className="text-sm text-gray-500 flex items-center gap-1 mt-0.5">
+                    <p className="text-sm text-gray-500 dark:text-gray-300 flex items-center gap-1 mt-0.5">
                       <Mail size={14} /> {user.email}
                     </p>
                   </div>
@@ -87,7 +87,7 @@ const UserList = () => {
                   </button> */}
                   <button
                     onClick={() => setActiveChatUser(user)}
-                    className="flex-1 flex items-center justify-center gap-2 border border-vibrantPurple text-vibrantPurple text-sm py-2 rounded-lg hover:bg-vibrantPurple hover:text-white transition"
+                    className="flex-1 flex items-center justify-center gap-2 border dark:border-0 hover:border-electricBlue hover:text-electricBlue text-sm py-2 rounded-lg hover:bg-white text-white bg-electricBlue transition"
                   >
                     <MessageSquare size={14} /> Message
                   </button>
