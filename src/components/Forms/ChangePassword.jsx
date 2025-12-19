@@ -33,14 +33,14 @@ const ChangePassword = ({ setActiveModal }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
+    <div className="bg-white dark:bg-darkSlate rounded-xl shadow-lg p-6 w-full max-w-md">
       <h3 className="text-lg font-semibold text-vibrantPurple mb-4">
         Change Password
       </h3>
 
       <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
         {/* Current Password */}
-        <label className="text-sm font-semibold text-charcoalGray">
+        <label className="text-sm dark:text-softWhite font-semibold text-charcoalGray">
           Current Password <span className="text-red-500">*</span>
         </label>
         <div className="relative">
@@ -49,13 +49,13 @@ const ChangePassword = ({ setActiveModal }) => {
             type={showCurrent ? "text" : "password"}
             placeholder="Current Password"
             {...register("currentPassword")}
-            className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite 
+            className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite dark:bg-darkSlate dark:text-softWhite
                    focus:ring-2 focus:ring-electricBlue outline-none"
           />
           <button
             type="button"
             onClick={() => setShowCurrent(!showCurrent)}
-            className="absolute right-3 top-2.5 text-gray-600 hover:text-gray-800"
+            className="absolute right-3 top-2.5 text-gray-600 hover:text-gray-700"
           >
             {showCurrent ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
@@ -67,7 +67,7 @@ const ChangePassword = ({ setActiveModal }) => {
         )}
 
         {/* New Password */}
-        <label className="text-sm font-semibold text-charcoalGray">
+        <label className="text-sm dark:text-softWhite font-semibold text-charcoalGray">
           New Password <span className="text-red-500">*</span>
         </label>
         <div className="relative">
@@ -76,13 +76,13 @@ const ChangePassword = ({ setActiveModal }) => {
             type={showNew ? "text" : "password"}
             placeholder="New Password"
             {...register("newPassword")}
-            className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite 
+            className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite dark:bg-darkSlate dark:text-softWhite
                    focus:ring-2 focus:ring-electricBlue outline-none"
           />
           <button
             type="button"
             onClick={() => setShowNew(!showNew)}
-            className="absolute right-3 top-2.5 text-gray-600 hover:text-gray-800"
+            className="absolute right-3 top-2.5 text-gray-600 hover:text-gray-700"
           >
             {showNew ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
@@ -94,7 +94,7 @@ const ChangePassword = ({ setActiveModal }) => {
         )}
 
         {/* Confirm Password */}
-        <label className="text-sm font-semibold text-charcoalGray">
+        <label className="text-sm dark:text-softWhite font-semibold text-charcoalGray">
           Confirm New Password <span className="text-red-500">*</span>
         </label>
         <div className="relative">
@@ -103,13 +103,13 @@ const ChangePassword = ({ setActiveModal }) => {
             type={showConfirm ? "text" : "password"}
             placeholder="Confirm New Password"
             {...register("confirmPassword")}
-            className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite 
+            className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite dark:bg-darkSlate dark:text-softWhite
                    focus:ring-2 focus:ring-electricBlue outline-none"
           />
           <button
             type="button"
             onClick={() => setShowConfirm(!showConfirm)}
-            className="absolute right-3 top-2.5 text-gray-600 hover:text-gray-800"
+            className="absolute right-3 top-2.5 text-gray-600 hover:text-gray-700"
           >
             {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
@@ -129,7 +129,7 @@ const ChangePassword = ({ setActiveModal }) => {
           <button
             type="button"
             onClick={() => setActiveModal(false)}
-            className="px-4 py-1 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
+            className="px-4 py-1 border border-gray-300 dark:text-softWhite rounded-lg hover:bg-gray-100 dark:hover:text-charcoalGray transition"
           >
             Cancel
           </button>

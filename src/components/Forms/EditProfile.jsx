@@ -54,14 +54,14 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
     }
   };
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
+    <div className="bg-white dark:bg-darkSlate rounded-xl shadow-lg p-6 w-full max-w-md">
       <h3 className="text-lg font-semibold text-vibrantPurple mb-4">
         Edit Profile
       </h3>
 
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         {/* Full Name */}
-        <label className="text-sm font-semibold text-charcoalGray">
+        <label className="text-sm dark:text-softWhite font-semibold text-charcoalGray">
           Full Name <span className="text-red-500">*</span>
         </label>
         <div className="relative">
@@ -71,7 +71,7 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
             placeholder="Full Name"
             {...register("name")}
             className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 bg-softWhite 
-                     focus:ring-2 focus:ring-electricBlue outline-none"
+                     dark:bg-darkSlate dark:text-softWhite focus:ring-2 focus:ring-electricBlue outline-none"
           />
         </div>
         {errors.name && (
@@ -79,7 +79,9 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
         )}
 
         {/* Bio */}
-        <label className="text-sm font-semibold text-charcoalGray">Bio</label>
+        <label className="text-sm dark:text-softWhite font-semibold text-charcoalGray">
+          Bio
+        </label>
         <div className="relative">
           <MessageSquare
             className="absolute left-3 top-3 text-gray-500"
@@ -89,7 +91,7 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
             placeholder="Write something about yourself…"
             {...register("bio")}
             className="w-full pl-10 pr-3 py-2 h-24 rounded-lg border border-gray-300 bg-softWhite 
-                     focus:ring-2 focus:ring-electricBlue outline-none resize-none"
+                     dark:bg-darkSlate dark:text-softWhite focus:ring-2 focus:ring-electricBlue outline-none resize-none"
           />
         </div>
         {errors.bio && (
@@ -97,11 +99,11 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
         )}
 
         {/* Image Upload */}
-        <label className="text-sm font-semibold text-charcoalGray">
+        <label className="text-sm dark:text-softWhite font-semibold text-charcoalGray">
           Profile Picture
         </label>
         <div className="flex items-center gap-3">
-          <label className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-electricBlue text-white rounded-lg hover:bg-[#1E63D0] transition">
+          <label className="cursor-pdark:text-softWhite ointer flex items-center gap-2 px-4 py-2 bg-electricBlue text-white rounded-lg hover:bg-[#1E63D0] transition">
             <UploadCloud size={18} />
             <span>Upload</span>
             <input
@@ -125,7 +127,7 @@ const EditProfile = ({ user, setUser, setActiveModal }) => {
           <button
             type="button"
             onClick={() => setActiveModal(false)}
-            className="px-4 py-1 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
+            className="px-4 py-1 border border-gray-300 dark:text-softWhite hover:dark:text-charcoalGray rounded-lg hover:bg-gray-100 transition"
           >
             Cancel
           </button>
