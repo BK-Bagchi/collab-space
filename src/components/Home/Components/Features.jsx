@@ -48,8 +48,8 @@ const features = [
 
 const Features = () => {
   return (
-    <section className="py-20 px-8 md:px-16 bg-white">
-      <h2 className="text-3xl font-bold text-center text-charcoalGray mb-10 heading-font">
+    <section className="py-20 px-8 md:px-16 bg-softWhite dark:bg-darkSlate">
+      <h2 className="text-3xl font-bold text-center text-charcoalGray dark:text-softWhite mb-10 heading-font">
         Powerful Tools for Modern Teams 🔥
       </h2>
 
@@ -59,13 +59,13 @@ const Features = () => {
           return (
             <div
               key={i}
-              className={`px-6 py-10 flex flex-col items-center rounded-xl border shadow-sm hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 ${feature.bg} ${feature.color}`}
+              className={`px-6 py-10 flex flex-col items-center rounded-xl border shadow-sm hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 ${feature.bg} dark:bg-gray-600 ${feature.color}`}
             >
               {Icon && <Icon className="w-8 h-8 mb-4" />}
               <h3 className="text-lg text-center font-semibold logo-font">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 mt-2 text-sm text-center body-font">
+              <p className="text-gray-600 dark:text-gray-300 mt-2 text-sm text-center body-font">
                 {feature.desc}
               </p>
             </div>

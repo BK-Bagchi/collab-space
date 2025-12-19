@@ -1,7 +1,7 @@
 const Notes = () => {
   return (
-    <section className="py-20 px-8 md:px-16 bg-softWhite">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-14 text-charcoalGray logo-font">
+    <section className="py-20 px-8 md:px-16 bg-softWhite dark:bg-darkSlate border dark:border-gray-600">
+      <h2 className="text-3xl md:text-4xl font-bold text-center mb-14 text-charcoalGray dark:text-softWhite logo-font">
         Capture Ideas with Smart Notes 📝
       </h2>
 
@@ -30,7 +30,7 @@ const Notes = () => {
         </div>
       </div>
 
-      <p className="text-center text-gray-600 text-sm mt-8">
+      <p className="text-center text-gray-600 dark:text-gray-300 text-sm mt-8">
         Organize thoughts, plan tasks, pin notes — and sync across devices.
       </p>
     </section>

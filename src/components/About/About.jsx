@@ -72,12 +72,12 @@ const About = () => {
       </section>
 
       {/* WHY WE BUILT IT */}
-      <section className="px-8 md:px-20 py-20 bg-softWhite">
+      <section className="px-8 md:px-20 py-20 bg-softWhite dark:bg-darkSlate">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 heading-font text-charcoalGray">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 heading-font text-charcoalGray dark:text-softWhite">
             Why We Built It
           </h2>
-          <p className="text-gray-600 mx-auto max-w-3xl body-font">
+          <p className="text-gray-600 dark:text-gray-400 mx-auto max-w-3xl body-font">
             Teams constantly juggle different tools—tasks, chat, files,
             scheduling, analytics. Collab Space merges all of these into a
             single seamless and powerful workspace.
@@ -118,7 +118,9 @@ const About = () => {
               <h3 className={`text-lg font-semibold ${item.text} heading-font`}>
                 {item.title}
               </h3>
-              <p className="text-gray-700 body-font">{item.desc}</p>
+              <p className="text-gray-700 dark:text-gray-300 body-font">
+                {item.desc}
+              </p>
             </div>
           ))}
         </div>

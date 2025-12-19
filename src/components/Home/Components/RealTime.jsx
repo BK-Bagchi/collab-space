@@ -1,7 +1,7 @@
 const RealTime = () => {
   return (
-    <section className="py-20 px-8 md:px-16 bg-white">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-14 text-charcoalGray logo-font">
+    <section className="py-20 px-8 md:px-16 bg-white dark:bg-deepCharcoal">
+      <h2 className="text-3xl md:text-4xl font-bold text-center mb-14 text-charcoalGray dark:text-softWhite logo-font">
         Real-Time Collaboration, Like Never Before ⚡
       </h2>
 
@@ -25,8 +25,8 @@ const RealTime = () => {
         </div>
 
         {/* Text */}
-        <div className="flex flex-col justify-center space-y-4 text-gray-700">
-          <h3 className="text-2xl font-semibold text-charcoalGray heading-font">
+        <div className="flex flex-col justify-center space-y-4 text-gray-700 dark:text-gray-400">
+          <h3 className="text-2xl font-semibold text-charcoalGray dark:text-softWhite heading-font">
             Work Together in Real Time
           </h3>
           <p className="text-sm body-font">
