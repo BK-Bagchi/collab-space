@@ -45,8 +45,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center px-4 py-16 bg-softWhite">
-      <div className="w-full max-w-md rounded-2xl shadow-xl p-8 bg-white text-charcoalGray">
+    <div className="flex items-center justify-center px-4 py-16 bg-softWhite dark:bg-darkSlate">
+      <div className="w-full max-w-md rounded-2xl shadow-xl p-8 bg-white dark:bg-deepCharcoal text-charcoalGray">
         {/* Heading */}
         <h2 className="text-3xl font-bold text-center mb-4 text-electricBlue logo-font">
           Welcome Back 👋
@@ -59,7 +59,7 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Email */}
           <div className="space-y-1">
-            <label className="text-sm font-semibold text-charcoalGray">
+            <label className="text-sm font-semibold text-charcoalGray dark:text-softWhite">
               Email Address <span className="text-red-500 text-sm">*</span>
             </label>
             <div className="relative">
@@ -69,9 +69,7 @@ const LoginPage = () => {
                 placeholder="you@example.com"
                 {...register("email")}
                 required
-                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 
-              bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 
-              focus:ring-electricBlue transition"
+                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 bg-softWhite dark:bg-deepCharcoal text-charcoalGray dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
               />
             </div>
             {errors.email && (
@@ -81,7 +79,7 @@ const LoginPage = () => {
 
           {/* Password */}
           <div className="space-y-1">
-            <label className="text-sm font-semibold text-charcoalGray">
+            <label className="text-sm font-semibold text-charcoalGray dark:text-softWhite">
               Password <span className="text-red-500 text-sm">*</span>
             </label>
             <div className="relative">
@@ -92,9 +90,7 @@ const LoginPage = () => {
                 placeholder="••••••••"
                 {...register("password")}
                 required
-                className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 
-              bg-softWhite text-charcoalGray focus:outline-none focus:ring-2 
-              focus:ring-electricBlue transition"
+                className="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 bg-softWhite dark:bg-deepCharcoal text-charcoalGray dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
               />
 
               {/* Show/Hide Password toggle */}
@@ -122,7 +118,9 @@ const LoginPage = () => {
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" className="w-4 h-4 accent-vibrantPurple" />
-              <span className="text-[#455A64]">Remember me</span>
+              <span className="text-[#455A64] dark:text-gray-400">
+                Remember me
+              </span>
             </label>
 
             <Link
@@ -163,7 +161,7 @@ const LoginPage = () => {
         />
 
         {/* Register */}
-        <p className="text-center mt-6 text-sm text-[#455A64] body-font">
+        <p className="text-center mt-6 text-sm text-[#455A64] dark:text-gray-300 body-font">
           Don’t have an account?{" "}
           <Link
             to="/register"

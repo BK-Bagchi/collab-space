@@ -38,15 +38,15 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center py-16 px-4 bg-softWhite">
-      <div className="card w-full max-w-md shadow-xl p-8 rounded-2xl text-charcoalGray bg-[#FFFFFF]">
+    <div className="flex items-center justify-center py-16 px-4 bg-softWhite dark:bg-darkSlate">
+      <div className="card w-full max-w-md shadow-xl p-8 rounded-2xl text-charcoalGray bg-[#FFFFFF] dark:bg-gray-900">
         <h2 className="text-3xl text-center mb-6 font-bold text-electricBlue logo-font">
           Create an Account
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Full Name */}
-          <label className="text-sm font-semibold text-charcoalGray">
+          <label className="text-sm font-semibold text-charcoalGray dark:text-softWhite">
             Full Name <span className="text-red-500">*</span>
           </label>
           <div className="relative">
@@ -55,8 +55,8 @@ const Register = () => {
               type="text"
               {...register("name")}
               placeholder="Full Name"
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite 
-                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite dark:bg-darkSlate
+                       text-charcoalGray dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
               required
             />
           </div>
@@ -65,7 +65,7 @@ const Register = () => {
           )}
 
           {/* Email */}
-          <label className="text-sm font-semibold text-charcoalGray">
+          <label className="text-sm font-semibold text-charcoalGray dark:text-softWhite">
             Email Address <span className="text-red-500">*</span>
           </label>
           <div className="relative">
@@ -74,8 +74,8 @@ const Register = () => {
               type="email"
               {...register("email")}
               placeholder="Email Address"
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite 
-                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite dark:bg-darkSlate
+                       text-charcoalGray dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
               required
             />
           </div>
@@ -84,7 +84,7 @@ const Register = () => {
           )}
 
           {/* Password */}
-          <label className="text-sm font-semibold text-charcoalGray">
+          <label className="text-sm font-semibold text-charcoalGray dark:text-softWhite">
             Password <span className="text-red-500">*</span>
           </label>
           <div className="relative">
@@ -93,8 +93,8 @@ const Register = () => {
               type={showPassword ? "text" : "password"}
               {...register("password")}
               placeholder="Password"
-              className="w-full pl-10 pr-10 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite 
-                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
+              className="w-full pl-10 pr-10 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite dark:bg-darkSlate
+                       text-charcoalGray dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
               required
             />
             <button
@@ -112,7 +112,7 @@ const Register = () => {
           )}
 
           {/* Confirm Password */}
-          <label className="text-sm font-semibold text-charcoalGray">
+          <label className="text-sm font-semibold text-charcoalGray dark:text-softWhite">
             Confirm Password <span className="text-red-500">*</span>
           </label>
           <div className="relative">
@@ -121,8 +121,8 @@ const Register = () => {
               type={showConfirm ? "text" : "password"}
               {...register("confirmPassword")}
               placeholder="Confirm Password"
-              className="w-full pl-10 pr-10 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite 
-                       text-charcoalGray focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
+              className="w-full pl-10 pr-10 py-2 rounded-lg border border-[#E0E0E0] bg-softWhite dark:bg-darkSlate
+                       text-charcoalGray dark:text-softWhite focus:outline-none focus:ring-2 focus:ring-electricBlue transition"
               required
             />
             <button
@@ -176,7 +176,7 @@ const Register = () => {
         />
 
         {/* Redirect */}
-        <p className="text-center mt-6 text-sm body-font text-[#455A64]">
+        <p className="text-center mt-6 text-sm body-font text-[#455A64] dark:text-gray-300">
           Already have an account?{" "}
           <Link
             to="/login"
