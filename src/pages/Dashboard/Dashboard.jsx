@@ -10,7 +10,7 @@ const Dashboard = () => {
       <div className="w-64 h-full bg-white shadow-sm body-font">
         <Sidebar />
       </div>
-      <div className="flex-1 p-8 overflow-y-auto body-font bg-softWhite dark:bg-darkSlatee max-h-screen">
+      <div className="flex-1 p-8 overflow-y-auto body-font bg-softWhite dark:bg-darkSlate max-h-screen">
         <Outlet />
       </div>
     </div>

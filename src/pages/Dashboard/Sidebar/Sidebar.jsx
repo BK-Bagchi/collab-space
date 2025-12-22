@@ -32,7 +32,7 @@ const Sidebar = () => {
   }, [unreadProjectChatsCount]);
 
   return (
-    <aside className="flex flex-col justify-between h-screen px-3 py-6 bg-charcoalGray dark:bg-darkSlate text-softWhite w-[250px]">
+    <aside className="flex flex-col justify-between h-screen w-full border-r border-gray-500 px-3 py-6 bg-charcoalGray dark:bg-darkSlate text-softWhite w-[250px]">
       <div>
         {/* Project Info Section */}
         <div
