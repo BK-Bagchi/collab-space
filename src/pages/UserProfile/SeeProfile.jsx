@@ -51,7 +51,7 @@ const SeeProfile = () => {
   }, [setContextUser]);
 
   return (
-    <div className="bg-white dark:bg-darkSlate rounded-lg h-full overflow-y-auto scrollbar-hide">
+    <div className="bg-white dark:bg-darkSlate h-full overflow-y-auto scrollbar-hide">
       <Loading loading={loading}>
         {" "}
         <div className="py-32 px-6 md:px-10 max-w-4xl mx-auto text-charcoalGray">

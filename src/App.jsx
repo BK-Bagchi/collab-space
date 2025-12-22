@@ -51,6 +51,7 @@ function App() {
 
                   {/* login protected routes */}
                   <Route element={<LoginProtectedRoute />}>
+                    {/* user profile routes */}
                     <Route path="/profile" element={<SeeProfile />}>
                       <Route index element={<Overview />} />
                       <Route path="appearance" element={<Appearance />} />
@@ -79,10 +80,8 @@ function App() {
                         <Route path="manage-projects" element={<ManageProjects />} />
                         {/* prettier-ignore */}
                         <Route path="manage-projects/:projectId" element={<ManageProjectsTaskList />} />
-                        <Route
-                          path="team-activity"
-                          element={<TeamActivity />}
-                        />
+                        {/* prettier-ignore */}
+                        <Route path="team-activity" element={<TeamActivity />} />
                         <Route path="analytics" element={<Analytics />} />
                       </Route>
 

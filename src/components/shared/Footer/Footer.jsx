@@ -4,7 +4,7 @@ import projectName, { projectSlogan } from "../../../utils/getProjectName";
 
 const Footer = () => {
   return (
-    <footer className="bg-charcoalGray text-softWhite px-6 py-14 mt-auto">
+    <footer className="bg-charcoalGray dark:bg-darkSlate border-t border-gray-500 text-softWhite px-6 py-14 mt-auto">
       <div className="max-w-[90%] mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Branding */}
         <div>
