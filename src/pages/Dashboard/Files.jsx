@@ -8,7 +8,7 @@ const Files = () => {
   const [openProject, setOpenProject] = useState(null);
   const [projectFiles, setProjectFiles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [fileLoading, setFileLoading] = useState(true);
+  const [fileLoading, setFileLoading] = useState(false);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -26,7 +26,8 @@ const Files = () => {
   }, []);
   //   console.log(projects);
 
-  const toggleProject = async (id) => {
+  const toggleProjectFiles = async (id) => {
+    setFileLoading(true);
     const isClosing = openProject === id;
     setOpenProject(isClosing ? null : id);
 
@@ -63,8 +64,8 @@ const Files = () => {
             >
               {/* -------- PROJECT HEADER -------- */}
               <div
-                onClick={() => toggleProject(project._id)}
-                className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600 transition"
+                onClick={() => toggleProjectFiles(project._id)}
+                className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600 transition rounded-xl"
               >
                 <div className="flex items-center gap-3">
                   <div
