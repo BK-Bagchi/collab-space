@@ -29,6 +29,12 @@ import { NotificationProvider } from "./context/NotificationContext";
 import Notes from "./pages/Dashboard/Notes";
 import { ChatNotificationProvider } from "./context/ChatNotificationContext";
 import { SettingsProvider } from "./context/SettingsContext";
+import Overview from "./pages/UserProfile/ProfileTabs/Overview";
+import Appearance from "./pages/UserProfile/ProfileTabs/Appearance";
+import NotificationTab from "./pages/UserProfile/ProfileTabs/Notification";
+import ChatTab from "./pages/UserProfile/ProfileTabs/Chat";
+import Security from "./pages/UserProfile/ProfileTabs/Security";
+import DangerZone from "./pages/UserProfile/ProfileTabs/DangerZone";
 
 function App() {
   return (
@@ -45,7 +51,16 @@ function App() {
 
                   {/* login protected routes */}
                   <Route element={<LoginProtectedRoute />}>
-                    <Route path="profile" element={<SeeProfile />} />
+                    <Route path="/profile" element={<SeeProfile />}>
+                      <Route index element={<Overview />} />
+                      <Route path="appearance" element={<Appearance />} />
+                      {/* prettier-ignore */}
+                      <Route path="notification" element={<NotificationTab />} />
+                      <Route path="chat" element={<ChatTab />} />
+                      <Route path="security" element={<Security />} />
+                      <Route path="danger-zone" element={<DangerZone />} />
+                    </Route>
+
                     <Route path="users" element={<UserList />} />
                     <Route path="user/:id" element={<SeeProfile />} />
                     <Route path="dashboard" element={<Dashboard />}>

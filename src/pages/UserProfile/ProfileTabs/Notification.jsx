@@ -5,7 +5,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import Waiting from "../../../components/Loading/Waiting";
 import { UserAPI } from "../../../api";
 
-const Notification = () => {
+const NotificationTab = () => {
   const { user, setUser } = useAuth();
 
   const [pushLoading, setPushLoading] = useState(false);
@@ -124,4 +124,4 @@ const Notification = () => {
   );
 };
 
-export default Notification;
+export default NotificationTab;

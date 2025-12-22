@@ -6,7 +6,7 @@ import { ChatAPI, UserAPI } from "../../../api";
 import Waiting from "../../../components/Loading/Waiting";
 import { useAuth } from "../../../hooks/useAuth";
 
-const Chat = () => {
+const ChatTab = () => {
   const { user, setUser } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -164,4 +164,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default ChatTab;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Avatar from "../../assets/Default_Avatar.jpg";
 import Modal from "../../components/Modal/Modal";
 import { useAuth } from "../../hooks/useAuth";
@@ -6,77 +7,48 @@ import { useActive } from "../../hooks/useActive";
 import { useSettings } from "../../hooks/useSettings";
 import { UserAPI } from "../../api";
 import formatDate from "../../utils/dateFormater";
-import EditProfile from "../../components/Forms/EditProfile";
 import formatText from "../../utils/textFormater";
-import Overview from "./ProfileTabs/Overview";
-import Security from "./ProfileTabs/Security";
-import ChangePassword from "../../components/Forms/ChangePassword";
-import Appearance from "./ProfileTabs/Appearance";
-import Notification from "./ProfileTabs/Notification";
-import Chat from "./ProfileTabs/Chat";
-import DangerZone from "./ProfileTabs/DangerZone";
+import EditProfile from "../../components/Forms/EditProfile";
 import Loading from "../../components/Loading/Loading";
 
+const TABS = [
+  { label: "overview", path: "" },
+  { label: "appearance", path: "appearance" },
+  { label: "notification", path: "notification" },
+  { label: "chat", path: "chat" },
+  { label: "security", path: "security" },
+  { label: "danger zone", path: "danger-zone" },
+];
+
 const SeeProfile = () => {
-  const { setUser: setContextUser, logout } = useAuth();
+  const { setUser: setContextUser } = useAuth();
   const { activeUsers } = useActive();
   const { activeStatus } = useSettings();
-  //prettier-ignore
-  const tabs = [ "overview", "appearance", "notification", "chat", "security", "danger zone" ];
-  const [activeTab, setActiveTab] = useState("overview");
-  const [activeModal, setActiveModal] = useState(false); // Edit Profile
-  const [passwordModal, setPasswordModal] = useState(false); // Change Password
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [user, setUser] = useState({});
-  useEffect(() => {
-    setContextUser(user);
-  }, [user, setContextUser]);
+  const [loading, setLoading] = useState(true);
+  const [editModal, setEditModal] = useState(false);
+
+  let activeTab = location.pathname.split("/").pop();
+  if (activeTab === "profile") activeTab = "overview";
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const userRes = await UserAPI.getLoggedInUser();
-        setUser(userRes.data);
-      } catch (error) {
-        console.error("Login error:", error.response.data.message);
+        const res = await UserAPI.getLoggedInUser();
+        setUser(res.data);
+        setContextUser(res.data);
+      } catch (err) {
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchProfile();
-  }, []);
-  // console.log(user);
-
-  const selectTab = (
-    // prettier-ignore
-    { activeTab, logout }
-  ) => {
-    switch (activeTab) {
-      case "overview":
-        // prettier-ignore
-        return <Overview />
-
-      case "appearance":
-        return <Appearance />;
-
-      case "notification":
-        return <Notification />;
-
-      case "chat":
-        return <Chat />;
-
-      case "security":
-        return <Security logout={logout} setPasswordModal={setPasswordModal} />;
-
-      case "danger zone":
-        return <DangerZone />;
-
-      default:
-        return null;
-    }
-  };
+  }, [setContextUser]);
 
   return (
     <div className="bg-white dark:bg-darkSlate rounded-lg h-full overflow-y-auto scrollbar-hide">
@@ -115,55 +87,46 @@ const SeeProfile = () => {
               </p>
             </div>
             <button
-              onClick={() => setActiveModal(true)}
+              onClick={() => setEditModal(true)}
               className="bg-electricBlue hover:bg-[#1E63D0] text-white px-4 py-2 rounded-lg transition"
             >
               Edit Profile
             </button>
           </div>
 
-          {/* Tabs */}
+          {/* TABS */}
           <div className="flex justify-between gap-3 mt-8 border-b pb-2">
-            {tabs.map((tab) => (
+            {TABS.map((tab) => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`capitalize px-4 py-2 rounded-t-md font-medium transition-all ${
-                  activeTab === tab
+                key={tab.path}
+                onClick={() => navigate(tab.path)}
+                className={`capitalize px-4 py-2 rounded-t-md font-medium transition ${
+                  activeTab === tab.path || activeTab === tab.label
                     ? "bg-vibrantPurple text-softWhite"
                     : "text-[#455A64] dark:text-gray-400 hover:text-vibrantPurple"
                 }`}
               >
-                {tab}
+                {tab.label}
               </button>
             ))}
           </div>
 
-          {/* Dynamic Tab Content */}
-          {
-            // prettier-ignore
-            selectTab({ activeTab, user ,logout })
-          }
+          {/* TAB CONTENT */}
+          <div className="mt-6">
+            <Outlet />
+          </div>
 
-          {/* Edit Profile Modal */}
-          {activeModal && (
+          {/* MODALS */}
+          {editModal && (
             <Modal
-              setActiveModal={setActiveModal}
+              setActiveModal={setEditModal}
               render={
                 <EditProfile
                   user={user}
                   setUser={setUser}
-                  setActiveModal={setActiveModal}
+                  setActiveModal={setEditModal}
                 />
               }
-            />
-          )}
-
-          {/* Change Password Modal */}
-          {passwordModal && (
-            <Modal
-              setActiveModal={setPasswordModal}
-              render={<ChangePassword setActiveModal={setPasswordModal} />}
             />
           )}
         </div>

@@ -1,6 +1,13 @@
+import { useState } from "react";
 import { HatGlasses, KeyRound, LogOut } from "lucide-react";
+import { useAuth } from "../../../hooks/useAuth";
+import ChangePassword from "../../../components/Forms/ChangePassword";
+import Modal from "../../../components/Modal/Modal";
 
-const Security = ({ logout, setPasswordModal }) => {
+const Security = () => {
+  const { logout } = useAuth();
+  const [passwordModal, setPasswordModal] = useState(false);
+
   return (
     <div className="mt-8 animate-fadeIn space-y-5">
       <h3 className="text-lg font-semibold text-charcoalGray dark:text-softWhite flex items-center gap-2">
@@ -27,6 +34,12 @@ const Security = ({ logout, setPasswordModal }) => {
           <LogOut size={18} />
         </button>
       </div>
+      {passwordModal && (
+        <Modal
+          setActiveModal={setPasswordModal}
+          render={<ChangePassword setActiveModal={setPasswordModal} />}
+        />
+      )}
     </div>
   );
 };
