@@ -30,7 +30,7 @@ const ChatRow = ({ chat, active, onClick }) => {
       {/* Icon Circle */}
       <div
         style={{ backgroundColor: project.color || "#8E24AA" }}
-        className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold shadow-sm"
+        className="w-10 h-10 rounded-full hidden lg:flex items-center justify-center text-white font-semibold shadow-sm"
       >
         <MessageSquare size={18} />
       </div>

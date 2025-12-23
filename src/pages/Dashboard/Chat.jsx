@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 //prettier-ignore
-import { Search, MoreVertical, Folder, MessageSquare, Clock } from "lucide-react";
+import { Search, MoreVertical, Folder, MessageSquare, Clock, ChevronLeft, ChevronRight } from "lucide-react";
 import { ChatAPI, ProjectAPI } from "../../api";
 import ProjectRow from "./Components/ProjectRow";
 import ChatRow from "./Components/ChatRow";
@@ -21,6 +21,7 @@ const TabButton = ({ active, children, onClick }) => (
   </button>
 );
 const Chat = () => {
+  const [showSidebar, setShowSidebar] = useState(true);
   const [projects, setProjects] = useState([]);
   const [messages, setMessages] = useState([]);
   const [activeTab, setActiveTab] = useState("chats"); // "projects" | "chats"
@@ -103,107 +104,123 @@ const Chat = () => {
   return (
     <div className="flex h-full bg-[#F5F7FB] rounded-lg overflow-hidden">
       {/* Left Sidebar */}
-      <div className="w-1/3 md:w-1/4 border-r border-gray-200 bg-white flex flex-col">
-        {/* Header */}
-        <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between dark:bg-darkSlate">
-          <h2 className="text-lg font-semibold text-charcoalGray dark:text-softWhite">
-            {formatText(activeTab)}
-          </h2>
-          <MoreVertical
-            size={18}
-            className="text-gray-500 dark:text-softWhite cursor-pointer"
-          />
-        </div>
-
-        {/* Tabs */}
-        <div className="flex dark:bg-darkSlate border-b border-gray-200">
-          <TabButton
-            active={activeTab === "chats"}
-            onClick={() => setActiveTab("chats")}
-          >
-            <div className="flex items-center justify-center gap-2">
-              <MessageSquare size={14} />
-              Chats
-            </div>
-          </TabButton>
-          <TabButton
-            active={activeTab === "projects"}
-            onClick={() => setActiveTab("projects")}
-          >
-            <div className="flex items-center justify-center gap-2">
-              <Folder size={14} />
-              Projects
-            </div>
-          </TabButton>
-        </div>
-
-        {/* Search */}
-        <div className="p-3 dark:bg-darkSlate">
-          <div className="relative">
-            <Search
-              size={16}
-              className="absolute top-2.5 left-3 text-gray-400"
-            />
-            <input
-              type="text"
-              placeholder={`Search ${activeTab}...`}
-              className="w-full pl-9 pr-3 py-2 text-sm bg-gray-100 dark:bg-darkSlate dark:text-softWhite dark:border rounded-lg focus:outline-none focus:ring-2 focus:ring-electricBlue"
+      {showSidebar && (
+        <div className="w-1/3 md:w-1/4 border-r border-gray-200 bg-white flex flex-col">
+          {/* Header */}
+          <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between dark:bg-darkSlate">
+            <h2 className="text-lg font-semibold text-charcoalGray dark:text-softWhite">
+              {formatText(activeTab)}
+            </h2>
+            <MoreVertical
+              size={18}
+              className="text-gray-500 dark:text-softWhite cursor-pointer"
             />
           </div>
-        </div>
 
-        {/* List */}
-        <div className="flex-1 overflow-y-auto dark:bg-darkSlate">
-          {activeTab === "projects" ? (
-            <Loading loading={projectLoading}>
-              {projects.length > 0 ? (
-                projects.map((project) => (
-                  <ProjectRow
-                    key={project._id || project.id}
-                    project={project}
-                    active={
-                      activeProject &&
-                      (activeProject._id || activeProject.id) ===
-                        (project._id || project.id)
-                    }
-                    onClick={openProjectChat}
-                  />
-                ))
-              ) : (
-                <div className="text-center text-gray-400 text-sm py-10">
-                  <Clock size={36} className="mx-auto mb-2 text-gray-300" />
-                  No projects found
-                </div>
-              )}
-            </Loading>
-          ) : (
-            <Loading loading={messageLoading}>
-              {projectChats.length > 0 ? (
-                projectChats.map((chat) => (
-                  <ChatRow
-                    key={chat._id}
-                    chat={chat}
-                    active={
-                      activeProject &&
-                      chat.project &&
-                      activeProject._id === chat.project._id
-                    }
-                    onClick={openChatFromLast}
-                  />
-                ))
-              ) : (
-                <div className="text-center text-gray-400 text-sm py-10">
-                  <Clock size={36} className="mx-auto mb-2 text-gray-300" />
-                  No recent chats
-                </div>
-              )}
-            </Loading>
-          )}
+          {/* Tabs */}
+          <div className="flex dark:bg-darkSlate border-b border-gray-200">
+            <TabButton
+              active={activeTab === "chats"}
+              onClick={() => setActiveTab("chats")}
+            >
+              <div className="flex items-center justify-center gap-2">
+                <MessageSquare size={14} />
+                Chats
+              </div>
+            </TabButton>
+            <TabButton
+              active={activeTab === "projects"}
+              onClick={() => setActiveTab("projects")}
+            >
+              <div className="flex items-center justify-center gap-2">
+                <Folder size={14} />
+                Projects
+              </div>
+            </TabButton>
+          </div>
+
+          {/* Search */}
+          <div className="p-3 dark:bg-darkSlate">
+            <div className="relative">
+              <Search
+                size={16}
+                className="absolute top-2.5 left-3 text-gray-400"
+              />
+              <input
+                type="text"
+                placeholder={`Search ${activeTab}...`}
+                className="w-full pl-9 pr-3 py-2 text-sm bg-gray-100 dark:bg-darkSlate dark:text-softWhite dark:border rounded-lg focus:outline-none focus:ring-2 focus:ring-electricBlue"
+              />
+            </div>
+          </div>
+
+          {/* List */}
+          <div className="flex-1 overflow-y-auto dark:bg-darkSlate">
+            {activeTab === "projects" ? (
+              <Loading loading={projectLoading}>
+                {projects.length > 0 ? (
+                  projects.map((project) => (
+                    <ProjectRow
+                      key={project._id || project.id}
+                      project={project}
+                      active={
+                        activeProject &&
+                        (activeProject._id || activeProject.id) ===
+                          (project._id || project.id)
+                      }
+                      onClick={openProjectChat}
+                    />
+                  ))
+                ) : (
+                  <div className="text-center text-gray-400 text-sm py-10">
+                    <Clock size={36} className="mx-auto mb-2 text-gray-300" />
+                    No projects found
+                  </div>
+                )}
+              </Loading>
+            ) : (
+              <Loading loading={messageLoading}>
+                {projectChats.length > 0 ? (
+                  projectChats.map((chat) => (
+                    <ChatRow
+                      key={chat._id}
+                      chat={chat}
+                      active={
+                        activeProject &&
+                        chat.project &&
+                        activeProject._id === chat.project._id
+                      }
+                      onClick={openChatFromLast}
+                    />
+                  ))
+                ) : (
+                  <div className="text-center text-gray-400 text-sm py-10">
+                    <Clock size={36} className="mx-auto mb-2 text-gray-300" />
+                    No recent chats
+                  </div>
+                )}
+              </Loading>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Right Chat Window */}
-      <div className="flex-1 flex flex-col dark:bg-darkSlate">
+      <div className="relative flex-1 flex flex-col dark:bg-darkSlate">
+        <div className="absolute top-[40%] left-0 z-50 bg-white dark:bg-darkSlate border border-gray-200 dark:border-gray-700 rounded-r-2xl shadow-md">
+          <button
+            onClick={() => setShowSidebar((prev) => !prev)}
+            title={showSidebar ? "Hide sidebar" : "Show sidebar"}
+            className="p-2 text-electricBlue dark:text-softWhite not-odd:hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 rounded-r-2xl"
+          >
+            {showSidebar ? (
+              <ChevronLeft size={18} />
+            ) : (
+              <ChevronRight size={18} />
+            )}
+          </button>
+        </div>
+
         {activeProject ? (
           <ProjectChatBox
             project={activeProject}

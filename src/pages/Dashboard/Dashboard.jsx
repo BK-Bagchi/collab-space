@@ -20,13 +20,9 @@ const Dashboard = () => {
 
       {/* Sidebar */}
       <div
-        className={`
-          absolute lg:static inset-y-0 left-0 z-40
-          w-64 h-full bg-white shadow-sm body-font
-          transform transition-transform duration-300
-          ${open ? "translate-x-0" : "-translate-x-full"}
-          lg:translate-x-0
-        `}
+        className={`absolute lg:static inset-y-0 left-0 z-40 w-64 h-full bg-white shadow-sm body-font transform transition-transform duration-300 ${
+          open ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 `}
       >
         {/* Close button (mobile only) */}
         {/* <button

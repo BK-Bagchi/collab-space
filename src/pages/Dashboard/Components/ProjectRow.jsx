@@ -1,5 +1,5 @@
-import { Folder } from "lucide-react";
 import React from "react";
+import { Folder } from "lucide-react";
 
 const ProjectRow = ({ project, active, onClick }) => (
   <div
@@ -14,7 +14,7 @@ const ProjectRow = ({ project, active, onClick }) => (
       style={{
         backgroundColor: project.color || "#2979FF",
       }}
-      className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold shadow-sm"
+      className="w-10 h-10 rounded-full hidden lg:flex items-center justify-center text-white font-semibold shadow-sm"
     >
       <Folder size={18} />
     </div>
