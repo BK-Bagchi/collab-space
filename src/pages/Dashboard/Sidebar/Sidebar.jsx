@@ -25,14 +25,14 @@ const Sidebar = () => {
   }, [location, logout]);
 
   useEffect(() => {
-    if (unreadProjectChatsCount > 0)
+    if (unreadProjectChatsCount > 0 && user.pushNotifications)
       toast.info(
         `You have ${unreadProjectChatsCount} unread project chat messages`
       );
-  }, [unreadProjectChatsCount]);
+  }, [unreadProjectChatsCount, user.pushNotifications]);
 
   return (
-    <aside className="flex flex-col justify-between h-screen w-full border-r border-gray-500 px-3 py-6 bg-charcoalGray dark:bg-darkSlate text-softWhite w-[250px]">
+    <aside className="flex flex-col justify-between h-screen w-full border-r border-gray-500 px-3 py-6 bg-charcoalGray dark:bg-darkSlate text-softWhite">
       <div>
         {/* Project Info Section */}
         <div

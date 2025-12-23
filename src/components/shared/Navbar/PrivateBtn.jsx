@@ -30,9 +30,9 @@ const PrivateBtn = () => {
   }, [unread]);
 
   useEffect(() => {
-    if (unreadChatsCount > 0)
+    if (unreadChatsCount > 0 && user.pushNotifications)
       toast.info(`You have ${unreadChatsCount} new messages`);
-  }, [unreadChatsCount]);
+  }, [unreadChatsCount, user.pushNotifications]);
 
   return (
     <div className="flex items-center gap-x-2 md:gap-x-4">
