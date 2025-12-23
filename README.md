@@ -82,8 +82,6 @@ collab-space/
 │
 ```
 
-Here are **strong, polished, professional “Why This Project Stands Out?”** points you can put in your README.
-
 ---
 
 ## 🌟 **Why This Project Stands Out**
@@ -109,7 +107,7 @@ Zero refresh needed. Everything updates instantly.
 
 ### 🎯 **3. Clean, Modern, Fast UI**
 
-With Tailwind + DaisyUI + your custom color palette:
+With Tailwind + DaisyUI + custom color palette:
 
 - Smooth, lightweight interface
 - Mobile-responsive
@@ -149,7 +147,7 @@ Not a basic chat — but a complete messaging module:
 
 Feels like Slack/Discord but built from scratch.
 
-### 🛠️ **7. Highly Configurable Settings (next version feature)**
+### 🛠️ **7. Highly Configurable Settings**
 
 Users can personalize:
 
@@ -209,7 +207,7 @@ This makes the project production-ready, not just for learning.
 - Register / Login / Logout
 - JWT Authentication
 - Password hashing (bcrypt)
-- Forgot + Reset Password (next version feature)
+- Forgot + Reset Password
 - Update Profile
 - Update Password
 - Context-based global auth state
@@ -269,7 +267,7 @@ Chat Architecture includes:
 
 - Hybrid `Chat` model
 - Real-time messaging via Socket.IO
-- Seen/unseen tracking ready (next version feature)
+- Seen/unseen tracking ready
 
 ---
 
@@ -310,9 +308,9 @@ Dashboard displays:
 
 ---
 
-### 🧾 **7. Notes System (next version feature)**
+### 🧾 **7. Notes System**
 
-A mini personal notes module.
+A personal notes module.
 
 #### Supports:
 
@@ -417,7 +415,7 @@ npm install
 npm run start
 ```
 
-Get front-end repository [here](https://github.com/BK-Bagchi/collab-space).
+Get back-end repository [here](https://github.com/BK-Bagchi/collab-space-server).
 
 ### 3️⃣ Frontend setup
 
@@ -427,7 +425,7 @@ npm install
 npm run start
 ```
 
-Get backend-end repository [here](https://github.com/BK-Bagchi/collab-space-server).
+Get front-end repository [here](https://github.com/BK-Bagchi/collab-space).
 
 ---
 
