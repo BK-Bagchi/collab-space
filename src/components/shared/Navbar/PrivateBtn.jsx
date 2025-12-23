@@ -26,8 +26,9 @@ const PrivateBtn = () => {
   const [activeModal, setActiveModal] = useState(false);
 
   useEffect(() => {
-    if (unread > 0) toast.info("You have new notifications");
-  }, [unread]);
+    if (unread > 0 && user.pushNotifications)
+      toast.info("You have new notifications");
+  }, [unread, user.pushNotifications]);
 
   useEffect(() => {
     if (unreadChatsCount > 0 && user.pushNotifications)
